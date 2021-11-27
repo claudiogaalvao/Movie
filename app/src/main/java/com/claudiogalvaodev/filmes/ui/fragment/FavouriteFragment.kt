@@ -27,26 +27,14 @@ class FavouriteFragment: Fragment() {
         return binding.root
     }
 
-    // TODO Tem um jeito melhor de capturar os favoritos sem fazer a chamada a todo momento?
-    override fun onResume() {
-        super.onResume()
-        getFavoriteMovies()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObservables()
     }
 
-    private fun getFavoriteMovies() {
-        viewModel.getFavoriteMovies().observe(viewLifecycleOwner) {
-            it.let { result ->
-                when(result) {
-                    is com.claudiogalvaodev.filmes.repository.Result.Success -> {
-                        result.data.let { listaFilmes ->
-                            if(listaFilmes != null) configuraLista(listaFilmes)
-                        }
-                    }
-                    is com.claudiogalvaodev.filmes.repository.Result.Error -> {
-                        Toast.makeText(context, "Não há filmes para mostrar", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
+    private fun initObservables() {
+        viewModel.favoriteMovies.observe(viewLifecycleOwner) { movies ->
+            configuraLista(movies)
         }
     }
 

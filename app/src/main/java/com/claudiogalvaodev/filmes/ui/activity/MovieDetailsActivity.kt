@@ -39,8 +39,11 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         val filledHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_filled, null)
         val emptyHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_empty, null)
-        // TODO ajustar para chamada assíncrona
-        menu?.getItem(0)?.icon = if(viewModel.isFavorite(movie)) filledHeart else emptyHeart
+
+        viewModel.isFavorite(movie)
+        viewModel.isFavorite.observe(this) { isFavorite ->
+            menu?.getItem(0)?.icon = if(isFavorite) filledHeart else emptyHeart
+        }
         return true
     }
 

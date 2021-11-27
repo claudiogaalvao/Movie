@@ -1,25 +1,47 @@
 package com.claudiogalvaodev.filmes.ui.viewmodel
 
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.filmes.model.FavoriteMovieEntity
 import com.claudiogalvaodev.filmes.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.filmes.model.FavoriteMovieEntity
 import com.claudiogalvaodev.filmes.repository.MoviesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieDetailsViewModel(
     private val repository: MoviesRepository
 ): ViewModel() {
-    // TODO Como fazer o viewModel armazenar um estado (de movie) para não precisar ficar passando movie por parâmetro
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean>
+        get() = _isFavorite
 
     fun insertFavoriteMovie(movie: MovieEntity) = viewModelScope.launch {
-        repository.insertFavoriteMovie(movie.id)
+        withContext(Dispatchers.IO) {
+            repository.insertFavoriteMovie(movie.id)
+        }
     }
 
     fun deleteFavoriteMovie(movie: MovieEntity) = viewModelScope.launch {
-        repository.deleteFavoriteMovie(FavoriteMovieEntity(movie.id))
+        withContext(Dispatchers.IO) {
+            repository.deleteFavoriteMovie(FavoriteMovieEntity(movie.id))
+        }
     }
 
-    fun isFavorite(movie: MovieEntity) = repository.isFavorite(movie.id)
+    fun isFavorite(movie: MovieEntity) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            repository.getFavoriteMovieById(movie.id).collect { favoriteMovie ->
+                if(favoriteMovie != null) {
+                    _isFavorite.postValue(true)
+                } else {
+                    _isFavorite.postValue(false)
+                }
+            }
+
+        }
+    }
 }
