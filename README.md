@@ -5,7 +5,7 @@ That is a project to training the knowleges about Android, applying the bests pr
 
 <img src="https://github.com/claudiogaalvao/Movie/raw/master/gifs/Versao1.gif" width="250" height="500" />
 
-# Future futures plan
+# Future features plan
 
 - Show feature realeses
 - Filter movies by gender
