@@ -3,7 +3,7 @@ That is a project to training the knowleges about Android, applying the bests pr
 
 # Version 1.0
 
-<img src="https://github.com/claudiogaalvao/Movie/raw/master/gifs/Versao1.gif" width="250" height="500" />
+<img src="https://github.com/claudiogaalvao/Movie/raw/master/gifs/Versao1.gif" style="width: 100%; height: auto;" />
 
 # Future features plan
 
