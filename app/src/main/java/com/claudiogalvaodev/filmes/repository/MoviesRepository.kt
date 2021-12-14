@@ -10,17 +10,53 @@ class MoviesRepository(
     private val service: MovieService
 ) {
 
-    suspend fun getPopularMovies(): Result<List<MovieEntity>> {
+    suspend fun getTrendingWeek(): Result<List<MovieEntity>> {
         var result: Result<List<MovieEntity>> = Result.success(emptyList())
         try {
-            val response = service.getPopularMovies()
-            if(response.isSuccessful) {
+            val response = service.getTrendingWeek()
+            if (response.isSuccessful) {
+               response.body()?.results?.let { movieList ->
+                   // insert on database here
+                   result = Result.success(movieList)
+               }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get trending movies"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
+    suspend fun getUpComing(): Result<List<MovieEntity>> {
+        var result: Result<List<MovieEntity>> = Result.success(emptyList())
+        try {
+            val response = service.getUpComing()
+            if (response.isSuccessful) {
                 response.body()?.results?.let { movieList ->
-                    dao.insertPopularMovies(movieList)
+                    // insert on database here
                     result = Result.success(movieList)
                 }
             } else {
-                result = Result.failure(exception = Exception("Falha ao buscar o filme"))
+                result = Result.failure(exception = Exception("Something went wrong when try to get up coming movies"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
+    suspend fun getLatest(): Result<List<MovieEntity>> {
+        var result: Result<List<MovieEntity>> = Result.success(emptyList())
+        try {
+            val response = service.getLatest()
+            if (response.isSuccessful) {
+                response.body()?.results?.let { movieList ->
+                    // insert on database here
+                    result = Result.success(movieList)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get latest movies"))
             }
         } catch (e: Exception) {
             result = Result.failure(exception = e)

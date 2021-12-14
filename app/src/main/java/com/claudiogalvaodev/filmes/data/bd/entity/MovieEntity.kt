@@ -32,8 +32,12 @@ class MovieEntity(
     val poster_path: String,
 ): Serializable {
 
-    fun getCoverage() : String {
-        return "https://image.tmdb.org/t/p/w500$poster_path"
+    fun getPoster() : String {
+        return "https://image.tmdb.org/t/p/original$poster_path"
+    }
+
+    fun getBackdrop() : String {
+        return "https://image.tmdb.org/t/p/original$backdrop_path"
     }
 
     override fun toString(): String {

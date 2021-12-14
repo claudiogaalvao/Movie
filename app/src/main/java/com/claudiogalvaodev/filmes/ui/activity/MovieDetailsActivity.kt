@@ -31,7 +31,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         binding.activityMovieDetailsRelease.text = movie.release_date
         binding.activityMovieDetailsRate.text = movie.vote_average.toString()
         binding.activityMovieDetailsSinopse.text = movie.overview
-        Picasso.with(binding.root.context).load(movie.getCoverage()).into(binding.activityMovieDetailsCover)
+        Picasso.with(binding.root.context).load(movie.getPoster()).into(binding.activityMovieDetailsCover)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.filmes.R
 import com.claudiogalvaodev.filmes.databinding.ActivityMainBinding
-import com.claudiogalvaodev.filmes.ui.fragment.FavouriteFragment
+import com.claudiogalvaodev.filmes.ui.fragment.DiscoverFragment
 import com.claudiogalvaodev.filmes.ui.fragment.HomeFragment
 
 class MainActivity: AppCompatActivity() {
@@ -18,14 +18,14 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         val homeFragment = HomeFragment()
-        val favouriteFragment = FavouriteFragment()
+        val favouriteFragment = DiscoverFragment()
 
         setCurrentFragment(homeFragment)
 
         binding.activityMainBottomNavigation.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
-                R.id.favourites -> setCurrentFragment(favouriteFragment)
+                R.id.discover -> setCurrentFragment(favouriteFragment)
             }
             true
         }

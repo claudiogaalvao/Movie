@@ -3,4 +3,11 @@
     <string name="movie_item_cover_description">Capa do filme</string>
 
     <string name="lorem_ipsum_long_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ultricies lacus sit amet ultricies. Ut aliquam dui nec orci porta sodales. Nam lacinia lectus id purus tempor tincidunt. Nulla rutrum dignissim erat, at euismod lorem vestibulum eu. Integer maximus erat vitae purus tristique ultricies. Sed sed metus in risus tempus finibus quis ut velit. Aliquam erat volutpat. Suspendisse ut magna in eros pretium tristique non a nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed convallis dolor sapien, ac fermentum augue blandit non. Nullam bibendum neque lacus, vitae scelerisque magna pharetra ac.</string>
+    <string name="movie_cover_description">Movie cover</string>
+    <string name="trending_text">Trending</string>
+    <string name="tranding_icon_description">An arrow going to up</string>
+    <string name="coming_soon_title">Coming soon</string>
+    <string name="new_releases_title">New releases</string>
+    <string name="discover">Discover</string>
+    <string name="home">Home</string>
 </resources>

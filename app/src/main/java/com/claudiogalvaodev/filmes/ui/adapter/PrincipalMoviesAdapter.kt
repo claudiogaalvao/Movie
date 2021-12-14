@@ -4,18 +4,18 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.filmes.databinding.ActivityMovieItemBinding
 import com.claudiogalvaodev.filmes.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.filmes.databinding.PrincipalCoverBinding
 import com.claudiogalvaodev.filmes.ui.activity.MovieDetailsActivity
 import com.squareup.picasso.Picasso
 
-class MovieListAdapter(
+class PrincipalMoviesAdapter(
     private val movies: List<MovieEntity>
-): RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+): RecyclerView.Adapter<PrincipalMoviesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ActivityMovieItemBinding.inflate(inflater)
+        val binding = PrincipalCoverBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
@@ -29,12 +29,14 @@ class MovieListAdapter(
         return movies.size
     }
 
-    class ViewHolder(val binding: ActivityMovieItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: PrincipalCoverBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
             with(binding) {
-                Picasso.with(root.context).load(movie.getCoverage()).into(activityMovieItemCover)
-                binding.activityMovieItemCover.setOnClickListener {
+                 Picasso.with(root.context).load(movie.getBackdrop()).into(principalCoverImage)
+                principalCoverTitle.text = movie.title
+
+                binding.principalCoverImage.setOnClickListener {
                     goToMovieDetails(movie)
                 }
             }
