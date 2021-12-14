@@ -1,4 +1,14 @@
 # Movie
-[BUILDING] A project to training the knowleges about Android, applying the bests practices and the most recent features and arquitecture. The objective is release the app with features to find e manage movies and series
+That is a project to training the knowleges about Android, applying the bests practices and the most recent features and arquitecture. The objective is release the app with features to find e manage movies and series.
 
-<img src="https://claudiogalvaodev.com/wp-content/uploads/2021/12/Versao1.gif" width="200" height="500" />
+# Version 1.0
+
+<img src="https://github.com/claudiogaalvao/Movie/raw/master/gifs/Versao1.gif" style="width: 30%; height: auto;" />
+
+# Future features plan
+
+- Show feature realeses
+- Filter movies by gender
+- Separate movies and series
+- Add release movies to remember
+- Different movie lists, like nerd movies, recorded in specific city or country, director by a specif director, with some actor, etc...
