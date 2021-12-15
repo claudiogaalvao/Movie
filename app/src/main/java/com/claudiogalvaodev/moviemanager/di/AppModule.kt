@@ -17,7 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
-// TODO Utilizar o Pro Guard para ofuscar a api_key, criando uma biblioteca nativa dentro do Kotlin
 private const val TOKEN = BuildConfig.MOVIEDB_TOKEN
 
 val retrofitModule = module {
