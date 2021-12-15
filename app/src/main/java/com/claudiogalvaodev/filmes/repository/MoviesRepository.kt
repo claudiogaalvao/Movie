@@ -2,7 +2,6 @@ package com.claudiogalvaodev.filmes.repository
 
 import com.claudiogalvaodev.filmes.data.bd.dao.MovieDao
 import com.claudiogalvaodev.filmes.data.bd.entity.MovieEntity
-import com.claudiogalvaodev.filmes.model.FavoriteMovieEntity
 import com.claudiogalvaodev.filmes.webclient.service.MovieService
 
 class MoviesRepository(
@@ -64,16 +63,4 @@ class MoviesRepository(
         return result
     }
 
-    fun getFavoriteMovieById(movieId: Int) = dao.getFavoriteMovieById(movieId)
-
-    fun getFavoriteMovies() = dao.getMoviesAndFavorites()
-
-    suspend fun insertFavoriteMovie(movieId: Int) {
-        val favoriteMovie = FavoriteMovieEntity(movieId)
-        dao.insertFavoriteMovie(favoriteMovie)
-    }
-
-    suspend fun deleteFavoriteMovie(movie: FavoriteMovieEntity) {
-        dao.deleteFavoriteMovie(movie)
-    }
 }

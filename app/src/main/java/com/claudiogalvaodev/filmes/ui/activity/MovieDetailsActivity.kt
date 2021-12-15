@@ -34,36 +34,4 @@ class MovieDetailsActivity : AppCompatActivity() {
         Picasso.with(binding.root.context).load(movie.getPoster()).into(binding.activityMovieDetailsCover)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.movie_details_menu, menu)
-
-        val filledHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_filled, null)
-        val emptyHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_empty, null)
-
-        viewModel.isFavorite(movie)
-        viewModel.isFavorite.observe(this) { isFavorite ->
-            menu?.getItem(0)?.icon = if(isFavorite) filledHeart else emptyHeart
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.movie_details_menu_add_favourite) {
-            item.icon = changeIconFavoriteAccordingTo(item.icon)
-        }
-        return true
-    }
-
-    private fun changeIconFavoriteAccordingTo(currentIcon: Drawable): Drawable? {
-        val filledHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_filled, null)
-        val emptyHeart = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_empty, null)
-        if(currentIcon.constantState == emptyHeart?.constantState) {
-            Toast.makeText(this, "Adicionado aos favoritos", Toast.LENGTH_LONG).show()
-            viewModel.insertFavoriteMovie(movie)
-            return filledHeart
-        }
-        viewModel.deleteFavoriteMovie(movie)
-        Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_LONG).show()
-        return emptyHeart
-    }
 }

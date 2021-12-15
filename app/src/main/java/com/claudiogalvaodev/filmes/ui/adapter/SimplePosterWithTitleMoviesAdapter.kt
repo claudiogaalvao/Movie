@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.filmes.data.bd.entity.MovieEntity
-import com.claudiogalvaodev.filmes.databinding.ItemPrincipalBackdropBinding
+import com.claudiogalvaodev.filmes.databinding.ItemSimplePosterWithTitleBinding
 import com.claudiogalvaodev.filmes.ui.activity.MovieDetailsActivity
+import com.claudiogalvaodev.filmes.utils.format.formatDateUtils.fromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
-class PrincipalMoviesAdapter(
-    private val movies: List<MovieEntity>
-): RecyclerView.Adapter<PrincipalMoviesAdapter.ViewHolder>() {
+class SimplePosterWithTitleMoviesAdapter(
+    private var movies: List<MovieEntity>
+): RecyclerView.Adapter<SimplePosterWithTitleMoviesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemPrincipalBackdropBinding.inflate(inflater)
+        val binding = ItemSimplePosterWithTitleBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
@@ -29,14 +30,15 @@ class PrincipalMoviesAdapter(
         return movies.size
     }
 
-    class ViewHolder(val binding: ItemPrincipalBackdropBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemSimplePosterWithTitleBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
             with(binding) {
-                 Picasso.with(root.context).load(movie.getBackdrop()).into(principalCoverImage)
-                principalCoverTitle.text = movie.title
+                 Picasso.with(root.context).load(movie.getPoster()).into(moviePosterWithTitleImage)
+                moviePosterWithTitleTitle.text = movie.title
+                moviePosterWithTitleRelease.text = fromAmericanFormatToDateWithMonthName(movie.release_date)
 
-                binding.principalCoverImage.setOnClickListener {
+                binding.moviePosterWithTitleImage.setOnClickListener {
                     goToMovieDetails(movie)
                 }
             }

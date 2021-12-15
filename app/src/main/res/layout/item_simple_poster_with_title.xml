@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="0dp"
+    android:paddingEnd="12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp" >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_simple_poster_with_title_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@android:color/transparent">
+
+            <ImageView
+                android:id="@+id/movie_poster_with_title_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/movie_cover_description"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/poster_example" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/movie_poster_with_title_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/item_simple_poster_with_title_cardview"
+            app:layout_constraintStart_toStartOf="@id/item_simple_poster_with_title_cardview"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Shang-Chi and the Legend of the Ten Rings" />
+
+        <TextView
+            android:id="@+id/movie_poster_with_title_release"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/movie_poster_with_title_title"
+            app:layout_constraintStart_toStartOf="@id/movie_poster_with_title_title"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_gray"
+            tools:text="Dec 2021" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.filmes.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.filmes.repository.MoviesRepository
+import com.claudiogalvaodev.filmes.utils.format.formatDateUtils.orderMoviesByAscendingRelease
+import com.claudiogalvaodev.filmes.utils.format.formatDateUtils.orderMoviesByDescendingRelease
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,16 +44,20 @@ class HomeViewModel(
         withContext(Dispatchers.IO) {
             val moviesList = repository.getUpComing()
             if(moviesList.isSuccess) {
-                _upComingMovies.postValue(moviesList.getOrDefault(emptyList()))
+                val sortedMovies = orderMoviesByAscendingRelease(
+                    moviesList.getOrDefault(emptyList()))
+                _upComingMovies.postValue(sortedMovies)
             }
         }
     }
 
     fun getLatestMovies() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            val moviesList = repository.getUpComing()
+            val moviesList = repository.getLatest()
             if(moviesList.isSuccess) {
-                _latestMovies.postValue(moviesList.getOrDefault(emptyList()))
+                val sortedMovies = orderMoviesByDescendingRelease(
+                    moviesList.getOrDefault(emptyList()))
+                _latestMovies.postValue(sortedMovies)
             }
         }
     }
