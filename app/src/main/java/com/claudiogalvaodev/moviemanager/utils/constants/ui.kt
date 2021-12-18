@@ -1,6 +1,6 @@
-package com.claudiogalvaodev.moviemanager.ui.constants
+package com.claudiogalvaodev.moviemanager.utils.constants
 
-object UIConstants {
+object MaxMoviesToShow {
     const val MAX_TRENDING_MOVIES = 10
     const val MAX_UPCOMING_MOVIES = 10
     const val MAX_LATEST_MOVIES = 10

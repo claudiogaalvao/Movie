@@ -2,6 +2,9 @@ package com.claudiogalvaodev.moviemanager.data.bd.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.claudiogalvaodev.moviemanager.BuildConfig
+import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
+import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
 import java.io.Serializable
 
 // Considerar o uso de mais de uma entidade para evitar trazer informações que não serão usadas
@@ -32,12 +35,33 @@ class MovieEntity(
     val poster_path: String,
 ): Serializable {
 
-    fun getPoster() : String {
-        return "https://image.tmdb.org/t/p/original$poster_path"
+    fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {
+        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$poster_path"
     }
 
-    fun getBackdrop() : String {
-        return "https://image.tmdb.org/t/p/original$backdrop_path"
+    fun getBackdrop(imageSize: BackdropSizes = BackdropSizes.W_780) : String {
+        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getBackdropSize(imageSize)}$backdrop_path"
+    }
+
+    private fun getPosterSize(size: PosterSizes): String {
+        return when(size) {
+            PosterSizes.W_780 -> "w780"
+            PosterSizes.W_500 -> "w500"
+            PosterSizes.W_342 -> "w342"
+            PosterSizes.W_185 -> "w185"
+            PosterSizes.W_154 -> "w154"
+            PosterSizes.W_92 -> "w92"
+            else -> "original"
+        }
+    }
+
+    private fun getBackdropSize(size: BackdropSizes): String {
+        return when(size) {
+            BackdropSizes.W_1280 -> "w1280"
+            BackdropSizes.W_780 -> "w780"
+            BackdropSizes.W_300 -> "w300"
+            else -> "original"
+        }
     }
 
     override fun toString(): String {

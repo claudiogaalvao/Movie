@@ -9,9 +9,9 @@ import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleMoviesAdapter
-import com.claudiogalvaodev.moviemanager.ui.constants.UIConstants.MAX_LATEST_MOVIES
-import com.claudiogalvaodev.moviemanager.ui.constants.UIConstants.MAX_TRENDING_MOVIES
-import com.claudiogalvaodev.moviemanager.ui.constants.UIConstants.MAX_UPCOMING_MOVIES
+import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_LATEST_MOVIES
+import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_TRENDING_MOVIES
+import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_UPCOMING_MOVIES
 import com.claudiogalvaodev.moviemanager.ui.viewmodel.HomeViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
