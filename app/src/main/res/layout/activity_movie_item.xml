@@ -10,7 +10,7 @@
         android:id="@+id/activity_movie_item_cover"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:contentDescription="@string/movie_item_cover_description"
+        android:contentDescription="@string/movie_cover_description"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

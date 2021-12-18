@@ -6,8 +6,8 @@
         android:title="@string/home"
         android:icon="@drawable/ic_home"/>
     <item
-        android:id="@+id/discoverFragment"
-        android:title="@string/discover"
+        android:id="@+id/exploreFragment"
+        android:title="@string/explore"
         android:icon="@drawable/ic_explore"/>
 
 </menu>

@@ -16,10 +16,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/discoverFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.fragment.DiscoverFragment"
-        android:label="DiscoverFragment"
-        tools:layout="@layout/fragment_discover" />
+        android:id="@+id/exploreFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.fragment.ExploreFragment"
+        android:label="ExploreFragment"
+        tools:layout="@layout/fragment_explore" />
 
     <activity
         android:id="@+id/movieDetailsActivity"

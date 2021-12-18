@@ -3,7 +3,7 @@ package com.claudiogalvaodev.moviemanager.di
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.MoviesDatabase
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.ui.viewmodel.DiscoverViewModel
+import com.claudiogalvaodev.moviemanager.ui.viewmodel.ExploreViewModel
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.viewmodel.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.viewmodel.MovieDetailsViewModel
@@ -14,6 +14,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 private const val BASE_URL = BuildConfig.MOVIEDB_BASE_URL
 private const val TOKEN = BuildConfig.MOVIEDB_TOKEN
@@ -27,10 +28,20 @@ val retrofitModule = module {
             .build()
     }
     single {
+        val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
+        val currentDeviceRegion = Locale.getDefault().country
+
         OkHttpClient.Builder()
             .addInterceptor(Interceptor { chain ->
-                val newRequest = chain.request().newBuilder()
+                var newRequest = chain.request()
+                val url = newRequest.url.newBuilder()
+                    .addQueryParameter("language", currentDeviceLanguage)
+                    .addQueryParameter("region", currentDeviceRegion)
+                    .build()
+
+                newRequest = newRequest.newBuilder()
                     .addHeader("Authorization", "Bearer $TOKEN")
+                    .url(url)
                     .build()
                 chain.proceed(newRequest)
             })
@@ -49,7 +60,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
-    viewModel { DiscoverViewModel(get()) }
+    viewModel { ExploreViewModel(get()) }
     viewModel { MovieDetailsViewModel(get()) }
 }
 

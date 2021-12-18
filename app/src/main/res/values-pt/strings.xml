@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gerenciador de Filmes</string>
+
+    <!-- Fragments title -->
+    <string name="fragment_home_title">Início</string>
+    <string name="fragment_explore_title">Explorar</string>
+
+    <!-- Home sessions -->
+    <string name="trending_text">Tendência</string>
+    <string name="coming_soon_title">Próximos lançamentos</string>
+    <string name="new_releases_title">Novos lançamentos</string>
+
+    <!-- Bottom menu items -->
+    <string name="home">Início</string>
+    <string name="explore">Explorar</string>
+
+    <!-- Images description -->
+    <string name="movie_cover_description">Capa do filme</string>
+    <string name="tranding_icon_description">Uma seta se movendo para cima</string>
+</resources>

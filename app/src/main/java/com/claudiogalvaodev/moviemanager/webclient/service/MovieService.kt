@@ -6,12 +6,12 @@ import retrofit2.http.GET
 
 interface MovieService {
 
-    @GET("trending/movie/week?language=pt-BR&region=BR")
+    @GET("trending/movie/week")
     suspend fun getTrendingWeek(): Response<RequestCallback>
 
-    @GET("movie/upcoming?language=pt-BR&region=BR")
+    @GET("movie/upcoming")
     suspend fun getUpComing(): Response<RequestCallback>
 
-    @GET("movie/now_playing?language=pt-BR&region=BR")
+    @GET("movie/now_playing")
     suspend fun getLatest(): Response<RequestCallback>
 }
