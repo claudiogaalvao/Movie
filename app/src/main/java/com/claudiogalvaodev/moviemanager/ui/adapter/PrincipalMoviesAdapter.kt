@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.moviemanager.databinding.ItemPrincipalBackdropBinding
-import com.claudiogalvaodev.moviemanager.ui.activity.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.squareup.picasso.Picasso
 
 class PrincipalMoviesAdapter(
     private val movies: List<MovieEntity>
 ): RecyclerView.Adapter<PrincipalMoviesAdapter.ViewHolder>() {
+
+    var onItemClick: ((movie: MovieEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,7 +31,7 @@ class PrincipalMoviesAdapter(
         return movies.size
     }
 
-    class ViewHolder(val binding: ItemPrincipalBackdropBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemPrincipalBackdropBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
             with(binding) {
@@ -37,15 +39,9 @@ class PrincipalMoviesAdapter(
                 principalCoverTitle.text = movie.title
 
                 binding.principalCoverImage.setOnClickListener {
-                    goToMovieDetails(movie)
+                    onItemClick?.invoke(movie)
                 }
             }
-        }
-
-        private fun goToMovieDetails(movie: MovieEntity) {
-            val intent = Intent(binding.root.context, MovieDetailsActivity::class.java)
-            intent.putExtra("filme", movie)
-            binding.root.context.startActivity(intent)
         }
     }
 }

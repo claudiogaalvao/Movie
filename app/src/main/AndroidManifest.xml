@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmes">
         <activity
-            android:name="com.claudiogalvaodev.moviemanager.ui.activity.MovieDetailsActivity"
+            android:name="com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity"
             android:exported="true" />
         <activity
-            android:name="com.claudiogalvaodev.moviemanager.ui.activity.MainActivity"
+            android:name="com.claudiogalvaodev.moviemanager.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

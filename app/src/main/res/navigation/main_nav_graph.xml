@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.fragment.HomeFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,13 +17,17 @@
 
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.fragment.ExploreFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.explore.ExploreFragment"
         android:label="ExploreFragment"
         tools:layout="@layout/fragment_explore" />
 
     <activity
         android:id="@+id/movieDetailsActivity"
-        android:name="com.claudiogalvaodev.moviemanager.ui.activity.MovieDetailsActivity"
+        android:name="com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity"
         android:label="activity_movie_details"
-        tools:layout="@layout/activity_movie_details" />
+        tools:layout="@layout/activity_movie_details" >
+        <argument
+            android:name="movie"
+            app:argType="com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity" />
+    </activity>
 </navigation>

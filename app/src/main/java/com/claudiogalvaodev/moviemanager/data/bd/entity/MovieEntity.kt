@@ -1,10 +1,12 @@
 package com.claudiogalvaodev.moviemanager.data.bd.entity
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
 import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 // Considerar o uso de mais de uma entidade para evitar trazer informações que não serão usadas
@@ -17,6 +19,7 @@ import java.io.Serializable
 // Se o id do filme estiver na lista, mudar o isFavorite do filme para true
 
 // Pesquisar sobre DTO
+@Parcelize
 @Entity(tableName = "movies")
 class MovieEntity(
     @PrimaryKey
@@ -33,7 +36,7 @@ class MovieEntity(
     val overview: String,
     val backdrop_path: String?,
     val poster_path: String?,
-): Serializable {
+): Parcelable {
 
     fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$poster_path"

@@ -6,10 +6,10 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.MoviesDatabase
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.ui.viewmodel.ExploreViewModel
+import com.claudiogalvaodev.moviemanager.ui.explore.ExploreViewModel
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
-import com.claudiogalvaodev.moviemanager.ui.viewmodel.HomeViewModel
-import com.claudiogalvaodev.moviemanager.ui.viewmodel.MovieDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel

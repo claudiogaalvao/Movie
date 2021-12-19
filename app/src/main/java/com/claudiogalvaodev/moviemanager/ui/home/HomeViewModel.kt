@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.viewmodel
+package com.claudiogalvaodev.moviemanager.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

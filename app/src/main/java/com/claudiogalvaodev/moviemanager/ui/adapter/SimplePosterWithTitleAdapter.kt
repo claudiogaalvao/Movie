@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
-import com.claudiogalvaodev.moviemanager.ui.activity.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatDateUtils.fromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
-class SimplePosterWithTitleMoviesAdapter(
+class SimplePosterWithTitleAdapter(
     private var movies: List<MovieEntity>
-): RecyclerView.Adapter<SimplePosterWithTitleMoviesAdapter.ViewHolder>() {
+): RecyclerView.Adapter<SimplePosterWithTitleAdapter.ViewHolder>() {
+
+    var onItemClick: ((movie: MovieEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +32,7 @@ class SimplePosterWithTitleMoviesAdapter(
         return movies.size
     }
 
-    class ViewHolder(val binding: ItemSimplePosterWithTitleBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemSimplePosterWithTitleBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
             with(binding) {
@@ -39,15 +41,9 @@ class SimplePosterWithTitleMoviesAdapter(
                 moviePosterWithTitleRelease.text = fromAmericanFormatToDateWithMonthName(movie.release_date)
 
                 binding.moviePosterWithTitleImage.setOnClickListener {
-                    goToMovieDetails(movie)
+                    onItemClick?.invoke(movie)
                 }
             }
-        }
-
-        private fun goToMovieDetails(movie: MovieEntity) {
-            val intent = Intent(binding.root.context, MovieDetailsActivity::class.java)
-            intent.putExtra("filme", movie)
-            binding.root.context.startActivity(intent)
         }
     }
 }

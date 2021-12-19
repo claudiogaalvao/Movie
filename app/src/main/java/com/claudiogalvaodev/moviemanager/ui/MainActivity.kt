@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.activity
+package com.claudiogalvaodev.moviemanager.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

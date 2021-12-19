@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.fragment
+package com.claudiogalvaodev.moviemanager.ui.explore
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreBinding
-import com.claudiogalvaodev.moviemanager.ui.viewmodel.ExploreViewModel
+import com.claudiogalvaodev.moviemanager.ui.explore.ExploreViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ExploreFragment: Fragment() {
