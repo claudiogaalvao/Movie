@@ -31,8 +31,8 @@ class MovieEntity(
     val adult: Boolean,
     val video: Boolean,
     val overview: String,
-    val backdrop_path: String,
-    val poster_path: String,
+    val backdrop_path: String?,
+    val poster_path: String?,
 ): Serializable {
 
     fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {

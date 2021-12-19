@@ -35,7 +35,8 @@ class HomeViewModel(
         withContext(Dispatchers.IO) {
             val moviesList = repository.getTrendingWeek()
             if(moviesList.isSuccess) {
-                _trendingMovies.postValue(moviesList.getOrDefault(emptyList()))
+                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
+                _trendingMovies.postValue(filteredMovies)
             }
         }
     }
@@ -44,8 +45,8 @@ class HomeViewModel(
         withContext(Dispatchers.IO) {
             val moviesList = repository.getUpComing()
             if(moviesList.isSuccess) {
-                val sortedMovies = orderMoviesByAscendingRelease(
-                    moviesList.getOrDefault(emptyList()))
+                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
+                val sortedMovies = orderMoviesByAscendingRelease(filteredMovies)
                 _upComingMovies.postValue(sortedMovies)
             }
         }
@@ -55,10 +56,16 @@ class HomeViewModel(
         withContext(Dispatchers.IO) {
             val moviesList = repository.getLatest()
             if(moviesList.isSuccess) {
-                val sortedMovies = orderMoviesByDescendingRelease(
-                    moviesList.getOrDefault(emptyList()))
+                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
+                val sortedMovies = orderMoviesByDescendingRelease(filteredMovies)
                 _latestMovies.postValue(sortedMovies)
             }
+        }
+    }
+
+    private fun removeInvalidMovies(movies: List<MovieEntity>): List<MovieEntity> {
+        return movies.filter { movie ->
+            movie.poster_path != null || movie.backdrop_path != null
         }
     }
 
