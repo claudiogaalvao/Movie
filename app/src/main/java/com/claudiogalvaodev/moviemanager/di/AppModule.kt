@@ -1,5 +1,8 @@
 package com.claudiogalvaodev.moviemanager.di
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.MoviesDatabase
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
@@ -7,8 +10,7 @@ import com.claudiogalvaodev.moviemanager.ui.viewmodel.ExploreViewModel
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.viewmodel.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.viewmodel.MovieDetailsViewModel
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -31,20 +33,55 @@ val retrofitModule = module {
         val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
         val currentDeviceRegion = Locale.getDefault().country
 
-        OkHttpClient.Builder()
-            .addInterceptor(Interceptor { chain ->
-                var newRequest = chain.request()
-                val url = newRequest.url.newBuilder()
-                    .addQueryParameter("language", currentDeviceLanguage)
-                    .addQueryParameter("region", currentDeviceRegion)
-                    .build()
+        val onlineInterceptor = Interceptor { chain ->
+            val response: Response = chain.proceed(chain.request())
+            val maxAge = 60 * 60 * 24 // read from cache for 24 hours even if there is internet connection
+            response.newBuilder()
+                .header("Cache-Control", "public, max-age=$maxAge")
+                .removeHeader("Pragma")
+                .build()
+        }
 
-                newRequest = newRequest.newBuilder()
-                    .addHeader("Authorization", "Bearer $TOKEN")
-                    .url(url)
+        val offlineInterceptor = Interceptor { chain ->
+            fun isInternetAvailable(context: Context): Boolean {
+                val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+                return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
+            }
+
+            var request: Request = chain.request()
+            if (!isInternetAvailable(get())) {
+                val maxStale = 60 * 60 * 24 * 2 // Offline cache available for 48 hours
+                request = request.newBuilder()
+                    .header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")
+                    .removeHeader("Pragma")
                     .build()
-                chain.proceed(newRequest)
-            })
+            }
+            chain.proceed(request)
+        }
+
+        val modifierRequestInterceptor = Interceptor { chain ->
+            var newRequest = chain.request()
+            val url = newRequest.url.newBuilder()
+                .addQueryParameter("language", currentDeviceLanguage)
+                .addQueryParameter("region", currentDeviceRegion)
+                .build()
+
+            newRequest = newRequest.newBuilder()
+                .addHeader("Authorization", "Bearer $TOKEN")
+                .url(url)
+                .build()
+            chain.proceed(newRequest)
+        }
+
+        val cacheSize = (100 * 1024 * 1024).toLong() // 100 MB
+        val cache = Cache(androidContext().cacheDir, cacheSize)
+
+        OkHttpClient.Builder()
+            .addNetworkInterceptor(onlineInterceptor)
+            .addInterceptor(offlineInterceptor)
+            .addInterceptor(modifierRequestInterceptor)
+            .cache(cache)
             .build()
     }
     single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
