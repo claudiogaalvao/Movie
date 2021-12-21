@@ -38,7 +38,7 @@
             tools:listitem="@layout/item_principal_backdrop" />
 
         <TextView
-            android:id="@+id/fragment_home_coming_soon_title"
+            android:id="@+id/fragment_home_coming_up_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/fragment_home_trending_recyclerview"
@@ -47,39 +47,39 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="@string/coming_soon_title" />
+            android:text="@string/coming_up_title" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_home_coming_soon_recyclerview"
+            android:id="@+id/fragment_home_coming_up_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/fragment_home_coming_soon_title"
-            app:layout_constraintTop_toBottomOf="@id/fragment_home_coming_soon_title"
+            app:layout_constraintStart_toStartOf="@id/fragment_home_coming_up_title"
+            app:layout_constraintTop_toBottomOf="@id/fragment_home_coming_up_title"
             android:layout_marginTop="8dp"
             tools:listitem="@layout/item_simple_poster_with_title" />
 
         <TextView
-            android:id="@+id/fragment_home_new_releases_title"
+            android:id="@+id/fragment_home_playing_now_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fragment_home_coming_soon_recyclerview"
-            app:layout_constraintStart_toStartOf="@id/fragment_home_coming_soon_recyclerview"
+            app:layout_constraintTop_toBottomOf="@id/fragment_home_coming_up_recyclerview"
+            app:layout_constraintStart_toStartOf="@id/fragment_home_coming_up_recyclerview"
             android:layout_marginTop="12dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="@string/new_releases_title" />
+            android:text="@string/playing_now_title" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_home_new_releases_recyclerview"
+            android:id="@+id/fragment_home_playing_now_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/fragment_home_new_releases_title"
-            app:layout_constraintTop_toBottomOf="@id/fragment_home_new_releases_title"
+            app:layout_constraintStart_toStartOf="@id/fragment_home_playing_now_title"
+            app:layout_constraintTop_toBottomOf="@id/fragment_home_playing_now_title"
             android:layout_marginTop="8dp"
             tools:listitem="@layout/item_simple_poster_with_title" />
 

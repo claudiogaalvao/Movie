@@ -1,71 +1,57 @@
 package com.claudiogalvaodev.moviemanager.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.utils.format.formatDateUtils.orderMoviesByAscendingRelease
-import com.claudiogalvaodev.moviemanager.utils.format.formatDateUtils.orderMoviesByDescendingRelease
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(
-    private val repository: MoviesRepository
+    private val repository: MoviesRepository,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _trendingMovies = MutableLiveData<List<MovieEntity>>()
-    val trendingMovies: LiveData<List<MovieEntity>>
-        get() = _trendingMovies
+    private val _trendingMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    val trendingMovies = _trendingMovies.asStateFlow()
 
-    private val _upComingMovies = MutableLiveData<List<MovieEntity>>()
-    val upComingMovies: LiveData<List<MovieEntity>>
-        get() = _upComingMovies
+    private val _upComingMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    val upComingMovies = _upComingMovies.asStateFlow()
 
-    private val _latestMovies = MutableLiveData<List<MovieEntity>>()
-    val latestMovies: LiveData<List<MovieEntity>>
-        get() = _latestMovies
+    private val _playingNowMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    val playingNowMovies = _playingNowMovies.asStateFlow()
 
     fun getTrendingMovies() = viewModelScope.launch {
         // IO Possui threads reservadas
         // Default Compartilha uma mesma thread entre quem chamar esse tipo de dispatcher
         // Default mais recomendado para manipulações mais pesadas/longas
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val moviesList = repository.getTrendingWeek()
             if(moviesList.isSuccess) {
-                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
-                _trendingMovies.postValue(filteredMovies)
+                _trendingMovies.emit(moviesList.getOrDefault(emptyList()))
             }
         }
     }
 
     fun getUpComingMovies() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val moviesList = repository.getUpComing()
             if(moviesList.isSuccess) {
-                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
-                val sortedMovies = orderMoviesByAscendingRelease(filteredMovies)
-                _upComingMovies.postValue(sortedMovies)
+                _upComingMovies.emit(moviesList.getOrDefault(emptyList()))
             }
         }
     }
 
-    fun getLatestMovies() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            val moviesList = repository.getLatest()
+    fun getPlayingNowMovies() = viewModelScope.launch {
+        withContext(dispatcher) {
+            val moviesList = repository.getPlayingNow()
             if(moviesList.isSuccess) {
-                val filteredMovies = removeInvalidMovies(moviesList.getOrDefault(emptyList()))
-                val sortedMovies = orderMoviesByDescendingRelease(filteredMovies)
-                _latestMovies.postValue(sortedMovies)
+                _playingNowMovies.emit(moviesList.getOrDefault(emptyList()))
             }
-        }
-    }
-
-    private fun removeInvalidMovies(movies: List<MovieEntity>): List<MovieEntity> {
-        return movies.filter { movie ->
-            movie.poster_path != null || movie.backdrop_path != null
         }
     }
 

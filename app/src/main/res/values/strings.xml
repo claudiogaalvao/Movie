@@ -7,8 +7,8 @@
 
     <!-- Home sessions -->
     <string name="trending_text">Trending</string>
-    <string name="coming_soon_title">Coming soon</string>
-    <string name="new_releases_title">New releases</string>
+    <string name="coming_up_title">Coming soon</string>
+    <string name="playing_now_title">New releases</string>
 
     <!-- Bottom menu items -->
     <string name="home">Home</string>

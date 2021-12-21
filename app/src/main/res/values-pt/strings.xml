@@ -8,8 +8,8 @@
 
     <!-- Home sessions -->
     <string name="trending_text">Tendência</string>
-    <string name="coming_soon_title">Próximos lançamentos</string>
-    <string name="new_releases_title">Novos lançamentos</string>
+    <string name="coming_up_title">Próximos lançamentos</string>
+    <string name="playing_now_title">Novos lançamentos</string>
 
     <!-- Bottom menu items -->
     <string name="home">Início</string>

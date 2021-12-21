@@ -13,5 +13,5 @@ interface MovieService {
     suspend fun getUpComing(): Response<RequestCallback>
 
     @GET("movie/now_playing")
-    suspend fun getLatest(): Response<RequestCallback>
+    suspend fun getPlayingNow(): Response<RequestCallback>
 }

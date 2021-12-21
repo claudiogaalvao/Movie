@@ -13,19 +13,4 @@ object formatDateUtils {
         return initDate.format(endFormatter)
     }
 
-    fun orderMoviesByAscendingRelease(movies: List<MovieEntity>): List<MovieEntity> {
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val descendingOrder = movies.sortedByDescending { movie ->
-            LocalDate.parse(movie.release_date, dateTimeFormatter)
-        }
-        return descendingOrder.reversed()
-    }
-
-    fun orderMoviesByDescendingRelease(movies: List<MovieEntity>): List<MovieEntity> {
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        return movies.sortedByDescending { movie ->
-            LocalDate.parse(movie.release_date, dateTimeFormatter)
-        }
-    }
-
 }
