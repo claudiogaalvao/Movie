@@ -11,9 +11,6 @@ import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
-import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_LATEST_MOVIES
-import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_TRENDING_MOVIES
-import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow.MAX_UPCOMING_MOVIES
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,26 +37,25 @@ class HomeFragment: Fragment() {
 
     private fun getMovies() {
         viewModel.getTrendingMovies()
-        viewModel.getUpComingMovies()
-        viewModel.getPlayingNowMovies()
+        viewModel.getUpComingAndPlayingNow()
     }
 
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
             viewModel.trendingMovies.collectLatest { movies ->
-                configTrendingMoviesList(movies.take(MAX_TRENDING_MOVIES))
+                configTrendingMoviesList(movies)
             }
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.upComingMovies.collectLatest { movies ->
-                configUpComingMoviesList(movies.take(MAX_UPCOMING_MOVIES))
+                configUpComingMoviesList(movies)
             }
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.playingNowMovies.collectLatest { movies ->
-                configLatestMoviesList(movies.take(MAX_LATEST_MOVIES))
+                configLatestMoviesList(movies)
             }
         }
     }

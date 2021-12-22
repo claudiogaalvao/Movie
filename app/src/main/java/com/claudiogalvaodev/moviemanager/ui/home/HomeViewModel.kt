@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -37,22 +38,22 @@ class HomeViewModel(
         }
     }
 
-    fun getUpComingMovies() = viewModelScope.launch {
-        withContext(dispatcher) {
-            val moviesList = repository.getUpComing()
-            if(moviesList.isSuccess) {
-                _upComingMovies.emit(moviesList.getOrDefault(emptyList()))
-            }
-        }
-    }
+    fun getUpComingAndPlayingNow() {
 
-    fun getPlayingNowMovies() = viewModelScope.launch {
-        withContext(dispatcher) {
-            val moviesList = repository.getPlayingNow()
-            if(moviesList.isSuccess) {
-                _playingNowMovies.emit(moviesList.getOrDefault(emptyList()))
+        viewModelScope.launch {
+            repository.updateUpComingAndPlayingNow()
+
+            repository.upComingMovies.collectLatest { movies ->
+                _upComingMovies.emit(movies)
             }
         }
+
+        viewModelScope.launch {
+            repository.playingNowMovies.collectLatest { movies ->
+                _playingNowMovies.emit(movies)
+            }
+        }
+
     }
 
 }
