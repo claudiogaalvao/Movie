@@ -27,7 +27,7 @@
         android:label="activity_movie_details"
         tools:layout="@layout/activity_movie_details" >
         <argument
-            android:name="movie"
-            app:argType="com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity" />
+            android:name="movieId"
+            app:argType="long" />
     </activity>
 </navigation>

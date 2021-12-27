@@ -1,13 +1,8 @@
-package com.claudiogalvaodev.moviemanager.data.bd.entity
+package com.claudiogalvaodev.moviemanager.model
 
-import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
 import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
-import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 // Considerar o uso de mais de uma entidade para evitar trazer informações que não serão usadas
 // Entity Movie (id, title, genre_id, poster_path, isFavorite, summary: Summary)
@@ -19,10 +14,7 @@ import java.io.Serializable
 // Se o id do filme estiver na lista, mudar o isFavorite do filme para true
 
 // Pesquisar sobre DTO
-@Parcelize
-@Entity(tableName = "movies")
-class MovieEntity(
-    @PrimaryKey
+class Movie(
     val id: Int,
     val title: String,
     val original_title: String,
@@ -36,7 +28,29 @@ class MovieEntity(
     val overview: String,
     val backdrop_path: String?,
     val poster_path: String?,
-): Parcelable {
+    val belongs_to_collection: Collection?,
+    val budget: Int,
+    val revenue: Int,
+    val genres: List<Genre>,
+    val production_companies: List<Company>,
+    val status: String,
+    val runtime: Int
+) {
+
+    fun getDuration(): String {
+        return "${runtime / 60}h${runtime % 60}min"
+    }
+
+    fun getGenres(): String {
+        var genresConcat: String = ""
+        genres.map { genre ->
+            genresConcat += if(genres.last().name == genre.name) {
+                genre.name
+            } else "${genre.name}, "
+
+        }
+        return genresConcat
+    }
 
     fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$poster_path"

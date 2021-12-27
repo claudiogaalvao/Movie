@@ -2,7 +2,7 @@ package com.claudiogalvaodev.moviemanager.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,13 +17,13 @@ class HomeViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _trendingMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    private val _trendingMovies = MutableStateFlow<List<Movie>>(emptyList())
     val trendingMovies = _trendingMovies.asStateFlow()
 
-    private val _upComingMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    private val _upComingMovies = MutableStateFlow<List<Movie>>(emptyList())
     val upComingMovies = _upComingMovies.asStateFlow()
 
-    private val _playingNowMovies = MutableStateFlow<List<MovieEntity>>(emptyList())
+    private val _playingNowMovies = MutableStateFlow<List<Movie>>(emptyList())
     val playingNowMovies = _playingNowMovies.asStateFlow()
 
     fun getTrendingMovies() = viewModelScope.launch {

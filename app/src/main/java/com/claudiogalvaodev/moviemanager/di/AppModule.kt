@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.data.bd.MoviesDatabase
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreViewModel
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
@@ -87,12 +86,12 @@ val retrofitModule = module {
     single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
 }
 
-val daoModule = module {
-    single { MoviesDatabase.getInstance(androidContext()).movieDao }
-}
+//val daoModule = module {
+//    single { MoviesDatabase.getInstance(androidContext()).movieDao }
+//}
 
 val repositoryModule = module {
-    single { MoviesRepository(get(), get()) }
+    single { MoviesRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -102,5 +101,5 @@ val viewModelModule = module {
 }
 
 val appModules = listOf(
-    retrofitModule, repositoryModule, viewModelModule, daoModule
+    retrofitModule, repositoryModule, viewModelModule
 )

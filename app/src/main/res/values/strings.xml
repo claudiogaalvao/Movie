@@ -17,4 +17,15 @@
     <!-- Images description -->
     <string name="movie_cover_description">Movie cover</string>
     <string name="tranding_icon_description">An arrow going to up</string>
+    <string name="imdb_logo">IMDB logo</string>
+    <string name="generic_description">Some description here</string>
+    <string name="separator_bullet">•</string>
+    <string name="overview_label">Overview</string>
+    <string name="budget_label">Budget:</string>
+    <string name="available_on_label">Available on</string>
+    <string name="directors_label">Director(s):</string>
+    <string name="stars_label">Stars:</string>
+    <string name="see_all">See all</string>
+    <string name="companies_label">Companies:</string>
+    <string name="movies_sequence_label">Movies sequence</string>
 </resources>

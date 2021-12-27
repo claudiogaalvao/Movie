@@ -1,20 +1,18 @@
 package com.claudiogalvaodev.moviemanager.ui.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
-import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import com.claudiogalvaodev.moviemanager.utils.format.formatDateUtils.fromAmericanFormatToDateWithMonthName
+import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
 class SimplePosterWithTitleAdapter(
-    private var movies: List<MovieEntity>
+    private var movies: List<Movie>
 ): RecyclerView.Adapter<SimplePosterWithTitleAdapter.ViewHolder>() {
 
-    var onItemClick: ((movie: MovieEntity) -> Unit)? = null
+    var onItemClick: ((movie: Movie) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,11 +32,11 @@ class SimplePosterWithTitleAdapter(
 
     inner class ViewHolder(val binding: ItemSimplePosterWithTitleBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity) {
+        fun bind(movie: Movie) {
             with(binding) {
                  Picasso.with(root.context).load(movie.getPoster()).into(moviePosterWithTitleImage)
                 moviePosterWithTitleTitle.text = movie.title
-                moviePosterWithTitleRelease.text = fromAmericanFormatToDateWithMonthName(movie.release_date)
+                moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(movie.release_date)
 
                 binding.moviePosterWithTitleImage.setOnClickListener {
                     onItemClick?.invoke(movie)

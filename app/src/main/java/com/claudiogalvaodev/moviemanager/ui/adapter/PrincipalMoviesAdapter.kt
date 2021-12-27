@@ -1,19 +1,17 @@
 package com.claudiogalvaodev.moviemanager.ui.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.ItemPrincipalBackdropBinding
-import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.squareup.picasso.Picasso
 
 class PrincipalMoviesAdapter(
-    private val movies: List<MovieEntity>
+    private val movies: List<Movie>
 ): RecyclerView.Adapter<PrincipalMoviesAdapter.ViewHolder>() {
 
-    var onItemClick: ((movie: MovieEntity) -> Unit)? = null
+    var onItemClick: ((movie: Movie) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,7 +31,7 @@ class PrincipalMoviesAdapter(
 
     inner class ViewHolder(private val binding: ItemPrincipalBackdropBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity) {
+        fun bind(movie: Movie) {
             with(binding) {
                  Picasso.with(root.context).load(movie.getBackdrop()).into(principalCoverImage)
                 principalCoverTitle.text = movie.title

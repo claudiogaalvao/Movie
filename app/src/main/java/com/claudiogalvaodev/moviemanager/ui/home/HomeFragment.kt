@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieEntity
+import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
@@ -60,7 +60,7 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun configTrendingMoviesList(movies: List<MovieEntity>) {
+    private fun configTrendingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeTrendingRecyclerview.apply {
             adapter = PrincipalMoviesAdapter(movies).apply {
                 onItemClick = { movie ->
@@ -70,7 +70,7 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun configUpComingMoviesList(movies: List<MovieEntity>) {
+    private fun configUpComingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeComingUpRecyclerview.apply {
             adapter = SimplePosterWithTitleAdapter(movies).apply {
                 onItemClick = { movie ->
@@ -80,7 +80,7 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun configLatestMoviesList(movies: List<MovieEntity>) {
+    private fun configLatestMoviesList(movies: List<Movie>) {
         binding.fragmentHomePlayingNowRecyclerview.apply {
             adapter = SimplePosterWithTitleAdapter(movies).apply {
                 onItemClick = { movie ->
@@ -90,9 +90,9 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun goToMovieDetails(movie: MovieEntity) {
+    private fun goToMovieDetails(movie: Movie) {
         val directions =
-            HomeFragmentDirections.actionHomeFragmentToMovieDetailsActivity(movie)
+            HomeFragmentDirections.actionHomeFragmentToMovieDetailsActivity(movie.id.toLong())
         findNavController().navigate(directions)
     }
 }
