@@ -17,10 +17,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         ActivityMovieDetailsBinding.inflate(layoutInflater)
     }
 
-    private val args: MovieDetailsActivityArgs by navArgs()
-    private val movieId: Int by lazy {
-        args.movieId.toInt()
-    }
+    private var movieId: Int = 0
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -29,7 +26,21 @@ class MovieDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        movieId = intent.getIntExtra("movieId", 0)
+
+        initializeFragment()
+        configToolbar()
+    }
+
+    private fun configToolbar() {
         setSupportActionBar(binding.activityMovieDetailsToolbar)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        }
+    }
+
+    private fun initializeFragment() {
         val bundle = Bundle().apply {
             putString("movieId", movieId.toString())
         }
@@ -38,11 +49,6 @@ class MovieDetailsActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         navController.setGraph(R.navigation.movie_details_nav_graph, bundle)
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navController.addOnDestinationChangedListener { _, _, _ ->
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

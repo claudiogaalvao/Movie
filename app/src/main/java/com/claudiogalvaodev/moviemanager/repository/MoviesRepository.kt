@@ -2,10 +2,11 @@ package com.claudiogalvaodev.moviemanager.repository
 
 import com.claudiogalvaodev.moviemanager.model.Collection
 import com.claudiogalvaodev.moviemanager.model.Credits
-import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.model.Provider
-import com.claudiogalvaodev.moviemanager.utils.constants.MaxMoviesToShow
+import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_LATEST_MOVIES
+import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_TRENDING_MOVIES
+import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_UPCOMING_MOVIES
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -100,7 +101,7 @@ class MoviesRepository(
             val response = service.getTrendingWeek()
             if (response.isSuccessful) {
                response.body()?.results?.let { movies ->
-                   val filteredMovies = removeInvalidMovies(movies.take(MaxMoviesToShow.MAX_TRENDING_MOVIES))
+                   val filteredMovies = removeInvalidMovies(movies.take(MAX_TRENDING_MOVIES))
                    result = Result.success(filteredMovies)
                }
             } else {
@@ -124,14 +125,14 @@ class MoviesRepository(
             val filteredUpComingMovies = removeInvalidMovies(upComingMoviesList)
             val orderedUpComingMovies = orderMoviesByAscendingRelease(filteredUpComingMovies)
             _upComingMovies.value = orderedUpComingMovies.take(
-                MaxMoviesToShow.MAX_UPCOMING_MOVIES
+                MAX_UPCOMING_MOVIES
             )
 
             // Playing Now
             val filteredPlayingNowMovies = removeInvalidMovies(playingNowMoviesList)
             val orderedPlayingNowMovies = orderMoviesByDescendingRelease(filteredPlayingNowMovies)
             _playingNowMovies.value = orderedPlayingNowMovies.take(
-                MaxMoviesToShow.MAX_LATEST_MOVIES
+                MAX_LATEST_MOVIES
             )
         }
 

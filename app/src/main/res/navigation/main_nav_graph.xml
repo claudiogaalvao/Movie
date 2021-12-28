@@ -9,11 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.claudiogalvaodev.moviemanager.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_movieDetailsActivity"
-            app:destination="@id/movieDetailsActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/exploreFragment"
@@ -21,13 +17,4 @@
         android:label="ExploreFragment"
         tools:layout="@layout/fragment_explore" />
 
-    <activity
-        android:id="@+id/movieDetailsActivity"
-        android:name="com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity"
-        android:label="activity_movie_details"
-        tools:layout="@layout/activity_movie_details" >
-        <argument
-            android:name="movieId"
-            app:argType="long" />
-    </activity>
 </navigation>

@@ -9,13 +9,13 @@ import retrofit2.http.Path
 interface MovieService {
 
     @GET("trending/movie/week")
-    suspend fun getTrendingWeek(): Response<RequestCallback>
+    suspend fun getTrendingWeek(): Response<MovieResponse>
 
     @GET("movie/upcoming")
-    suspend fun getUpComing(): Response<RequestCallback>
+    suspend fun getUpComing(): Response<MovieResponse>
 
     @GET("movie/now_playing")
-    suspend fun getPlayingNow(): Response<RequestCallback>
+    suspend fun getPlayingNow(): Response<MovieResponse>
 
     @GET("movie/{id}")
     suspend fun getDetails(@Path("id") id: Int): Response<Movie>

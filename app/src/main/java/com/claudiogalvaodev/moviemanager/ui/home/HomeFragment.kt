@@ -1,5 +1,6 @@
 package com.claudiogalvaodev.moviemanager.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -91,8 +93,8 @@ class HomeFragment: Fragment() {
     }
 
     private fun goToMovieDetails(movie: Movie) {
-        val directions =
-            HomeFragmentDirections.actionHomeFragmentToMovieDetailsActivity(movie.id.toLong())
-        findNavController().navigate(directions)
+        val intent = Intent(activity, MovieDetailsActivity::class.java)
+        intent.putExtra("movieId", movie.id)
+        startActivity(intent)
     }
 }
