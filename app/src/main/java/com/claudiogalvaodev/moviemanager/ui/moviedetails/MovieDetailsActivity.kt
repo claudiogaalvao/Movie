@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -52,7 +51,19 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        checkAndNavigateToPreviousActivity()
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        checkAndNavigateToPreviousActivity()
+        navController.navigateUp(appBarConfiguration)
+    }
+
+    private fun checkAndNavigateToPreviousActivity() {
+        if (navController.previousBackStackEntry?.id == null) {
+            finish()
+        }
     }
 
 }
