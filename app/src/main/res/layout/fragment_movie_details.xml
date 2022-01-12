@@ -195,7 +195,7 @@
         android:visibility="visible"
         android:orientation="horizontal"
         tools:itemCount="5"
-        tools:listitem="@layout/item_image_circle" />
+        tools:listitem="@layout/item_small_image_circle" />
 
     <TextView
         android:id="@+id/fragment_movie_details_directors_label"
@@ -236,7 +236,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
         tools:itemCount="5"
-        tools:listitem="@layout/item_image_circle" />
+        tools:listitem="@layout/item_small_image_circle" />
 
     <TextView
         android:id="@+id/fragment_movie_details_stars_label"
@@ -276,7 +276,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
         tools:itemCount="5"
-        tools:listitem="@layout/item_image_circle" />
+        tools:listitem="@layout/item_small_image_circle" />
 
     <TextView
         android:id="@+id/fragment_movie_details_stars_see_more"
@@ -330,7 +330,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
         tools:itemCount="7"
-        tools:listitem="@layout/item_image_circle" />
+        tools:listitem="@layout/item_small_image_circle" />
 
     <TextView
         android:id="@+id/fragment_movie_details_collection_sequence_label"

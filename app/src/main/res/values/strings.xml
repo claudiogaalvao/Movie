@@ -17,6 +17,8 @@
     <!-- Images description -->
     <string name="movie_cover_description">Movie cover</string>
     <string name="tranding_icon_description">An arrow going to up</string>
+
+    <!-- Movie details Screen -->
     <string name="imdb_logo">IMDB logo</string>
     <string name="generic_description">Some description here</string>
     <string name="separator_bullet">•</string>
@@ -28,4 +30,8 @@
     <string name="see_all">See all</string>
     <string name="companies_label">Companies:</string>
     <string name="movies_sequence_label">Movies sequence</string>
+
+    <!-- People and Companies Screen -->
+    <string name="selected_actors_title">Actors selected</string>
+    <string name="popular_actors_title">Popular actors</string>
 </resources>

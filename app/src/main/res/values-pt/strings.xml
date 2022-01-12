@@ -19,7 +19,7 @@
     <string name="movie_cover_description">Capa do filme</string>
     <string name="tranding_icon_description">Uma seta se movendo para cima</string>
 
-    <!-- Movie details -->
+    <!-- Movie details Screen -->
     <string name="imdb_logo">IMDB logo</string>
     <string name="generic_description">Uma descrição qualquer</string>
     <string name="separator_bullet">•</string>
@@ -31,4 +31,8 @@
     <string name="see_all">Ver tudo</string>
     <string name="companies_label">Companhias:</string>
     <string name="movies_sequence_label">Sequência dos filmes</string>
+
+    <!-- People and Companies Screen -->
+    <string name="selected_actors_title">Atores selecionados</string>
+    <string name="popular_actors_title">Atores populares</string>
 </resources>
