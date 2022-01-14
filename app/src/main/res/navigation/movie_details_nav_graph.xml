@@ -10,11 +10,23 @@
         android:name="com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsFragment"
         android:label="fragment_movie_details"
         tools:layout="@layout/fragment_movie_details">
-        <action
-            android:id="@+id/action_movieDetailsFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
         <argument
             android:name="movieId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_peopleAndCompaniesFragment"
+            app:destination="@id/peopleAndCompaniesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/peopleAndCompaniesFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesFragment"
+        android:label="PeopleAndCompaniesFragment" >
+        <argument android:name="employeList"
+            app:argType="com.claudiogalvaodev.moviemanager.model.Employe[]"
+            app:nullable="true" />
     </fragment>
 </navigation>

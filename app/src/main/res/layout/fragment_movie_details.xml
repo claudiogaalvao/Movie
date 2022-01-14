@@ -7,14 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.moviedetails.MovieDetailsFragment">
 
-    <FrameLayout
-        android:id="@+id/fragment_movie_details_background"
+    <FrameLayout android:id="@+id/fragment_movie_details_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/primary_purple">
+        android:background="@color/primary_purple"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -45,6 +45,17 @@
             android:textAlignment="center"
             tools:text="Jennifer Lawrence" />
 
+        <TextView
+            android:id="@+id/item_large_image_circle_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/item_large_image_circle_title"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_gray"
+            android:textAlignment="center"
+            tools:text="Katniss Everdeen" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.databinding.ItemImageCircleBinding
+import com.claudiogalvaodev.moviemanager.databinding.ItemSmallImageCircleBinding
 import com.claudiogalvaodev.moviemanager.model.Company
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Provider
@@ -16,7 +16,7 @@ class CircleAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemImageCircleBinding.inflate(inflater)
+        val binding = ItemSmallImageCircleBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
@@ -29,7 +29,7 @@ class CircleAdapter(
         return objList.size
     }
 
-    inner class ViewHolder(private val binding: ItemImageCircleBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemSmallImageCircleBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(obj: Any) {
             with(binding) {

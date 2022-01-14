@@ -66,4 +66,8 @@ class MovieDetailsActivity : AppCompatActivity() {
         }
     }
 
+    fun setToolbarTitle(title: String) {
+        binding.activityMovieDetailsToolbarTitle.text = title
+    }
+
 }

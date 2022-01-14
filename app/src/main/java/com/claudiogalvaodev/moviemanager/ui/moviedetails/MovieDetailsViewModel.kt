@@ -1,5 +1,6 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.model.*
@@ -35,6 +36,7 @@ class MovieDetailsViewModel(
         if(movieDetailsResult.isSuccess) {
             val movieDetails = movieDetailsResult.getOrDefault(null)
             if(movieDetails != null) {
+                Log.i("movie", movieDetails.id.toString())
                 _movie.emit(movieDetails)
                 _companies.emit(filterCompanies(movieDetails.production_companies))
             }

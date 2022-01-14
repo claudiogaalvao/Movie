@@ -41,6 +41,8 @@ class MovieDetailsFragment : Fragment() {
 
         val movieId = args.movieId.toInt()
 
+        (activity as MovieDetailsActivity).setToolbarTitle("")
+
         viewModel.getMovieDetails(movieId)
         viewModel.getMovieCredits(movieId)
         viewModel.getProviders(movieId)
@@ -150,11 +152,18 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun configStarsList(employe: List<Employe>) {
+    private fun configStarsList(employes: List<Employe>) {
         binding.fragmentMovieDetailsStars.text = viewModel.getStarsName()
         binding.fragmentMovieDetailsStarsRecyclerview.apply {
-            adapter = CircleAdapter(employe)
+            adapter = CircleAdapter(employes)
         }
+
+        viewModel.stars.value?.let { employesCompleteList ->
+            binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
+                goToPeopleAndCompanies(employesCompleteList)
+            }
+        }
+
     }
 
     private fun configCompaniesList(companies: List<Company>) {
@@ -199,6 +208,12 @@ class MovieDetailsFragment : Fragment() {
     private fun goToMovieDetails(movie: Movie) {
         val directions = MovieDetailsFragmentDirections
             .actionMovieDetailsFragmentToMovieDetailsFragment(movie.id.toString())
+        findNavController().navigate(directions)
+    }
+
+    private fun goToPeopleAndCompanies(actors: List<Employe>) {
+        val directions = MovieDetailsFragmentDirections
+            .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(actors.toTypedArray())
         findNavController().navigate(directions)
     }
 }
