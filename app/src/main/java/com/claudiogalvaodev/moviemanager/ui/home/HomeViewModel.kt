@@ -3,17 +3,18 @@ package com.claudiogalvaodev.moviemanager.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetTrendingWeekMoviesUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetUpComingAndPlayingNowMoviesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(
-    private val repository: MoviesRepository,
+    private val getTrendingWeekMoviesUseCase: GetTrendingWeekMoviesUseCase,
+    private val getUpComingAndPlayingNowMoviesUseCase: GetUpComingAndPlayingNowMoviesUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -27,33 +28,19 @@ class HomeViewModel(
     val playingNowMovies = _playingNowMovies.asStateFlow()
 
     fun getTrendingMovies() = viewModelScope.launch {
-        // IO Possui threads reservadas
-        // Default Compartilha uma mesma thread entre quem chamar esse tipo de dispatcher
-        // Default mais recomendado para manipulações mais pesadas/longas
         withContext(dispatcher) {
-            val moviesList = repository.getTrendingWeek()
+            val moviesList = getTrendingWeekMoviesUseCase.invoke()
             if(moviesList.isSuccess) {
                 _trendingMovies.emit(moviesList.getOrDefault(emptyList()))
             }
         }
     }
 
-    fun getUpComingAndPlayingNow() {
+    fun getUpComingAndPlayingNow() = viewModelScope.launch {
+        getUpComingAndPlayingNowMoviesUseCase.invoke()
 
-        viewModelScope.launch {
-            repository.updateUpComingAndPlayingNow()
-
-            repository.upComingMovies.collectLatest { movies ->
-                _upComingMovies.emit(movies)
-            }
-        }
-
-        viewModelScope.launch {
-            repository.playingNowMovies.collectLatest { movies ->
-                _playingNowMovies.emit(movies)
-            }
-        }
-
+        _upComingMovies.emit(getUpComingAndPlayingNowMoviesUseCase.upComingMovies.value)
+        _playingNowMovies.emit(getUpComingAndPlayingNowMoviesUseCase.playingNowMovies.value)
     }
 
 }

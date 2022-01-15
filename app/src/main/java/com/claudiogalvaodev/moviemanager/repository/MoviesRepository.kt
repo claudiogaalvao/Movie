@@ -4,27 +4,11 @@ import com.claudiogalvaodev.moviemanager.model.Collection
 import com.claudiogalvaodev.moviemanager.model.Credits
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.model.Provider
-import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_LATEST_MOVIES
-import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_TRENDING_MOVIES
-import com.claudiogalvaodev.moviemanager.utils.Constants.Companion.MAX_UPCOMING_MOVIES
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class MoviesRepository(
     private val service: MovieService
 ) {
-
-    private val _upComingMovies = MutableStateFlow<List<Movie>>(emptyList())
-    val upComingMovies = _upComingMovies.asStateFlow()
-
-    private val _playingNowMovies = MutableStateFlow<List<Movie>>(emptyList())
-    val playingNowMovies = _playingNowMovies.asStateFlow()
-
-    private var upComingMoviesList: MutableList<Movie> = mutableListOf()
-    private var playingNowMoviesList: MutableList<Movie> = mutableListOf()
 
     suspend fun getDetails(id: Int): Result<Movie?> {
         var result: Result<Movie?> = Result.success(null)
@@ -101,8 +85,7 @@ class MoviesRepository(
             val response = service.getTrendingWeek()
             if (response.isSuccessful) {
                response.body()?.results?.let { movies ->
-                   val filteredMovies = removeInvalidMovies(movies.take(MAX_TRENDING_MOVIES))
-                   result = Result.success(filteredMovies)
+                   result = Result.success(movies)
                }
             } else {
                 result = Result.failure(exception = Exception("Something went wrong when try to get trending movies"))
@@ -113,32 +96,7 @@ class MoviesRepository(
         return result
     }
 
-    suspend fun updateUpComingAndPlayingNow() {
-        val upComingMoviesResult = getUpComing()
-        val playingNowMoviesResult = getPlayingNow()
-
-        if(upComingMoviesResult.isSuccess && playingNowMoviesResult.isSuccess) {
-            filterUpComingFromNowPlayingMovies(playingNowMoviesResult.getOrDefault(emptyList()))
-            filterNowPlayingFromUpComingMovies(upComingMoviesResult.getOrDefault(emptyList()))
-
-            // UpComing
-            val filteredUpComingMovies = removeInvalidMovies(upComingMoviesList)
-            val orderedUpComingMovies = orderMoviesByAscendingRelease(filteredUpComingMovies)
-            _upComingMovies.value = orderedUpComingMovies.take(
-                MAX_UPCOMING_MOVIES
-            )
-
-            // Playing Now
-            val filteredPlayingNowMovies = removeInvalidMovies(playingNowMoviesList)
-            val orderedPlayingNowMovies = orderMoviesByDescendingRelease(filteredPlayingNowMovies)
-            _playingNowMovies.value = orderedPlayingNowMovies.take(
-                MAX_LATEST_MOVIES
-            )
-        }
-
-    }
-
-    private suspend fun getUpComing(): Result<List<Movie>> {
+    suspend fun getUpComing(): Result<List<Movie>> {
         var result: Result<List<Movie>> = Result.success(emptyList())
         try {
             val response = service.getUpComing()
@@ -155,7 +113,7 @@ class MoviesRepository(
         return result
     }
 
-    private suspend fun getPlayingNow(): Result<List<Movie>> {
+    suspend fun getPlayingNow(): Result<List<Movie>> {
         var result: Result<List<Movie>> = Result.success(emptyList())
         try {
             val response = service.getPlayingNow()
@@ -170,54 +128,6 @@ class MoviesRepository(
             result = Result.failure(exception = e)
         }
         return result
-    }
-
-    private fun removeInvalidMovies(movies: List<Movie>): List<Movie> {
-        val justMoviesWithPosterAndBackdropImage = movies.filter { movie ->
-            movie.poster_path != null || movie.backdrop_path != null
-        }
-        return justMoviesWithPosterAndBackdropImage
-    }
-
-    private fun filterUpComingFromNowPlayingMovies(nowPlayingMovies: List<Movie>) {
-        val currentDate = LocalDate.now()
-        nowPlayingMovies.filter { movie ->
-            val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val releaseDate = LocalDate.parse(movie.release_date, dateTimeFormatter)
-            if(releaseDate.isAfter(currentDate)) {
-                upComingMoviesList.add(movie)
-            } else {
-                playingNowMoviesList.add(movie)
-            }
-        }
-    }
-
-    private fun filterNowPlayingFromUpComingMovies(upComingMovies: List<Movie>) {
-        val currentDate = LocalDate.now()
-        upComingMovies.filter { movie ->
-            val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val releaseDate = LocalDate.parse(movie.release_date, dateTimeFormatter)
-            if(releaseDate.isEqual(currentDate) || releaseDate.isBefore(currentDate)) {
-                playingNowMoviesList.add(movie)
-            } else {
-                upComingMoviesList.add(movie)
-            }
-        }
-    }
-
-    private fun orderMoviesByAscendingRelease(movies: List<Movie>): List<Movie> {
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val descendingOrder = movies.sortedByDescending { movie ->
-            LocalDate.parse(movie.release_date, dateTimeFormatter)
-        }
-        return descendingOrder.reversed()
-    }
-
-    private fun orderMoviesByDescendingRelease(movies: List<Movie>): List<Movie> {
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        return movies.sortedByDescending { movie ->
-            LocalDate.parse(movie.release_date, dateTimeFormatter)
-        }
     }
 
 }
