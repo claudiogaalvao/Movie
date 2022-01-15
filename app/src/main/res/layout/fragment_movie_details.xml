@@ -7,122 +7,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.moviedetails.MovieDetailsFragment">
 
-    <FrameLayout android:id="@+id/fragment_movie_details_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/primary_purple"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_movie_details_cover_content"
-                android:layout_width="120dp"
-                android:layout_height="160dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:cardCornerRadius="8dp" >
-
-                <ImageView
-                    android:id="@+id/fragment_movie_details_cover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:scaleType="fitXY"
-                    android:contentDescription="@string/movie_cover_description" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/fragment_movie_details_title"
-                tools:text="Título do filme"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:maxLines="3"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fragment_movie_details_cover_content"
-                app:layout_constraintTop_toTopOf="@id/fragment_movie_details_cover_content" />
-
-            <TextView
-                android:id="@+id/fragment_movie_details_release"
-                tools:text="11/12/2021"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_gray"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/fragment_movie_details_title"
-                app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_title"/>
-
-            <TextView
-                android:id="@+id/fragment_movie_details_separator"
-                android:text="@string/separator_bullet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_gray"
-                android:paddingHorizontal="4dp"
-                app:layout_constraintStart_toEndOf="@id/fragment_movie_details_release"
-                app:layout_constraintTop_toTopOf="@id/fragment_movie_details_release"/>
-
-            <TextView
-                android:id="@+id/fragment_movie_details_gender"
-                tools:text="Adventure, Action"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_gray"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintStart_toEndOf="@id/fragment_movie_details_separator"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/fragment_movie_details_separator"/>
-
-            <TextView
-                android:id="@+id/fragment_movie_details_duration"
-                tools:text="2h12min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_gray"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="@id/fragment_movie_details_release"
-                app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_release"/>
-
-            <ImageView
-                android:id="@+id/fragment_movie_details_imdb_logo"
-                android:layout_width="20dp"
-                android:layout_height="10dp"
-                android:src="@drawable/ic_imdb_logo"
-                android:contentDescription="@string/imdb_logo"
-                app:layout_constraintStart_toStartOf="@id/fragment_movie_details_duration"
-                app:layout_constraintTop_toTopOf="@+id/fragment_movie_details_rate"
-                app:layout_constraintBottom_toBottomOf="@+id/fragment_movie_details_rate"/>
-
-            <TextView
-                android:id="@+id/fragment_movie_details_rate"
-                tools:text="6,5/10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_gray"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="4dp"
-                app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_duration"
-                app:layout_constraintStart_toEndOf="@id/fragment_movie_details_imdb_logo" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
+    <include
+        android:id="@+id/fragment_movie_details_header"
+        layout="@layout/content_movie_details_header" />
 
     <TextView
         android:id="@+id/fragment_movie_details_overview_label"
@@ -133,9 +20,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_background"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_background"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_background" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_header"
+        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_header"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_header" />
 
     <TextView
         android:id="@+id/fragment_movie_details_overview"
@@ -249,11 +136,11 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:textColor="@color/primary_gray"
-        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_directors_recyclerview"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_directors_label" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_movie_details_directors_recyclerview"
+        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_directors_recyclerview" />
 
     <TextView
-        android:id="@+id/fragment_movie_details_stars"
+        android:id="@+id/fragment_movie_details_stars_name"
         tools:text="Simu Liu, Awkwafina, Tony Chiu-Wai Laung, Meng'e and a lot more"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -64,31 +64,37 @@ class HomeFragment: Fragment() {
 
     private fun configTrendingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeTrendingRecyclerview.apply {
-            adapter = PrincipalMoviesAdapter(movies).apply {
+            val principalMoviesAdapter = PrincipalMoviesAdapter().apply {
                 onItemClick = { movie ->
                     goToMovieDetails(movie)
                 }
             }
+            adapter = principalMoviesAdapter
+            principalMoviesAdapter.submitList(movies)
         }
     }
 
     private fun configUpComingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeComingUpRecyclerview.apply {
-            adapter = SimplePosterWithTitleAdapter(movies).apply {
+            val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { movie ->
                     goToMovieDetails(movie)
                 }
             }
+            adapter = simplePosterAdapter
+            simplePosterAdapter.submitList(movies)
         }
     }
 
     private fun configLatestMoviesList(movies: List<Movie>) {
         binding.fragmentHomePlayingNowRecyclerview.apply {
-            adapter = SimplePosterWithTitleAdapter(movies).apply {
+            val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { movie ->
                     goToMovieDetails(movie)
                 }
             }
+            adapter = simplePosterAdapter
+            simplePosterAdapter.submitList(movies)
         }
     }
 

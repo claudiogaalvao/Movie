@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -28,6 +29,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private val args: MovieDetailsFragmentArgs by navArgs()
+    private val movieId by lazy {
+        args.movieId.toInt()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +42,6 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val movieId = args.movieId.toInt()
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
@@ -58,24 +60,24 @@ class MovieDetailsFragment : Fragment() {
                     movie.belongs_to_collection?.let { collection ->
                         viewModel.getMovieCollection(collection.id)
                     }
-                    binding.fragmentMovieDetailsTitle.text = it.title
-                    binding.fragmentMovieDetailsRelease.text = formatUtils.dateFromAmericanFormatToDateWithMonthName(it.release_date)
-                    binding.fragmentMovieDetailsGender.text = it.getGenres()
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsTitle.text = it.title
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils.dateFromAmericanFormatToDateWithMonthName(it.release_date)
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsGender.text = it.getGenres()
 
                     if(it.runtime == 0) {
-                        binding.fragmentMovieDetailsDuration.visibility = View.GONE
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsDuration.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsDuration.text = it.getDuration()
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsDuration.text = it.getDuration()
                     }
 
                     if(it.vote_average == 0.0) {
-                        binding.fragmentMovieDetailsRate.visibility = View.GONE
-                        binding.fragmentMovieDetailsImdbLogo.visibility = View.GONE
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.visibility = View.GONE
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsImdbLogo.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsRate.text = rate
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.text = rate
                     }
 
-                    Picasso.with(binding.root.context).load(it.getPoster()).into(binding.fragmentMovieDetailsCover)
+                    Picasso.with(binding.root.context).load(it.getPoster()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
 
                     binding.fragmentMovieDetailsOverview.text = it.overview
                     if(it.budget == 0) {
@@ -140,23 +142,32 @@ class MovieDetailsFragment : Fragment() {
         }
         binding.fragmentMovieDetailsAvailableOnLabel.visibility = View.VISIBLE
         binding.fragmentMovieDetailsAvailableOnRecyclerview.visibility = View.VISIBLE
+
+        val circleAdapter = CircleAdapter()
         binding.fragmentMovieDetailsAvailableOnRecyclerview.apply {
-            adapter = CircleAdapter(provider)
+            adapter = circleAdapter
         }
+        circleAdapter.submitList(provider)
     }
 
     private fun configDirectorsList(employe: List<Employe>) {
         binding.fragmentMovieDetailsDirectors.text = viewModel.getDirectorsName()
+
+        val circleAdapter = CircleAdapter()
         binding.fragmentMovieDetailsDirectorsRecyclerview.apply {
-            adapter = CircleAdapter(employe)
+            adapter = circleAdapter
         }
+        circleAdapter.submitList(employe)
     }
 
     private fun configStarsList(employes: List<Employe>) {
-        binding.fragmentMovieDetailsStars.text = viewModel.getStarsName()
+        binding.fragmentMovieDetailsStarsName.text = viewModel.getStarsName()
+
+        val circleAdapter = CircleAdapter()
         binding.fragmentMovieDetailsStarsRecyclerview.apply {
-            adapter = CircleAdapter(employes)
+            adapter = circleAdapter
         }
+        circleAdapter.submitList(employes)
 
         viewModel.stars.value?.let { employesCompleteList ->
             binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
@@ -168,9 +179,12 @@ class MovieDetailsFragment : Fragment() {
 
     private fun configCompaniesList(companies: List<Company>) {
         binding.fragmentMovieDetailsCompanies.text = viewModel.getCompaniesName()
+
+        val circleAdapter = CircleAdapter()
         binding.fragmentMovieDetailsCompaniesRecyclerview.apply {
-            adapter = CircleAdapter(companies)
+            adapter = circleAdapter
         }
+        circleAdapter.submitList(companies)
     }
 
     private fun configCollectionList(collection: List<Movie>) {
@@ -183,11 +197,13 @@ class MovieDetailsFragment : Fragment() {
         binding.fragmentMovieDetailsCollectionSequenceRecyclerview.visibility = View.VISIBLE
 
         binding.fragmentMovieDetailsCollectionSequenceRecyclerview.apply {
-            adapter = SimplePosterWithTitleAdapter(collection).apply {
+            val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { movie ->
-                    goToMovieDetails(movie)
+                    if(movie.id != movieId) goToMovieDetails(movie)
                 }
             }
+            adapter = simplePosterAdapter
+            simplePosterAdapter.submitList(collection)
         }
     }
 
@@ -197,10 +213,11 @@ class MovieDetailsFragment : Fragment() {
 
         val spaceBetween = 12
         val marginStart = 16
+        val marginEnd = 16
         val spaceSeeAll = 50
         val widthEachImage = 50
 
-        var countImages = dpWidth - marginStart - spaceSeeAll
+        var countImages = dpWidth - marginStart - spaceSeeAll - marginEnd
         countImages /= (widthEachImage+spaceBetween)
         return countImages.roundToInt()
     }
