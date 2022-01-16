@@ -11,9 +11,8 @@ class GetTrendingWeekMoviesUseCase(
     suspend operator fun invoke(): Result<List<Movie>> {
         val moviesResult = repository.getTrendingWeek()
         if(moviesResult.isSuccess) {
-            val filteredMovies = removeInvalidMovies(moviesResult
-                .getOrDefault(emptyList())
-                .take(Constants.MAX_TRENDING_MOVIES))
+            val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))
+            val filteredMovies = validMovies.take(Constants.MAX_TRENDING_MOVIES)
             return Result.success(filteredMovies)
         }
         return moviesResult
