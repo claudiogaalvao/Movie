@@ -22,7 +22,6 @@ class GetMovieDetailsUseCase(
         if(moviesResult.isSuccess) {
             val movieDetails = moviesResult.getOrDefault(null)
             if(movieDetails != null) {
-                Log.i("movie", movieDetails.id.toString())
                 _movie.emit(movieDetails)
                 _companies.emit(filterCompanies(movieDetails.production_companies))
             }
