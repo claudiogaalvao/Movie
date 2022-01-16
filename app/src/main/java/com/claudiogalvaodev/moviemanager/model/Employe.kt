@@ -44,7 +44,6 @@ class Employe(
         other as Employe
 
         if (id != other.id) return false
-        if (known_for_department != other.known_for_department) return false
         if (original_name != other.original_name) return false
         if (profile_path != other.profile_path) return false
 
@@ -53,7 +52,6 @@ class Employe(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + known_for_department.hashCode()
         result = 31 * result + original_name.hashCode()
         result = 31 * result + (profile_path?.hashCode() ?: 0)
         return result
