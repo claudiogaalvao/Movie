@@ -21,6 +21,8 @@ class GetUpComingAndPlayingNowMoviesUseCase(
     private var playingNowMoviesList: MutableList<Movie> = mutableListOf()
 
     suspend operator fun invoke() {
+        if(upComingMovies.value.isNotEmpty() && playingNowMovies.value.isNotEmpty()) return
+
         val upComingResult = repository.getUpComing()
         val playingNowResult = repository.getPlayingNow()
 
@@ -31,16 +33,18 @@ class GetUpComingAndPlayingNowMoviesUseCase(
             // UpComing
             val filteredUpComingMovies = removeInvalidMovies(upComingMoviesList)
             val orderedUpComingMovies = orderMoviesByMostCloseDateFirstAndThenNextDates(filteredUpComingMovies)
-            _upComingMovies.value = orderedUpComingMovies.take(
+            val upComingLimitedList = orderedUpComingMovies.take(
                 Constants.MAX_UPCOMING_MOVIES
             )
+            _upComingMovies.value = upComingLimitedList
 
             // Playing Now
             val filteredPlayingNowMovies = removeInvalidMovies(playingNowMoviesList)
             val orderedPlayingNowMovies = orderMoviesByMostCloseDateFirstAndThenBeforeDates(filteredPlayingNowMovies)
-            _playingNowMovies.value = orderedPlayingNowMovies.take(
+            val playingNowLimitedList = orderedPlayingNowMovies.take(
                 Constants.MAX_LATEST_MOVIES
             )
+            _playingNowMovies.value = playingNowLimitedList
         }
     }
 
