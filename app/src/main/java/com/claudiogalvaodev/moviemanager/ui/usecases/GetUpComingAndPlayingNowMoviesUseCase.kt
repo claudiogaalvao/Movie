@@ -5,12 +5,11 @@ import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.utils.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class GetUpComingAndPlayingNowMoviesUseCase(
-    private val repository: MoviesRepository
+    private val repository: MoviesRepository,
 ) {
     private val _upComingMovies = MutableStateFlow<List<Movie>>(emptyList())
     val upComingMovies = _upComingMovies.asStateFlow()
@@ -31,14 +30,14 @@ class GetUpComingAndPlayingNowMoviesUseCase(
 
             // UpComing
             val filteredUpComingMovies = removeInvalidMovies(upComingMoviesList)
-            val orderedUpComingMovies = orderMoviesByAscendingRelease(filteredUpComingMovies)
+            val orderedUpComingMovies = orderMoviesByMostCloseDateFirstAndThenNextDates(filteredUpComingMovies)
             _upComingMovies.value = orderedUpComingMovies.take(
                 Constants.MAX_UPCOMING_MOVIES
             )
 
             // Playing Now
             val filteredPlayingNowMovies = removeInvalidMovies(playingNowMoviesList)
-            val orderedPlayingNowMovies = orderMoviesByDescendingRelease(filteredPlayingNowMovies)
+            val orderedPlayingNowMovies = orderMoviesByMostCloseDateFirstAndThenBeforeDates(filteredPlayingNowMovies)
             _playingNowMovies.value = orderedPlayingNowMovies.take(
                 Constants.MAX_LATEST_MOVIES
             )
@@ -78,7 +77,7 @@ class GetUpComingAndPlayingNowMoviesUseCase(
         }
     }
 
-    private fun orderMoviesByAscendingRelease(movies: List<Movie>): List<Movie> {
+    private fun orderMoviesByMostCloseDateFirstAndThenNextDates(movies: List<Movie>): List<Movie> {
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val descendingOrder = movies.sortedByDescending { movie ->
             LocalDate.parse(movie.release_date, dateTimeFormatter)
@@ -86,7 +85,7 @@ class GetUpComingAndPlayingNowMoviesUseCase(
         return descendingOrder.reversed()
     }
 
-    private fun orderMoviesByDescendingRelease(movies: List<Movie>): List<Movie> {
+    private fun orderMoviesByMostCloseDateFirstAndThenBeforeDates(movies: List<Movie>): List<Movie> {
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return movies.sortedByDescending { movie ->
             LocalDate.parse(movie.release_date, dateTimeFormatter)
