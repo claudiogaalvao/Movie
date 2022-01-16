@@ -1,16 +1,18 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.model.*
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.model.Company
+import com.claudiogalvaodev.moviemanager.model.Employe
+import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.model.Provider
+import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
-    private val repository: MoviesRepository
+    private val getMovieDetailsUseCases: GetMovieDetailsUseCases
 ): ViewModel() {
 
     private val _movie = MutableStateFlow<Movie?>(null)
@@ -32,19 +34,13 @@ class MovieDetailsViewModel(
     val collection = _collection.asStateFlow()
 
     fun getMovieDetails(movieId: Int) = viewModelScope.launch {
-        val movieDetailsResult = repository.getDetails(movieId)
-        if(movieDetailsResult.isSuccess) {
-            val movieDetails = movieDetailsResult.getOrDefault(null)
-            if(movieDetails != null) {
-                Log.i("movie", movieDetails.id.toString())
-                _movie.emit(movieDetails)
-                _companies.emit(filterCompanies(movieDetails.production_companies))
-            }
-        }
+        getMovieDetailsUseCases.getMovieDetailsUseCase.invoke(movieId)
+        _movie.emit(getMovieDetailsUseCases.getMovieDetailsUseCase.movie.value)
+        _companies.emit(getMovieDetailsUseCases.getMovieDetailsUseCase.companies.value)
     }
 
     fun getProviders(movieId: Int) = viewModelScope.launch {
-        val streamProvidersResult = repository.getProviders(movieId)
+        val streamProvidersResult = getMovieDetailsUseCases.getMovieProvidersUseCase.invoke(movieId)
         if(streamProvidersResult.isSuccess) {
             val stream = streamProvidersResult.getOrDefault(emptyList())
             if(stream != null) {
@@ -54,18 +50,13 @@ class MovieDetailsViewModel(
     }
 
     fun getMovieCredits(movieId: Int) = viewModelScope.launch {
-        val movieCreditsResult = repository.getCredits(movieId)
-        if(movieCreditsResult.isSuccess) {
-            val movieCredits = movieCreditsResult.getOrDefault(null)
-            if(movieCredits != null) {
-                _stars.emit(filterStars(movieCredits))
-                _directors.emit(filterDirectors(movieCredits))
-            }
-        }
+        getMovieDetailsUseCases.getMovieCreditsUseCase.invoke(movieId)
+        _stars.emit(getMovieDetailsUseCases.getMovieCreditsUseCase.stars.value)
+        _directors.emit(getMovieDetailsUseCases.getMovieCreditsUseCase.directors.value)
     }
 
     fun getMovieCollection(collectionId: Int) = viewModelScope.launch {
-        val movieCollectionResult = repository.getCollection(collectionId)
+        val movieCollectionResult = getMovieDetailsUseCases.getMovieCollectionUseCase.invoke(collectionId)
         if(movieCollectionResult.isSuccess) {
             val movieCompleteCollection = movieCollectionResult.getOrDefault(null)
             if(movieCompleteCollection?.parts?.isNotEmpty() == true) {
@@ -102,23 +93,6 @@ class MovieDetailsViewModel(
             } else "${company.name}, "
         }
         return companiesConcat
-    }
-
-    private fun filterStars(credits: Credits): List<Employe> {
-        return credits.cast.filter { employe -> employe.known_for_department == "Acting" && employe.profile_path != null }
-    }
-
-    private fun filterDirectors(credits: Credits): List<Employe> {
-        val castDirectors = credits.cast.filter { employe -> employe.known_for_department == "Directing" && employe.profile_path != null }
-        val crewDirectors = credits.crew.filter { employe -> employe.known_for_department == "Directing" && employe.profile_path != null }
-        val directors: MutableList<Employe> = arrayListOf()
-        directors.addAll(castDirectors)
-        directors.addAll(crewDirectors)
-        return directors.distinct().toList()
-    }
-
-    private fun filterCompanies(companies: List<Company>): List<Company> {
-        return companies.filter { company -> company.logo_path != null }
     }
 
 }

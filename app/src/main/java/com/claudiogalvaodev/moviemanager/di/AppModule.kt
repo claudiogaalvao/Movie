@@ -9,8 +9,7 @@ import com.claudiogalvaodev.moviemanager.ui.explore.ExploreViewModel
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetTrendingWeekMoviesUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetUpComingAndPlayingNowMoviesUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -97,8 +96,14 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
+    single { GetMovieDetailsUseCases(get(), get(), get(), get()) }
+
     single { GetTrendingWeekMoviesUseCase(get()) }
     single { GetUpComingAndPlayingNowMoviesUseCase(get()) }
+    single { GetMovieDetailsUseCase(get()) }
+    single { GetMovieProvidersUseCase(get()) }
+    single { GetMovieCreditsUseCase(get()) }
+    single { GetMovieCollectionUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreViewModel(get()) }
