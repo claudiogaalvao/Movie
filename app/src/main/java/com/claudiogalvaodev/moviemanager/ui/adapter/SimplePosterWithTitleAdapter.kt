@@ -27,20 +27,6 @@ class SimplePosterWithTitleAdapter: ListAdapter<Movie, SimplePosterWithTitleView
         holder.bind(getItem(position))
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
-            }
-
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }
-
     class SimplePosterWithTitleViewHolder(
         private val binding: ItemSimplePosterWithTitleBinding,
         private val clickListener: ((movie: Movie) -> Unit)?
@@ -64,6 +50,20 @@ class SimplePosterWithTitleAdapter: ListAdapter<Movie, SimplePosterWithTitleView
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return SimplePosterWithTitleViewHolder(binding, clickListener)
             }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
         }
     }
 }

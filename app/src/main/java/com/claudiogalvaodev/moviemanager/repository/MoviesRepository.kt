@@ -1,9 +1,7 @@
 package com.claudiogalvaodev.moviemanager.repository
 
+import com.claudiogalvaodev.moviemanager.model.*
 import com.claudiogalvaodev.moviemanager.model.Collection
-import com.claudiogalvaodev.moviemanager.model.Credits
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.model.Provider
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 
 class MoviesRepository(
@@ -123,6 +121,23 @@ class MoviesRepository(
                 }
             } else {
                 result = Result.failure(exception = Exception("Something went wrong when try to get latest movies"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
+    suspend fun getAllGenres(): Result<List<Genre>> {
+        var result: Result<List<Genre>> = Result.success(emptyList())
+        try {
+            val response = service.getAllGenre()
+            if (response.isSuccessful) {
+                response.body()?.genres?.let { genres ->
+                    result = Result.success(genres)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get genres"))
             }
         } catch (e: Exception) {
             result = Result.failure(exception = e)

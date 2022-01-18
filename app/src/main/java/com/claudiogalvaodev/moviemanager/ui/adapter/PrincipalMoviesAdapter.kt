@@ -23,20 +23,6 @@ class PrincipalMoviesAdapter: ListAdapter<Movie, PrincipalMoviesViewHolder>(DIFF
         holder.bind(getItem(position))
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
-            }
-
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }
-
     class PrincipalMoviesViewHolder(
         private val binding: ItemPrincipalBackdropBinding,
         private val clickListener: ((movie: Movie) -> Unit)?
@@ -59,6 +45,20 @@ class PrincipalMoviesAdapter: ListAdapter<Movie, PrincipalMoviesViewHolder>(DIFF
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return PrincipalMoviesViewHolder(binding, clickListener)
             }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
         }
     }
 }

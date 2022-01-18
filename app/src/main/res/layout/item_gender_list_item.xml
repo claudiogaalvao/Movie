@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="8dp"
+    android:background="@drawable/bottom_gray_border">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_gender_list_item_cardview_cover"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="4dp">
+
+        <ImageView
+            android:id="@+id/item_gender_list_item_image_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:circularflow_defaultRadius="4dp"
+            android:contentDescription="@string/generic_description"
+            android:src="@drawable/all_cover_movies"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/item_gender_list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/item_gender_list_item_cardview_cover"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="12dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        tools:text="Action" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/generic_description"
+        android:src="@drawable/ic_arrow_forward"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
