@@ -8,11 +8,7 @@ class GetAllGenresUseCase(
 ) {
 
     suspend operator fun invoke(): Result<List<Genre>> {
-        val genresResult = repository.getAllGenres()
-        if(genresResult.isSuccess) {
-            return genresResult
-        }
-        return genresResult
+        return repository.getAllGenres()
     }
 
 }

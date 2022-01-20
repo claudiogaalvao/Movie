@@ -8,11 +8,7 @@ class GetMovieCollectionUseCase(
 ) {
 
     suspend operator fun invoke(movieId: Int): Result<Collection?> {
-        val collectionResult = repository.getCollection(movieId)
-        if(collectionResult.isSuccess) {
-            return collectionResult
-        }
-        return collectionResult
+        return repository.getCollection(movieId)
     }
 
 }

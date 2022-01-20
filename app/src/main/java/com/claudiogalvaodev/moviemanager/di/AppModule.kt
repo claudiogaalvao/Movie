@@ -5,11 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.ui.explore.ExploreViewModel
-import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
+import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -104,9 +104,10 @@ val viewModelModule = module {
     single { GetMovieProvidersUseCase(get()) }
     single { GetMovieCreditsUseCase(get()) }
     single { GetMovieCollectionUseCase(get()) }
+    single { GetMoviesByCriteriousUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
-    viewModel { ExploreViewModel(get()) }
+    viewModel { ExploreMoviesViewModel(get()) }
     viewModel { MovieDetailsViewModel(get()) }
 }
 

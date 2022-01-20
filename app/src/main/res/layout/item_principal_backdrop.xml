@@ -16,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
             android:layout_height="180dp"
-            android:background="@color/primary_gray">
+            android:backgroundTint="@android:color/transparent">
 
             <ImageView
                 android:id="@+id/principal_cover_image"

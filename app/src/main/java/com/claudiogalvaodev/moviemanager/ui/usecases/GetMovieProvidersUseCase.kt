@@ -8,11 +8,7 @@ class GetMovieProvidersUseCase(
 ) {
 
     suspend operator fun invoke(movieId: Int): Result<List<Provider>?> {
-        val providersResult = repository.getProviders(movieId)
-        if(providersResult.isSuccess) {
-            return providersResult
-        }
-        return providersResult
+        return repository.getProviders(movieId)
     }
 
 }

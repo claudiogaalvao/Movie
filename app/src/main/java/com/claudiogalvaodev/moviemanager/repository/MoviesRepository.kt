@@ -145,4 +145,21 @@ class MoviesRepository(
         return result
     }
 
+    suspend fun getMoviesByCriterious(page: Int, sortBy: String): Result<List<Movie>> {
+        var result: Result<List<Movie>> = Result.success(emptyList())
+        try {
+            val response = service.getMoviesByCriterious(page, sortBy)
+            if(response.isSuccessful) {
+                response.body()?.results?.let { movies ->
+                    result = Result.success(movies)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get movies on discover"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
 }

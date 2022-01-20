@@ -1,5 +1,6 @@
 package com.claudiogalvaodev.moviemanager.utils.format
 
+import java.lang.Exception
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -7,23 +8,26 @@ import java.util.*
 
 object formatUtils {
 
-    fun dateFromAmericanFormatToDateWithMonthName(date: String): String {
-        val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-        val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val initDate = LocalDate.parse(date, initFormatter)
+    fun dateFromAmericanFormatToDateWithMonthName(date: String): String? {
+        try {
+            val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val initDate = LocalDate.parse(date, initFormatter)
 
-        val endDate = when(currentDeviceLanguage) {
-            "pt-BR" -> {
-                val brFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
-                initDate.format(brFormatter)
+            val endDate = when(currentDeviceLanguage) {
+                "pt-BR" -> {
+                    val brFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+                    initDate.format(brFormatter)
+                }
+                else -> {
+                    val usFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy MMM dd")
+                    initDate.format(usFormatter)
+                }
             }
-            else -> {
-                val usFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy MMM dd")
-                initDate.format(usFormatter)
-            }
+            return endDate
+        } catch (e: Exception) {
+            return null
         }
-
-        return endDate
     }
 
     fun unformattedNumberToCurrency(value: Long): String {
