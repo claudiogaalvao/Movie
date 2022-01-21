@@ -107,7 +107,7 @@ val viewModelModule = module {
     single { GetMoviesByCriteriousUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
-    viewModel { ExploreMoviesViewModel(get()) }
+    viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { MovieDetailsViewModel(get()) }
 }
 

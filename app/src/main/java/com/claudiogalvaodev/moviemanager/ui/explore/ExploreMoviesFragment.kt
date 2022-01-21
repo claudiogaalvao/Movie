@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
 import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
@@ -24,18 +25,20 @@ class ExploreMoviesFragment: Fragment() {
         FragmentExploreMoviesBinding.inflate(layoutInflater)
     }
 
-    private lateinit var childAdapter: SimplePosterAdapter
+    private lateinit var filtersAdapter: FilterAdapter
+    private lateinit var moviesAdapter: SimplePosterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.initFilters()
         getMovies()
         setupAdapter()
         setupRecyclerView()
@@ -47,7 +50,8 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun setupAdapter() {
-        childAdapter = SimplePosterAdapter().apply {
+        filtersAdapter = FilterAdapter()
+        moviesAdapter = SimplePosterAdapter().apply {
             onItemClick = { movie ->
                 goToMovieDetails(movie)
             }
@@ -55,16 +59,18 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun setupRecyclerView() {
+        binding.fragmentExploreFiltersRecyclerview.adapter = filtersAdapter
+
         val layout = GridLayoutManager(context, calcNumberOfColumns())
-        binding.fragmentExploreRecyclerview.apply {
+        binding.fragmentExploreMoviesRecyclerview.apply {
             layoutManager = layout
-            adapter = childAdapter
+            adapter = moviesAdapter
         }
         setOnLoadMoreListener()
     }
 
     private fun setOnLoadMoreListener() {
-        binding.fragmentExploreRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.fragmentExploreMoviesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if(dy <= 0) return
@@ -86,14 +92,20 @@ class ExploreMoviesFragment: Fragment() {
 
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
-            viewModel.filteredMovies.collectLatest { movies ->
+            viewModel.movies.collectLatest { movies ->
                 submitMoviesList(movies)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.filters.collectLatest { filters ->
+                filtersAdapter.submitList(filters)
             }
         }
     }
 
     private fun submitMoviesList(movies: List<Movie>) {
-        childAdapter.submitList(movies)
+        moviesAdapter.submitList(movies)
     }
 
     private fun goToMovieDetails(movie: Movie) {

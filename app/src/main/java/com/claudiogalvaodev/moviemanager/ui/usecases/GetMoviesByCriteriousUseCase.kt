@@ -11,9 +11,13 @@ class GetMoviesByCriteriousUseCase(
     private var currentPage = 1
 
     suspend operator fun invoke(
-        sortBy: String = SortByConstants.POPULARITY_DESC
+        sortBy: String = SortByConstants.POPULARITY_DESC,
+        withGenres: String = ""
     ): Result<List<Movie>?> {
-        val moviesResult = repository.getMoviesByCriterious(currentPage, sortBy)
+        val moviesResult = repository.getMoviesByCriterious(
+            page = currentPage,
+            sortBy = sortBy,
+            withGenres = withGenres)
         if(moviesResult.isSuccess) {
             currentPage++
             val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))

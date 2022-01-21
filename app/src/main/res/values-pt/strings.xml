@@ -35,4 +35,12 @@
     <!-- People and Companies Screen -->
     <string name="selected_actors_title">Atores selecionados</string>
     <string name="popular_actors_title">Atores populares</string>
+
+    <!-- Filters -->
+    <string name="filter_type_orderby">Ordenar por</string>
+    <string name="filter_type_genders">Gêneros</string>
+    <string name="filter_type_actors">Atores</string>
+    <string name="filter_type_directors">Diretores</string>
+    <string name="filter_type_companies">Companhias</string>
+    <string name="filter_type_years">Anos</string>
 </resources>

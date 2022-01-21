@@ -36,6 +36,7 @@ interface MovieService {
     @GET("discover/movie")
     suspend fun getMoviesByCriterious(
         @Query("page") page: Int,
-        @Query("sort_by") sortBy: String
+        @Query("sort_by") sortBy: String,
+        @Query("with_genres") withGenres: String
     ): Response<MoviesResponse>
 }
