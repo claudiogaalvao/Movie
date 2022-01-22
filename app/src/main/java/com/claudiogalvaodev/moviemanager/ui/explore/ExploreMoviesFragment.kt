@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBindin
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
+import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -23,6 +25,10 @@ class ExploreMoviesFragment: Fragment() {
     private val viewModel: ExploreMoviesViewModel by viewModel()
     private val binding by lazy {
         FragmentExploreMoviesBinding.inflate(layoutInflater)
+    }
+
+    private val filterContract = registerForActivityResult(FiltersActivity.Contract()) { result ->
+        result?.let { viewModel.updateFilter(result) }
     }
 
     private lateinit var filtersAdapter: FilterAdapter
@@ -38,11 +44,15 @@ class ExploreMoviesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.initFilters()
+        initFilters()
         getMovies()
         setupAdapter()
         setupRecyclerView()
         setObservables()
+    }
+
+    private fun initFilters() {
+        viewModel.initFilters()
     }
 
     private fun getMovies() {
@@ -50,7 +60,12 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun setupAdapter() {
-        filtersAdapter = FilterAdapter()
+        filtersAdapter = FilterAdapter().apply {
+            onItemClick = { filter ->
+                filterContract.launch(filter)
+            }
+        }
+
         moviesAdapter = SimplePosterAdapter().apply {
             onItemClick = { movie ->
                 goToMovieDetails(movie)

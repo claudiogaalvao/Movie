@@ -33,6 +33,7 @@
     <string name="movies_sequence_label">Sequência dos filmes</string>
 
     <!-- People and Companies Screen -->
+    <string name="fragment_actors_title">Atores</string>
     <string name="selected_actors_title">Atores selecionados</string>
     <string name="popular_actors_title">Atores populares</string>
 
@@ -43,4 +44,12 @@
     <string name="filter_type_directors">Diretores</string>
     <string name="filter_type_companies">Companhias</string>
     <string name="filter_type_years">Anos</string>
+
+    <!-- Order by options -->
+    <string name="fragment_orderby_title">Ordenar por</string>
+    <string name="orderby_most_popular">Mais popular</string>
+    <string name="orderby_highest_rating">Melhor avaliados</string>
+    <string name="orderby_latest_release">Últimos lançamentos</string>
+    <string name="orderby_highest_revenue">Maior bilheteria</string>
+    <string name="filter_button_apply">Aplicar</string>
 </resources>

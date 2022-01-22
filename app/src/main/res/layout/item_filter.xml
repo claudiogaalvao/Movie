@@ -19,8 +19,8 @@
         android:textSize="12sp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:textColor="@color/secondary_purple"
-        android:drawableTint="@color/secondary_purple"
+        android:textColor="@drawable/custom_filter_button"
+        android:drawableTint="@drawable/custom_filter_button"
         tools:text="Order by"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

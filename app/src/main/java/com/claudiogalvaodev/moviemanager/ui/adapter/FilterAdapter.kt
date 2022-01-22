@@ -12,8 +12,10 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter.FilterViewHold
 
 class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
 
+    var onItemClick: ((filter: Filter) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
-        return FilterViewHolder.create(parent)
+        return FilterViewHolder.create(parent, onItemClick)
     }
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
@@ -21,18 +23,24 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
     }
 
     class FilterViewHolder(
-        private val binding: ItemFilterBinding
+        private val binding: ItemFilterBinding,
+        private val clickListener: ((filter: Filter) -> Unit)?
         ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(filter: Filter) {
             binding.itemFilterButton.text = filter.name
+            if(filter.currentValue.isBlank()) binding.itemFilterButton.isSelected = true
+
+            binding.itemFilterButton.setOnClickListener {
+                clickListener?.invoke(filter)
+            }
         }
 
         companion object {
-            fun create(parent: ViewGroup): FilterViewHolder {
+            fun create(parent: ViewGroup, clickListener: ((filter: Filter) -> Unit)?): FilterViewHolder {
                 val binding = ItemFilterBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                return FilterViewHolder(binding)
+                return FilterViewHolder(binding, clickListener)
             }
         }
 

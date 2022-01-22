@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 
 import android.util.DisplayMetrics
 import android.view.Display
+import com.claudiogalvaodev.moviemanager.R
 import kotlin.math.roundToInt
 
 
@@ -30,7 +31,7 @@ class PeopleAndCompaniesFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding.root
     }
 
@@ -41,7 +42,7 @@ class PeopleAndCompaniesFragment: Fragment() {
 
         val employeList = args.employeList
         if(employeList != null) {
-            (activity as MovieDetailsActivity).setToolbarTitle("Atores")
+            (activity as MovieDetailsActivity).setToolbarTitle(resources.getString(R.string.fragment_actors_title))
             configActorsList(employeList)
             setupRecyclerViewLayoutManager()
         }

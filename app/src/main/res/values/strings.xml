@@ -32,6 +32,7 @@
     <string name="movies_sequence_label">Movies sequence</string>
 
     <!-- People and Companies Screen -->
+    <string name="fragment_actors_title">Actors</string>
     <string name="selected_actors_title">Actors selected</string>
     <string name="popular_actors_title">Popular actors</string>
 
@@ -42,4 +43,12 @@
     <string name="filter_type_directors">Directors</string>
     <string name="filter_type_companies">Companies</string>
     <string name="filter_type_years">Years</string>
+
+    <!-- Order by options -->
+    <string name="fragment_orderby_title">Order by</string>
+    <string name="orderby_most_popular">Most popular</string>
+    <string name="orderby_highest_rating">Highest rating</string>
+    <string name="orderby_latest_release">Latest release</string>
+    <string name="orderby_highest_revenue">Highest revenue</string>
+    <string name="filter_button_apply">Apply</string>
 </resources>

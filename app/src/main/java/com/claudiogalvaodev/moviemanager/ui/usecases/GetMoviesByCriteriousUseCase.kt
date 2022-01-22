@@ -1,8 +1,10 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
+import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.utils.SortByConstants
+import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
+import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
 
 class GetMoviesByCriteriousUseCase(
     private val repository: MoviesRepository
@@ -11,9 +13,13 @@ class GetMoviesByCriteriousUseCase(
     private var currentPage = 1
 
     suspend operator fun invoke(
-        sortBy: String = SortByConstants.POPULARITY_DESC,
-        withGenres: String = ""
+        criterious: List<Filter>,
+        isUpdate: Boolean = false
     ): Result<List<Movie>?> {
+        if(isUpdate) currentPage = 1
+        val sortBy = (criterious.findLast { filter -> filter.type == FilterType.SORT_BY })?.currentValue ?: OrderByConstants.POPULARITY_DESC
+        val withGenres = (criterious.findLast { filter -> filter.type == FilterType.GENRES })?.currentValue ?: ""
+
         val moviesResult = repository.getMoviesByCriterious(
             page = currentPage,
             sortBy = sortBy,

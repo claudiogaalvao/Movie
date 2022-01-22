@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RadioGroup
+        android:id="@+id/fragment_filter_orderby_radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/filter_orderby_most_popular"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layoutDirection="rtl"
+            android:text="@string/orderby_most_popular" />
+
+        <RadioButton
+            android:id="@+id/filter_orderby_highest_rating"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layoutDirection="rtl"
+            android:text="@string/orderby_highest_rating" />
+
+        <RadioButton
+            android:id="@+id/filter_orderby_latest_release"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layoutDirection="rtl"
+            android:text="@string/orderby_latest_release" />
+
+        <RadioButton
+            android:id="@+id/filter_orderby_highest_revenue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layoutDirection="rtl"
+            android:text="@string/orderby_highest_revenue" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/filter_button_apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/filter_button_apply"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
