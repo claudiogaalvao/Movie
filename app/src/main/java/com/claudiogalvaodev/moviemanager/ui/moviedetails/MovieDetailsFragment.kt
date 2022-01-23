@@ -62,7 +62,7 @@ class MovieDetailsFragment : Fragment() {
                     }
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsTitle.text = it.title
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils.dateFromAmericanFormatToDateWithMonthName(it.release_date)
-                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsGender.text = it.getGenres()
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsGenre.text = it.getGenres()
 
                     if(it.runtime == 0) {
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsDuration.visibility = View.GONE

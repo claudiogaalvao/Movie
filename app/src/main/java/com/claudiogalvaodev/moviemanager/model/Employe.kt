@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class Employe(
     val adult: Boolean,
-    val gender: Long,
+    val genre: Long,
     val id: Long,
     val known_for_department: String,
     val name: String,

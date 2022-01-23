@@ -23,4 +23,5 @@
     <style name="ToolbarStyle.Title" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/primary_purple</item>
     </style>
+
 </resources>

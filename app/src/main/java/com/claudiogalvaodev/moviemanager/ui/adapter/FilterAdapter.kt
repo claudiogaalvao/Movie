@@ -29,7 +29,7 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
 
         fun bind(filter: Filter) {
             binding.itemFilterButton.text = filter.name
-            if(filter.currentValue.isBlank()) binding.itemFilterButton.isSelected = true
+            if(filter.currentValue != "") binding.itemFilterButton.isSelected = true
 
             binding.itemFilterButton.setOnClickListener {
                 clickListener?.invoke(filter)
@@ -49,7 +49,7 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Filter>() {
             override fun areItemsTheSame(oldItem: Filter, newItem: Filter): Boolean {
-                return oldItem == newItem
+                return oldItem.currentValue == newItem.currentValue
             }
 
             @SuppressLint("DiffUtilEquals")

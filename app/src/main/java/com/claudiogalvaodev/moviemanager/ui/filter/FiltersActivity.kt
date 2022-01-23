@@ -25,9 +25,6 @@ class FiltersActivity: AppCompatActivity() {
     private var filterSelected: Filter? = null
     private lateinit var currentValue: String
 
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -45,8 +42,6 @@ class FiltersActivity: AppCompatActivity() {
     }
 
     private fun initializeFragment() {
-        // get current value
-        // check type to select fragment
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.activity_filter_nav_host, getFragment())
         transaction.commit()
@@ -55,6 +50,7 @@ class FiltersActivity: AppCompatActivity() {
     private fun getFragment(): Fragment {
         val fragment = when(filterSelected?.type) {
             FilterType.SORT_BY -> FilterOrderByFragment()
+            FilterType.GENRES -> FilterGenresFragment()
             else -> throw Exception("Unrecognize filter type to select a fragment")
         }
 

@@ -38,7 +38,7 @@ class ExploreMoviesViewModel(
                     name = context.resources.getString(R.string.filter_type_orderby),
                     currentValue = OrderByConstants.POPULARITY_DESC),
                 Filter(type = FilterType.GENRES,
-                    name = context.resources.getString(R.string.filter_type_genders),
+                    name = context.resources.getString(R.string.filter_type_genres),
                     currentValue = ""),
                 Filter(type = FilterType.ACTORS,
                     name = context.resources.getString(R.string.filter_type_actors),
@@ -81,13 +81,13 @@ class ExploreMoviesViewModel(
         }
     }
 
-    fun updateFilter(newFilter: Filter) = viewModelScope.launch {
+    fun updateFilter(filterChanged: Filter) = viewModelScope.launch {
         withContext(dispatcher) {
-            val newFilters = _filters.value.subList(0, _filters.value.size)
+            val newFilters = _filters.value.toMutableList()
             newFilters.map { filter ->
-                if (filter.type == newFilter.type) {
-                    if(filter.currentValue == newFilter.currentValue) return@withContext
-                    filter.currentValue = newFilter.currentValue
+                if (filter.type == filterChanged.type) {
+                    if(filter.currentValue == filterChanged.currentValue) return@withContext
+                    filter.currentValue = filterChanged.currentValue
                 }
             }
             isUpdate = true

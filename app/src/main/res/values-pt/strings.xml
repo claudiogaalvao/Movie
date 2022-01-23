@@ -39,7 +39,7 @@
 
     <!-- Filters -->
     <string name="filter_type_orderby">Ordenar por</string>
-    <string name="filter_type_genders">Gêneros</string>
+    <string name="filter_type_genres">Gêneros</string>
     <string name="filter_type_actors">Atores</string>
     <string name="filter_type_directors">Diretores</string>
     <string name="filter_type_companies">Companhias</string>
@@ -52,4 +52,9 @@
     <string name="orderby_latest_release">Últimos lançamentos</string>
     <string name="orderby_highest_revenue">Maior bilheteria</string>
     <string name="filter_button_apply">Aplicar</string>
+
+    <!-- Genre options -->
+    <string name="fragment_genres_title">Gêneros</string>
+    <string name="genres_all">Todos</string>
+
 </resources>

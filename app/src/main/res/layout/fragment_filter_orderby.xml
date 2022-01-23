@@ -19,7 +19,7 @@
             android:textColor="@color/white"
             android:paddingHorizontal="12dp"
             android:layoutDirection="rtl"
-            android:text="@string/orderby_most_popular" />
+            android:text="@string/orderby_most_popular"/>
 
         <RadioButton
             android:id="@+id/filter_orderby_highest_rating"

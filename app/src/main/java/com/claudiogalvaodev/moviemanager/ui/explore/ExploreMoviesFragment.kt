@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
@@ -17,6 +18,7 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
@@ -112,9 +114,12 @@ class ExploreMoviesFragment: Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.filters.collectLatest { filters ->
-                filtersAdapter.submitList(filters)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filters.collectLatest { filters ->
+                    filtersAdapter.submitList(null)
+                    filtersAdapter.submitList(filters)
+                }
             }
         }
     }

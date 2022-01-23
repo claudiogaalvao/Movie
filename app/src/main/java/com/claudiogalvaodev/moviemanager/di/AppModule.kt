@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
+import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
@@ -105,9 +106,11 @@ val viewModelModule = module {
     single { GetMovieCreditsUseCase(get()) }
     single { GetMovieCollectionUseCase(get()) }
     single { GetMoviesByCriteriousUseCase(get()) }
+    single { GetAllGenresUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
+    viewModel { FiltersViewModel(get()) }
     viewModel { MovieDetailsViewModel(get()) }
 }
 

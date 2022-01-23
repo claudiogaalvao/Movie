@@ -38,7 +38,7 @@
 
     <!-- Filters -->
     <string name="filter_type_orderby">Order by</string>
-    <string name="filter_type_genders">Genders</string>
+    <string name="filter_type_genres">Genres</string>
     <string name="filter_type_actors">Actors</string>
     <string name="filter_type_directors">Directors</string>
     <string name="filter_type_companies">Companies</string>
@@ -51,4 +51,8 @@
     <string name="orderby_latest_release">Latest release</string>
     <string name="orderby_highest_revenue">Highest revenue</string>
     <string name="filter_button_apply">Apply</string>
+
+    <!-- Genre options -->
+    <string name="fragment_genres_title">Genres</string>
+    <string name="genres_all">All</string>
 </resources>

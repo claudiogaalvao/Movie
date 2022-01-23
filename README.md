@@ -8,7 +8,7 @@ That is a project to training the knowleges about Android, applying the bests pr
 # Future features plan
 
 - Show feature realeses
-- Filter movies by gender
+- Filter movies by genre
 - Separate movies and series
 - Add release movies to remember
 - Different movie lists, like nerd movies, recorded in specific city or country, director by a specif director, with some actor, etc...
