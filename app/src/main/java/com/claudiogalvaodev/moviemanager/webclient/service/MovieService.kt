@@ -33,6 +33,9 @@ interface MovieService {
     @GET("genre/movie/list")
     suspend fun getAllGenre(): Response<GenresResponse>
 
+    @GET("person/popular")
+    suspend fun getAllPopularPeople(@Query("page") page: Int): Response<EmployeResponse>
+
     @GET("discover/movie")
     suspend fun getMoviesByCriterious(
         @Query("page") page: Int,

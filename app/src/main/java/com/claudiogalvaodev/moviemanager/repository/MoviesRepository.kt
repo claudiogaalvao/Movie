@@ -145,6 +145,23 @@ class MoviesRepository(
         return result
     }
 
+    suspend fun getAllPopularPeople(page: Int): Result<List<Employe>> {
+        var result: Result<List<Employe>> = Result.success(emptyList())
+        try {
+            val response = service.getAllPopularPeople(page)
+            if (response.isSuccessful) {
+                response.body()?.results?.let { people ->
+                    result = Result.success(people)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get popular people"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
     suspend fun getMoviesByCriterious(page: Int, currentDate: String,
                                       sortBy: String, withGenres: String, voteCount: Int
     ): Result<List<Movie>> {

@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import androidx.recyclerview.widget.GridLayoutManager
-
-import android.util.DisplayMetrics
-import android.view.Display
-import com.claudiogalvaodev.moviemanager.R
 import kotlin.math.roundToInt
 
 
@@ -49,8 +46,6 @@ class PeopleAndCompaniesFragment: Fragment() {
     }
 
     private fun configActorsList(actors: Array<Employe>) {
-        binding.fragmentPeopleAndCompaniesActorsSelectedTitle.visibility = View.GONE
-        binding.fragmentPeopleAndCompaniesPopularActorsTitle.visibility = View.GONE
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.adapter = circleWithTitleAdapter
         circleWithTitleAdapter.submitList(actors.asList())
     }

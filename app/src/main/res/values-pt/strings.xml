@@ -34,14 +34,11 @@
 
     <!-- People and Companies Screen -->
     <string name="fragment_actors_title">Atores</string>
-    <string name="selected_actors_title">Atores selecionados</string>
-    <string name="popular_actors_title">Atores populares</string>
 
     <!-- Filters -->
     <string name="filter_type_orderby">Ordenar por</string>
     <string name="filter_type_genres">Gêneros</string>
-    <string name="filter_type_actors">Atores</string>
-    <string name="filter_type_directors">Diretores</string>
+    <string name="filter_type_people">Pessoas</string>
     <string name="filter_type_companies">Companhias</string>
     <string name="filter_type_years">Anos</string>
 
@@ -53,8 +50,12 @@
     <string name="orderby_highest_revenue">Maior bilheteria</string>
     <string name="filter_button_apply">Aplicar</string>
 
-    <!-- Genre options -->
+    <!-- Genre filter -->
     <string name="fragment_genres_title">Gêneros</string>
-    <string name="genres_all">Todos</string>
+
+    <!-- People filter -->
+    <string name="fragment_people_title">Pessoas</string>
+    <string name="selected_actors_title">Atores selecionados</string>
+    <string name="popular_actors_title">Atores populares</string>
 
 </resources>

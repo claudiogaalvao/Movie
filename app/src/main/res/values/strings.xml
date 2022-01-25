@@ -33,14 +33,11 @@
 
     <!-- People and Companies Screen -->
     <string name="fragment_actors_title">Actors</string>
-    <string name="selected_actors_title">Actors selected</string>
-    <string name="popular_actors_title">Popular actors</string>
 
     <!-- Filters -->
     <string name="filter_type_orderby">Order by</string>
     <string name="filter_type_genres">Genres</string>
-    <string name="filter_type_actors">Actors</string>
-    <string name="filter_type_directors">Directors</string>
+    <string name="filter_type_people">People</string>
     <string name="filter_type_companies">Companies</string>
     <string name="filter_type_years">Years</string>
 
@@ -52,7 +49,11 @@
     <string name="orderby_highest_revenue">Highest revenue</string>
     <string name="filter_button_apply">Apply</string>
 
-    <!-- Genre options -->
+    <!-- Genre filter -->
     <string name="fragment_genres_title">Genres</string>
-    <string name="genres_all">All</string>
+
+    <!-- People filter -->
+    <string name="fragment_people_title">People</string>
+    <string name="selected_actors_title">Actors selected</string>
+    <string name="popular_actors_title">Popular actors</string>
 </resources>
