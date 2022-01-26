@@ -3,21 +3,18 @@ package com.claudiogalvaodev.moviemanager.ui.filter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
 import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FiltersActivity: AppCompatActivity() {
 
+    private val viewModel: FiltersViewModel by viewModel()
     private val binding by lazy {
         ActivityFiltersBinding.inflate(layoutInflater)
     }

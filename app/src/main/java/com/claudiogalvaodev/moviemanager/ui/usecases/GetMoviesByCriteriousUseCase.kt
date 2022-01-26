@@ -22,6 +22,7 @@ class GetMoviesByCriteriousUseCase(
         if(isUpdate) currentPage = 1
         val sortBy = (criterious.find { filter -> filter.type == FilterType.SORT_BY })?.currentValue ?: OrderByConstants.POPULARITY_DESC
         val withGenres = (criterious.find { filter -> filter.type == FilterType.GENRES })?.currentValue ?: ""
+        val withPeople = (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
 
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
@@ -30,7 +31,8 @@ class GetMoviesByCriteriousUseCase(
             currentDate = currentDate.toString(),
             sortBy = sortBy,
             withGenres = withGenres,
-            voteCount = voteCount)
+            voteCount = voteCount,
+            withPeople = withPeople)
         if(moviesResult.isSuccess) {
             currentPage++
             val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))

@@ -163,11 +163,11 @@ class MoviesRepository(
     }
 
     suspend fun getMoviesByCriterious(page: Int, currentDate: String,
-                                      sortBy: String, withGenres: String, voteCount: Int
+                                      sortBy: String, withGenres: String, voteCount: Int, withPeople: String
     ): Result<List<Movie>> {
         var result: Result<List<Movie>> = Result.success(emptyList())
         try {
-            val response = service.getMoviesByCriterious(page, currentDate, sortBy, withGenres, voteCount)
+            val response = service.getMoviesByCriterious(page, currentDate, sortBy, withGenres, voteCount, withPeople)
             if(response.isSuccessful) {
                 response.body()?.results?.let { movies ->
                     result = Result.success(movies)

@@ -44,25 +44,34 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
         currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
         setTitle()
-        getPeople()
+        getPeople(true)
         setupRecyclerView()
         setObservables()
+        setListeners()
     }
 
     private fun setTitle() {
         (activity as FiltersActivity).setToolbarTitle(resources.getString(R.string.fragment_people_title))
     }
 
-    private fun getPeople() {
-        viewModel.getAllPeople()
+    private fun getPeople(isInitialize: Boolean = false) {
+        viewModel.getAllPeople(isInitialize)
     }
 
     private fun setupRecyclerView() {
+        selectedPeopleAdapter = CircleWithTitleAdapter()
         popularPeopleAdapter = CircleWithTitleAdapter()
 
-        val layout = GridLayoutManager(context, calcNumberOfColumns())
+        val selectedPeopleRecyclerViewLayout = GridLayoutManager(context, calcNumberOfColumns())
+        val popularRecyclerViewLayout = GridLayoutManager(context, calcNumberOfColumns())
+
+        binding.fragmentPeopleAndCompaniesActorsSelectedRecyclerview.apply {
+            layoutManager = selectedPeopleRecyclerViewLayout
+            adapter = selectedPeopleAdapter
+        }
+
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.apply {
-            layoutManager = layout
+            layoutManager = popularRecyclerViewLayout
             adapter = popularPeopleAdapter
         }
         setOnLoadMoreListener()
@@ -82,10 +91,40 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
 
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
+            viewModel.peopleSelected.collectLatest { people ->
+                setSelectedPeople(people)
+                (activity as FiltersActivity).changeCurrentValue(viewModel.generatePeopleSelectedConcatened(people))
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
             viewModel.people.collectLatest { people ->
                 setPeople(people)
             }
         }
+    }
+
+    private fun setListeners() {
+        selectedPeopleAdapter.onItemClick = {
+                obj ->
+            when(obj) {
+                is Employe -> {
+                    viewModel.unselectPerson(obj)
+                }
+            }
+        }
+
+        popularPeopleAdapter.onItemClick = { obj ->
+            when(obj) {
+                is Employe -> {
+                    viewModel.selectPerson(obj)
+                }
+            }
+        }
+    }
+
+    private fun setSelectedPeople(people: List<Employe>) {
+        selectedPeopleAdapter.submitList(people)
     }
 
     private fun setPeople(people: List<Employe>) {

@@ -9,7 +9,8 @@ class GetAllPeopleUseCase(
 
     private var currentPage = 1
 
-    suspend operator fun invoke(): Result<List<Employe>> {
+    suspend operator fun invoke(isInitialize: Boolean): Result<List<Employe>> {
+        if(isInitialize) currentPage = 1
         val popularPeopleResult = repository.getAllPopularPeople(page = currentPage)
         if(popularPeopleResult.isSuccess) {
             currentPage++

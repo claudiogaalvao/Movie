@@ -42,6 +42,7 @@ interface MovieService {
         @Query("release_date.lte") currentDate: String,
         @Query("sort_by") sortBy: String,
         @Query("with_genres") withGenres: String,
-        @Query("vote_count.gte") voteCount: Int
+        @Query("vote_count.gte") voteCount: Int,
+        @Query("with_people") withPeople: String
     ): Response<MoviesResponse>
 }

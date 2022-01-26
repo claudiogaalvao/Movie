@@ -25,6 +25,9 @@ class FiltersViewModel(
     private val _people = MutableStateFlow<List<Employe>>(emptyList())
     val people = _people.asStateFlow()
 
+    private val _peopleSelected = MutableStateFlow<List<Employe>>(emptyList())
+    val peopleSelected = _peopleSelected.asStateFlow()
+
     var isLoadingActors: Boolean = false
 
     fun getAllGenres() = viewModelScope.launch {
@@ -38,10 +41,10 @@ class FiltersViewModel(
         }
     }
 
-    fun getAllPeople() = viewModelScope.launch {
+    fun getAllPeople(isInitialize: Boolean) = viewModelScope.launch {
         withContext(dispatcher) {
             isLoadingActors = true
-            val peopleResult = getAllPeopleUseCase.invoke()
+            val peopleResult = getAllPeopleUseCase.invoke(isInitialize)
             if(peopleResult.isSuccess) {
                 peopleResult.getOrNull()?.let { allPeople ->
                     val peopleList = mutableListOf<Employe>()
@@ -52,6 +55,51 @@ class FiltersViewModel(
             }
             isLoadingActors = false
         }
+    }
+
+    fun selectPerson(personSelected: Employe) = viewModelScope.launch {
+        withContext(dispatcher) {
+            val allPeople = people.value.toMutableList()
+            val selectedPeople = mutableListOf<Employe>()
+            selectedPeople.addAll(_peopleSelected.value)
+
+            personSelected.position = allPeople.indexOf(personSelected)
+            selectedPeople.add(personSelected)
+
+            allPeople.remove(personSelected)
+            _peopleSelected.emit(selectedPeople)
+            _people.emit(allPeople)
+        }
+    }
+
+    fun unselectPerson(person: Employe) = viewModelScope.launch {
+        withContext(dispatcher) {
+            val allPeople = people.value.toMutableList()
+            val selectedPeople = mutableListOf<Employe>()
+            selectedPeople.addAll(_peopleSelected.value)
+            selectedPeople.remove(person)
+
+            val position = person.position
+            if(position != null) {
+                allPeople.add(position, person)
+            } else {
+                allPeople.add(person)
+            }
+            _peopleSelected.emit(selectedPeople)
+            _people.emit(allPeople)
+        }
+    }
+
+    fun generatePeopleSelectedConcatened(peopleSelected: List<Employe>): String {
+        var peopleSelectedConcat = ""
+        for(person in peopleSelected) {
+            if(peopleSelected.first() == person) {
+                peopleSelectedConcat += "${person.id}"
+                continue
+            }
+            peopleSelectedConcat += ",${person.id}"
+        }
+        return peopleSelectedConcat
     }
 
 }

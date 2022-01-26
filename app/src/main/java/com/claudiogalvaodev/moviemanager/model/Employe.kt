@@ -19,7 +19,8 @@ class Employe(
     val cast_id: Long,
     val character: String,
     val credit_id: String,
-    val order: Long
+    val order: Long,
+    var position: Int? = null
 ) : Parcelable {
     fun getProfileImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$profile_path"
