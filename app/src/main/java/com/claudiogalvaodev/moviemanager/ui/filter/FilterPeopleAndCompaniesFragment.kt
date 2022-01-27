@@ -18,6 +18,10 @@ import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
+import android.view.animation.TranslateAnimation
+
+
+
 
 class FilterPeopleAndCompaniesFragment: Fragment() {
 
@@ -86,6 +90,12 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
                     getPeople()
                 }
             }
+
+            if((scrollY > oldScrollY) && binding.filterButtonApply.isShown) {
+                slideDown(binding.filterButtonParent)
+            } else if(scrollY < oldScrollY && !binding.filterButtonApply.isShown) {
+                slideUp(binding.filterButtonParent)
+            }
         }
     }
 
@@ -121,6 +131,10 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
                 }
             }
         }
+
+        binding.filterButtonApply.setOnClickListener {
+            (activity as FiltersActivity).checkAndNavigateToPreviousActivity()
+        }
     }
 
     private fun setSelectedPeople(people: List<Employe>) {
@@ -143,6 +157,36 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
         var countImages = dpWidth - marginStart - marginEnd
         countImages /= (widthEachImage+spaceBetween)
         return countImages.roundToInt()
+    }
+
+    // slide the view from below itself to the current position
+    fun slideUp(view: View) {
+        view.visibility = View.VISIBLE
+        val animate = TranslateAnimation(
+            0F,  // fromXDelta
+            0F,  // toXDelta
+            view.height.toFloat(),  // fromYDelta
+            0F
+        ) // toYDelta
+        animate.duration = 500
+        animate.fillAfter = true
+        view.startAnimation(animate)
+        view.visibility = View.VISIBLE
+
+    }
+
+    // slide the view from its current position to below itself
+    fun slideDown(view: View) {
+        val animate = TranslateAnimation(
+            0F,  // fromXDelta
+            0F,  // toXDelta
+            0F,  // fromYDelta
+            view.height.toFloat()
+        ) // toYDelta
+        animate.duration = 500
+        animate.fillAfter = true
+        view.startAnimation(animate)
+        view.visibility = View.GONE
     }
 
 }
