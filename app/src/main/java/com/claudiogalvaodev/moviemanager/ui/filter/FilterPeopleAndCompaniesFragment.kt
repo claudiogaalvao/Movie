@@ -1,10 +1,10 @@
 package com.claudiogalvaodev.moviemanager.ui.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
 import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,13 +15,10 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterPeopleAndComp
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
-import android.view.animation.TranslateAnimation
-
-
-
 
 class FilterPeopleAndCompaniesFragment: Fragment() {
 
@@ -32,7 +29,7 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
 
     private lateinit var selectedPeopleAdapter: CircleWithTitleAdapter
     private lateinit var popularPeopleAdapter: CircleWithTitleAdapter
-    private lateinit var currentValue: String
+    private lateinit var currentValue: List<Employe>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +42,12 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
+        val jsonCurrentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
+        currentValue = if(jsonCurrentValue.isNotBlank()) {
+            Gson().fromJson(jsonCurrentValue, Array<Employe>::class.java).asList()
+        } else {
+            emptyList()
+        }
 
         setTitle()
         getPeople(true)
@@ -59,6 +61,7 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
     }
 
     private fun getPeople(isInitialize: Boolean = false) {
+        viewModel.initPeoplePreviousSelected(currentValue)
         viewModel.getAllPeople(isInitialize)
     }
 
@@ -103,7 +106,8 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.peopleSelected.collectLatest { people ->
                 setSelectedPeople(people)
-                (activity as FiltersActivity).changeCurrentValue(viewModel.generatePeopleSelectedConcatened(people))
+                val jsonString = Gson().toJson(people)
+                (activity as FiltersActivity).changeCurrentValue(jsonString)
             }
         }
 
@@ -133,7 +137,6 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
         }
 
         binding.filterButtonApply.setOnClickListener {
-            viewModel.savePeopleSelected()
             (activity as FiltersActivity).checkAndNavigateToPreviousActivity()
         }
     }

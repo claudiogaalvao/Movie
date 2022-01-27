@@ -4,21 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Genre
-import com.claudiogalvaodev.moviemanager.ui.usecases.*
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllGenresUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllPeopleUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
     private val getAllGenresUseCase: GetAllGenresUseCase,
-    private val getPeopleSelectedUseCase: GetPeopleSelectedUseCase,
-    private val removePersonSelectedUseCase: RemovePersonSelectedUseCase,
-    private val savePeopleSelectedUseCase: SavePeopleSelectedUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -44,41 +41,28 @@ class FiltersViewModel(
         }
     }
 
+    fun initPeoplePreviousSelected(peoplePreviousSelected: List<Employe>) = viewModelScope.launch {
+        withContext(dispatcher) {
+            _peopleSelected.emit(peoplePreviousSelected)
+        }
+    }
+
     fun getAllPeople(isInitialize: Boolean) = viewModelScope.launch {
         withContext(dispatcher) {
             isLoadingActors = true
             val peopleResult = getAllPeopleUseCase.invoke(isInitialize)
-
             if(peopleResult.isSuccess) {
-                if(isInitialize) {
-                    getPeopleSelectedUseCase.invoke().collectLatest { peoplePreviousSelected ->
-                        _peopleSelected.emit(peoplePreviousSelected)
-                        peopleResult.getOrNull()?.let { allPeople ->
-                            val peopleList = mutableListOf<Employe>()
-                            peopleList.addAll(_people.value)
+                peopleResult.getOrNull()?.let { allPeople ->
+                    val peopleList = mutableListOf<Employe>()
+                    peopleList.addAll(_people.value)
 
-                            val allPeopleFiltered = allPeople.toMutableList()
-                            allPeopleFiltered.removeAll(peoplePreviousSelected)
+                    val allPeopleFiltered = allPeople.toMutableList()
+                    allPeopleFiltered.removeAll(_peopleSelected.value)
 
-                            peopleList.addAll(allPeopleFiltered)
-                            _people.emit(peopleList)
-                        }
-                        isLoadingActors = false
-                    }
-                } else {
-                    peopleResult.getOrNull()?.let { allPeople ->
-                        val peopleList = mutableListOf<Employe>()
-                        peopleList.addAll(_people.value)
-
-                        val allPeopleFiltered = allPeople.toMutableList()
-                        allPeopleFiltered.removeAll(_peopleSelected.value)
-
-                        peopleList.addAll(allPeopleFiltered)
-                        _people.emit(peopleList)
-                    }
-                    isLoadingActors = false
+                    peopleList.addAll(allPeopleFiltered)
+                    _people.emit(peopleList)
                 }
-
+                isLoadingActors = false
             }
         }
     }
@@ -104,7 +88,6 @@ class FiltersViewModel(
             val selectedPeople = mutableListOf<Employe>()
             selectedPeople.addAll(_peopleSelected.value)
             selectedPeople.remove(person)
-            removePersonSelectedUseCase.invoke(person.id)
 
             val position = person.position
             if(position != null && allPeople.size > position) {
@@ -114,24 +97,6 @@ class FiltersViewModel(
             }
             _peopleSelected.emit(selectedPeople)
             _people.emit(allPeople)
-        }
-    }
-
-    fun generatePeopleSelectedConcatened(peopleSelected: List<Employe>): String {
-        var peopleSelectedConcat = ""
-        for(person in peopleSelected) {
-            if(peopleSelected.first() == person) {
-                peopleSelectedConcat += "${person.id}"
-                continue
-            }
-            peopleSelectedConcat += ",${person.id}"
-        }
-        return peopleSelectedConcat
-    }
-
-    fun savePeopleSelected() = viewModelScope.launch {
-        withContext(dispatcher) {
-            if(_peopleSelected.value.isNotEmpty()) savePeopleSelectedUseCase.invoke(_peopleSelected.value)
         }
     }
 

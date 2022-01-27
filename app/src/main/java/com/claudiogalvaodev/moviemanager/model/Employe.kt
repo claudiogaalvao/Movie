@@ -1,16 +1,13 @@
 package com.claudiogalvaodev.moviemanager.model
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity
 class Employe(
-    @PrimaryKey val id: Long,
+    val id: Long,
     val adult: Boolean,
     val genre: Long,
     val known_for_department: String,

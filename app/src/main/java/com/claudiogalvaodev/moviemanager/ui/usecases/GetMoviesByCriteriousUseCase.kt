@@ -1,11 +1,13 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
 import android.util.Log
+import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
+import com.google.gson.Gson
 import java.time.LocalDate
 
 class GetMoviesByCriteriousUseCase(
@@ -22,7 +24,14 @@ class GetMoviesByCriteriousUseCase(
         if(isUpdate) currentPage = 1
         val sortBy = (criterious.find { filter -> filter.type == FilterType.SORT_BY })?.currentValue ?: OrderByConstants.POPULARITY_DESC
         val withGenres = (criterious.find { filter -> filter.type == FilterType.GENRES })?.currentValue ?: ""
-        val withPeople = (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
+
+        val withPeopleJson = (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
+        val withPeople = if(withPeopleJson.isNotBlank()) {
+            val withPeopleList = Gson().fromJson(withPeopleJson, Array<Employe>::class.java).asList()
+            generatePeopleSelectedConcatened(withPeopleList)
+        } else {
+            withPeopleJson
+        }
 
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
@@ -46,6 +55,18 @@ class GetMoviesByCriteriousUseCase(
             movie.poster_path != null || movie.backdrop_path != null
         }
         return justMoviesWithPosterAndBackdropImage
+    }
+
+    fun generatePeopleSelectedConcatened(peopleSelected: List<Employe>): String {
+        var peopleSelectedConcat = ""
+        for(person in peopleSelected) {
+            if(peopleSelected.first() == person) {
+                peopleSelectedConcat += "${person.id}"
+                continue
+            }
+            peopleSelectedConcat += ",${person.id}"
+        }
+        return peopleSelectedConcat
     }
 
 }
