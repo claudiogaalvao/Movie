@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
+import com.claudiogalvaodev.moviemanager.data.bd.MoviesDatabase
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
@@ -88,9 +89,9 @@ val retrofitModule = module {
     single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
 }
 
-//val daoModule = module {
-//    single { MoviesDatabase.getInstance(androidContext()).movieDao }
-//}
+val daoModule = module {
+    single { MoviesDatabase.getInstance(androidContext()).employeDao }
+}
 
 val repositoryModule = module {
     single { MoviesRepository(get()) }
@@ -108,13 +109,16 @@ val viewModelModule = module {
     single { GetMoviesByCriteriousUseCase(get()) }
     single { GetAllGenresUseCase(get()) }
     single { GetAllPeopleUseCase(get()) }
+    single { GetPeopleSelectedUseCase(get()) }
+    single { RemovePersonSelectedUseCase(get()) }
+    single { SavePeopleSelectedUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
-    viewModel { FiltersViewModel(get(), get()) }
+    viewModel { FiltersViewModel(get(), get(), get(), get(), get()) }
     viewModel { MovieDetailsViewModel(get()) }
 }
 
 val appModules = listOf(
-    retrofitModule, repositoryModule, viewModelModule
+    retrofitModule, repositoryModule, viewModelModule, daoModule
 )

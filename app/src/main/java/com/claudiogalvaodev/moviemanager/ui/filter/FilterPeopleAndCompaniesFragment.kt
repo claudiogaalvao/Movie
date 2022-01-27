@@ -133,6 +133,7 @@ class FilterPeopleAndCompaniesFragment: Fragment() {
         }
 
         binding.filterButtonApply.setOnClickListener {
+            viewModel.savePeopleSelected()
             (activity as FiltersActivity).checkAndNavigateToPreviousActivity()
         }
     }

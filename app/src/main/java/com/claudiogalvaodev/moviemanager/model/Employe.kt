@@ -1,24 +1,26 @@
 package com.claudiogalvaodev.moviemanager.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
 import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity
 class Employe(
+    @PrimaryKey val id: Long,
     val adult: Boolean,
     val genre: Long,
-    val id: Long,
     val known_for_department: String,
     val name: String,
-    val original_name: String,
+    val original_name: String?,
     val popularity: Double,
     val profile_path: String?,
     val cast_id: Long,
-    val character: String,
-    val credit_id: String,
+    val character: String?,
+    val credit_id: String?,
     val order: Long,
     var position: Int? = null
 ) : Parcelable {
