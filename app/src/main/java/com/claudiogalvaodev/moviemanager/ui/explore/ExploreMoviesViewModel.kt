@@ -43,9 +43,6 @@ class ExploreMoviesViewModel(
                 Filter(type = FilterType.PEOPLE,
                     name = context.resources.getString(R.string.filter_type_people),
                     currentValue = ""),
-                Filter(type = FilterType.COMPANIES,
-                    name = context.resources.getString(R.string.filter_type_companies),
-                    currentValue = ""),
                 Filter(type = FilterType.YEARS,
                     name = context.resources.getString(R.string.filter_type_years),
                     currentValue = "")

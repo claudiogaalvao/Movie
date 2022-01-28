@@ -48,7 +48,7 @@ class FiltersActivity: AppCompatActivity() {
         val fragment = when(filterSelected?.type) {
             FilterType.SORT_BY -> FilterOrderByFragment()
             FilterType.GENRES -> FilterGenresFragment()
-            FilterType.PEOPLE -> FilterPeopleAndCompaniesFragment()
+            FilterType.PEOPLE -> FilterPeopleFragment()
             else -> throw Exception("Unrecognize filter type to select a fragment")
         }
 

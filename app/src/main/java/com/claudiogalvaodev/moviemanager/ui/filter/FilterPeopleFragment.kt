@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterPeopleAndCompaniesBinding
+import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterPeopleBinding
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
@@ -20,11 +20,11 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
-class FilterPeopleAndCompaniesFragment: Fragment() {
+class FilterPeopleFragment: Fragment() {
 
     private val viewModel: FiltersViewModel by viewModel()
     private val binding by lazy {
-        FragmentFilterPeopleAndCompaniesBinding.inflate(layoutInflater)
+        FragmentFilterPeopleBinding.inflate(layoutInflater)
     }
 
     private lateinit var selectedPeopleAdapter: CircleWithTitleAdapter
