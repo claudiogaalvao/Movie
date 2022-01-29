@@ -1,8 +1,10 @@
 package com.claudiogalvaodev.moviemanager.ui.filter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -20,7 +22,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class FiltersActivity: AppCompatActivity() {
 
-    private val viewModel: FiltersViewModel by viewModel()
     private val binding by lazy {
         ActivityFiltersBinding.inflate(layoutInflater)
     }
@@ -51,12 +52,16 @@ class FiltersActivity: AppCompatActivity() {
                 checkAndNavigateToPreviousActivity()
                 true
             }
-            else -> true
+            else -> {
+                checkAndNavigateToPreviousActivity()
+                true
+            }
         }
     }
 
     private fun configToolbar() {
         binding.activityFilterToolbar.setNavigationIcon(R.drawable.ic_back)
+        binding.activityFilterToolbar.setNavigationContentDescription(R.string.icon_back)
         setSupportActionBar(binding.activityFilterToolbar)
     }
 
@@ -89,10 +94,6 @@ class FiltersActivity: AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         checkAndNavigateToPreviousActivity()
         return super.onSupportNavigateUp()
-    }
-
-    override fun onBackPressed() {
-        checkAndNavigateToPreviousActivity()
     }
 
     fun checkAndNavigateToPreviousActivity() {

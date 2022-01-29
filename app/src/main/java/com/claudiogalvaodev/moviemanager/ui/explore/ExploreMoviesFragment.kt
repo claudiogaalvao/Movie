@@ -48,15 +48,10 @@ class ExploreMoviesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initFilters()
         getMovies()
         setupAdapter()
         setupRecyclerView()
         setObservables()
-    }
-
-    private fun initFilters() {
-        viewModel.initFilters()
     }
 
     private fun getMovies() {

@@ -16,7 +16,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/item_simple_poster_with_title_cardview"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="8dp"

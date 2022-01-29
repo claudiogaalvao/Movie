@@ -31,23 +31,25 @@ class ExploreMoviesViewModel(
     var isLoading: Boolean = false
     var isUpdate: Boolean = false
 
-    fun initFilters() = viewModelScope.launch {
-        withContext(dispatcher) {
-            val filters = listOf(
-                Filter(type = FilterType.SORT_BY,
-                    name = context.resources.getString(R.string.filter_type_orderby),
-                    currentValue = OrderByConstants.POPULARITY_DESC),
-                Filter(type = FilterType.GENRES,
-                    name = context.resources.getString(R.string.filter_type_genres),
-                    currentValue = ""),
-                Filter(type = FilterType.PEOPLE,
-                    name = context.resources.getString(R.string.filter_type_people),
-                    currentValue = ""),
-                Filter(type = FilterType.YEARS,
-                    name = context.resources.getString(R.string.filter_type_years),
-                    currentValue = "")
-            )
-            _filters.emit(filters)
+    init {
+        viewModelScope.launch {
+            withContext(dispatcher) {
+                val filters = listOf(
+                    Filter(type = FilterType.SORT_BY,
+                        name = context.resources.getString(R.string.filter_type_orderby),
+                        currentValue = OrderByConstants.POPULARITY_DESC),
+                    Filter(type = FilterType.GENRES,
+                        name = context.resources.getString(R.string.filter_type_genres),
+                        currentValue = ""),
+                    Filter(type = FilterType.PEOPLE,
+                        name = context.resources.getString(R.string.filter_type_people),
+                        currentValue = ""),
+                    Filter(type = FilterType.YEARS,
+                        name = context.resources.getString(R.string.filter_type_years),
+                        currentValue = "")
+                )
+                _filters.emit(filters)
+            }
         }
     }
 
