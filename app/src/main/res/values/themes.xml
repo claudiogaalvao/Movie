@@ -14,6 +14,8 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/primary_purple</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
+
+        <item name="android:actionMenuTextColor">@color/white</item>
     </style>
 
     <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">

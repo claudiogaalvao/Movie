@@ -63,4 +63,5 @@
     <string name="filter_runtime_long_default">Long default (between 1h10min and 2h10min)</string>
     <string name="filter_runtime_longest">Longer duration (longer than 2h10)</string>
     <string name="fragment_filter_runtime_title">Duration</string>
+    <string name="filter_reset">Reset</string>
 </resources>

@@ -3,6 +3,11 @@ package com.claudiogalvaodev.moviemanager.ui.filter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -32,6 +37,22 @@ class FiltersActivity: AppCompatActivity() {
 
         configToolbar()
         initializeFragment()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if(currentValue.isNotBlank()) menuInflater.inflate(R.menu.filter_options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.filter_reset -> {
+                changeCurrentValue("")
+                checkAndNavigateToPreviousActivity()
+                true
+            }
+            else -> true
+        }
     }
 
     private fun configToolbar() {
