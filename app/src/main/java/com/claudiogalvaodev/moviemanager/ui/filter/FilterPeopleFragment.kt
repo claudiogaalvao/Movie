@@ -106,7 +106,8 @@ class FilterPeopleFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.peopleSelected.collectLatest { people ->
                 setSelectedPeople(people)
-                val jsonString = Gson().toJson(people)
+                var jsonString = Gson().toJson(people).orEmpty()
+                if(jsonString == "[]") jsonString = ""
                 (activity as FiltersActivity).changeCurrentValue(jsonString)
             }
         }

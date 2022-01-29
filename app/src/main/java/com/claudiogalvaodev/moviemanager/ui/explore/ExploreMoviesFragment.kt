@@ -30,7 +30,9 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private val filterContract = registerForActivityResult(FiltersActivity.Contract()) { result ->
-        result?.let { viewModel.updateFilter(result) }
+        result?.let {
+            viewModel.updateFilter(result)
+        }
     }
 
     private lateinit var filtersAdapter: FilterAdapter
