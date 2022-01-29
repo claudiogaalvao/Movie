@@ -49,6 +49,7 @@ class FiltersActivity: AppCompatActivity() {
             FilterType.SORT_BY -> FilterOrderByFragment()
             FilterType.GENRES -> FilterGenresFragment()
             FilterType.PEOPLE -> FilterPeopleFragment()
+            FilterType.YEARS -> FilterYearFragment()
             else -> throw Exception("Unrecognize filter type to select a fragment")
         }
 

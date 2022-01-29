@@ -6,19 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterGenreBinding
+import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterYearBinding
 import com.claudiogalvaodev.moviemanager.databinding.ItemRadioButtonBinding
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
-import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
-class FilterGenresFragment: Fragment() {
+class FilterYearFragment: Fragment() {
 
-    private val viewModel: FiltersViewModel by viewModel()
     private val binding by lazy {
-        FragmentFilterGenreBinding.inflate(layoutInflater)
+        FragmentFilterYearBinding.inflate(layoutInflater)
     }
 
     private lateinit var currentValue: String
@@ -37,30 +34,22 @@ class FilterGenresFragment: Fragment() {
         currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
         setTitle()
-        getGenres()
-        setObservables()
+        setItemsToRadioGroup()
         setupListener()
     }
 
     private fun setTitle() {
         (activity as FiltersActivity)
-            .setToolbarTitle(resources.getString(R.string.fragment_genres_title))
+            .setToolbarTitle(resources.getString(R.string.filter_type_years))
     }
 
-    private fun getGenres() {
-        viewModel.getAllGenres()
-    }
-
-    private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.genres.collectLatest { genres ->
-                for(genre in genres) {
-                    val newRadioButton = createRadioButton(genre.id, genre.name)
-                    binding.fragmentFilterGenreRadiogroup.addView(newRadioButton)
-                    if(currentValue == genre.id.toString()) {
-                        binding.fragmentFilterGenreRadiogroup.check(newRadioButton.id)
-                    }
-                }
+    private fun setItemsToRadioGroup() {
+        val currentYear = LocalDate.now().year
+        for(year in currentYear downTo 1930) {
+            val newRadioButton = createRadioButton(year, year.toString())
+            binding.fragmentFilterYearRadiogroup.addView(newRadioButton)
+            if(currentValue == year.toString()) {
+                binding.fragmentFilterYearRadiogroup.check(newRadioButton.id)
             }
         }
     }
@@ -70,13 +59,13 @@ class FilterGenresFragment: Fragment() {
         val radioButton = radioButtonBinding.filterRadioButton
         radioButton.id = id
         radioButton.text = text
-        radioButton.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+        radioButton.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
         if (radioButton.parent != null) (radioButton.parent as ViewGroup).removeView(radioButton)
         return radioButton
     }
 
     private fun setupListener() {
-        binding.fragmentFilterGenreRadiogroup.setOnCheckedChangeListener { _, radioButtonId ->
+        binding.fragmentFilterYearRadiogroup.setOnCheckedChangeListener { _, radioButtonId ->
             val parent = (activity as FiltersActivity)
             parent.changeCurrentValue(radioButtonId.toString())
         }

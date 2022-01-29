@@ -24,14 +24,8 @@ class GetMoviesByCriteriousUseCase(
         if(isUpdate) currentPage = 1
         val sortBy = (criterious.find { filter -> filter.type == FilterType.SORT_BY })?.currentValue ?: OrderByConstants.POPULARITY_DESC
         val withGenres = (criterious.find { filter -> filter.type == FilterType.GENRES })?.currentValue ?: ""
-
-        val withPeopleJson = (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
-        val withPeople = if(withPeopleJson.isNotBlank()) {
-            val withPeopleList = Gson().fromJson(withPeopleJson, Array<Employe>::class.java).asList()
-            generatePeopleSelectedConcatened(withPeopleList)
-        } else {
-            withPeopleJson
-        }
+        val withPeople = convertPeopleFromJson(criterious)
+        val year = (criterious.find { filter -> filter.type == FilterType.YEARS })?.currentValue ?: ""
 
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
@@ -41,13 +35,27 @@ class GetMoviesByCriteriousUseCase(
             sortBy = sortBy,
             withGenres = withGenres,
             voteCount = voteCount,
-            withPeople = withPeople)
+            withPeople = withPeople,
+            year = year)
         if(moviesResult.isSuccess) {
             currentPage++
             val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))
             return Result.success(validMovies)
         }
         return moviesResult
+    }
+
+    private fun convertPeopleFromJson(criterious: List<Filter>): String {
+        val withPeopleJson =
+            (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
+        val withPeople = if (withPeopleJson.isNotBlank()) {
+            val withPeopleList =
+                Gson().fromJson(withPeopleJson, Array<Employe>::class.java).asList()
+            generatePeopleSelectedConcatened(withPeopleList)
+        } else {
+            withPeopleJson
+        }
+        return withPeople
     }
 
     private fun removeInvalidMovies(movies: List<Movie>): List<Movie> {

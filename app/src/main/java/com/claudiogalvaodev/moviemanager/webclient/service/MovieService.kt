@@ -43,6 +43,7 @@ interface MovieService {
         @Query("sort_by") sortBy: String,
         @Query("with_genres") withGenres: String,
         @Query("vote_count.gte") voteCount: Int,
-        @Query("with_people") withPeople: String
+        @Query("with_people") withPeople: String,
+        @Query("year") year: String
     ): Response<MoviesResponse>
 }
