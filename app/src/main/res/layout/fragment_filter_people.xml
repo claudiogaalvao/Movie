@@ -13,41 +13,83 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/fragment_people_and_companies_actors_selected_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:nestedScrollingEnabled="true"
-                android:text="@string/selected_actors_title" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_people_and_companies_actors_selected_recyclerview"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fragment_people_selected_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_people_and_companies_actors_selected_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginHorizontal="6dp"
-                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:spanCount="3"
-                tools:itemCount="5"
-                tools:listitem="@layout/item_large_image_circle_with_title" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:backgroundTint="@android:color/transparent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/fragment_people_and_companies_actors_selected_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:nestedScrollingEnabled="true"
+                        android:text="@string/selected_actors_title" />
+
+                    <ImageView
+                        android:id="@+id/director_chair_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_director_chair"
+                        android:contentDescription="@string/generic_description"
+                        app:layout_constraintTop_toBottomOf="@+id/fragment_people_and_companies_actors_selected_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <TextView
+                        android:id="@+id/filter_select_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/director_chair_icon"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginHorizontal="28dp"
+                        android:gravity="center"
+                        android:textColor="@color/primary_gray"
+                        android:textSize="12sp"
+                        android:text="@string/filter_people_select_instructions"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fragment_people_and_companies_actors_selected_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/fragment_people_and_companies_actors_selected_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="6dp"
+                        tools:visibility="gone"
+                        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:spanCount="3"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_large_image_circle_with_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/fragment_people_and_companies_popular_actors_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_people_and_companies_actors_selected_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_people_selected_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="36dp"
                 android:layout_marginStart="16dp"

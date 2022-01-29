@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import androidx.core.view.isNotEmpty
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -107,7 +108,14 @@ class FilterPeopleFragment: Fragment() {
             viewModel.peopleSelected.collectLatest { people ->
                 setSelectedPeople(people)
                 var jsonString = Gson().toJson(people).orEmpty()
-                if(jsonString == "[]") jsonString = ""
+                if(jsonString == "[]") {
+                    jsonString = ""
+                    binding.directorChairIcon.visibility = View.VISIBLE
+                    binding.filterSelectDescription.visibility = View.VISIBLE
+                } else if(binding.directorChairIcon.isVisible) {
+                    binding.directorChairIcon.visibility = View.GONE
+                    binding.filterSelectDescription.visibility = View.GONE
+                }
                 (activity as FiltersActivity).changeCurrentValue(jsonString)
             }
         }

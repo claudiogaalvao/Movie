@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable-anydpi/ic_arrow_down.xml" value="0.3074074074074074" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable-anydpi/ic_arrow_forward.xml" value="0.3574074074074074" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/bottom_gray_border.xml" value="0.31666666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_filter_button.xml" value="0.3074074074074074" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_radio_button.xml" value="0.34629629629629627" />
@@ -40,6 +41,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_genre.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_movies.xml" value="0.34148550724637683" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_orderby.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_people.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_people_and_companies.xml" value="0.264" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_radio_options.xml" value="0.1621376811594203" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_filter_radiobutton.xml" value="0.255050505050505" />
@@ -60,6 +62,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_see_more_button.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_simple_poster.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_simple_poster_with_title.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_small_image_circle.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_details.xml" value="0.1" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_poster_with_title.xml" value="0.36666666666666664" />

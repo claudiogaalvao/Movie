@@ -42,6 +42,7 @@
     <string name="filter_type_people">Pessoas</string>
     <string name="filter_type_companies">Companhias</string>
     <string name="filter_type_years">Anos</string>
+    <string name="explore_movies_didnt_find">Desculpe. Não encontramos nenhum resultado para a sua combinação de filtros :(</string>
 
     <!-- Order by options -->
     <string name="fragment_orderby_title">Ordenar por</string>
@@ -56,8 +57,9 @@
 
     <!-- People filter -->
     <string name="fragment_people_title">Pessoas</string>
-    <string name="selected_actors_title">Atores selecionados</string>
-    <string name="popular_actors_title">Atores populares</string>
+    <string name="selected_actors_title">Pessoas selecionados</string>
+    <string name="popular_actors_title">Pessoas populares</string>
+    <string name="filter_people_select_instructions">Você não selecionou nenhum ator ou diretor ainda. Selecione alguém para filtrar os filmes que ele(a) participou. Se você selecionar mais de uma pessoa, nós vamos tentar encontrar filmes que eles trabalham juntos!</string>
 
     <!-- Runtime labels -->
     <string name="filter_runtime_short">Curta metragem (até 40min)</string>

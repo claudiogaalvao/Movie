@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -122,6 +123,13 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun submitMoviesList(movies: List<Movie>) {
+        if(movies.isEmpty()) {
+            binding.wathingIcon.visibility = View.VISIBLE
+            binding.exploreMoviesDidntFindDescription.visibility = View.VISIBLE
+        } else if(binding.wathingIcon.isVisible) {
+            binding.wathingIcon.visibility = View.GONE
+            binding.exploreMoviesDidntFindDescription.visibility = View.GONE
+        }
         moviesAdapter.submitList(movies)
     }
 
