@@ -56,4 +56,11 @@
     <string name="fragment_people_title">People</string>
     <string name="selected_actors_title">Actors selected</string>
     <string name="popular_actors_title">Popular actors</string>
+
+    <!-- Runtime labels -->
+    <string name="filter_runtime_short">Short (shorter than 40min)</string>
+    <string name="filter_runtime_medium">Medium (between 40min and 1h10min)</string>
+    <string name="filter_runtime_long_default">Long default (between 1h10min and 2h10min)</string>
+    <string name="filter_runtime_longest">Longer duration (longer than 2h10)</string>
+    <string name="fragment_filter_runtime_title">Duration</string>
 </resources>

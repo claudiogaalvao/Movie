@@ -58,4 +58,10 @@
     <string name="selected_actors_title">Atores selecionados</string>
     <string name="popular_actors_title">Atores populares</string>
 
+    <!-- Runtime labels -->
+    <string name="filter_runtime_short">Curta metragem (até 40min)</string>
+    <string name="filter_runtime_medium">Média metragem (entre 40min e 1h10min)</string>
+    <string name="filter_runtime_long_default">Longa metragem padrão (entre 1h10min e 2h10min)</string>
+    <string name="filter_runtime_longest">Longa metragem de maior duração (mais de 2h10min)</string>
+    <string name="fragment_filter_runtime_title">Duração</string>
 </resources>

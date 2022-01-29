@@ -6,6 +6,7 @@ import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
+import com.claudiogalvaodev.moviemanager.utils.RuntimeConstants
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
 import com.google.gson.Gson
 import java.time.LocalDate
@@ -27,6 +28,10 @@ class GetMoviesByCriteriousUseCase(
         val withPeople = convertPeopleFromJson(criterious)
         val year = (criterious.find { filter -> filter.type == FilterType.YEARS })?.currentValue ?: ""
 
+//        val runtimeSelected = (criterious.find { filter -> filter.type == FilterType.RUNTIME })?.currentValue ?: ""
+//        val withRuntimeLte: Int = defineRuntimeLte(runtimeSelected)
+//        val withRuntimeGte: Int = defineRuntimeGte(runtimeSelected)
+
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
         val moviesResult = repository.getMoviesByCriterious(
@@ -43,6 +48,26 @@ class GetMoviesByCriteriousUseCase(
             return Result.success(validMovies)
         }
         return moviesResult
+    }
+
+    private fun defineRuntimeLte(runtimeSelected: String): Int {
+        return when(runtimeSelected) {
+            RuntimeConstants.SHORT -> 40
+            RuntimeConstants.MEDIUM -> 110
+            RuntimeConstants.LONG_DEFAULT -> 210
+            RuntimeConstants.LONGEST -> 999
+            else -> 0
+        }
+    }
+
+    private fun defineRuntimeGte(runtimeSelected: String): Int {
+        return when(runtimeSelected) {
+            RuntimeConstants.SHORT -> 0
+            RuntimeConstants.MEDIUM -> 40
+            RuntimeConstants.LONG_DEFAULT -> 110
+            RuntimeConstants.LONGEST -> 210
+            else -> 0
+        }
     }
 
     private fun convertPeopleFromJson(criterious: List<Filter>): String {

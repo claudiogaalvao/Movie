@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.claudiogalvaodev.moviemanager.FilterRuntimeFragment
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
 import com.claudiogalvaodev.moviemanager.model.Filter
@@ -50,6 +51,7 @@ class FiltersActivity: AppCompatActivity() {
             FilterType.GENRES -> FilterGenresFragment()
             FilterType.PEOPLE -> FilterPeopleFragment()
             FilterType.YEARS -> FilterYearFragment()
+            FilterType.RUNTIME -> FilterRuntimeFragment()
             else -> throw Exception("Unrecognize filter type to select a fragment")
         }
 

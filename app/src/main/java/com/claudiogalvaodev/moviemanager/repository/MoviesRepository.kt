@@ -164,7 +164,7 @@ class MoviesRepository(
 
     suspend fun getMoviesByCriterious(page: Int, currentDate: String, sortBy: String,
                                       withGenres: String, voteCount: Int, withPeople: String,
-                                      year: String
+                                      year: String,
     ): Result<List<Movie>> {
         var result: Result<List<Movie>> = Result.success(emptyList())
         try {
