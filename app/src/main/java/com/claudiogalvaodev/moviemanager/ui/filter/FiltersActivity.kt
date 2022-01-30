@@ -28,12 +28,12 @@ class FiltersActivity: AppCompatActivity() {
 
     private val alertDialog by lazy {
         AlertDialog.Builder(this)
-            .setTitle("Are you sure?")
-            .setMessage("Deseja continuar? Você irá perder as suas modificações.")
-            .setPositiveButton("Continuar") { _, _ ->
+            .setTitle(resources.getString(R.string.filter_alertdialog_title))
+            .setMessage(resources.getString(R.string.filter_alertdialog_message))
+            .setPositiveButton(resources.getString(R.string.filter_alertdialog_positive)) { _, _ ->
                 finish()
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

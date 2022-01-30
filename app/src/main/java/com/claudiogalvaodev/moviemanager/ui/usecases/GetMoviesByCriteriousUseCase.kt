@@ -50,26 +50,6 @@ class GetMoviesByCriteriousUseCase(
         return moviesResult
     }
 
-    private fun defineRuntimeLte(runtimeSelected: String): Int {
-        return when(runtimeSelected) {
-            RuntimeConstants.SHORT -> 40
-            RuntimeConstants.MEDIUM -> 110
-            RuntimeConstants.LONG_DEFAULT -> 210
-            RuntimeConstants.LONGEST -> 999
-            else -> 0
-        }
-    }
-
-    private fun defineRuntimeGte(runtimeSelected: String): Int {
-        return when(runtimeSelected) {
-            RuntimeConstants.SHORT -> 0
-            RuntimeConstants.MEDIUM -> 40
-            RuntimeConstants.LONG_DEFAULT -> 110
-            RuntimeConstants.LONGEST -> 210
-            else -> 0
-        }
-    }
-
     private fun convertPeopleFromJson(criterious: List<Filter>): String {
         val withPeopleJson =
             (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""

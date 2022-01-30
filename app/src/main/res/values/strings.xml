@@ -67,4 +67,10 @@
     <string name="filter_runtime_longest">Longer duration (longer than 2h10)</string>
     <string name="fragment_filter_runtime_title">Duration</string>
     <string name="filter_reset">Reset</string>
+
+    <!-- Alert dialog for filters confirm -->
+    <string name="filter_alertdialog_title">Are you sure?</string>
+    <string name="filter_alertdialog_message">Do you want to continue? You\'ll lose your changes.</string>
+    <string name="filter_alertdialog_positive">Continue</string>
+    <string name="filter_alertdialog_negative">Cancel</string>
 </resources>

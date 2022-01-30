@@ -68,4 +68,10 @@
     <string name="filter_runtime_longest">Longa metragem de maior duração (mais de 2h10min)</string>
     <string name="fragment_filter_runtime_title">Duração</string>
     <string name="filter_reset">Redefinir</string>
+
+    <!-- Alert dialog for filters confirm -->
+    <string name="filter_alertdialog_title">Você tem certeza?</string>
+    <string name="filter_alertdialog_message">Quer continuar? Você perderá suas modificações.</string>
+    <string name="filter_alertdialog_positive">Continuar</string>
+    <string name="filter_alertdialog_negative">Cancelar</string>
 </resources>

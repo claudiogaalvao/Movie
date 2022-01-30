@@ -1,11 +1,11 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -111,8 +111,8 @@ class MovieDetailsFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.stars.collectLatest { stars ->
-                stars?.let {
-                    configStarsList(it.take(calcCountStarsImage()))
+                stars?.let { allEmployes ->
+                    configStarsList(allEmployes, allEmployes.take(calcCountStarsImage()))
                 }
             }
         }
@@ -143,7 +143,7 @@ class MovieDetailsFragment : Fragment() {
         binding.fragmentMovieDetailsAvailableOnLabel.visibility = View.VISIBLE
         binding.fragmentMovieDetailsAvailableOnRecyclerview.visibility = View.VISIBLE
 
-        val circleAdapter = CircleAdapter()
+        val circleAdapter = generateInstanceOfCircleAdapter()
         binding.fragmentMovieDetailsAvailableOnRecyclerview.apply {
             adapter = circleAdapter
         }
@@ -153,34 +153,45 @@ class MovieDetailsFragment : Fragment() {
     private fun configDirectorsList(employe: List<Employe>) {
         binding.fragmentMovieDetailsDirectors.text = viewModel.getDirectorsName()
 
-        val circleAdapter = CircleAdapter()
+        val circleAdapter = generateInstanceOfCircleAdapter()
         binding.fragmentMovieDetailsDirectorsRecyclerview.apply {
             adapter = circleAdapter
         }
         circleAdapter.submitList(employe)
     }
 
-    private fun configStarsList(employes: List<Employe>) {
+    private fun configStarsList(allEmployes: List<Employe>, employesToShowFirst: List<Employe>) {
         binding.fragmentMovieDetailsStarsName.text = viewModel.getStarsName()
 
-        val circleAdapter = CircleAdapter()
+        val circleAdapter = generateInstanceOfCircleAdapter()
         binding.fragmentMovieDetailsStarsRecyclerview.apply {
             adapter = circleAdapter
         }
-        circleAdapter.submitList(employes)
+        circleAdapter.submitList(employesToShowFirst)
+        setupShowAllStars(allEmployes, employesToShowFirst)
+    }
 
-        viewModel.stars.value?.let { employesCompleteList ->
-            binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
-                goToPeopleAndCompanies(employesCompleteList)
+    private fun setupShowAllStars(
+        allEmployes: List<Employe>,
+        employesToShowFirst: List<Employe>
+    ) {
+        if (allEmployes.size > employesToShowFirst.size) {
+            binding.fragmentMovieDetailsStarsSeeMore.visibility = View.VISIBLE
+            viewModel.stars.value?.let { employesCompleteList ->
+                binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
+                    goToPeopleAndCompanies(employesCompleteList)
+                }
             }
-        }
 
+        } else {
+            binding.fragmentMovieDetailsStarsSeeMore.visibility = View.GONE
+        }
     }
 
     private fun configCompaniesList(companies: List<Company>) {
         binding.fragmentMovieDetailsCompanies.text = viewModel.getCompaniesName()
 
-        val circleAdapter = CircleAdapter()
+        val circleAdapter = generateInstanceOfCircleAdapter()
         binding.fragmentMovieDetailsCompaniesRecyclerview.apply {
             adapter = circleAdapter
         }
@@ -205,6 +216,14 @@ class MovieDetailsFragment : Fragment() {
             adapter = simplePosterAdapter
             simplePosterAdapter.submitList(collection)
         }
+    }
+
+    private fun generateInstanceOfCircleAdapter(): CircleAdapter {
+        val circleAdapter = CircleAdapter()
+        circleAdapter.onLongClickListener = { imageDescription ->
+            Toast.makeText(context, imageDescription, Toast.LENGTH_LONG).show()
+        }
+        return circleAdapter
     }
 
     private fun calcCountStarsImage(): Int {
