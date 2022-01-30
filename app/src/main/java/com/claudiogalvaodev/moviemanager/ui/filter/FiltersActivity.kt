@@ -101,6 +101,10 @@ class FiltersActivity: AppCompatActivity() {
         newCurrentValue = newValue
     }
 
+    override fun onBackPressed() {
+        showAlertDialogOrNavigate()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         showAlertDialogOrNavigate()
         return super.onSupportNavigateUp()
