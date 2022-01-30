@@ -1,16 +1,13 @@
 package com.claudiogalvaodev.moviemanager.ui.filter
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.moviemanager.FilterRuntimeFragment
@@ -18,7 +15,6 @@ import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
 import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class FiltersActivity: AppCompatActivity() {
 
@@ -28,6 +24,17 @@ class FiltersActivity: AppCompatActivity() {
 
     private var filterSelected: Filter? = null
     private lateinit var currentValue: String
+    private lateinit var newCurrentValue: String
+
+    private val alertDialog by lazy {
+        AlertDialog.Builder(this)
+            .setTitle("Are you sure?")
+            .setMessage("Deseja continuar? Você irá perder as suas modificações.")
+            .setPositiveButton("Continuar") { _, _ ->
+                finish()
+            }
+            .setNegativeButton("Cancelar", null)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +42,16 @@ class FiltersActivity: AppCompatActivity() {
 
         filterSelected = intent.getParcelableExtra(KEY_FILTER)
         currentValue = filterSelected?.currentValue.orEmpty()
+        newCurrentValue = filterSelected?.currentValue.orEmpty()
 
         configToolbar()
         initializeFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(currentValue.isNotBlank()) menuInflater.inflate(R.menu.filter_options_menu, menu)
+        if(filterSelected?.type != FilterType.SORT_BY) {
+            if(currentValue.isNotBlank()) menuInflater.inflate(R.menu.filter_options_menu, menu)
+        }
         return true
     }
 
@@ -49,11 +59,11 @@ class FiltersActivity: AppCompatActivity() {
         return when(item.itemId) {
             R.id.filter_reset -> {
                 changeCurrentValue("")
-                checkAndNavigateToPreviousActivity()
+                saveChangesAndNavigateToPreviousActivity()
                 true
             }
             else -> {
-                checkAndNavigateToPreviousActivity()
+                showAlertDialogOrNavigate()
                 true
             }
         }
@@ -88,22 +98,30 @@ class FiltersActivity: AppCompatActivity() {
     }
 
     fun changeCurrentValue(newValue: String) {
-        currentValue = newValue
+        newCurrentValue = newValue
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        checkAndNavigateToPreviousActivity()
+        showAlertDialogOrNavigate()
         return super.onSupportNavigateUp()
     }
 
-    fun checkAndNavigateToPreviousActivity() {
+    private fun showAlertDialogOrNavigate() {
+        if(currentValue != newCurrentValue) {
+            alertDialog.show()
+        } else {
+            finish()
+        }
+    }
+
+    fun saveChangesAndNavigateToPreviousActivity() {
         getFilterSelected()
         finish()
     }
 
     fun getFilterSelected() {
         val newFilter = filterSelected
-        newFilter?.currentValue = currentValue
+        newFilter?.currentValue = newCurrentValue
         setResult(RESULT_OK, Intent().putExtra(KEY_RESULT, newFilter))
     }
 

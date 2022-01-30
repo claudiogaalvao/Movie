@@ -68,7 +68,7 @@ class FilterRuntimeFragment : Fragment() {
         }
 
         binding.filterButtonApply.setOnClickListener {
-            (activity as FiltersActivity).checkAndNavigateToPreviousActivity()
+            (activity as FiltersActivity).saveChangesAndNavigateToPreviousActivity()
         }
     }
 
