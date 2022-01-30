@@ -59,32 +59,67 @@
         app:layout_constraintTop_toTopOf="@id/fragment_movie_details_budget_label"
         app:layout_constraintStart_toEndOf="@+id/fragment_movie_details_budget_label" />
 
-    <TextView
-        android:id="@+id/fragment_movie_details_available_on_label"
-        android:text="@string/available_on_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_gray"
-        android:visibility="visible"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fragment_movie_details_availableon_parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_budget"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_budget_label" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_movie_details_available_on_recyclerview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_available_on_label"
-        app:layout_constraintStart_toStartOf="@id/fragment_movie_details_available_on_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:visibility="visible"
-        android:orientation="horizontal"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_small_image_circle" />
+        app:layout_constraintStart_toStartOf="@id/fragment_movie_details_overview_label"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_overview_label"
+        android:backgroundTint="@android:color/transparent"
+        app:cardElevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/fragment_movie_details_available_on_label"
+                android:text="@string/available_on_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_gray"
+                android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_movie_details_available_on_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_available_on_label"
+                app:layout_constraintStart_toStartOf="@id/fragment_movie_details_available_on_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="visible"
+                android:orientation="horizontal"
+                tools:visibility="gone"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_small_image_circle" />
+
+            <TextView
+                android:id="@+id/fragment_movie_details_available_on_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_available_on_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="24dp"
+                android:gravity="center"
+                android:textColor="@color/primary_gray"
+                android:text="@string/movie_details_availableon_message"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/fragment_movie_details_directors_label"
@@ -95,8 +130,8 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:textColor="@color/primary_gray"
-        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_available_on_recyclerview"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_available_on_label" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_availableon_parent"
+        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_availableon_parent" />
 
     <TextView
         android:id="@+id/fragment_movie_details_directors"
@@ -179,7 +214,8 @@
         android:textAllCaps="true"
         app:layout_constraintStart_toEndOf="@id/fragment_movie_details_stars_recyclerview"
         app:layout_constraintTop_toTopOf="@+id/fragment_movie_details_stars_recyclerview"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_movie_details_stars_recyclerview" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_movie_details_stars_recyclerview"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/fragment_movie_details_companies_label"

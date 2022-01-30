@@ -63,7 +63,7 @@
                         android:layout_marginHorizontal="28dp"
                         android:gravity="center"
                         android:textColor="@color/primary_gray"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:text="@string/filter_people_select_instructions"
                         android:visibility="gone"
                         tools:visibility="visible"/>

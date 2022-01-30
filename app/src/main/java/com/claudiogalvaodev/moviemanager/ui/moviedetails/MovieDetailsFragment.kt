@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.model.Company
 import com.claudiogalvaodev.moviemanager.model.Employe
@@ -136,12 +137,12 @@ class MovieDetailsFragment : Fragment() {
 
     private fun configStreamProvidersList(provider: List<Provider>) {
         if(provider.isEmpty()) {
-            binding.fragmentMovieDetailsAvailableOnLabel.visibility = View.GONE
             binding.fragmentMovieDetailsAvailableOnRecyclerview.visibility = View.GONE
+            binding.fragmentMovieDetailsAvailableOnMessage.visibility = View.VISIBLE
             return
         }
-        binding.fragmentMovieDetailsAvailableOnLabel.visibility = View.VISIBLE
         binding.fragmentMovieDetailsAvailableOnRecyclerview.visibility = View.VISIBLE
+        binding.fragmentMovieDetailsAvailableOnMessage.visibility = View.GONE
 
         val circleAdapter = generateInstanceOfCircleAdapter()
         binding.fragmentMovieDetailsAvailableOnRecyclerview.apply {
@@ -151,6 +152,12 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun configDirectorsList(employe: List<Employe>) {
+        if(employe.isEmpty()) {
+            binding.fragmentMovieDetailsDirectors.text = resources.getString(R.string.movie_details_directors_message)
+            binding.fragmentMovieDetailsDirectors.maxLines = 2
+            return
+        }
+        binding.fragmentMovieDetailsDirectors.maxLines = 1
         binding.fragmentMovieDetailsDirectors.text = viewModel.getDirectorsName()
 
         val circleAdapter = generateInstanceOfCircleAdapter()
@@ -161,6 +168,12 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun configStarsList(allEmployes: List<Employe>, employesToShowFirst: List<Employe>) {
+        if(employesToShowFirst.isEmpty()) {
+            binding.fragmentMovieDetailsStarsName.text = resources.getString(R.string.movie_details_stars_message)
+            binding.fragmentMovieDetailsStarsName.maxLines = 2
+            return
+        }
+        binding.fragmentMovieDetailsStarsName.maxLines = 1
         binding.fragmentMovieDetailsStarsName.text = viewModel.getStarsName()
 
         val circleAdapter = generateInstanceOfCircleAdapter()
@@ -189,6 +202,12 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun configCompaniesList(companies: List<Company>) {
+        if(companies.isEmpty()) {
+            binding.fragmentMovieDetailsCompanies.text = resources.getString(R.string.movie_details_companies_message)
+            binding.fragmentMovieDetailsCompanies.maxLines = 2
+            return
+        }
+        binding.fragmentMovieDetailsCompanies.maxLines = 1
         binding.fragmentMovieDetailsCompanies.text = viewModel.getCompaniesName()
 
         val circleAdapter = generateInstanceOfCircleAdapter()
