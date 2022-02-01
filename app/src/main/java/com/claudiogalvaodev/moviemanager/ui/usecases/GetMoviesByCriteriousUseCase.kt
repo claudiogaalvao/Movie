@@ -53,6 +53,7 @@ class GetMoviesByCriteriousUseCase(
     private fun convertPeopleFromJson(criterious: List<Filter>): String {
         val withPeopleJson =
             (criterious.find { filter -> filter.type == FilterType.PEOPLE })?.currentValue ?: ""
+        if(withPeopleJson.toIntOrNull() != null) return withPeopleJson
         val withPeople = if (withPeopleJson.isNotBlank()) {
             val withPeopleList =
                 Gson().fromJson(withPeopleJson, Array<Employe>::class.java).asList()

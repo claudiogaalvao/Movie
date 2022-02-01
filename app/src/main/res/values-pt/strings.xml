@@ -79,4 +79,8 @@
     <string name="filter_alertdialog_message">Quer continuar? Você perderá suas modificações.</string>
     <string name="filter_alertdialog_positive">Continuar</string>
     <string name="filter_alertdialog_negative">Cancelar</string>
+
+    <!-- People details -->
+    <string name="biography_label">Biografia</string>
+    <string name="movies_with_label">Filmes com essa pessoa</string>
 </resources>

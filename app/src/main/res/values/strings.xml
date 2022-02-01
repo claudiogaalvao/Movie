@@ -78,4 +78,8 @@
     <string name="filter_alertdialog_message">Do you want to continue? You\'ll lose your changes.</string>
     <string name="filter_alertdialog_positive">Continue</string>
     <string name="filter_alertdialog_negative">Cancel</string>
+
+    <!-- People details -->
+    <string name="biography_label">Biography</string>
+    <string name="movies_with_label">Movies with this person</string>
 </resources>

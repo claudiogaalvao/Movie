@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_peopleAndCompaniesFragment"
             app:destination="@id/peopleAndCompaniesFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_peopleDetailsFragment"
+            app:destination="@id/peopleDetailsFragment" />
     </fragment>
 
     <fragment
@@ -28,5 +31,16 @@
         <argument android:name="employeList"
             app:argType="com.claudiogalvaodev.moviemanager.model.Employe[]"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_peopleAndCompaniesFragment_to_peopleDetailsFragment2"
+            app:destination="@id/peopleDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/peopleDetailsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsFragment"
+        android:label="PeopleDetailsFragment" >
+        <argument
+            android:name="employeDetails"
+            app:argType="com.claudiogalvaodev.moviemanager.model.Employe" />
     </fragment>
 </navigation>

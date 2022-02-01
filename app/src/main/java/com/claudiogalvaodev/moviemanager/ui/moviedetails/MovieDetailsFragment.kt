@@ -239,6 +239,9 @@ class MovieDetailsFragment : Fragment() {
 
     private fun generateInstanceOfCircleAdapter(): CircleAdapter {
         val circleAdapter = CircleAdapter()
+        circleAdapter.onClickListener = { employeSelected ->
+            goToPeopleDetails(employeSelected)
+        }
         circleAdapter.onLongClickListener = { imageDescription ->
             Toast.makeText(context, imageDescription, Toast.LENGTH_LONG).show()
         }
@@ -269,6 +272,12 @@ class MovieDetailsFragment : Fragment() {
     private fun goToPeopleAndCompanies(actors: List<Employe>) {
         val directions = MovieDetailsFragmentDirections
             .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(actors.toTypedArray())
+        findNavController().navigate(directions)
+    }
+
+    private fun goToPeopleDetails(employe: Employe) {
+        val directions = MovieDetailsFragmentDirections
+            .actionMovieDetailsFragmentToPeopleDetailsFragment(employe)
         findNavController().navigate(directions)
     }
 }

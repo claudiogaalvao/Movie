@@ -9,6 +9,7 @@ import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
 import okhttp3.*
@@ -113,6 +114,7 @@ val viewModelModule = module {
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
     viewModel { MovieDetailsViewModel(get()) }
+    viewModel { PeopleDetailsViewModel(get()) }
 }
 
 val appModules = listOf(

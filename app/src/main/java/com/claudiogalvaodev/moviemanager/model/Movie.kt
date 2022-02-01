@@ -1,8 +1,10 @@
 package com.claudiogalvaodev.moviemanager.model
 
+import android.os.Parcelable
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
 import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
+import kotlinx.parcelize.Parcelize
 
 // Considerar o uso de mais de uma entidade para evitar trazer informações que não serão usadas
 // Entity Movie (id, title, genre_id, poster_path, isFavorite, summary: Summary)
@@ -14,6 +16,7 @@ import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
 // Se o id do filme estiver na lista, mudar o isFavorite do filme para true
 
 // Pesquisar sobre DTO
+@Parcelize
 class Movie(
     val id: Int,
     val title: String,
@@ -35,7 +38,7 @@ class Movie(
     val production_companies: List<Company>,
     val status: String,
     val runtime: Int
-) {
+): Parcelable {
 
     fun getDuration(): String {
         return "${runtime / 60}h${runtime % 60}min"

@@ -9,17 +9,22 @@ import kotlinx.parcelize.Parcelize
 class Employe(
     val id: Long,
     val adult: Boolean,
-    val genre: Long,
+    val gender: Long,
     val known_for_department: String,
+    val known_for: List<Movie>? = null,
     val name: String,
     val original_name: String?,
     val popularity: Double,
     val profile_path: String?,
-    val cast_id: Long,
+    val cast_id: Long? = null,
     val character: String?,
     val credit_id: String?,
-    val order: Long,
-    var position: Int? = null
+    val order: Long? = null,
+    var position: Int? = null,
+    val birthday: String,
+    val deathday: String? = null,
+    val place_of_birth: String? = null,
+    val biography: String? = null
 ) : Parcelable {
     fun getProfileImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$profile_path"

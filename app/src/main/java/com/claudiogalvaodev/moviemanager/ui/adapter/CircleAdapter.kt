@@ -15,10 +15,11 @@ import com.squareup.picasso.Picasso
 
 class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIFF_CALLBACK) {
 
+    var onClickListener: ((employeSelected: Employe) -> Unit)? = null
     var onLongClickListener: ((imageDescription: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircleAdapterViewHolder {
-        return CircleAdapterViewHolder.create(parent, onLongClickListener)
+        return CircleAdapterViewHolder.create(parent, onClickListener, onLongClickListener)
     }
 
     override fun onBindViewHolder(holder: CircleAdapterViewHolder, position: Int) {
@@ -27,6 +28,7 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
 
     class CircleAdapterViewHolder(
         private val binding: ItemSmallImageCircleBinding,
+        private val clickListener: ((employeSelected: Employe) -> Unit)?,
         private val longClickListener: ((imageDescription: String) -> Unit)?
         ): RecyclerView.ViewHolder(binding.root) {
 
@@ -47,8 +49,21 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
                 }
             }
 
+            setupClickListener(obj)
+            setupLongClickListener(obj)
+        }
+
+        private fun setupClickListener(obj: Any) {
+            if (obj is Employe) {
+                binding.root.setOnClickListener {
+                    clickListener?.invoke(obj)
+                }
+            }
+        }
+
+        private fun setupLongClickListener(obj: Any) {
             binding.root.setOnLongClickListener {
-                when(obj) {
+                when (obj) {
                     is Employe -> longClickListener?.invoke(obj.name)
                     is Company -> longClickListener?.invoke(obj.name)
                     is Provider -> longClickListener?.invoke(obj.provider_name)
@@ -58,10 +73,13 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
         }
 
         companion object {
-            fun create(parent: ViewGroup, longClickListener: ((imageDescription: String) -> Unit)?): CircleAdapterViewHolder {
+            fun create(parent: ViewGroup,
+                       clickListener: ((employeSelected: Employe) -> Unit)?,
+                       longClickListener: ((imageDescription: String) -> Unit)?,
+            ): CircleAdapterViewHolder {
                 val binding = ItemSmallImageCircleBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                return CircleAdapterViewHolder(binding, longClickListener)
+                return CircleAdapterViewHolder(binding, clickListener, longClickListener)
             }
         }
     }

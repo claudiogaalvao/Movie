@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
@@ -12,6 +13,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesB
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsFragmentDirections
 import kotlin.math.roundToInt
 
 
@@ -35,7 +37,13 @@ class PeopleAndCompaniesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        circleWithTitleAdapter = CircleWithTitleAdapter()
+        circleWithTitleAdapter = CircleWithTitleAdapter().apply {
+            onItemClick = { obj ->
+                if(obj is Employe) {
+                    goToPeopleDetails(obj)
+                }
+            }
+        }
 
         val employeList = args.employeList
         if(employeList != null) {
@@ -59,6 +67,10 @@ class PeopleAndCompaniesFragment: Fragment() {
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.layoutManager = layoutManager
     }
 
-
+    private fun goToPeopleDetails(employe: Employe) {
+        val directions = PeopleAndCompaniesFragmentDirections
+            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe)
+        findNavController().navigate(directions)
+    }
 
 }
