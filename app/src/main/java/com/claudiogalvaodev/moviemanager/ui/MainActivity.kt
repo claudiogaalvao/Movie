@@ -19,6 +19,7 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
         setNavigationController()
         setupBottomNavigationBehavior()
+        supportActionBar?.elevation = 0F
     }
 
     private fun setNavigationController() {

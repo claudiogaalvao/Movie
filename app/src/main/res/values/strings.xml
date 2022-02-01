@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movie Manager</string>
+    <string name="app_name">CineSete</string>
 
     <!-- Fragments title -->
     <string name="fragment_home_title">Home</string>
@@ -18,6 +18,7 @@
     <string name="movie_cover_description">Movie cover</string>
     <string name="tranding_icon_description">An arrow going to up</string>
     <string name="icon_back">An arrow pointing to the left</string>
+    <string name="app_logo">App logo and CineSete write</string>
 
     <!-- Movie details Screen -->
     <string name="imdb_logo">IMDB logo</string>
