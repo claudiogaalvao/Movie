@@ -86,7 +86,7 @@ class FilterPeopleFragment: Fragment() {
     }
 
     private fun setOnLoadMoreListener() {
-        binding.fragmentFilterPeopleAndCompaniesNestedscroll.setOnScrollChangeListener { nestedView, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.fragmentFilterPeopleAndCompaniesNestedscroll.setOnScrollChangeListener { nestedView, _, scrollY, _, oldScrollY ->
             val child = nestedView.findViewById<RecyclerView>(R.id.fragment_people_and_companies_popular_actors_recyclerview)
             if(child.isNotEmpty()) {
                 if ((scrollY >= (child.measuredHeight - nestedView.measuredHeight)) &&

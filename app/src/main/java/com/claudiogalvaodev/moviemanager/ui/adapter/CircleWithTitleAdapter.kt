@@ -24,7 +24,7 @@ class CircleWithTitleAdapter: ListAdapter<Any, CircleWithTitleViewHolder>(DIFF_C
 
     override fun onBindViewHolder(holder: CircleWithTitleViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, position)
+        holder.bind(item)
     }
 
     class CircleWithTitleViewHolder(
@@ -32,7 +32,7 @@ class CircleWithTitleAdapter: ListAdapter<Any, CircleWithTitleViewHolder>(DIFF_C
         private val clickListener: ((obj: Any) -> Unit)?
         ) : RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(obj: Any, position: Int) {
+            fun bind(obj: Any) {
                 with(binding) {
                     when(obj) {
                         is Employe -> {
