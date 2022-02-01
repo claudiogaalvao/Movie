@@ -2,7 +2,7 @@ package com.claudiogalvaodev.moviemanager.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetTrendingWeekMoviesUseCase
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetUpComingAndPlayingNowMoviesUseCase
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,9 +1,8 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import android.util.Log
-import com.claudiogalvaodev.moviemanager.model.Company
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Company
+import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

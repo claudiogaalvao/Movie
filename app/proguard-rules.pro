@@ -21,4 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.claudiogalvaodev.moviemanager.data.bd.entity.*
--keep class com.claudiogalvaodev.moviemanager.model.*
+-keep class com.claudiogalvaodev.moviemanager.data.model.*

@@ -4,14 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
-import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel

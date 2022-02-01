@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import com.claudiogalvaodev.moviemanager.model.Genre
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Genre
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 
 class GetAllGenresUseCase(
     private val repository: MoviesRepository

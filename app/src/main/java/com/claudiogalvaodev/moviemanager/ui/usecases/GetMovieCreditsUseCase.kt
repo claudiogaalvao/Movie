@@ -1,8 +1,8 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import com.claudiogalvaodev.moviemanager.model.Credits
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Credits
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

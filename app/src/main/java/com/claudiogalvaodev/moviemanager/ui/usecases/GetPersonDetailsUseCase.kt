@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 
 class GetPersonDetailsUseCase(
     private val repository: MoviesRepository

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemSmallImageCircleBinding
-import com.claudiogalvaodev.moviemanager.model.Company
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.model.Provider
+import com.claudiogalvaodev.moviemanager.data.model.Company
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.squareup.picasso.Picasso
 
 class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIFF_CALLBACK) {

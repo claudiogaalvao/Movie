@@ -1,9 +1,9 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
 import app.cash.turbine.test
-import com.claudiogalvaodev.moviemanager.model.Credits
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Credits
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert

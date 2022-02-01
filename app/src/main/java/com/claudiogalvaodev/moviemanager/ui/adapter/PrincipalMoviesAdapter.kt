@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.ItemPrincipalBackdropBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter.*
 import com.squareup.picasso.Picasso

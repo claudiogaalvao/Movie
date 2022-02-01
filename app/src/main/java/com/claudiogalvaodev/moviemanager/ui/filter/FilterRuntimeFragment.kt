@@ -1,12 +1,12 @@
-package com.claudiogalvaodev.moviemanager
+package com.claudiogalvaodev.moviemanager.ui.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterRuntimeBinding
-import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.utils.RuntimeConstants
 
 class FilterRuntimeFragment : Fragment() {

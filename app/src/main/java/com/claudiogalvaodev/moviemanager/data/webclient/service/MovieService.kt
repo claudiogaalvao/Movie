@@ -1,7 +1,7 @@
-package com.claudiogalvaodev.moviemanager.webclient.service
+package com.claudiogalvaodev.moviemanager.data.webclient.service
 
-import com.claudiogalvaodev.moviemanager.model.*
-import com.claudiogalvaodev.moviemanager.model.Collection
+import com.claudiogalvaodev.moviemanager.data.model.*
+import com.claudiogalvaodev.moviemanager.data.model.Collection
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -10,10 +10,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
-import com.claudiogalvaodev.moviemanager.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsFragmentDirections
 import kotlin.math.roundToInt
 
 

@@ -1,8 +1,8 @@
-package com.claudiogalvaodev.moviemanager.repository
+package com.claudiogalvaodev.moviemanager.data.repository
 
-import com.claudiogalvaodev.moviemanager.model.*
-import com.claudiogalvaodev.moviemanager.model.Collection
-import com.claudiogalvaodev.moviemanager.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.data.model.*
+import com.claudiogalvaodev.moviemanager.data.model.Collection
+import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 
 class MoviesRepository(
     private val service: MovieService

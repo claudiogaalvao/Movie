@@ -1,12 +1,10 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import android.util.Log
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.model.Filter
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Filter
+import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
-import com.claudiogalvaodev.moviemanager.utils.RuntimeConstants
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
 import com.google.gson.Gson
 import java.time.LocalDate

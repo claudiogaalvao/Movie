@@ -13,7 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
-import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity

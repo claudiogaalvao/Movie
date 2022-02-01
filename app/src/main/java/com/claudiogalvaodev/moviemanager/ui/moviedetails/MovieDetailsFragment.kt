@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
-import com.claudiogalvaodev.moviemanager.model.Company
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.model.Provider
+import com.claudiogalvaodev.moviemanager.data.model.Company
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils

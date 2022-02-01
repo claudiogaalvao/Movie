@@ -2,10 +2,10 @@ package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.model.Company
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.model.Provider
+import com.claudiogalvaodev.moviemanager.data.model.Company
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

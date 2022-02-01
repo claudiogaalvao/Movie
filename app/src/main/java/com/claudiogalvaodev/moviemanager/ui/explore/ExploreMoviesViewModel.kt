@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.model.Filter
-import com.claudiogalvaodev.moviemanager.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.Filter
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByCriteriousUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType

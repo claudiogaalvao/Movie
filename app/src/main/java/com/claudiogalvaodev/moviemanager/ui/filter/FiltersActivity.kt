@@ -1,7 +1,6 @@
 package com.claudiogalvaodev.moviemanager.ui.filter
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,10 +9,9 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.claudiogalvaodev.moviemanager.FilterRuntimeFragment
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
-import com.claudiogalvaodev.moviemanager.model.Filter
+import com.claudiogalvaodev.moviemanager.data.model.Filter
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
 
 class FiltersActivity: AppCompatActivity() {

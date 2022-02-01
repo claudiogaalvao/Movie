@@ -2,8 +2,8 @@ package com.claudiogalvaodev.moviemanager.ui.filter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.model.Employe
-import com.claudiogalvaodev.moviemanager.model.Genre
+import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Genre
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllGenresUseCase
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllPeopleUseCase
 import kotlinx.coroutines.CoroutineDispatcher

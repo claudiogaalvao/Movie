@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemFilterBinding
-import com.claudiogalvaodev.moviemanager.model.Filter
+import com.claudiogalvaodev.moviemanager.data.model.Filter
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter.FilterViewHolder
 
 class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {

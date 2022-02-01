@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.model
+package com.claudiogalvaodev.moviemanager.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

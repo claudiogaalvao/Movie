@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.usecases
 
-import com.claudiogalvaodev.moviemanager.model.Provider
-import com.claudiogalvaodev.moviemanager.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert

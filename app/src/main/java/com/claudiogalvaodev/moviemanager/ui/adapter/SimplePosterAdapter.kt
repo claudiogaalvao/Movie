@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterBinding
-import com.claudiogalvaodev.moviemanager.model.Movie
-import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter.SimplePosterViewHolder
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
 class SimplePosterAdapter: ListAdapter<Movie, SimplePosterViewHolder>(DIFF_CALLBACK) {

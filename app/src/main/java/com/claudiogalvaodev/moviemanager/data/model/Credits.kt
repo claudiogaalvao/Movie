@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.model
+package com.claudiogalvaodev.moviemanager.data.model
 
 data class Credits(
     var cast: List<Employe>,
