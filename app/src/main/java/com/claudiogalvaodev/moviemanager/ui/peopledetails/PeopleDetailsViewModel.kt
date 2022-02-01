@@ -1,12 +1,12 @@
 package com.claudiogalvaodev.moviemanager.ui.peopledetails
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.R
+import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Filter
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByCriteriousUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetPersonDetailsUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,17 +18,17 @@ import kotlinx.coroutines.withContext
 
 class PeopleDetailsViewModel(
     private val getMoviesByCriteriousUseCase: GetMoviesByCriteriousUseCase,
+    private val getPersonDetailsUseCase: GetPersonDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
+
+    private val _personDetails = MutableStateFlow<Employe?>(null)
+    val personDetails = _personDetails.asStateFlow()
 
     private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
-    // Fazer request para /person/1136406
-    // Fazer request para /discover/movie?sort_by=popularity.desc&with_people=1136406
-
-    // listar movies do discover
-    var isLoading: Boolean = false
+    var isMoviesLoading: Boolean = false
     var isUpdate: Boolean = false
 
     private var theresNoMoreMovies = false
@@ -40,9 +40,21 @@ class PeopleDetailsViewModel(
         return filters
     }
 
+    fun getPersonDetails(personId: String) = viewModelScope.launch {
+        withContext(dispatcher) {
+            val personDetailsResult = getPersonDetailsUseCase.invoke(personId)
+
+            if(personDetailsResult.isSuccess) {
+                personDetailsResult.getOrNull()?.let { person ->
+                    _personDetails.emit(person)
+                }
+            }
+        }
+    }
+
     fun getMovies(personId: String) = viewModelScope.launch {
         withContext(dispatcher) {
-            isLoading = true
+            isMoviesLoading = true
             val moviesResult = if(!theresNoMoreMovies) {
                 getMoviesByCriteriousUseCase.invoke(getFilter(personId), isUpdate)
             } else {
@@ -57,7 +69,7 @@ class PeopleDetailsViewModel(
                     }
                     if(isUpdate) {
                         _movies.emit(movies)
-                        isLoading = false
+                        isMoviesLoading = false
                         isUpdate = false
                         return@withContext
                     }
@@ -67,7 +79,7 @@ class PeopleDetailsViewModel(
                     _movies.emit(moviesList)
                 }
             }
-            isLoading = false
+            isMoviesLoading = false
             isUpdate = false
         }
     }

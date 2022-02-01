@@ -46,4 +46,7 @@ interface MovieService {
         @Query("with_people") withPeople: String,
         @Query("year") year: String
     ): Response<MoviesResponse>
+
+    @GET("person/{id}")
+    suspend fun getPersonDetails(@Path("id") id: String): Response<Employe>
 }

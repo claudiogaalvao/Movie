@@ -92,7 +92,7 @@
             app:layout_constraintTop_toTopOf="@id/fragment_people_details_separator"/>
 
         <TextView
-            android:id="@+id/fragment_people_details_rate"
+            android:id="@+id/fragment_people_details_birthplace"
             tools:text="Surrey, England - UK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

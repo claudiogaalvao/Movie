@@ -33,7 +33,7 @@
     <string name="companies_label">Companhias:</string>
     <string name="movies_sequence_label">Sequência dos filmes</string>
 
-    <string name="movie_details_availableon_message">Desculpe… Nossa fonte de dados pode estar desatualizada e nós não temos informação sobre nenhuma plataforma de streaming que tenha esse filme ainda :(</string>
+    <string name="movie_details_availableon_message">Nós não temos informação sobre nenhuma plataforma de streaming ainda :(</string>
     <string name="movie_details_directors_message">Nós não temos nenhum dado sobre os diretores ainda</string>
     <string name="movie_details_stars_message">Nós não temos nenhum dado sobre os atores ainda</string>
     <string name="movie_details_companies_message">Nós não temos nenhum dado sobre as companhias ainda</string>
@@ -81,6 +81,7 @@
     <string name="filter_alertdialog_negative">Cancelar</string>
 
     <!-- People details -->
+    <string name="age_label">years old</string>
     <string name="biography_label">Biografia</string>
     <string name="movies_with_label">Filmes com essa pessoa</string>
 </resources>

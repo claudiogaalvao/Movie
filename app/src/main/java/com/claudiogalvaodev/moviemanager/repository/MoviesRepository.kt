@@ -69,7 +69,7 @@ class MoviesRepository(
                     result = Result.success(collection)
                 }
             } else {
-                result = Result.failure(exception = Exception("Something went wrong when try to get credits"))
+                result = Result.failure(exception = Exception("Something went wrong when try to get collection"))
             }
         } catch (e: Exception) {
             result = Result.failure(exception = e)
@@ -155,6 +155,23 @@ class MoviesRepository(
                 }
             } else {
                 result = Result.failure(exception = Exception("Something went wrong when try to get popular people"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
+    suspend fun getPersonDetails(personId: String): Result<Employe?> {
+        var result: Result<Employe?> = Result.success(null)
+        try {
+            val response = service.getPersonDetails(personId)
+            if (response.isSuccessful) {
+                response.body()?.let { person ->
+                    result = Result.success(person)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get person details"))
             }
         } catch (e: Exception) {
             result = Result.failure(exception = e)

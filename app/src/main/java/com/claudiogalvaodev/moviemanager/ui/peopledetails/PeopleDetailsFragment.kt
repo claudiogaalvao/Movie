@@ -10,11 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleDetailsBinding
 import com.claudiogalvaodev.moviemanager.model.Employe
 import com.claudiogalvaodev.moviemanager.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -46,11 +48,17 @@ class PeopleDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.isUpdate = true
+
+        getPeopleDetails()
         getMovies()
         bindHeaderInfo()
         setupAdapter()
         setupRecyclerView()
         setupObservers()
+    }
+
+    private fun getPeopleDetails() {
+        viewModel.getPersonDetails(employe?.id.toString())
     }
 
     private fun getMovies() {
@@ -97,7 +105,7 @@ class PeopleDetailsFragment : Fragment() {
                 val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
                 val isNotAtBeginning = firstVisibleItemPosition >= 0
                 val shouldPaginate = isNotAtBeginning && isAtLastItem && isNotAtBeginning
-                if(shouldPaginate && !viewModel.isLoading) {
+                if(shouldPaginate && !viewModel.isMoviesLoading) {
                     getMovies()
                 }
             }
@@ -109,6 +117,28 @@ class PeopleDetailsFragment : Fragment() {
             viewModel.movies.collectLatest { movies ->
                 setMoviesList(movies)
             }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.personDetails.collectLatest { person ->
+                bindPersonDetailsInfo(person)
+            }
+        }
+    }
+
+    private fun bindPersonDetailsInfo(person: Employe?) {
+        person?.let {
+            binding.fragmentPeopleDetailsBiography.text = it.biography
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
+                formatUtils.dateFromAmericanFormatToDateWithMonthName(person.birthday)
+
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsAge.text = if(!person.deathday.isNullOrEmpty()) {
+                formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)
+            } else {
+                "${formatUtils.dateFromAmericanFormatToAge(person.birthday)} ${context?.resources?.getString(R.string.age_label)}"
+            }
+
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth
         }
     }
 

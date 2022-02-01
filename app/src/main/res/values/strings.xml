@@ -32,7 +32,7 @@
     <string name="companies_label">Companies:</string>
     <string name="movies_sequence_label">Movies sequence</string>
 
-    <string name="movie_details_availableon_message">Sorry… Our data source may be out of date and we didn\'t have data about any streaming platform that have that movie yet :(</string>
+    <string name="movie_details_availableon_message">We dodn\'t have any data about streaming platform yet</string>
     <string name="movie_details_directors_message">We don\'t have any data about directors yet</string>
     <string name="movie_details_stars_message">We don\'t have any data about actors yet</string>
     <string name="movie_details_companies_message">We don\'t have any data about companies yet</string>
@@ -80,6 +80,7 @@
     <string name="filter_alertdialog_negative">Cancel</string>
 
     <!-- People details -->
+    <string name="age_label">years old</string>
     <string name="biography_label">Biography</string>
     <string name="movies_with_label">Movies with this person</string>
 </resources>

@@ -109,12 +109,13 @@ val viewModelModule = module {
     single { GetMoviesByCriteriousUseCase(get()) }
     single { GetAllGenresUseCase(get()) }
     single { GetAllPeopleUseCase(get()) }
+    single {  GetPersonDetailsUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
     viewModel { MovieDetailsViewModel(get()) }
-    viewModel { PeopleDetailsViewModel(get()) }
+    viewModel { PeopleDetailsViewModel(get(), get()) }
 }
 
 val appModules = listOf(
