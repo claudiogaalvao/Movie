@@ -2,9 +2,8 @@ package com.claudiogalvaodev.moviemanager.ui.explore
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -12,12 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.ui.search.SearchActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -39,6 +40,11 @@ class ExploreMoviesFragment: Fragment() {
     private lateinit var filtersAdapter: FilterAdapter
     private lateinit var moviesAdapter: SimplePosterAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +59,21 @@ class ExploreMoviesFragment: Fragment() {
         setupAdapter()
         setupRecyclerView()
         setObservables()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.explore_options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.search -> {
+                goToSearch()
+                true
+            }
+            else -> true
+        }
     }
 
     private fun getMovies() {
@@ -136,6 +157,11 @@ class ExploreMoviesFragment: Fragment() {
     private fun goToMovieDetails(movie: Movie) {
         val intent = Intent(activity, MovieDetailsActivity::class.java)
         intent.putExtra("movieId", movie.id)
+        startActivity(intent)
+    }
+
+    private fun goToSearch() {
+        val intent = Intent(activity, SearchActivity::class.java)
         startActivity(intent)
     }
 

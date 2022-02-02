@@ -1,6 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.navigation.fragment.NavHostFragment
@@ -17,12 +18,14 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         setNavigationController()
         setupBottomNavigationBehavior()
-        supportActionBar?.elevation = 0F
     }
 
     private fun setNavigationController() {
+        setSupportActionBar(binding.activityMainToolbar)
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.activity_main_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
