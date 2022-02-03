@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
 import com.claudiogalvaodev.moviemanager.data.model.Filter
-import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
+import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 
 class FiltersActivity: AppCompatActivity() {
 

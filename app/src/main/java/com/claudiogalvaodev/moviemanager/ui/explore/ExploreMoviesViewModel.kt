@@ -8,7 +8,7 @@ import com.claudiogalvaodev.moviemanager.data.model.Filter
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByCriteriousUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
-import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
+import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

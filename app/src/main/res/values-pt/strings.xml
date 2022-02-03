@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gerenciador de Filmes</string>
+    <string name="app_name">CineSete App</string>
 
     <!-- Fragments title -->
     <string name="fragment_home_title">Início</string>
@@ -82,9 +82,21 @@
     <string name="filter_alertdialog_negative">Cancelar</string>
 
     <!-- People details -->
-    <string name="age_label">years old</string>
+    <string name="age_label">anos</string>
     <string name="biography_label">Biografia</string>
     <string name="movies_with_label">Filmes com essa pessoa</string>
     <string name="seach_label">Pesquisar</string>
     <string name="edittext_search_hint">Buscar por título do filme</string>
+
+    <!-- Menu -->
+    <string name="menu">Menu</string>
+    <string name="icon_arrow_forward_description">Seta apontando para direita</string>
+    <string name="data_provided_by_label">Data provided by</string>
+    <string name="the_movie_db_logo">The movie db logo</string>
+    <string name="version">Versão</string>
+
+    <!-- Menu options -->
+    <string name="my_lists">Minhas Listas</string>
+    <string name="about_developer">Sobre o desenvolvedor</string>
+    <string name="settings">Configurações</string>
 </resources>

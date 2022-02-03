@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.data.model
 
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
+import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
 
 class Provider(
     val display_priority: Long,

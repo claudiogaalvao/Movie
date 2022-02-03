@@ -2,8 +2,8 @@ package com.claudiogalvaodev.moviemanager.data.model
 
 import android.os.Parcelable
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.utils.enum.BackdropSizes
-import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
+import com.claudiogalvaodev.moviemanager.utils.enums.BackdropSizes
+import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
 import kotlinx.parcelize.Parcelize
 
 // Considerar o uso de mais de uma entidade para evitar trazer informações que não serão usadas
@@ -45,7 +45,7 @@ class Movie(
     }
 
     fun getGenres(): String {
-        var genresConcat: String = ""
+        var genresConcat = ""
         genres.map { genre ->
             genresConcat += if(genres.last().name == genre.name) {
                 genre.name

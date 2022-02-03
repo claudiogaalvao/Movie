@@ -17,4 +17,10 @@
         android:label="ExploreFragment"
         tools:layout="@layout/fragment_explore_movies" />
 
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.menu.MenuFragment"
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu" />
+
 </navigation>

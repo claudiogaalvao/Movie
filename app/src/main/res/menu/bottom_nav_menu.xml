@@ -9,5 +9,9 @@
         android:id="@+id/exploreFragment"
         android:title="@string/explore"
         android:icon="@drawable/ic_explore"/>
+    <item
+        android:id="@+id/menuFragment"
+        android:title="@string/menu"
+        android:icon="@drawable/ic_menu" />
 
 </menu>

@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.data.model
 
 import android.os.Parcelable
-import com.claudiogalvaodev.moviemanager.utils.enum.FilterType
+import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

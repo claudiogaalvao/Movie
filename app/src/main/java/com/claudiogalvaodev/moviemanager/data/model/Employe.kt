@@ -2,7 +2,7 @@ package com.claudiogalvaodev.moviemanager.data.model
 
 import android.os.Parcelable
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.utils.enum.PosterSizes
+import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.utils.enum
+package com.claudiogalvaodev.moviemanager.utils.enums
 
 enum class BackdropSizes {
     ORIGINAL, W_1280, W_780, W_300
