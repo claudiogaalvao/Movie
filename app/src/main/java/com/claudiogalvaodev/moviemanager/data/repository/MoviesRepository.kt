@@ -199,4 +199,21 @@ class MoviesRepository(
         return result
     }
 
+    suspend fun searchMovie(page: Int, query: String): Result<List<Movie>> {
+        var result: Result<List<Movie>> = Result.success(emptyList())
+        try {
+            val response = service.searchMovie(page, query)
+            if(response.isSuccessful) {
+                response.body()?.results?.let { movies ->
+                    result = Result.success(movies)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to search movies"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
 }

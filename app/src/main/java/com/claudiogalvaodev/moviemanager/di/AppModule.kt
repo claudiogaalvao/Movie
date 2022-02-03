@@ -12,6 +12,7 @@ import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -109,13 +110,15 @@ val viewModelModule = module {
     single { GetMoviesByCriteriousUseCase(get()) }
     single { GetAllGenresUseCase(get()) }
     single { GetAllPeopleUseCase(get()) }
-    single {  GetPersonDetailsUseCase(get()) }
+    single { GetPersonDetailsUseCase(get()) }
+    single { SearchMoviesUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
     viewModel { MovieDetailsViewModel(get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
+    viewModel { SearchViewModel(get()) }
 }
 
 val appModules = listOf(

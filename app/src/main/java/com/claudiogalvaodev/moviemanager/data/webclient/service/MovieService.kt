@@ -49,4 +49,10 @@ interface MovieService {
 
     @GET("person/{id}")
     suspend fun getPersonDetails(@Path("id") id: String): Response<Employe>
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("page") page: Int,
+        @Query("query") query: String,
+    ): Response<MoviesResponse>
 }
