@@ -99,4 +99,7 @@
     <string name="my_lists">Minhas Listas</string>
     <string name="about_developer">Sobre o desenvolvedor</string>
     <string name="settings">Configurações</string>
+
+    <string name="add_icon">Add icon</string>
+    <string name="add_to_list">Adicionar à lista</string>
 </resources>
