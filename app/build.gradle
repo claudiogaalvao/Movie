@@ -40,10 +40,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    def room_version = "2.3.0"
+    def room_version = "2.4.1"
     def nav_version = "2.4.0-alpha02"
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     // Retrofit and Interceptor
@@ -59,9 +59,9 @@ dependencies {
     implementation 'org.koin:koin-android-viewmodel:2.1.6'
 
     // Room
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation "androidx.room:room-runtime:$room_version"
     implementation("androidx.room:room-ktx:$room_version")
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment:$nav_version"

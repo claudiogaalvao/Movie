@@ -46,7 +46,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.activity_movie_details_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        navController.setGraph(R.navigation.movie_details_nav_graph, bundle)
+        navController.setGraph(R.navigation.main_without_bottom_nav_graph, bundle)
         appBarConfiguration = AppBarConfiguration(navController.graph)
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
+import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
@@ -12,6 +13,7 @@ import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.ui.mylists.MyListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
@@ -90,12 +92,12 @@ val retrofitModule = module {
     single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
 }
 
-//val daoModule = module {
-//    single { MoviesDatabase.getInstance(androidContext()).employeDao }
-//}
+val daoModule = module {
+    single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
+}
 
 val repositoryModule = module {
-    single { MoviesRepository(get()) }
+    single { MoviesRepository(get(), get()) }
 }
 
 val viewModelModule = module {
@@ -112,6 +114,8 @@ val viewModelModule = module {
     single { GetAllPeopleUseCase(get()) }
     single { GetPersonDetailsUseCase(get()) }
     single { SearchMoviesUseCase(get()) }
+    single { CreateNewListOnMyListsUseCase(get()) }
+    single { GetAllMyListsUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
@@ -119,8 +123,9 @@ val viewModelModule = module {
     viewModel { MovieDetailsViewModel(get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { MyListsViewModel(get(), get()) }
 }
 
 val appModules = listOf(
-    retrofitModule, repositoryModule, viewModelModule
+    retrofitModule, repositoryModule, viewModelModule, daoModule
 )

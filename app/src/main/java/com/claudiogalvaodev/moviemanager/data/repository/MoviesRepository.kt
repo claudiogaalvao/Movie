@@ -1,12 +1,25 @@
 package com.claudiogalvaodev.moviemanager.data.repository
 
+import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.*
 import com.claudiogalvaodev.moviemanager.data.model.Collection
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 
 class MoviesRepository(
-    private val service: MovieService
+    private val service: MovieService,
+    private val myListsDao: MyListsDao
 ) {
+
+    // DAO
+    // MyLists (id, name)
+    // MoviesSaved (movie id, poster, list id)
+
+    suspend fun createNewList(newList: MyList) {
+        myListsDao.createNewList(newList)
+    }
+
+    fun getAllMyLists() = myListsDao.getAllMyLists()
 
     suspend fun getDetails(id: Int): Result<Movie?> {
         var result: Result<Movie?> = Result.success(null)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_details_nav_graph"
-    app:startDestination="@id/movieDetailsFragment">
+    app:startDestination="@id/myListsFragment">
 
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -27,7 +27,8 @@
     <fragment
         android:id="@+id/peopleAndCompaniesFragment"
         android:name="com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesFragment"
-        android:label="PeopleAndCompaniesFragment" >
+        android:label="PeopleAndCompaniesFragment"
+        tools:layout="@layout/fragment_people_and_companies">
         <argument android:name="employeList"
             app:argType="com.claudiogalvaodev.moviemanager.data.model.Employe[]"
             app:nullable="true" />
@@ -38,9 +39,31 @@
     <fragment
         android:id="@+id/peopleDetailsFragment"
         android:name="com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsFragment"
-        android:label="PeopleDetailsFragment" >
+        android:label="PeopleDetailsFragment"
+        tools:layout="@layout/fragment_people_details">
         <argument
             android:name="employeDetails"
             app:argType="com.claudiogalvaodev.moviemanager.data.model.Employe" />
+    </fragment>
+    <fragment
+        android:id="@+id/myListsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListsFragment"
+        android:label="fragment_my_lists"
+        tools:layout="@layout/fragment_my_lists" >
+        <action
+            android:id="@+id/action_myListsFragment_to_myListFragmentDetails"
+            app:destination="@id/myListFragmentDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/myListFragmentDetails"
+        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListFragmentDetails"
+        android:label="MyListFragmentDetails"
+        tools:layout="@layout/fragment_my_list_details">
+        <action
+            android:id="@+id/action_myListFragmentDetails_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="MyListId"
+            app:argType="integer" />
     </fragment>
 </navigation>

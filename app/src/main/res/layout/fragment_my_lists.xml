@@ -8,6 +8,7 @@
     tools:context=".ui.mylists.MyListsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_lists_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,6 +18,7 @@
         tools:listitem="@layout/item_forward_with_image" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/my_lists_fab"
         android:layout_width="56dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"

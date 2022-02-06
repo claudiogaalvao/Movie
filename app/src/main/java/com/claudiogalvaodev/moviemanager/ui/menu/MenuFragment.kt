@@ -1,5 +1,6 @@
 package com.claudiogalvaodev.moviemanager.ui.menu
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.model.MenuItem
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMenuBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.MenuAdapter
+import com.claudiogalvaodev.moviemanager.ui.mylists.MyListsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.MenuItemType
 
 class MenuFragment: Fragment() {
@@ -61,7 +63,7 @@ class MenuFragment: Fragment() {
             onClickListener = { menuItemType ->
                 when(menuItemType) {
                     MenuItemType.MY_LISTS -> {
-                        Toast.makeText(context, "Selecionou minhas listas", Toast.LENGTH_LONG).show()
+                        goToMyLists()
                     }
                     MenuItemType.ABOUT_DEVELOPER -> {
                         Toast.makeText(context, "Selecionou about developer", Toast.LENGTH_LONG).show()
@@ -77,6 +79,11 @@ class MenuFragment: Fragment() {
     private fun setupRecyclerView() {
         binding.fragmentMenuRecyclerview.adapter = menuItemsAdapter
         menuItemsAdapter.submitList(menuItems)
+    }
+
+    private fun goToMyLists() {
+        val intent = Intent(activity, MyListsActivity::class.java)
+        startActivity(intent)
     }
 
 }

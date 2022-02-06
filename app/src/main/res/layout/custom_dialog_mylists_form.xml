@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="28dp"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/my_lists_form_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/primary_purple"
+        android:text="@string/my_lists_form_new_instruction" />
+
+    <EditText
+        android:id="@+id/my_lists_form_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/my_lists_form_title"
+        android:inputType="textCapSentences"
+        android:hint="@string/my_lists_form_new_hint"
+        android:textColorHint="@color/primary_gray"
+        tools:ignore="Autofill" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
