@@ -28,22 +28,21 @@ class MyListsFragment : Fragment() {
 
     private lateinit var myListsAdapter: ForwardWithImageAdapter
 
-    private val alertDialog by lazy {
+    private val alertCreateNewListDialog by lazy {
         context?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
 
             val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
             val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
 
-            builder.setTitle("Create new list")
+            builder.setTitle(getString(R.string.new_list_dialog_title))
                 .setView(dialogView)
-                .setPositiveButton("Create") { _, _ ->
+                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
                     val newListName = myListEditText?.text
                     viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
         }
-
     }
 
     override fun onCreateView(
@@ -91,18 +90,8 @@ class MyListsFragment : Fragment() {
 
     private fun setupListeners() {
         binding.myListsFab.setOnClickListener {
-            alertDialog?.show()
+            alertCreateNewListDialog?.show()
         }
-    }
-
-    private fun showDialog() {
-        context?.let {
-            val dialog = Dialog(it)
-            dialog.setContentView(R.layout.custom_dialog_mylists_form)
-            dialog.show()
-        }
-
-
     }
 
 }

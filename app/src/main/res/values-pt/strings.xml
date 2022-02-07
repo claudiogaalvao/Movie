@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CineSete App</string>
+    <string name="app_name">CineSete</string>
 
     <!-- Fragments title -->
     <string name="fragment_home_title">Início</string>
@@ -99,11 +99,12 @@
     <string name="my_lists">Minhas Listas</string>
     <string name="about_developer">Sobre o desenvolvedor</string>
     <string name="settings">Configurações</string>
-
     <string name="add_icon">Add icon</string>
     <string name="add_to_list">Adicionar à lista</string>
+
     <string name="my_lists_form_new_instruction">Dê um nome para sua nova lista</string>
-    <string name="my_lists_form_new_hint">Nome da lista</string>
-    <string name="save_new_list_button">Criar nova lista</string>
+    <string name="new_list_dialog_title">Criar nova lista</string>
+    <string name="new_list_dialog_hint">Nome da lista</string>
+    <string name="new_list_dialog_button">Criar</string>
     <string name="bottomsheet_title">Escolha a lista</string>
 </resources>

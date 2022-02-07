@@ -102,8 +102,9 @@
     <string name="add_to_list">Add to list</string>
 
     <string name="my_lists_form_new_instruction">Choose a name for your new list</string>
-    <string name="my_lists_form_new_hint">List name</string>
-    <string name="save_new_list_button">Create new list</string>
+    <string name="new_list_dialog_title">Create new list</string>
+    <string name="new_list_dialog_hint">List name</string>
+    <string name="new_list_dialog_button">Create</string>
     <string name="bottomsheet_title">Choose the list</string>
 
 </resources>

@@ -5,22 +5,21 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
-import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
+import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.MyListsAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
@@ -39,6 +38,24 @@ class MovieDetailsFragment : Fragment() {
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val movieId by lazy {
         args.movieId.toInt()
+    }
+
+    private val alertCreateNewListDialog by lazy {
+        context?.let {
+            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
+
+            val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
+            val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
+
+            builder.setTitle(getString(R.string.new_list_dialog_title))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
+                    val newListName = myListEditText?.text
+                    viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
+                    // Salvar filme na lista criada e mostrar mensagem "Salvo em Quero Assistir"
+                }
+                .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
+        }
     }
 
     override fun onCreateView(
@@ -162,7 +179,12 @@ class MovieDetailsFragment : Fragment() {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setContentView(dialogBinding.root)
 
-            setupDialogRecyclerView(dialog)
+            dialogBinding.customBottomsheetCreateNewlist.setOnClickListener {
+                alertCreateNewListDialog?.show()
+                dialog.hide()
+            }
+
+            setupDialogRecyclerView(dialogBinding)
             dialog.show()
             dialog.window?.apply {
                 setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -173,10 +195,9 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupDialogRecyclerView(dialog: Dialog) {
+    private fun setupDialogRecyclerView(dialogBinding: CustomBottomsheetBinding) {
         val dialogAdapter = createDialogAdapter()
-        val recyclerView = dialog.findViewById<RecyclerView>(R.id.custom_bottomsheet_recyclerview)
-        recyclerView.adapter = dialogAdapter
+        dialogBinding.customBottomsheetRecyclerview.adapter = dialogAdapter
 
         lifecycleScope.launchWhenStarted {
             viewModel.myLists.collectLatest { myLists ->

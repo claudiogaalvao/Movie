@@ -39,7 +39,7 @@
         android:background="@android:color/transparent"
         android:textColor="@color/primary_purple"
         android:textAllCaps="false"
-        android:text="@string/save_new_list_button"
+        android:text="@string/new_list_dialog_title"
         tools:ignore="RtlHardcoded" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

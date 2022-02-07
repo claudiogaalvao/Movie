@@ -84,7 +84,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        binding.searchFragmentEdittext.setOnEditorActionListener { textView, actionId, event ->
+        binding.searchFragmentEdittext.setOnEditorActionListener { textView, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchMovie(textView.text.toString())
                 val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

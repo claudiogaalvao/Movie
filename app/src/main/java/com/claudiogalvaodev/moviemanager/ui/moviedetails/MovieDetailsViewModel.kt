@@ -8,14 +8,19 @@ import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.ui.usecases.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieDetailsViewModel(
     private val getMovieDetailsUseCases: GetMovieDetailsUseCases,
-    private val getAllMyListsUseCase: GetAllMyListsUseCase
+    private val getAllMyListsUseCase: GetAllMyListsUseCase,
+    private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
     private val _movie = MutableStateFlow<Movie?>(null)
@@ -38,6 +43,13 @@ class MovieDetailsViewModel(
 
     private val _myLists = MutableStateFlow<List<MyList>>(emptyList())
     val myLists = _myLists.asStateFlow()
+
+    fun createNewList(newList: MyList) = viewModelScope.launch {
+        withContext(dispatcher) {
+            createNewListOnMyListsUseCase.invoke(newList)
+            getAllMyLists()
+        }
+    }
 
     fun getAllMyLists() = viewModelScope.launch {
         getAllMyListsUseCase.invoke().collectLatest { myLists ->

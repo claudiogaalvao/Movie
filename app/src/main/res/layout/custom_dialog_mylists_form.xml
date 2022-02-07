@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="12dp"
     android:paddingVertical="28dp"
-    android:background="@color/white"
+    android:background="@android:color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/my_lists_form_title"
         android:inputType="textCapSentences"
-        android:hint="@string/my_lists_form_new_hint"
+        android:hint="@string/new_list_dialog_hint"
+        android:textColor="@android:color/black"
         android:textColorHint="@color/primary_gray"
         tools:ignore="Autofill" />
 
