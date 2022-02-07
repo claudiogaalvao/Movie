@@ -46,7 +46,13 @@ class MovieDetailsActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.activity_movie_details_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        navController.setGraph(R.navigation.main_without_bottom_nav_graph, bundle)
+
+        // Config graph with different startDestination
+        val graphInflater = navHostFragment.navController.navInflater
+        val navGraph = graphInflater.inflate(R.navigation.main_without_bottom_nav_graph)
+        navGraph.setStartDestination(R.id.movieDetailsFragment)
+        navController.setGraph(navGraph, bundle)
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
     }
 

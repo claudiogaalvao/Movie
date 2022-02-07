@@ -104,4 +104,6 @@
     <string name="add_to_list">Adicionar à lista</string>
     <string name="my_lists_form_new_instruction">Dê um nome para sua nova lista</string>
     <string name="my_lists_form_new_hint">Nome da lista</string>
+    <string name="save_new_list_button">Criar nova lista</string>
+    <string name="bottomsheet_title">Escolha a lista</string>
 </resources>

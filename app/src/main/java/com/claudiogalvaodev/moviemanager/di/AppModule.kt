@@ -120,7 +120,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
-    viewModel { MovieDetailsViewModel(get()) }
+    viewModel { MovieDetailsViewModel(get(), get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { MyListsViewModel(get(), get()) }

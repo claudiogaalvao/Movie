@@ -1,21 +1,28 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
+import com.claudiogalvaodev.moviemanager.ui.adapter.MyListsAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
@@ -46,10 +53,16 @@ class MovieDetailsFragment : Fragment() {
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
+        getData()
+        setObservables()
+        setListeners()
+    }
+
+    private fun getData() {
         viewModel.getMovieDetails(movieId)
         viewModel.getMovieCredits(movieId)
         viewModel.getProviders(movieId)
-        setObservables()
+        viewModel.getAllMyLists()
     }
 
     private fun setObservables() {
@@ -133,6 +146,53 @@ class MovieDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setListeners() {
+        binding.fragmentMovieDetailsHeader.addToListParent.setOnClickListener {
+            showDialog()
+        }
+    }
+
+    private fun showDialog() {
+        context?.let {
+            val dialog = Dialog(it)
+            val dialogBinding = CustomBottomsheetBinding.inflate(layoutInflater)
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(dialogBinding.root)
+
+            setupDialogRecyclerView(dialog)
+            dialog.show()
+            dialog.window?.apply {
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                attributes.windowAnimations = R.style.DialogAnimation
+                setGravity(Gravity.BOTTOM)
+            }
+        }
+    }
+
+    private fun setupDialogRecyclerView(dialog: Dialog) {
+        val dialogAdapter = createDialogAdapter()
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.custom_bottomsheet_recyclerview)
+        recyclerView.adapter = dialogAdapter
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.myLists.collectLatest { myLists ->
+                dialogAdapter.submitList(myLists)
+            }
+        }
+
+    }
+
+    private fun createDialogAdapter(): MyListsAdapter {
+        val dialogAdapter = MyListsAdapter().apply {
+            onItemClick = { id ->
+                Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
+            }
+        }
+        return dialogAdapter
     }
 
     private fun configStreamProvidersList(provider: List<Provider>) {

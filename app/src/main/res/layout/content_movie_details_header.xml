@@ -134,9 +134,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:cardElevation="0dp"
                 android:elevation="0dp"
+                android:clickable="true"
                 android:backgroundTint="@android:color/transparent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/add_to_list_parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 

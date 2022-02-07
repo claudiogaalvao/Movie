@@ -101,8 +101,9 @@
     <string name="add_icon">Add icon</string>
     <string name="add_to_list">Add to list</string>
 
-
     <string name="my_lists_form_new_instruction">Choose a name for your new list</string>
     <string name="my_lists_form_new_hint">List name</string>
+    <string name="save_new_list_button">Create new list</string>
+    <string name="bottomsheet_title">Choose the list</string>
 
 </resources>

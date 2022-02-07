@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.databinding.SearchFragmentBinding
+import com.claudiogalvaodev.moviemanager.databinding.FragmentSearchBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.delay
@@ -28,7 +28,7 @@ class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModel()
     private val binding by lazy {
-        SearchFragmentBinding.inflate(layoutInflater)
+        FragmentSearchBinding.inflate(layoutInflater)
     }
 
     private lateinit var moviesAdapter: SimplePosterAdapter
