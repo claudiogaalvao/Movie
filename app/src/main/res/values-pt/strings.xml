@@ -107,4 +107,6 @@
     <string name="new_list_dialog_hint">Nome da lista</string>
     <string name="new_list_dialog_button">Criar</string>
     <string name="bottomsheet_title">Escolha a lista</string>
+
+    <string name="movie_saved_successfully_message">Salvo em</string>
 </resources>

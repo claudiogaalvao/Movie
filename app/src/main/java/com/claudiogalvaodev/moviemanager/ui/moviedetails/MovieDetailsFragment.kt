@@ -26,6 +26,7 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
@@ -38,24 +39,6 @@ class MovieDetailsFragment : Fragment() {
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val movieId by lazy {
         args.movieId.toInt()
-    }
-
-    private val alertCreateNewListDialog by lazy {
-        context?.let {
-            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
-
-            val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
-            val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
-
-            builder.setTitle(getString(R.string.new_list_dialog_title))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
-                    val newListName = myListEditText?.text
-                    viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
-                    // Salvar filme na lista criada e mostrar mensagem "Salvo em Quero Assistir"
-                }
-                .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
-        }
     }
 
     override fun onCreateView(
@@ -167,11 +150,11 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setListeners() {
         binding.fragmentMovieDetailsHeader.addToListParent.setOnClickListener {
-            showDialog()
+            showMyListsOptions()
         }
     }
 
-    private fun showDialog() {
+    private fun showMyListsOptions() {
         context?.let {
             val dialog = Dialog(it)
             val dialogBinding = CustomBottomsheetBinding.inflate(layoutInflater)
@@ -180,11 +163,11 @@ class MovieDetailsFragment : Fragment() {
             dialog.setContentView(dialogBinding.root)
 
             dialogBinding.customBottomsheetCreateNewlist.setOnClickListener {
-                alertCreateNewListDialog?.show()
+                openCreateNewListDialog()
                 dialog.hide()
             }
 
-            setupDialogRecyclerView(dialogBinding)
+            setupMyListsRecyclerView(dialogBinding, dialog)
             dialog.show()
             dialog.window?.apply {
                 setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -195,8 +178,8 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupDialogRecyclerView(dialogBinding: CustomBottomsheetBinding) {
-        val dialogAdapter = createDialogAdapter()
+    private fun setupMyListsRecyclerView(dialogBinding: CustomBottomsheetBinding, dialog: Dialog) {
+        val dialogAdapter = createMyListsAdapter(dialog)
         dialogBinding.customBottomsheetRecyclerview.adapter = dialogAdapter
 
         lifecycleScope.launchWhenStarted {
@@ -207,13 +190,24 @@ class MovieDetailsFragment : Fragment() {
 
     }
 
-    private fun createDialogAdapter(): MyListsAdapter {
+    private fun createMyListsAdapter(dialog: Dialog): MyListsAdapter {
         val dialogAdapter = MyListsAdapter().apply {
-            onItemClick = { id ->
-                Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
+            onItemClick = { listSelected ->
+                dialog.hide()
+                saveMovieToMyList(listSelected)
             }
         }
         return dialogAdapter
+    }
+
+    private fun saveMovieToMyList(listSelected: MyList) {
+        lifecycleScope.launch {
+            viewModel.saveMovieToMyList(listSelected.id).collectLatest { successfullySaved ->
+                if(successfullySaved) {
+                    Toast.makeText(context, "Salvo em ${listSelected.name}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     private fun configStreamProvidersList(provider: List<Provider>) {
@@ -327,6 +321,32 @@ class MovieDetailsFragment : Fragment() {
             Toast.makeText(context, imageDescription, Toast.LENGTH_LONG).show()
         }
         return circleAdapter
+    }
+
+    private fun openCreateNewListDialog() {
+        context?.let {
+            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
+
+            val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
+            val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
+
+            builder.setTitle(getString(R.string.new_list_dialog_title))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
+                    val newListName = myListEditText?.text
+                    createNewList(MyList(id = 0, name = newListName.toString()))
+                }
+                .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
+                .show()
+        }
+    }
+
+    private fun createNewList(newList: MyList) {
+        lifecycleScope.launch {
+            viewModel.createNewList(newList).collectLatest { myListId ->
+                saveMovieToMyList(MyList(id = myListId, name = newList.name, posterPath = newList.posterPath))
+            }
+        }
     }
 
     private fun calcCountStarsImage(): Int {

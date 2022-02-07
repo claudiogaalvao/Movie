@@ -7,8 +7,6 @@ class CreateNewListOnMyListsUseCase(
     private val repository: MoviesRepository
 ) {
 
-    suspend operator fun invoke(newList: MyList) {
-        return repository.createNewList(newList)
-    }
+    suspend operator fun invoke(newList: MyList) = repository.createNewList(newList)
 
 }

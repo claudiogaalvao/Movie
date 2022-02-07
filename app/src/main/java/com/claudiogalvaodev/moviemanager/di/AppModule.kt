@@ -94,10 +94,11 @@ val retrofitModule = module {
 
 val daoModule = module {
     single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
 }
 
 val repositoryModule = module {
-    single { MoviesRepository(get(), get()) }
+    single { MoviesRepository(get(), get(), get()) }
 }
 
 val viewModelModule = module {
@@ -116,11 +117,13 @@ val viewModelModule = module {
     single { SearchMoviesUseCase(get()) }
     single { CreateNewListOnMyListsUseCase(get()) }
     single { GetAllMyListsUseCase(get()) }
+    single { SaveMovieToMyListUseCase(get()) }
+    single { GetMoviesSavedWithMyListIdUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
-    viewModel { MovieDetailsViewModel(get(), get(), get()) }
+    viewModel { MovieDetailsViewModel(get(), get(), get(), get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { MyListsViewModel(get(), get()) }

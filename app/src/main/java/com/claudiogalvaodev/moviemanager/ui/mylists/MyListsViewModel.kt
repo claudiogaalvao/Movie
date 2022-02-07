@@ -34,7 +34,6 @@ class MyListsViewModel(
             getAllMyListsUseCase.invoke().collectLatest { allMyLists ->
                 _myLists.emit(allMyLists)
             }
-
         }
     }
 

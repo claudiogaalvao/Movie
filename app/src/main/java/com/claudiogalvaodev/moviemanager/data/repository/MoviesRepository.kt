@@ -1,6 +1,8 @@
 package com.claudiogalvaodev.moviemanager.data.repository
 
+import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.*
 import com.claudiogalvaodev.moviemanager.data.model.Collection
@@ -8,16 +10,22 @@ import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 
 class MoviesRepository(
     private val service: MovieService,
-    private val myListsDao: MyListsDao
+    private val myListsDao: MyListsDao,
+    private val moviesSavedDao: MoviesSavedDao
 ) {
 
-    // DAO
-    // MyLists (id, name)
-    // MoviesSaved (movie id, poster, list id)
-
-    suspend fun createNewList(newList: MyList) {
-        myListsDao.createNewList(newList)
+    suspend fun saveMovieToMyList(movieSaved: MovieSaved): Result<Unit> {
+        return try {
+            moviesSavedDao.saveMovie(movieSaved)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(exception = Exception("Something went wrong when try to save movie to list"))
+        }
     }
+
+    fun getMoviesSavedWithMyListId(myListId: Int) = moviesSavedDao.getMoviesWithMyListId(myListId)
+
+    suspend fun createNewList(newList: MyList) = myListsDao.createNewList(newList)
 
     fun getAllMyLists() = myListsDao.getAllMyLists()
 

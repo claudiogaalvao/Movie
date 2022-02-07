@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface MyListsDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun createNewList(list: MyList)
+    suspend fun createNewList(list: MyList): Long
 
     @Query("SELECT * FROM MyList")
     fun getAllMyLists(): Flow<List<MyList>>

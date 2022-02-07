@@ -28,23 +28,6 @@ class MyListsFragment : Fragment() {
 
     private lateinit var myListsAdapter: ForwardWithImageAdapter
 
-    private val alertCreateNewListDialog by lazy {
-        context?.let {
-            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
-
-            val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
-            val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
-
-            builder.setTitle(getString(R.string.new_list_dialog_title))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
-                    val newListName = myListEditText?.text
-                    viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
-                }
-                .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,7 +73,25 @@ class MyListsFragment : Fragment() {
 
     private fun setupListeners() {
         binding.myListsFab.setOnClickListener {
-            alertCreateNewListDialog?.show()
+            openCreateNewListDialog()
+        }
+    }
+
+    private fun openCreateNewListDialog() {
+        context?.let {
+            val builder = AlertDialog.Builder(it, R.style.MyDialogTheme)
+
+            val dialogView = layoutInflater.inflate(R.layout.custom_dialog_mylists_form, null)
+            val myListEditText = dialogView?.findViewById<EditText>(R.id.my_lists_form_edittext)
+
+            builder.setTitle(getString(R.string.new_list_dialog_title))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
+                    val newListName = myListEditText?.text
+                    viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
+                }
+                .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
+                .show()
         }
     }
 

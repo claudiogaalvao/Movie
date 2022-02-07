@@ -2,24 +2,29 @@ package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
-import com.claudiogalvaodev.moviemanager.ui.usecases.*
+import com.claudiogalvaodev.moviemanager.ui.usecases.CreateNewListOnMyListsUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllMyListsUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.GetMovieDetailsUseCases
+import com.claudiogalvaodev.moviemanager.ui.usecases.SaveMovieToMyListUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieDetailsViewModel(
     private val getMovieDetailsUseCases: GetMovieDetailsUseCases,
     private val getAllMyListsUseCase: GetAllMyListsUseCase,
     private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
+    private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -44,11 +49,32 @@ class MovieDetailsViewModel(
     private val _myLists = MutableStateFlow<List<MyList>>(emptyList())
     val myLists = _myLists.asStateFlow()
 
-    fun createNewList(newList: MyList) = viewModelScope.launch {
-        withContext(dispatcher) {
-            createNewListOnMyListsUseCase.invoke(newList)
-            getAllMyLists()
+    fun saveMovieToMyList(myListId: Int): Flow<Boolean> {
+        val successfullySaved = MutableStateFlow(false)
+        viewModelScope.launch {
+            val movie = _movie.value
+
+            movie?.let {
+                val result = saveMovieToMyListUseCase.invoke(
+                    MovieSaved(movieId = movie.id,
+                        moviePosterUrl = movie.getPoster(),
+                        myListId = myListId
+                    ))
+                if(result.isSuccess) {
+                    successfullySaved.emit(true)
+                }
+            }
         }
+        return successfullySaved
+    }
+
+    fun createNewList(newList: MyList): Flow<Int> {
+        val myListId = MutableStateFlow(0)
+        viewModelScope.launch {
+            val listId = createNewListOnMyListsUseCase.invoke(newList)
+            myListId.emit(listId.toInt())
+        }
+        return myListId
     }
 
     fun getAllMyLists() = viewModelScope.launch {

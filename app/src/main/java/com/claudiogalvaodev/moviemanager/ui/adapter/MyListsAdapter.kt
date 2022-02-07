@@ -10,7 +10,7 @@ import com.claudiogalvaodev.moviemanager.databinding.ItemOptionsMyListsBinding
 
 class MyListsAdapter: ListAdapter<MyList, MyListsAdapter.MyListsViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((myListId: Int) -> Unit)? = null
+    var onItemClick: ((listSelected: MyList) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyListsViewHolder {
         return MyListsViewHolder.create(parent, onItemClick)
@@ -22,19 +22,19 @@ class MyListsAdapter: ListAdapter<MyList, MyListsAdapter.MyListsViewHolder>(DIFF
 
     class MyListsViewHolder(
         private val binding: ItemOptionsMyListsBinding,
-        private val clickListener: ((myListId: Int) -> Unit)?
+        private val clickListener: ((listSelected: MyList) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MyList) {
             binding.itemOptionsMyListsName.text = item.name
 
             binding.root.setOnClickListener {
-                clickListener?.invoke(item.id)
+                clickListener?.invoke(item)
             }
         }
 
         companion object {
-            fun create(parent: ViewGroup, clickListener: ((myListId: Int) -> Unit)?): MyListsViewHolder {
+            fun create(parent: ViewGroup, clickListener: ((listSelected: MyList) -> Unit)?): MyListsViewHolder {
                 val binding = ItemOptionsMyListsBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return MyListsViewHolder(binding, clickListener)
