@@ -109,4 +109,10 @@
     <string name="bottomsheet_title">Escolha a lista</string>
 
     <string name="movie_saved_successfully_message">Salvo em</string>
+    <string name="movie_deleted_successfully_message">Lista excluída</string>
+
+    <string name="delete_my_list">Excluir</string>
+    <string name="edit_my_list">Editar</string>
+
+    <string name="filter_alertdialog_delete_mylist_message">Quer continuar? Você irá deletar a lista e perderá todos os filmes salvos.</string>
 </resources>

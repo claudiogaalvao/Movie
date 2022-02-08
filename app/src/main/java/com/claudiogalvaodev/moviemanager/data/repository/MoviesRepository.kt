@@ -29,6 +29,8 @@ class MoviesRepository(
 
     fun getAllMyLists() = myListsDao.getAllMyLists()
 
+    suspend fun deleteMyList(myListId: Int) = myListsDao.deleteList(myListId)
+
     suspend fun getDetails(id: Int): Result<Movie?> {
         var result: Result<Movie?> = Result.success(null)
         try {

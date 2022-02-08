@@ -108,5 +108,12 @@
     <string name="bottomsheet_title">Choose the list</string>
 
     <string name="movie_saved_successfully_message">Saved on</string>
+    <string name="movie_deleted_successfully_message">List deleted</string>
+
+    <string name="delete_my_list">Delete</string>
+    <string name="edit_my_list">Edit</string>
+
+
+    <string name="filter_alertdialog_delete_mylist_message">Do you want to continue? You\'ll delete the list and lose all saved movies.</string>
 
 </resources>

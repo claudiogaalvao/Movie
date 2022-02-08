@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.ui.usecases.CreateNewListOnMyListsUseCase
+import com.claudiogalvaodev.moviemanager.ui.usecases.DeleteMyListUseCase
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllMyListsUseCase
 import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByMyListIdUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,6 +20,7 @@ class MyListsViewModel(
     private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
     private val getMoviesByMyListIdUseCase: GetMoviesByMyListIdUseCase,
     private val getAllMyListsUseCase: GetAllMyListsUseCase,
+    private val deleteMyListUseCase: DeleteMyListUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
@@ -48,6 +50,12 @@ class MyListsViewModel(
             getMoviesByMyListIdUseCase.invoke(myListId).collectLatest { movies ->
                 _movies.emit(movies)
             }
+        }
+    }
+
+    fun deleteMyList(myListId: Int) = viewModelScope.launch {
+        withContext(dispatcher) {
+            deleteMyListUseCase.invoke(myListId)
         }
     }
 
