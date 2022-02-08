@@ -14,6 +14,6 @@ interface MoviesSavedDao {
     suspend fun saveMovie(movieToSave: MovieSaved)
 
     @Query("SELECT * FROM MovieSaved WHERE myListId = :myListId")
-    fun getMoviesWithMyListId(myListId: Int): Flow<List<MovieSaved>>
+    fun getMoviesByMyListId(myListId: Int): Flow<List<MovieSaved>>
 
 }

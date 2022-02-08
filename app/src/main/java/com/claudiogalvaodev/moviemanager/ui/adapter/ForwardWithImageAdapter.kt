@@ -11,7 +11,7 @@ import com.claudiogalvaodev.moviemanager.databinding.ItemForwardWithImageBinding
 class ForwardWithImageAdapter: ListAdapter<MyList, ForwardWithImageAdapter.ForwardWithImageViewHolder>(
     DIFF_CALLBACK) {
 
-    var onItemClick: ((myListId: Int) -> Unit)? = null
+    var onItemClick: ((myList: MyList) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForwardWithImageViewHolder {
         return ForwardWithImageViewHolder.create(parent, onItemClick)
@@ -23,16 +23,19 @@ class ForwardWithImageAdapter: ListAdapter<MyList, ForwardWithImageAdapter.Forwa
 
     class ForwardWithImageViewHolder(
         private val binding: ItemForwardWithImageBinding,
-        private val clickListener: ((myListId: Int) -> Unit)?
+        private val clickListener: ((myList: MyList) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(myList: MyList) {
             binding.itemForwardTitle.text = myList.name
+            binding.root.setOnClickListener {
+                clickListener?.invoke(myList)
+            }
         }
 
         companion object {
             fun create(parent: ViewGroup,
-                       clickListener: ((myListId: Int) -> Unit)?
+                       clickListener: ((myList: MyList) -> Unit)?
             ):ForwardWithImageViewHolder {
                 val binding = ItemForwardWithImageBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)

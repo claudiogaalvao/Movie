@@ -27,7 +27,32 @@ class MyListsActivity : AppCompatActivity() {
     }
 
     private fun configToolbar() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.activity_my_lists_nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+
         setSupportActionBar(binding.activityMyListsToolbar)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        checkAndNavigateToPreviousActivity()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        checkAndNavigateToPreviousActivity()
+        navController.navigateUp(appBarConfiguration)
+    }
+
+    private fun checkAndNavigateToPreviousActivity() {
+        if (navController.previousBackStackEntry?.id == null) {
+            finish()
+        }
     }
 
     fun setToolbarTitle(title: String) {

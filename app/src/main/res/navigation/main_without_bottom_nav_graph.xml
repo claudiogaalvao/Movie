@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/myListFragmentDetails"
-        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListFragmentDetails"
+        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListDetailsFragment"
         android:label="MyListFragmentDetails"
         tools:layout="@layout/fragment_my_list_details">
         <action
@@ -65,5 +65,8 @@
         <argument
             android:name="MyListId"
             app:argType="integer" />
+        <argument
+            android:name="MyListName"
+            app:argType="string" />
     </fragment>
 </navigation>

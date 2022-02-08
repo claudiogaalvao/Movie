@@ -344,7 +344,9 @@ class MovieDetailsFragment : Fragment() {
     private fun createNewList(newList: MyList) {
         lifecycleScope.launch {
             viewModel.createNewList(newList).collectLatest { myListId ->
-                saveMovieToMyList(MyList(id = myListId, name = newList.name, posterPath = newList.posterPath))
+                if(myListId != 0) {
+                    saveMovieToMyList(MyList(id = myListId, name = newList.name, posterPath = newList.posterPath))
+                }
             }
         }
     }

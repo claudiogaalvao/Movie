@@ -118,7 +118,7 @@ val viewModelModule = module {
     single { CreateNewListOnMyListsUseCase(get()) }
     single { GetAllMyListsUseCase(get()) }
     single { SaveMovieToMyListUseCase(get()) }
-    single { GetMoviesSavedWithMyListIdUseCase(get()) }
+    single { GetMoviesByMyListIdUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
@@ -126,7 +126,7 @@ val viewModelModule = module {
     viewModel { MovieDetailsViewModel(get(), get(), get(), get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { MyListsViewModel(get(), get()) }
+    viewModel { MyListsViewModel(get(), get(), get()) }
 }
 
 val appModules = listOf(

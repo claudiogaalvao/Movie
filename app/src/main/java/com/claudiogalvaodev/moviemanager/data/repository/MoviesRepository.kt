@@ -23,7 +23,7 @@ class MoviesRepository(
         }
     }
 
-    fun getMoviesSavedWithMyListId(myListId: Int) = moviesSavedDao.getMoviesWithMyListId(myListId)
+    fun getMoviesByMyListId(myListId: Int) = moviesSavedDao.getMoviesByMyListId(myListId)
 
     suspend fun createNewList(newList: MyList) = myListsDao.createNewList(newList)
 

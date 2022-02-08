@@ -76,8 +76,8 @@ class PeopleDetailsFragment : Fragment() {
 
     private fun setupAdapter() {
         moviesAdapter = SimplePosterAdapter().apply {
-            onItemClick = { movie ->
-                goToMovieDetails(movie)
+            onItemClick = { movieId ->
+                goToMovieDetails(movieId)
             }
         }
     }
@@ -146,9 +146,9 @@ class PeopleDetailsFragment : Fragment() {
         moviesAdapter.submitList(movies)
     }
 
-    private fun goToMovieDetails(movie: Movie) {
+    private fun goToMovieDetails(movieId: Int) {
         val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra("movieId", movie.id)
+        intent.putExtra("movieId", movieId)
         startActivity(intent)
     }
 

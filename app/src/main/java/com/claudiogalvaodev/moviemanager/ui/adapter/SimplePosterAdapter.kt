@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterBinding
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter.SimplePosterViewHolder
 import com.squareup.picasso.Picasso
 
-class SimplePosterAdapter: ListAdapter<Movie, SimplePosterViewHolder>(DIFF_CALLBACK) {
+class SimplePosterAdapter: ListAdapter<Any, SimplePosterViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((movie: Movie) -> Unit)? = null
+    var onItemClick: ((movieId: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,21 +29,34 @@ class SimplePosterAdapter: ListAdapter<Movie, SimplePosterViewHolder>(DIFF_CALLB
 
     class SimplePosterViewHolder(
         private val binding: ItemSimplePosterBinding,
-        private val clickListener: ((movie: Movie) -> Unit)?
+        private val clickListener: ((movieId: Int) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
-            with(binding) {
-                 Picasso.with(root.context).load(movie.getPoster()).into(itemSimplePosterImage)
+        fun bind(obj: Any) {
+            when(obj) {
+                is Movie -> {
+                    with(binding) {
+                        Picasso.with(root.context).load(obj.getPoster()).into(itemSimplePosterImage)
 
-                binding.root.setOnClickListener {
-                    clickListener?.invoke(movie)
+                        binding.root.setOnClickListener {
+                            clickListener?.invoke(obj.id)
+                        }
+                    }
+                }
+                is MovieSaved -> {
+                    with(binding) {
+                        Picasso.with(root.context).load(obj.moviePosterUrl).into(itemSimplePosterImage)
+
+                        binding.root.setOnClickListener {
+                            clickListener?.invoke(obj.movieId)
+                        }
+                    }
                 }
             }
         }
 
         companion object {
-            fun create(parent: ViewGroup, clickListener: ((movie: Movie) -> Unit)?): SimplePosterViewHolder {
+            fun create(parent: ViewGroup, clickListener: ((movieId: Int) -> Unit)?): SimplePosterViewHolder {
                 val binding = ItemSimplePosterBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return SimplePosterViewHolder(binding, clickListener)
@@ -51,13 +65,13 @@ class SimplePosterAdapter: ListAdapter<Movie, SimplePosterViewHolder>(DIFF_CALLB
     }
 
     companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Any>() {
+            override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
                 return oldItem == newItem
             }
 
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
                 return oldItem == newItem
             }
 

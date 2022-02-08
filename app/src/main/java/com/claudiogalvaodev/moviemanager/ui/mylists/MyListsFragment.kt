@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMyListsBinding
@@ -49,8 +50,8 @@ class MyListsFragment : Fragment() {
 
     private fun setupAdapter() {
         myListsAdapter = ForwardWithImageAdapter().apply {
-            onItemClick = { itemId ->
-                Log.i("itemid", itemId.toString())
+            onItemClick = { myList ->
+                goToMyListDetails(myList)
             }
         }
     }
@@ -93,6 +94,12 @@ class MyListsFragment : Fragment() {
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
                 .show()
         }
+    }
+
+    private fun goToMyListDetails(myList: MyList) {
+        val directions = MyListsFragmentDirections
+            .actionMyListsFragmentToMyListFragmentDetails(myList.id, myList.name)
+        findNavController().navigate(directions)
     }
 
 }
