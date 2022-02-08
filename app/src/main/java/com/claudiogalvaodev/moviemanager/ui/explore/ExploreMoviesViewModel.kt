@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.model.Filter
 import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByCriteriousUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetMoviesByCriteriousUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 import kotlinx.coroutines.CoroutineDispatcher

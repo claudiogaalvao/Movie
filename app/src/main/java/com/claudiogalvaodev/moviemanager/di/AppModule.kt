@@ -11,7 +11,7 @@ import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
-import com.claudiogalvaodev.moviemanager.ui.usecases.*
+import com.claudiogalvaodev.moviemanager.usecases.*
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.mylists.MyListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel

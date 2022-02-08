@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.databinding.ItemForwardWithImageBinding
+import com.squareup.picasso.Picasso
 
 class ForwardWithImageAdapter: ListAdapter<MyList, ForwardWithImageAdapter.ForwardWithImageViewHolder>(
     DIFF_CALLBACK) {
@@ -28,6 +29,8 @@ class ForwardWithImageAdapter: ListAdapter<MyList, ForwardWithImageAdapter.Forwa
 
         fun bind(myList: MyList) {
             binding.itemForwardTitle.text = myList.name
+            Picasso.with(binding.root.context).load(myList.posterPath).into(binding.itemForwardImagePreview)
+
             binding.root.setOnClickListener {
                 clickListener?.invoke(myList)
             }

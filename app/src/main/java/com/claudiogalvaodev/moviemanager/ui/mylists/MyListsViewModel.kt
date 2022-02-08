@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
-import com.claudiogalvaodev.moviemanager.ui.usecases.CreateNewListOnMyListsUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.DeleteMyListUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllMyListsUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetMoviesByMyListIdUseCase
+import com.claudiogalvaodev.moviemanager.usecases.CreateNewListOnMyListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.DeleteMyListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetAllMyListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetMoviesByMyListIdUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.usecases
+package com.claudiogalvaodev.moviemanager.usecases
 
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository

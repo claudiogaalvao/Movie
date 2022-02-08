@@ -3,7 +3,7 @@ package com.claudiogalvaodev.moviemanager.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.ui.usecases.SearchMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.SearchMoviesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

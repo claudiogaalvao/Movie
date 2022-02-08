@@ -3,8 +3,8 @@ package com.claudiogalvaodev.moviemanager.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetTrendingWeekMoviesUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetUpComingAndPlayingNowMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetTrendingWeekMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetUpComingAndPlayingNowMoviesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

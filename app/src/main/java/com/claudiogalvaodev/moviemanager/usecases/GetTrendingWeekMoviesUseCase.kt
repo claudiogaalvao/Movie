@@ -1,25 +1,19 @@
-package com.claudiogalvaodev.moviemanager.ui.usecases
+package com.claudiogalvaodev.moviemanager.usecases
 
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.utils.Constants
 
-class SearchMoviesUseCase(
+class GetTrendingWeekMoviesUseCase(
     private val repository: MoviesRepository
 ) {
 
-    private var currentPage = 1
-
-    suspend operator fun invoke(
-        query: String,
-        isUpdate: Boolean = false
-    ): Result<List<Movie>> {
-        if(isUpdate) currentPage = 1
-        val moviesResult = repository.searchMovie(currentPage, query)
-
+    suspend operator fun invoke(): Result<List<Movie>> {
+        val moviesResult = repository.getTrendingWeek()
         if(moviesResult.isSuccess) {
-            currentPage++
             val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))
-            return Result.success(validMovies)
+            val filteredMovies = validMovies.take(Constants.MAX_TRENDING_MOVIES)
+            return Result.success(filteredMovies)
         }
         return moviesResult
     }

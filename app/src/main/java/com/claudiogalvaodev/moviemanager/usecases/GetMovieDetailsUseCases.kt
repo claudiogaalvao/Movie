@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.usecases
+package com.claudiogalvaodev.moviemanager.usecases
 
 data class GetMovieDetailsUseCases(
     val getMovieDetailsUseCase: GetMovieDetailsUseCase,

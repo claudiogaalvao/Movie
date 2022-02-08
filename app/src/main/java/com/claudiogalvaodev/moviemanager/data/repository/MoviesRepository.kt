@@ -25,11 +25,13 @@ class MoviesRepository(
 
     fun getMoviesByMyListId(myListId: Int) = moviesSavedDao.getMoviesByMyListId(myListId)
 
-    suspend fun createNewList(newList: MyList) = myListsDao.createNewList(newList)
+    suspend fun createNewList(newList: MyList) = myListsDao.create(newList)
 
-    fun getAllMyLists() = myListsDao.getAllMyLists()
+    fun getAllMyLists() = myListsDao.getAll()
 
-    suspend fun deleteMyList(myListId: Int) = myListsDao.deleteList(myListId)
+    fun deleteMyList(myListId: Int) = myListsDao.delete(myListId)
+
+    suspend fun updateMyListPosterPath(myListId: Int, posterPath: String) = myListsDao.updatePosterPath(myListId, posterPath)
 
     suspend fun getDetails(id: Int): Result<Movie?> {
         var result: Result<Movie?> = Result.success(null)

@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.usecases
+package com.claudiogalvaodev.moviemanager.usecases
 
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Movie

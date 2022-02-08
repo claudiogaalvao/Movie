@@ -8,12 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface MyListsDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun createNewList(list: MyList): Long
+    suspend fun create(list: MyList): Long
 
     @Query("SELECT * FROM MyList")
-    fun getAllMyLists(): Flow<List<MyList>>
+    fun getAll(): Flow<List<MyList>>
 
     @Query("DELETE FROM MyList WHERE id = :myListId")
-    fun deleteList(myListId: Int)
+    fun delete(myListId: Int)
+
+    @Query("UPDATE MyList SET posterPath = :posterPath WHERE id = :myListId")
+    suspend fun updatePosterPath(myListId: Int, posterPath: String)
 
 }

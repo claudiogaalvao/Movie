@@ -8,10 +8,10 @@ import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
-import com.claudiogalvaodev.moviemanager.ui.usecases.CreateNewListOnMyListsUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllMyListsUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetMovieDetailsUseCases
-import com.claudiogalvaodev.moviemanager.ui.usecases.SaveMovieToMyListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.CreateNewListOnMyListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetAllMyListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetMovieDetailsUseCases
+import com.claudiogalvaodev.moviemanager.usecases.SaveMovieToMyListUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

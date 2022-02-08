@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Genre
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllGenresUseCase
-import com.claudiogalvaodev.moviemanager.ui.usecases.GetAllPeopleUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetAllGenresUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetAllPeopleUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
