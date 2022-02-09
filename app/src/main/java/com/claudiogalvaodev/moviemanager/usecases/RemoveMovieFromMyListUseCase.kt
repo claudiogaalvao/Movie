@@ -9,14 +9,14 @@ class RemoveMovieFromMyListUseCase(
 ) {
 
     suspend operator fun invoke(
-        movieSaved: MovieSaved
+        movieId: Int, myListId: Int
     ): Result<Unit> {
-        repository.removeMoveFromMyList(movieSaved)
-        repository.getMoviesByMyListId(movieSaved.myListId).collectLatest { allMovieSaved ->
+        repository.removeMoveFromMyList(movieId, myListId)
+        repository.getMoviesByMyListId(myListId).collectLatest { allMovieSaved ->
             if(allMovieSaved.isEmpty()) {
-                repository.updateMyListPosterPath(movieSaved.myListId, "")
+                repository.updateMyListPosterPath(myListId, "")
             } else {
-                repository.updateMyListPosterPath(movieSaved.myListId, allMovieSaved.first().moviePosterUrl)
+                repository.updateMyListPosterPath(myListId, allMovieSaved.first().moviePosterUrl)
             }
         }
         return Result.success(Unit)

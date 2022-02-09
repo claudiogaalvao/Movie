@@ -85,8 +85,7 @@ class MovieDetailsViewModel(
             val movie = _movie.value
 
             movie?.let {
-                val movieSaved = MovieSaved(id = 0, movieId = it.id, moviePosterUrl = it.getPoster(), myListId = myListId)
-                removeMovieFromMyListUseCase.invoke(movieSaved)
+                removeMovieFromMyListUseCase.invoke(movieId = it.id, myListId = myListId)
             }
         }
     }

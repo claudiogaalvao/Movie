@@ -25,7 +25,7 @@ class MoviesRepository(
         }
     }
 
-    suspend fun removeMoveFromMyList(movieSaved: MovieSaved) = moviesSavedDao.remove(movieSaved)
+    suspend fun removeMoveFromMyList(movieId: Int, myListId: Int) = moviesSavedDao.remove(movieId, myListId)
 
     fun getMoviesByMyListId(myListId: Int) = moviesSavedDao.getMoviesByMyListId(myListId)
 

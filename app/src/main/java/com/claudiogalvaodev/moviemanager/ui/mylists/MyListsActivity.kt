@@ -46,7 +46,6 @@ class MyListsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         checkAndNavigateToPreviousActivity()
-        navController.navigateUp(appBarConfiguration)
     }
 
     private fun checkAndNavigateToPreviousActivity() {

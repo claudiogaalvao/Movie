@@ -16,6 +16,6 @@ interface MoviesSavedDao {
     @Query("SELECT * FROM MovieSaved WHERE myListId = :myListId")
     fun getMoviesByMyListId(myListId: Int): Flow<List<MovieSaved>>
 
-    @Delete
-    suspend fun remove(movieSaved: MovieSaved)
+    @Query("DELETE FROM MovieSaved WHERE movieId = :movieId AND myListId = :myListId")
+    suspend fun remove(movieId: Int, myListId: Int)
 }
