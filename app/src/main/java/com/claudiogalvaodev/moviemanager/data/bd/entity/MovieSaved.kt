@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MovieSaved(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     val movieId: Int,
     val moviePosterUrl: String,
     val myListId: Int

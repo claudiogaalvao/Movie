@@ -14,6 +14,8 @@ class MoviesRepository(
     private val moviesSavedDao: MoviesSavedDao
 ) {
 
+    fun getAllMoviesSaved() = moviesSavedDao.getAll()
+
     suspend fun saveMovieToMyList(movieSaved: MovieSaved): Result<Unit> {
         return try {
             moviesSavedDao.saveMovie(movieSaved)
@@ -22,6 +24,8 @@ class MoviesRepository(
             Result.failure(exception = Exception("Something went wrong when try to save movie to list"))
         }
     }
+
+    suspend fun removeMoveFromMyList(movieSaved: MovieSaved) = moviesSavedDao.remove(movieSaved)
 
     fun getMoviesByMyListId(myListId: Int) = moviesSavedDao.getMoviesByMyListId(myListId)
 

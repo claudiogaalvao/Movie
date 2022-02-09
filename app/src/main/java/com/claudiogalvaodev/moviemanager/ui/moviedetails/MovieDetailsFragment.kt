@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
@@ -40,6 +41,7 @@ class MovieDetailsFragment : Fragment() {
     private val movieId by lazy {
         args.movieId.toInt()
     }
+    private lateinit var moviesSaved: List<MovieSaved>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -146,6 +148,12 @@ class MovieDetailsFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.moviesSaved.collectLatest { movies ->
+                moviesSaved = movies
+            }
+        }
     }
 
     private fun setListeners() {
@@ -191,10 +199,15 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun createMyListsAdapter(dialog: Dialog): MyListsAdapter {
-        val dialogAdapter = MyListsAdapter().apply {
-            onItemClick = { listSelected ->
+        val filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == movieId }
+        val dialogAdapter = MyListsAdapter(filteredMoviesSaved).apply {
+            onItemClick = { listSelected, action ->
                 dialog.hide()
-                saveMovieToMyList(listSelected)
+                when(action) {
+                    MyListsAdapter.Companion.Action.INSERT -> saveMovieToMyList(listSelected)
+                    MyListsAdapter.Companion.Action.REMOVE -> removeMovieFromMyList(listSelected)
+                }
+
             }
         }
         return dialogAdapter
@@ -204,9 +217,20 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.saveMovieToMyList(listSelected.id).collectLatest { successfullySaved ->
                 if(successfullySaved) {
-                    Toast.makeText(context, "Salvo em ${listSelected.name}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,
+                        "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}",
+                        Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+
+    private fun removeMovieFromMyList(listSelected: MyList) {
+        lifecycleScope.launch {
+            viewModel.removeMovieFromMyList(listSelected.id)
+            Toast.makeText(context,
+                "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}",
+                Toast.LENGTH_LONG).show()
         }
     }
 

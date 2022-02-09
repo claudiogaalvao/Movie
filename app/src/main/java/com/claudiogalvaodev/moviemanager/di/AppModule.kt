@@ -120,11 +120,13 @@ val viewModelModule = module {
     single { SaveMovieToMyListUseCase(get()) }
     single { GetMoviesByMyListIdUseCase(get()) }
     single { DeleteMyListUseCase(get()) }
+    single { GetAllMoviesSavedUseCase(get()) }
+    single { RemoveMovieFromMyListUseCase(get()) }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
-    viewModel { MovieDetailsViewModel(get(), get(), get(), get()) }
+    viewModel { MovieDetailsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { MyListsViewModel(get(), get(), get(), get()) }

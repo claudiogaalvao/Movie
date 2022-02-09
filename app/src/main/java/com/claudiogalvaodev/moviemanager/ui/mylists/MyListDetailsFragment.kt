@@ -88,7 +88,7 @@ class MyListDetailsFragment: Fragment() {
                 .setMessage(resources.getString(R.string.filter_alertdialog_delete_mylist_message))
                 .setPositiveButton(resources.getString(R.string.filter_alertdialog_positive)) { _, _ ->
                     viewModel.deleteMyList(listId)
-                    Toast.makeText(context, getString(R.string.movie_deleted_successfully_message), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.list_deleted_successfully_message), Toast.LENGTH_LONG).show()
                     findNavController().popBackStack()
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)

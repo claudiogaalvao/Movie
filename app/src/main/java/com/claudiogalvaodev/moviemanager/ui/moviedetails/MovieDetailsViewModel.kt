@@ -8,10 +8,7 @@ import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
-import com.claudiogalvaodev.moviemanager.usecases.CreateNewListOnMyListsUseCase
-import com.claudiogalvaodev.moviemanager.usecases.GetAllMyListsUseCase
-import com.claudiogalvaodev.moviemanager.usecases.GetMovieDetailsUseCases
-import com.claudiogalvaodev.moviemanager.usecases.SaveMovieToMyListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,10 +18,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
+    private val getAllMoviesSavedUseCase: GetAllMoviesSavedUseCase,
     private val getMovieDetailsUseCases: GetMovieDetailsUseCases,
     private val getAllMyListsUseCase: GetAllMyListsUseCase,
     private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
     private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
+    private val removeMovieFromMyListUseCase: RemoveMovieFromMyListUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -49,6 +48,17 @@ class MovieDetailsViewModel(
     private val _myLists = MutableStateFlow<List<MyList>>(emptyList())
     val myLists = _myLists.asStateFlow()
 
+    private val _moviesSaved = MutableStateFlow<List<MovieSaved>>(emptyList())
+    val moviesSaved = _moviesSaved.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
+                _moviesSaved.emit(moviesSaved)
+            }
+        }
+    }
+
     fun saveMovieToMyList(myListId: Int): Flow<Boolean> {
         val successfullySaved = MutableStateFlow(false)
         viewModelScope.launch {
@@ -56,8 +66,10 @@ class MovieDetailsViewModel(
 
             movie?.let {
                 val result = saveMovieToMyListUseCase.invoke(
-                    MovieSaved(movieId = movie.id,
-                        moviePosterUrl = movie.getPoster(),
+                    MovieSaved(
+                        id = 0,
+                        movieId = it.id,
+                        moviePosterUrl = it.getPoster(),
                         myListId = myListId
                     ))
                 if(result.isSuccess) {
@@ -66,6 +78,17 @@ class MovieDetailsViewModel(
             }
         }
         return successfullySaved
+    }
+
+    fun removeMovieFromMyList(myListId: Int) {
+        viewModelScope.launch {
+            val movie = _movie.value
+
+            movie?.let {
+                val movieSaved = MovieSaved(id = 0, movieId = it.id, moviePosterUrl = it.getPoster(), myListId = myListId)
+                removeMovieFromMyListUseCase.invoke(movieSaved)
+            }
+        }
     }
 
     fun createNewList(newList: MyList): Flow<Int> {

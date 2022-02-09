@@ -29,7 +29,13 @@ class ForwardWithImageAdapter: ListAdapter<MyList, ForwardWithImageAdapter.Forwa
 
         fun bind(myList: MyList) {
             binding.itemForwardTitle.text = myList.name
-            Picasso.with(binding.root.context).load(myList.posterPath).into(binding.itemForwardImagePreview)
+            myList.posterPath?.let { posterPath ->
+                if(posterPath.isNotBlank()) {
+                    Picasso.with(binding.root.context).load(myList.posterPath).into(binding.itemForwardImagePreview)
+                } else {
+                    binding.itemForwardImagePreview.setImageDrawable(null)
+                }
+            }
 
             binding.root.setOnClickListener {
                 clickListener?.invoke(myList)

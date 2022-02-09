@@ -16,4 +16,18 @@
         android:padding="8dp"
         tools:text="My favorites" />
 
+    <ImageView
+        android:id="@+id/item_options_my_lists_saved_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_done"
+        app:tint="@color/primary_purple"
+        android:contentDescription="@string/generic_description"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
