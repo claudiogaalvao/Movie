@@ -51,6 +51,8 @@ class MyListsActivity : AppCompatActivity() {
     private fun checkAndNavigateToPreviousActivity() {
         if (navController.previousBackStackEntry?.id == null) {
             finish()
+        } else {
+            navController.popBackStack()
         }
     }
 

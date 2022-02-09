@@ -71,7 +71,10 @@ class MyListDetailsFragment: Fragment() {
                 deleteMyList()
                 true
             }
-            else -> true
+            else -> {
+                findNavController().popBackStack()
+                true
+            }
         }
     }
 
