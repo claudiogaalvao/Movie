@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmes">
+        <activity android:name=".ui.menu.aboutdeveloper.AboutDeveloperActivity"
+            android:exported="true" />
         <activity
-            android:name=".ui.mylists.MyListsActivity"
+            android:name="com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsActivity"
             android:exported="true" />
         <activity
             android:name=".ui.search.SearchActivity"

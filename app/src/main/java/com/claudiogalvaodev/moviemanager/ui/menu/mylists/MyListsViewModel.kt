@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.mylists
+package com.claudiogalvaodev.moviemanager.ui.menu.mylists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

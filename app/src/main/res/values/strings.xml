@@ -117,4 +117,13 @@
 
     <string name="filter_alertdialog_delete_mylist_message">Do you want to continue? You\'ll delete the list and lose all saved movies.</string>
 
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci ligula, mollis ut gravida et, vehicula finibus lorem. Ut tempor eget elit quis imperdiet. Integer massa massa, suscipit vitae iaculis sed, imperdiet in neque. Vestibulum sit amet eros sem. Fusce faucibus semper quam et mollis. Nulla condimentum rhoncus felis. In.</string>
+
+    <!-- About developer -->
+    <string name="developer_name" translatable="false">Claudio Galvão</string>
+    <string name="developer_job_position">Mobile Developer</string>
+    <string name="developer_instagram" translatable="false">\@claudiogaalvao</string>
+    <string name="developer_linkedin" translatable="false">\\claudiogaalvao</string>
+    <string name="developer_description">Something here</string>
+
 </resources>

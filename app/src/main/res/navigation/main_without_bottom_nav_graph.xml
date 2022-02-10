@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/myListsFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsFragment"
         android:label="fragment_my_lists"
         tools:layout="@layout/fragment_my_lists" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/myListFragmentDetails"
-        android:name="com.claudiogalvaodev.moviemanager.ui.mylists.MyListDetailsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListDetailsFragment"
         android:label="MyListFragmentDetails"
         tools:layout="@layout/fragment_my_list_details">
         <action

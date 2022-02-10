@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.mylists
+package com.claudiogalvaodev.moviemanager.ui.menu.mylists
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

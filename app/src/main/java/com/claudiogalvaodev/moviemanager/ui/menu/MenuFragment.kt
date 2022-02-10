@@ -12,7 +12,8 @@ import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.model.MenuItem
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMenuBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.MenuAdapter
-import com.claudiogalvaodev.moviemanager.ui.mylists.MyListsActivity
+import com.claudiogalvaodev.moviemanager.ui.menu.aboutdeveloper.AboutDeveloperActivity
+import com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.MenuItemType
 
 class MenuFragment: Fragment() {
@@ -66,7 +67,7 @@ class MenuFragment: Fragment() {
                         goToMyLists()
                     }
                     MenuItemType.ABOUT_DEVELOPER -> {
-                        Toast.makeText(context, "Selecionou about developer", Toast.LENGTH_LONG).show()
+                        goToAboutDeveloper()
                     }
                     MenuItemType.SETTINGS -> {
                         Toast.makeText(context, "Selecionou settings", Toast.LENGTH_LONG).show()
@@ -83,6 +84,11 @@ class MenuFragment: Fragment() {
 
     private fun goToMyLists() {
         val intent = Intent(activity, MyListsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToAboutDeveloper() {
+        val intent = Intent(activity, AboutDeveloperActivity::class.java)
         startActivity(intent)
     }
 

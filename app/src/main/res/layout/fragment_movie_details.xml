@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_overview_label"
         app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_overview_label"
         app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_overview_label"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci ligula, mollis ut gravida et, vehicula finibus lorem. Ut tempor eget elit quis imperdiet. Integer massa massa, suscipit vitae iaculis sed, imperdiet in neque. Vestibulum sit amet eros sem. Fusce faucibus semper quam et mollis. Nulla condimentum rhoncus felis. In."/>
+        tools:text="@string/lorem_ipsum"/>
 
     <TextView
         android:id="@+id/fragment_movie_details_budget_label"
