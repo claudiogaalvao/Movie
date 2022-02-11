@@ -124,6 +124,10 @@
     <string name="developer_job_position">Mobile Developer</string>
     <string name="developer_instagram" translatable="false">\@claudiogaalvao</string>
     <string name="developer_linkedin" translatable="false">\\claudiogaalvao</string>
-    <string name="developer_description">Something here</string>
+    <string name="developer_description">Hello, my name is Claudio, I\'m 25 years old and I graduated from PUC-Campinas with a degree in IT. My first job in IT was in 2016 (when I was 19 years old). I always loved technology but, who doesn\'t?\n
+        I decided to develop this app because I love movies and, as a real cinema and technology lover, I started to develop this app with the intent to give access to the data of film productions easily and intuitively.
+        \nI hope that you are enjoying the app and that this app has been useful to you. This is the first version and my intent is to release improvements and new features based on users opinions. Until then, follow me on social media.
+
+        \n\nSee you</string>
 
 </resources>

@@ -119,5 +119,8 @@
 
     <!-- About developer -->
     <string name="developer_job_position">Desenvolvedor Mobile</string>
-    <string name="developer_description">Oi, meu nome é Claudio Galvão. Eu tenho mais de 6 anos de experiência trabalhando na área de TI e sou um apaixonado por tecnologia e meu propósito é utilizá-la para tornar a vida das pessoas melhor.</string>
+    <string name="developer_description">Oi, meu nome é Claudio, eu tenho 25 anos e sou formado em Sistemas de Informação pela PUC-Campinas. Meu primeiro emprego em TI foi em 2016 (aos meus 19 anos de idade), mas eu sempre amei tecnologia e, convenhamos, quem não ama?\n\n
+        Resolvi criar esse aplicativo porque eu amo filmes e, como um verdadeiro cinéfilo e também amante da tecnologia, criei esse app buscando dar acesso à diversas informações sobre as produções cinematográficas de forma fácil e intuitiva.
+        \n\nEu espero que você esteja curtindo o app e que esteja fazendo sentido para você. Essa é a primeira versão e pretendo lançar melhorias e novas funcionalidades baseado na opinião de quem está usando-o. Até lá, me siga nas redes sociais.
+        \n\nUm abraço</string>
 </resources>
