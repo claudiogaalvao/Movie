@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
+        android:paddingBottom="84dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_home_trending_recyclerview"

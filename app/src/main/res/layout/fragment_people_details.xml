@@ -29,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
+        android:maxLines="4"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="@+id/fragment_people_details_biography_label"
         app:layout_constraintStart_toStartOf="@+id/fragment_people_details_biography_label"
         app:layout_constraintTop_toBottomOf="@id/fragment_people_details_biography_label"

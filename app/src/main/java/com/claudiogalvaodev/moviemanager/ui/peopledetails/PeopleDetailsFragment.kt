@@ -55,6 +55,7 @@ class PeopleDetailsFragment : Fragment() {
         setupAdapter()
         setupRecyclerView()
         setupObservers()
+        setListeners()
     }
 
     private fun getPeopleDetails() {
@@ -139,6 +140,16 @@ class PeopleDetailsFragment : Fragment() {
             }
 
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth
+        }
+    }
+
+    private fun setListeners() {
+        binding.fragmentPeopleDetailsBiography.setOnClickListener {
+            binding.fragmentPeopleDetailsBiography.apply {
+                maxLines = Integer.MAX_VALUE
+                isClickable = false
+            }
+
         }
     }
 
