@@ -30,9 +30,6 @@ class MenuFragment: Fragment() {
             MenuItem(iconId = R.drawable.ic_code,
                 title = getString(R.string.about_developer),
                 type = MenuItemType.ABOUT_DEVELOPER),
-            MenuItem(iconId = R.drawable.ic_settings,
-                title = getString(R.string.settings),
-                type = MenuItemType.SETTINGS),
         )
     }
 
@@ -68,9 +65,6 @@ class MenuFragment: Fragment() {
                     }
                     MenuItemType.ABOUT_DEVELOPER -> {
                         goToAboutDeveloper()
-                    }
-                    MenuItemType.SETTINGS -> {
-                        Toast.makeText(context, "Selecionou settings", Toast.LENGTH_LONG).show()
                     }
                 }
             }
