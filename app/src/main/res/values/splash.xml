@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary_purple</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_negativa</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.Filmes</item>
+    </style>
+</resources>
