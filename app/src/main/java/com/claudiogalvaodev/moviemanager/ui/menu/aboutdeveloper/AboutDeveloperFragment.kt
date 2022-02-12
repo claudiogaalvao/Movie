@@ -35,6 +35,11 @@ class AboutDeveloperFragment: Fragment() {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/claudiogaalvao/"))
             startActivity(browserIntent)
         }
+
+        binding.fragmentAboutDeveloperMyWebsiteCard.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://claudiogalvaodev.com/"))
+            startActivity(browserIntent)
+        }
     }
 
 }

@@ -3,7 +3,6 @@ package com.claudiogalvaodev.moviemanager.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.claudiogalvaodev.moviemanager.R
@@ -17,7 +16,7 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        setTheme(R.style.Theme_Filmes)
         setContentView(binding.root)
 
         setNavigationController()

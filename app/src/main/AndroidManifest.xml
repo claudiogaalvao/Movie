@@ -12,20 +12,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App.Starting">
+        android:theme="@style/Theme.Splash">
         <activity android:name=".ui.menu.aboutdeveloper.AboutDeveloperActivity"
+            android:theme="@style/Theme.Filmes"
             android:exported="true" />
         <activity
             android:name="com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsActivity"
+            android:theme="@style/Theme.Filmes"
             android:exported="true" />
         <activity
             android:name=".ui.search.SearchActivity"
+            android:theme="@style/Theme.Filmes"
             android:exported="true" />
         <activity
             android:name=".ui.filter.FiltersActivity"
+            android:theme="@style/Theme.Filmes"
             android:exported="true" />
         <activity
             android:name=".ui.moviedetails.MovieDetailsActivity"
+            android:theme="@style/Theme.Filmes"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
