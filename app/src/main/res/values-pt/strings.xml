@@ -123,4 +123,6 @@
         Resolvi criar esse aplicativo porque eu amo filmes e, como um verdadeiro cinéfilo e também amante da tecnologia, criei esse app buscando dar acesso à diversas informações sobre as produções cinematográficas de forma fácil e intuitiva.
         \n\nEu espero que você esteja curtindo o app e que esteja fazendo sentido para você. Essa é a primeira versão e pretendo lançar melhorias e novas funcionalidades baseado na opinião de quem está usando-o. Até lá, me siga nas redes sociais.
         \n\nUm abraço</string>
+
+    <string name="search_movies_didnt_find">Desculpe. Não encontramos nenhum resultado para sua busca :(</string>
 </resources>

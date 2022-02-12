@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +33,8 @@ class SearchFragment : Fragment() {
     }
 
     private lateinit var moviesAdapter: SimplePosterAdapter
+
+    private var isSearchInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +73,13 @@ class SearchFragment : Fragment() {
     private fun setObservers() {
         lifecycleScope.launchWhenStarted {
             viewModel.movies.collectLatest { movies ->
+                if(movies.isEmpty() && isSearchInitialized) {
+                    binding.wathingIcon.visibility = View.VISIBLE
+                    binding.searchMoviesDidntFindDescription.visibility = View.VISIBLE
+                } else if(binding.wathingIcon.isVisible) {
+                    binding.wathingIcon.visibility = View.GONE
+                    binding.searchMoviesDidntFindDescription.visibility = View.GONE
+                }
                 submitMoviesList(movies)
             }
         }
@@ -99,6 +109,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchMovie(query: String) {
+        isSearchInitialized = true
         viewModel.searchMovies(query)
     }
 

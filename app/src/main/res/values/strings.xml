@@ -130,4 +130,6 @@
 
         \n\nSee you</string>
 
+    <string name="search_movies_didnt_find">Sorry. We couldn\'t find any results for your research :(</string>
+
 </resources>
