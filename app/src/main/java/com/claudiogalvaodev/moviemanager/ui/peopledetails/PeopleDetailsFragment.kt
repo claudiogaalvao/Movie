@@ -129,7 +129,12 @@ class PeopleDetailsFragment : Fragment() {
 
     private fun bindPersonDetailsInfo(person: Employe?) {
         person?.let {
-            binding.fragmentPeopleDetailsBiography.text = it.biography
+            if(it.biography.isNullOrEmpty()) {
+                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.GONE
+            } else {
+                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.VISIBLE
+                binding.fragmentPeopleDetailsBiography.text = it.biography
+            }
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
                 formatUtils.dateFromAmericanFormatToDateWithMonthName(person.birthday)
 

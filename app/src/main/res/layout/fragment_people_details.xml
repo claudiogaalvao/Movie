@@ -15,24 +15,24 @@
         android:text="@string/biography_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/fragment_people_details_header"
-        app:layout_constraintStart_toStartOf="@+id/fragment_people_details_header"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_people_details_header" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/fragment_people_details_biography"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:maxLines="4"
         android:ellipsize="end"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_people_details_biography_label"
-        app:layout_constraintStart_toStartOf="@+id/fragment_people_details_biography_label"
         app:layout_constraintTop_toBottomOf="@id/fragment_people_details_biography_label"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In orci ligula, mollis ut gravida et, vehicula finibus lorem. Ut tempor eget elit quis imperdiet. Integer massa massa, suscipit vitae iaculis sed, imperdiet in neque. Vestibulum sit amet eros sem. Fusce faucibus semper quam et mollis. Nulla condimentum rhoncus felis. In."/>
 
@@ -41,13 +41,14 @@
         android:text="@string/movies_with_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/fragment_people_details_biography"
-        app:layout_constraintStart_toStartOf="@+id/fragment_people_details_biography"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_people_details_biography" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_people_details_movies_recyclerview"
