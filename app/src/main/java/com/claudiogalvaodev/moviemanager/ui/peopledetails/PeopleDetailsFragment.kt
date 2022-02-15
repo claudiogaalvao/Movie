@@ -117,6 +117,7 @@ class PeopleDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.movies.collectLatest { movies ->
                 setMoviesList(movies)
+                if(viewModel.getSecondPage) getMovies()
             }
         }
 
@@ -179,6 +180,10 @@ class PeopleDetailsFragment : Fragment() {
 
         var countImages = dpWidth - marginStart - marginEnd
         countImages /= (widthEachImage+spaceBetween)
-        return countImages.roundToInt()
+        val numberOfColumns = countImages.roundToInt()
+        if(numberOfColumns > 4) {
+            viewModel.getSecondPage = true
+        }
+        return numberOfColumns
     }
 }

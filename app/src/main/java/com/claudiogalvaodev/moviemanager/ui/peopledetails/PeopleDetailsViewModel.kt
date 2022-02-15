@@ -30,6 +30,7 @@ class PeopleDetailsViewModel(
 
     var isMoviesLoading: Boolean = false
     var isUpdate: Boolean = false
+    var getSecondPage: Boolean = false
 
     private var theresNoMoreMovies = false
 
@@ -60,6 +61,8 @@ class PeopleDetailsViewModel(
             } else {
                 Result.failure(Exception())
             }
+
+            if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->

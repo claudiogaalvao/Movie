@@ -23,6 +23,7 @@ class SearchViewModel(
 
     var isLoading: Boolean = false
     var isUpdate: Boolean = true
+    var getSecondPage: Boolean = true
 
     fun searchMovies(query: String) = viewModelScope.launch {
         withContext(dispatcher) {
@@ -33,6 +34,8 @@ class SearchViewModel(
 
             isLoading = true
             val moviesResult = searchMoviesUseCase.invoke(query, isUpdate)
+
+            if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->

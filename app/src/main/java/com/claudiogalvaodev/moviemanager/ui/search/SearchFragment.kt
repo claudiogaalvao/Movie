@@ -81,6 +81,7 @@ class SearchFragment : Fragment() {
                     binding.searchMoviesDidntFindDescription.visibility = View.GONE
                 }
                 submitMoviesList(movies)
+                if(viewModel.getSecondPage) viewModel.loadMoreMovies()
             }
         }
     }
@@ -155,7 +156,11 @@ class SearchFragment : Fragment() {
 
         var countImages = dpWidth - marginStart - marginEnd
         countImages /= (widthEachImage+spaceBetween)
-        return countImages.roundToInt()
+        val numberOfColumns = countImages.roundToInt()
+        if(numberOfColumns > 4) {
+            viewModel.getSecondPage = true
+        }
+        return numberOfColumns
     }
 
 }
