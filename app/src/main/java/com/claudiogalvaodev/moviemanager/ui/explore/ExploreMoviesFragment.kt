@@ -96,7 +96,8 @@ class ExploreMoviesFragment: Fragment() {
     private fun setupRecyclerView() {
         binding.fragmentExploreFiltersRecyclerview.adapter = filtersAdapter
 
-        val layout = GridLayoutManager(context, calcNumberOfColumns())
+        val numberOfColumns = calcNumberOfColumns()
+        val layout = GridLayoutManager(context, numberOfColumns)
         binding.fragmentExploreMoviesRecyclerview.apply {
             layoutManager = layout
             adapter = moviesAdapter
@@ -129,6 +130,7 @@ class ExploreMoviesFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.movies.collectLatest { movies ->
                 submitMoviesList(movies)
+                if(viewModel.getSecondPage) getMovies()
             }
         }
 
@@ -175,7 +177,11 @@ class ExploreMoviesFragment: Fragment() {
 
         var countImages = dpWidth - marginStart - marginEnd
         countImages /= (widthEachImage+spaceBetween)
-        return countImages.roundToInt()
+        val numberOfColumns = countImages.roundToInt()
+        if(numberOfColumns > 4) {
+            viewModel.getSecondPage = true
+        }
+        return numberOfColumns
     }
 
 }

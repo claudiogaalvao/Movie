@@ -30,6 +30,7 @@ class ExploreMoviesViewModel(
 
     var isLoading: Boolean = false
     var isUpdate: Boolean = false
+    var getSecondPage: Boolean = false
 
     init {
         viewModelScope.launch {
@@ -57,6 +58,8 @@ class ExploreMoviesViewModel(
         withContext(dispatcher) {
             isLoading = true
             val moviesResult = getMoviesByCriteriousUseCase.invoke(_filters.value, isUpdate)
+
+            if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->
