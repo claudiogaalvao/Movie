@@ -136,13 +136,17 @@ class PeopleDetailsFragment : Fragment() {
                 binding.fragmentPeopleDetailsBiographyLabel.visibility = View.VISIBLE
                 binding.fragmentPeopleDetailsBiography.text = it.biography
             }
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
-                formatUtils.dateFromAmericanFormatToDateWithMonthName(person.birthday)
+            person.birthday?.let { birthday ->
+                binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
+                    formatUtils.dateFromAmericanFormatToDateWithMonthName(birthday)
+            }
 
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsAge.text = if(!person.deathday.isNullOrEmpty()) {
-                formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)
+                "${context?.getString(R.string.separator_bullet)} ${formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)}"
             } else {
-                "${formatUtils.dateFromAmericanFormatToAge(person.birthday)} ${context?.resources?.getString(R.string.age_label)}"
+                person.birthday?.let { birthday ->
+                    context?.getString(R.string.age_label, formatUtils.dateFromAmericanFormatToAge(birthday))
+                }
             }
 
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth

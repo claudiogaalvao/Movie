@@ -21,7 +21,7 @@ class Employe(
     val credit_id: String?,
     val order: Long? = null,
     var position: Int? = null,
-    val birthday: String,
+    val birthday: String? = null,
     val deathday: String? = null,
     val place_of_birth: String? = null,
     val biography: String? = null

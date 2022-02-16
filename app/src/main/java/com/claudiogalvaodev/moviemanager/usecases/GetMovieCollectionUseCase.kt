@@ -30,9 +30,9 @@ class GetMovieCollectionUseCase(
 
     private fun sortCollection(movies: List<Movie>): List<Movie> {
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        return movies.sortedByDescending { movie ->
+        return movies.filter { movie -> movie.release_date.isNotBlank() }.sortedBy { movie ->
             LocalDate.parse(movie.release_date, dateTimeFormatter)
-        }.asReversed()
+        }
     }
 
 }

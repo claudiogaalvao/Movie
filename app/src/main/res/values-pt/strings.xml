@@ -82,7 +82,7 @@
     <string name="filter_alertdialog_negative">Cancelar</string>
 
     <!-- People details -->
-    <string name="age_label">anos</string>
+    <string name="age_label">• %s anos</string>
     <string name="biography_label">Biografia</string>
     <string name="movies_with_label">Filmes com essa pessoa</string>
     <string name="seach_label">Pesquisar</string>

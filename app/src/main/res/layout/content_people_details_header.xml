@@ -70,16 +70,6 @@
             app:layout_constraintStart_toStartOf="@id/fragment_people_details_department"/>
 
         <TextView
-            android:id="@+id/fragment_people_details_separator"
-            android:text="@string/separator_bullet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primary_gray"
-            android:paddingHorizontal="4dp"
-            app:layout_constraintStart_toEndOf="@id/fragment_people_details_birthdate"
-            app:layout_constraintTop_toTopOf="@id/fragment_people_details_birthdate"/>
-
-        <TextView
             android:id="@+id/fragment_people_details_age"
             tools:text="25 years old"
             android:layout_width="0dp"
@@ -87,9 +77,10 @@
             android:textColor="@color/primary_gray"
             android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintStart_toEndOf="@id/fragment_people_details_separator"
+            app:layout_constraintStart_toEndOf="@id/fragment_people_details_birthdate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/fragment_people_details_separator"/>
+            app:layout_constraintTop_toTopOf="@id/fragment_people_details_birthdate"
+            android:layout_marginStart="4dp"/>
 
         <TextView
             android:id="@+id/fragment_people_details_birthplace"
