@@ -397,14 +397,19 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun goToPeopleAndCompanies(actors: List<Employe>) {
-        val directions = MovieDetailsFragmentDirections
-            .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(actors.toTypedArray())
-        findNavController().navigate(directions)
+        viewModel.movie.value?.let { movie ->
+            val directions = MovieDetailsFragmentDirections
+                .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(actors.toTypedArray(), movie)
+            findNavController().navigate(directions)
+        }
     }
 
     private fun goToPeopleDetails(employe: Employe) {
-        val directions = MovieDetailsFragmentDirections
-            .actionMovieDetailsFragmentToPeopleDetailsFragment(employe)
-        findNavController().navigate(directions)
+        viewModel.movie.value?.let { movie ->
+            val directions = MovieDetailsFragmentDirections
+                .actionMovieDetailsFragmentToPeopleDetailsFragment(employe, movie)
+            findNavController().navigate(directions)
+        }
+
     }
 }

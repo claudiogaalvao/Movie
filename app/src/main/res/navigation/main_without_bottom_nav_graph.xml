@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_peopleAndCompaniesFragment_to_peopleDetailsFragment2"
             app:destination="@id/peopleDetailsFragment" />
+        <argument
+            android:name="fromMovie"
+            app:argType="com.claudiogalvaodev.moviemanager.data.model.Movie" />
     </fragment>
     <fragment
         android:id="@+id/peopleDetailsFragment"
@@ -44,6 +47,9 @@
         <argument
             android:name="employeDetails"
             app:argType="com.claudiogalvaodev.moviemanager.data.model.Employe" />
+        <argument
+            android:name="leastOneMovie"
+            app:argType="com.claudiogalvaodev.moviemanager.data.model.Movie" />
     </fragment>
     <fragment
         android:id="@+id/myListsFragment"

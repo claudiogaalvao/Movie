@@ -23,8 +23,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
 class PeopleDetailsFragment : Fragment() {
-    private var employe: Employe? = null
-
     private val viewModel: PeopleDetailsViewModel by viewModel()
     private val binding by lazy {
         FragmentPeopleDetailsBinding.inflate(layoutInflater)
@@ -33,9 +31,11 @@ class PeopleDetailsFragment : Fragment() {
 
     private val args: PeopleDetailsFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        employe = args.employeDetails
+    private val employe: Employe by lazy {
+        args.employeDetails
+    }
+    private val leastOneMovie: Movie by lazy {
+        args.leastOneMovie
     }
 
     override fun onCreateView(
@@ -59,20 +59,18 @@ class PeopleDetailsFragment : Fragment() {
     }
 
     private fun getPeopleDetails() {
-        viewModel.getPersonDetails(employe?.id.toString())
+        viewModel.getPersonDetails(employe.id.toString())
     }
 
     private fun getMovies() {
-        viewModel.getMovies(employe?.id.toString())
+        viewModel.getMovies(employe.id.toString())
     }
 
     private fun bindHeaderInfo() {
-        employe?.let { empl ->
-            Picasso.with(binding.root.context).load(empl.getProfileImageUrl())
-                .into(binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsProfilePhoto)
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsName.text = empl.name
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = empl.known_for_department
-        }
+        Picasso.with(binding.root.context).load(employe.getProfileImageUrl())
+            .into(binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsProfilePhoto)
+        binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsName.text = employe.name
+        binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = employe.known_for_department
     }
 
     private fun setupAdapter() {
@@ -117,7 +115,13 @@ class PeopleDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.movies.collectLatest { movies ->
                 setMoviesList(movies)
-                if(viewModel.getSecondPage) getMovies()
+                if(viewModel.getSecondPage) {
+                    if(movies.isEmpty()) {
+                        setMoviesList(listOf(leastOneMovie))
+                    } else {
+                        getMovies()
+                    }
+                }
             }
         }
 

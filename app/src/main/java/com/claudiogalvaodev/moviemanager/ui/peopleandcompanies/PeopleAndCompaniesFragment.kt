@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
 import com.claudiogalvaodev.moviemanager.data.model.Employe
+import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlin.math.roundToInt
@@ -24,6 +25,13 @@ class PeopleAndCompaniesFragment: Fragment() {
     private lateinit var circleWithTitleAdapter: CircleWithTitleAdapter
 
     private val args: PeopleAndCompaniesFragmentArgs by navArgs()
+
+    private val employeList: Array<Employe>? by lazy {
+        args.employeList
+    }
+    private val fromMovie: Movie by lazy {
+        args.fromMovie
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,10 +52,10 @@ class PeopleAndCompaniesFragment: Fragment() {
             }
         }
 
-        val employeList = args.employeList
-        if(employeList != null) {
-            (activity as MovieDetailsActivity).setToolbarTitle(resources.getString(R.string.fragment_actors_title))
-            configActorsList(employeList)
+        (activity as MovieDetailsActivity).setToolbarTitle(resources.getString(R.string.fragment_actors_title))
+
+        employeList?.let { people ->
+            configActorsList(people)
             setupRecyclerViewLayoutManager()
         }
     }
@@ -68,7 +76,7 @@ class PeopleAndCompaniesFragment: Fragment() {
 
     private fun goToPeopleDetails(employe: Employe) {
         val directions = PeopleAndCompaniesFragmentDirections
-            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe)
+            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe, fromMovie)
         findNavController().navigate(directions)
     }
 
