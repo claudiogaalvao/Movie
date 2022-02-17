@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/primary_purple"
+        android:textColor="@color/white"
         android:text="@string/bottomsheet_title" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -35,9 +35,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableLeft="@drawable/ic_add_circle"
-        android:drawableTint="@color/primary_purple"
+        android:drawableTint="@color/secondary_purple"
         android:background="@android:color/transparent"
-        android:textColor="@color/primary_purple"
+        android:textColor="@color/secondary_purple"
         android:textAllCaps="false"
         android:text="@string/new_list_dialog_title"
         tools:ignore="RtlHardcoded" />

@@ -3,6 +3,7 @@
     <color name="primary_purple">#070D2D</color>
     <color name="secondary_purple">#566EE5</color>
     <color name="primary_gray">#A0A0A0</color>
+    <color name="darker_gray">#202226</color>
     
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#566EE5</color>
