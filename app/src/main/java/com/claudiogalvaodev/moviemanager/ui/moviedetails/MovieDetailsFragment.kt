@@ -66,6 +66,7 @@ class MovieDetailsFragment : Fragment() {
         viewModel.getMovieCredits(movieId)
         viewModel.getProviders(movieId)
         viewModel.getAllMyLists()
+        viewModel.checkIsMovieSaved(movieId)
     }
 
     private fun setObservables() {
@@ -158,6 +159,15 @@ class MovieDetailsFragment : Fragment() {
                 moviesSaved = movies
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isMovieSaved.collectLatest { isSaved ->
+                if (isSaved) {
+                    binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(R.drawable.ic_done)
+                    binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(R.string.added_to_list)
+                }
+            }
+        }
     }
 
     private fun setListeners() {
@@ -221,6 +231,7 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.saveMovieToMyList(listSelected.id).collectLatest { successfullySaved ->
                 if(successfullySaved) {
+                    viewModel.checkIsMovieSaved(movieId)
                     Toast.makeText(context,
                         "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}",
                         Toast.LENGTH_LONG).show()

@@ -10,6 +10,9 @@ interface MoviesSavedDao {
     @Query("SELECT * FROM MovieSaved")
     fun getAll(): Flow<List<MovieSaved>>
 
+    @Query("SELECT * FROM MovieSaved WHERE movieId == :movieId")
+    suspend fun getMovieSavedById(movieId: Int): MovieSaved?
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun saveMovie(movieToSave: MovieSaved)
 

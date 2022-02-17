@@ -14,6 +14,10 @@ class MoviesRepository(
     private val moviesSavedDao: MoviesSavedDao
 ) {
 
+    suspend fun isMovieSaved(movieId: Int): Boolean {
+        return moviesSavedDao.getMovieSavedById(movieId) != null
+    }
+
     fun getAllMoviesSaved() = moviesSavedDao.getAll()
 
     suspend fun saveMovieToMyList(movieSaved: MovieSaved): Result<Unit> {

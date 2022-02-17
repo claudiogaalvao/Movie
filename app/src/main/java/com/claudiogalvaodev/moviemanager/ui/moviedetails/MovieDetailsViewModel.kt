@@ -24,6 +24,7 @@ class MovieDetailsViewModel(
     private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
     private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
     private val removeMovieFromMyListUseCase: RemoveMovieFromMyListUseCase,
+    private val checkIsMovieSavedUseCase: CheckIsMovieSavedUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -51,12 +52,20 @@ class MovieDetailsViewModel(
     private val _moviesSaved = MutableStateFlow<List<MovieSaved>>(emptyList())
     val moviesSaved = _moviesSaved.asStateFlow()
 
+    private val _isMovieSaved = MutableStateFlow<Boolean>(false)
+    val isMovieSaved = _isMovieSaved.asStateFlow()
+
     init {
         viewModelScope.launch {
             getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
                 _moviesSaved.emit(moviesSaved)
             }
         }
+    }
+
+    fun checkIsMovieSaved(movieId: Int) = viewModelScope.launch(dispatcher) {
+        val result = checkIsMovieSavedUseCase.invoke(movieId)
+        _isMovieSaved.emit(result)
     }
 
     fun saveMovieToMyList(myListId: Int): Flow<Boolean> {
