@@ -60,7 +60,6 @@
             app:itemTextColor="@color/tab_color"
             app:menu="@menu/bottom_nav_menu"/>
 
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,7 +65,7 @@
     <string name="fragment_people_title">Pessoas</string>
     <string name="selected_actors_title">Pessoas selecionados</string>
     <string name="popular_actors_title">Pessoas populares</string>
-    <string name="filter_people_select_instructions">Você não selecionou nenhum ator ou diretor ainda. Selecione alguém para filtrar os filmes que ele(a) participou. Se você selecionar mais de uma pessoa, nós vamos tentar encontrar filmes que eles trabalham juntos!</string>
+    <string name="filter_people_select_instructions">Selecione pessoas para filtrar os filmes que ele(a) participou. Se você selecionar mais de uma pessoa, nós vamos tentar encontrar filmes em que eles trabalharam juntos!</string>
 
     <!-- Runtime labels -->
     <string name="filter_runtime_short">Curta metragem (até 40min)</string>

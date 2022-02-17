@@ -64,7 +64,7 @@
     <string name="fragment_people_title">People</string>
     <string name="selected_actors_title">People selected</string>
     <string name="popular_actors_title">Popular people</string>
-    <string name="filter_people_select_instructions">You didn\'t select any actor or director yet. Select someone to filter the movies that they participated. If you choose more than one, we\'ll try to find movies that they work toguether!</string>
+    <string name="filter_people_select_instructions">Select someone to filter the movies that they participated. If you choose more than one, we\'ll try to find movies that they worked toguether!</string>
 
     <!-- Runtime labels -->
     <string name="filter_runtime_short">Short (shorter than 40min)</string>
