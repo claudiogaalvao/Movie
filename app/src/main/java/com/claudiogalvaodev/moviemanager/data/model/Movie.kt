@@ -44,15 +44,8 @@ class Movie(
         return "${runtime / 60}h${runtime % 60}min"
     }
 
-    fun getGenres(): String {
-        var genresConcat = ""
-        genres.map { genre ->
-            genresConcat += if(genres.last().name == genre.name) {
-                genre.name
-            } else "${genre.name}, "
-
-        }
-        return genresConcat
+    fun getGenresStringList(): List<String> {
+        return genres.map { genre -> genre.name }
     }
 
     fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {

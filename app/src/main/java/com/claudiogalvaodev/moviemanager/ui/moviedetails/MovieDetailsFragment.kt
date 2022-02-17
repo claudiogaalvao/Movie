@@ -23,6 +23,7 @@ import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.MyListsAdapter
+import com.claudiogalvaodev.moviemanager.ui.adapter.SimpleOptionsAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
@@ -78,7 +79,10 @@ class MovieDetailsFragment : Fragment() {
                     }
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsTitle.text = it.title
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils.dateFromAmericanFormatToDateWithMonthName(it.release_date)
-                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsGenre.text = it.getGenres()
+
+                    val genresAdapter = SimpleOptionsAdapter()
+                    binding.fragmentMovieDetailsHeader.genreRecyclerview.adapter = genresAdapter
+                    genresAdapter.submitList(it.getGenresStringList())
 
                     if(it.runtime == 0) {
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsDuration.visibility = View.GONE

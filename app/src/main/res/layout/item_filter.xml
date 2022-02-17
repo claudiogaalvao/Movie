@@ -13,14 +13,14 @@
         android:layout_height="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/custom_filter_button"
+        android:background="@drawable/custom_rounded_option"
         android:drawableEnd="@drawable/ic_arrow_down"
         android:textAllCaps="false"
         android:textSize="12sp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:textColor="@drawable/custom_filter_button"
-        android:drawableTint="@drawable/custom_filter_button"
+        android:textColor="@drawable/custom_rounded_option"
+        android:drawableTint="@drawable/custom_rounded_option"
         tools:text="Order by"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
