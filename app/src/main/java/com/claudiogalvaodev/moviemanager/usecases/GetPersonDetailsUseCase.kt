@@ -7,7 +7,7 @@ class GetPersonDetailsUseCase(
     private val repository: MoviesRepository
 ) {
 
-    suspend operator fun invoke(personId: String): Result<Employe?> {
+    suspend operator fun invoke(personId: Int): Result<Employe?> {
         return repository.getPersonDetails(personId)
     }
 

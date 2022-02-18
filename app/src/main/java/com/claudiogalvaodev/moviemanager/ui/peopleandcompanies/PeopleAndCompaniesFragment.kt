@@ -5,20 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
 import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
-
 
 class PeopleAndCompaniesFragment: Fragment() {
 
+    private lateinit var viewModel: PeopleAndCompaniesViewModel
     private val binding by lazy {
         FragmentPeopleAndCompaniesBinding.inflate(layoutInflater)
     }
@@ -26,11 +29,8 @@ class PeopleAndCompaniesFragment: Fragment() {
 
     private val args: PeopleAndCompaniesFragmentArgs by navArgs()
 
-    private val employeList: Array<Employe>? by lazy {
-        args.employeList
-    }
-    private val fromMovie: Movie by lazy {
-        args.fromMovie
+    private val movieId by lazy {
+        args.movieId
     }
 
     override fun onCreateView(
@@ -44,25 +44,42 @@ class PeopleAndCompaniesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = getViewModel { parametersOf(movieId) }
+        (activity as MovieDetailsActivity).setToolbarTitle(resources.getString(R.string.fragment_actors_title))
+
+        getCredits()
+        setupAdapter()
+        setupObservers()
+    }
+
+    private fun setupAdapter() {
         circleWithTitleAdapter = CircleWithTitleAdapter().apply {
             onItemClick = { obj ->
-                if(obj is Employe) {
+                if (obj is Employe) {
                     goToPeopleDetails(obj)
                 }
             }
         }
+    }
 
-        (activity as MovieDetailsActivity).setToolbarTitle(resources.getString(R.string.fragment_actors_title))
+    private fun getCredits() {
+        viewModel.getMovieCredits()
+    }
 
-        employeList?.let { people ->
-            configActorsList(people)
-            setupRecyclerViewLayoutManager()
+    private fun setupObservers() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.stars.collectLatest { people ->
+                people?.let {
+                    configPeopleList(it)
+                    setupRecyclerViewLayoutManager()
+                }
+            }
         }
     }
 
-    private fun configActorsList(actors: Array<Employe>) {
+    private fun configPeopleList(people: List<Employe>) {
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.adapter = circleWithTitleAdapter
-        circleWithTitleAdapter.submitList(actors.asList())
+        circleWithTitleAdapter.submitList(people)
     }
 
     private fun setupRecyclerViewLayoutManager() {
@@ -76,7 +93,7 @@ class PeopleAndCompaniesFragment: Fragment() {
 
     private fun goToPeopleDetails(employe: Employe) {
         val directions = PeopleAndCompaniesFragmentDirections
-            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe, fromMovie)
+            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe.id, movieId)
         findNavController().navigate(directions)
     }
 

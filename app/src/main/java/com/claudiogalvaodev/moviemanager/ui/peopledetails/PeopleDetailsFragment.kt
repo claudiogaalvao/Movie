@@ -19,11 +19,13 @@ import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
 class PeopleDetailsFragment : Fragment() {
-    private val viewModel: PeopleDetailsViewModel by viewModel()
+    private lateinit var viewModel: PeopleDetailsViewModel
     private val binding by lazy {
         FragmentPeopleDetailsBinding.inflate(layoutInflater)
     }
@@ -31,11 +33,11 @@ class PeopleDetailsFragment : Fragment() {
 
     private val args: PeopleDetailsFragmentArgs by navArgs()
 
-    private val employe: Employe by lazy {
-        args.employeDetails
+    private val personId by lazy {
+        args.personId
     }
-    private val leastOneMovie: Movie by lazy {
-        args.leastOneMovie
+    private val leastOneMovieId by lazy {
+        args.leastOneMovieId
     }
 
     override fun onCreateView(
@@ -47,11 +49,12 @@ class PeopleDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = getViewModel { parametersOf(personId, leastOneMovieId) }
         viewModel.isUpdate = true
 
         getPeopleDetails()
         getMovies()
-        bindHeaderInfo()
         setupAdapter()
         setupRecyclerView()
         setupObservers()
@@ -59,18 +62,45 @@ class PeopleDetailsFragment : Fragment() {
     }
 
     private fun getPeopleDetails() {
-        viewModel.getPersonDetails(employe.id.toString())
+        viewModel.getPersonDetails()
     }
 
     private fun getMovies() {
-        viewModel.getMovies(employe.id.toString())
+        viewModel.getMovies()
     }
 
-    private fun bindHeaderInfo() {
-        Picasso.with(binding.root.context).load(employe.getProfileImageUrl())
-            .into(binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsProfilePhoto)
-        binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsName.text = employe.name
-        binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = employe.known_for_department
+    private fun bindHeaderInfo(person: Employe?) {
+        person?.let {
+            Picasso.with(binding.root.context).load(it.getProfileImageUrl())
+                .into(binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsProfilePhoto)
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsName.text = it.name
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = it.known_for_department
+        }
+    }
+
+    private fun bindPersonDetailsInfo(person: Employe?) {
+        person?.let {
+            if(it.biography.isNullOrEmpty()) {
+                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.GONE
+            } else {
+                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.VISIBLE
+                binding.fragmentPeopleDetailsBiography.text = it.biography
+            }
+            person.birthday?.let { birthday ->
+                binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
+                    formatUtils.dateFromAmericanFormatToDateWithMonthName(birthday)
+            }
+
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsAge.text = if(!person.deathday.isNullOrEmpty()) {
+                "${context?.getString(R.string.separator_bullet)} ${formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)}"
+            } else {
+                person.birthday?.let { birthday ->
+                    context?.getString(R.string.age_label, formatUtils.dateFromAmericanFormatToAge(birthday))
+                }
+            }
+
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth
+        }
     }
 
     private fun setupAdapter() {
@@ -116,44 +146,16 @@ class PeopleDetailsFragment : Fragment() {
             viewModel.movies.collectLatest { movies ->
                 setMoviesList(movies)
                 if(viewModel.getSecondPage) {
-                    if(movies.isEmpty()) {
-                        setMoviesList(listOf(leastOneMovie))
-                    } else {
-                        getMovies()
-                    }
+                    getMovies()
                 }
             }
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.personDetails.collectLatest { person ->
+                bindHeaderInfo(person)
                 bindPersonDetailsInfo(person)
             }
-        }
-    }
-
-    private fun bindPersonDetailsInfo(person: Employe?) {
-        person?.let {
-            if(it.biography.isNullOrEmpty()) {
-                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.GONE
-            } else {
-                binding.fragmentPeopleDetailsBiographyLabel.visibility = View.VISIBLE
-                binding.fragmentPeopleDetailsBiography.text = it.biography
-            }
-            person.birthday?.let { birthday ->
-                binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
-                    formatUtils.dateFromAmericanFormatToDateWithMonthName(birthday)
-            }
-
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsAge.text = if(!person.deathday.isNullOrEmpty()) {
-                "${context?.getString(R.string.separator_bullet)} ${formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)}"
-            } else {
-                person.birthday?.let { birthday ->
-                    context?.getString(R.string.age_label, formatUtils.dateFromAmericanFormatToAge(birthday))
-                }
-            }
-
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth
         }
     }
 
@@ -172,9 +174,9 @@ class PeopleDetailsFragment : Fragment() {
     }
 
     private fun goToMovieDetails(movieId: Int) {
-        val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra("movieId", movieId)
-        startActivity(intent)
+        context?.let {
+            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+        }
     }
 
     private fun calcNumberOfColumns(): Int {

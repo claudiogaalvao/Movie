@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Filter
 import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.usecases.GetMovieDetailsUseCase
 import com.claudiogalvaodev.moviemanager.usecases.GetMoviesByCriteriousUseCase
 import com.claudiogalvaodev.moviemanager.usecases.GetPersonDetailsUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
@@ -17,6 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PeopleDetailsViewModel(
+    val personId: Int,
+    val leastOneMovieId: Int,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMoviesByCriteriousUseCase: GetMoviesByCriteriousUseCase,
     private val getPersonDetailsUseCase: GetPersonDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -28,20 +32,23 @@ class PeopleDetailsViewModel(
     private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
+    private val _leastOneMovie = MutableStateFlow<Movie?>(null)
+    val leastOneMovie = _leastOneMovie.asStateFlow()
+
     var isMoviesLoading: Boolean = false
     var isUpdate: Boolean = false
     var getSecondPage: Boolean = false
 
     private var theresNoMoreMovies = false
 
-    private fun getFilter(personId: String): List<Filter> {
+    private fun getFilter(): List<Filter> {
         val filters: MutableList<Filter> = mutableListOf()
         filters.add(Filter(type = FilterType.SORT_BY, name = "", currentValue = OrderByConstants.POPULARITY_DESC))
-        filters.add(Filter(type = FilterType.PEOPLE, name = "", currentValue = personId))
+        filters.add(Filter(type = FilterType.PEOPLE, name = "", currentValue = personId.toString()))
         return filters
     }
 
-    fun getPersonDetails(personId: String) = viewModelScope.launch {
+    fun getPersonDetails() = viewModelScope.launch {
         withContext(dispatcher) {
             val personDetailsResult = getPersonDetailsUseCase.invoke(personId)
 
@@ -53,11 +60,11 @@ class PeopleDetailsViewModel(
         }
     }
 
-    fun getMovies(personId: String) = viewModelScope.launch {
+    fun getMovies() = viewModelScope.launch {
         withContext(dispatcher) {
             isMoviesLoading = true
             val moviesResult = if(!theresNoMoreMovies) {
-                getMoviesByCriteriousUseCase.invoke(getFilter(personId), isUpdate)
+                getMoviesByCriteriousUseCase.invoke(getFilter(), isUpdate)
             } else {
                 Result.failure(Exception())
             }
@@ -85,6 +92,11 @@ class PeopleDetailsViewModel(
             isMoviesLoading = false
             isUpdate = false
         }
+    }
+
+    fun getMovieDetails() = viewModelScope.launch {
+        getMovieDetailsUseCase.invoke(leastOneMovieId)
+        _leastOneMovie.emit(getMovieDetailsUseCase.movie.value)
     }
 
 }

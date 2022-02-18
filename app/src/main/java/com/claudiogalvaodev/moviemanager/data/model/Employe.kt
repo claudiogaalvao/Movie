@@ -5,7 +5,6 @@ import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 class Employe(
     val id: Long,
     val adult: Boolean,
@@ -25,7 +24,7 @@ class Employe(
     val deathday: String? = null,
     val place_of_birth: String? = null,
     val biography: String? = null
-) : Parcelable {
+) {
     fun getProfileImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$profile_path"
     }

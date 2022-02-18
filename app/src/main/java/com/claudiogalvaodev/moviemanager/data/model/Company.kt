@@ -5,13 +5,12 @@ import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Company(
     val id: Int,
     val logo_path: String?,
     val name: String,
     val origin_country: String,
-): Parcelable {
+) {
     fun getLogoImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$logo_path"
     }

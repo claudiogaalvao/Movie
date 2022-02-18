@@ -195,10 +195,10 @@ class MoviesRepository(
         return result
     }
 
-    suspend fun getPersonDetails(personId: String): Result<Employe?> {
+    suspend fun getPersonDetails(personId: Int): Result<Employe?> {
         var result: Result<Employe?> = Result.success(null)
         try {
-            val response = service.getPersonDetails(personId)
+            val response = service.getPersonDetails(personId.toString())
             if (response.isSuccessful) {
                 response.body()?.let { person ->
                     result = Result.success(person)

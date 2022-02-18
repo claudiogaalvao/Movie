@@ -1,5 +1,6 @@
 package com.claudiogalvaodev.moviemanager.data.model
 
+import android.os.Parcel
 import android.os.Parcelable
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enums.BackdropSizes
@@ -16,7 +17,6 @@ import kotlinx.parcelize.Parcelize
 // Se o id do filme estiver na lista, mudar o isFavorite do filme para true
 
 // Pesquisar sobre DTO
-@Parcelize
 class Movie(
     val id: Int,
     val title: String,
@@ -38,7 +38,7 @@ class Movie(
     val production_companies: List<Company>,
     val status: String,
     val runtime: Int
-): Parcelable {
+) {
 
     fun getDuration(): String {
         return "${runtime / 60}h${runtime % 60}min"

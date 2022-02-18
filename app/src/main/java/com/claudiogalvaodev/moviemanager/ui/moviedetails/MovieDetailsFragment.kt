@@ -30,7 +30,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
@@ -309,9 +308,9 @@ class MovieDetailsFragment : Fragment() {
     ) {
         if (allEmployes.size > employesToShowFirst.size) {
             binding.fragmentMovieDetailsStarsSeeMore.visibility = View.VISIBLE
-            viewModel.stars.value?.let { employesCompleteList ->
+            viewModel.stars.value?.let { _ ->
                 binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
-                    goToPeopleAndCompanies(employesCompleteList)
+                    goToPeopleAndCompanies()
                 }
             }
 
@@ -416,10 +415,10 @@ class MovieDetailsFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun goToPeopleAndCompanies(actors: List<Employe>) {
+    private fun goToPeopleAndCompanies() {
         viewModel.movie.value?.let { movie ->
             val directions = MovieDetailsFragmentDirections
-                .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(actors.toTypedArray(), movie)
+                .actionMovieDetailsFragmentToPeopleAndCompaniesFragment(movie.id.toLong())
             findNavController().navigate(directions)
         }
     }
@@ -427,7 +426,7 @@ class MovieDetailsFragment : Fragment() {
     private fun goToPeopleDetails(employe: Employe) {
         viewModel.movie.value?.let { movie ->
             val directions = MovieDetailsFragmentDirections
-                .actionMovieDetailsFragmentToPeopleDetailsFragment(employe, movie)
+                .actionMovieDetailsFragmentToPeopleDetailsFragment(employe.id, movie.id.toLong())
             findNavController().navigate(directions)
         }
     }

@@ -29,15 +29,11 @@
         android:name="com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesFragment"
         android:label="PeopleAndCompaniesFragment"
         tools:layout="@layout/fragment_people_and_companies">
-        <argument android:name="employeList"
-            app:argType="com.claudiogalvaodev.moviemanager.data.model.Employe[]"
-            app:nullable="true" />
+        <argument android:name="movieId"
+            app:argType="long" />
         <action
             android:id="@+id/action_peopleAndCompaniesFragment_to_peopleDetailsFragment2"
             app:destination="@id/peopleDetailsFragment" />
-        <argument
-            android:name="fromMovie"
-            app:argType="com.claudiogalvaodev.moviemanager.data.model.Movie" />
     </fragment>
     <fragment
         android:id="@+id/peopleDetailsFragment"
@@ -45,11 +41,11 @@
         android:label="PeopleDetailsFragment"
         tools:layout="@layout/fragment_people_details">
         <argument
-            android:name="employeDetails"
-            app:argType="com.claudiogalvaodev.moviemanager.data.model.Employe" />
+            android:name="personId"
+            app:argType="long" />
         <argument
-            android:name="leastOneMovie"
-            app:argType="com.claudiogalvaodev.moviemanager.data.model.Movie" />
+            android:name="leastOneMovieId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/myListsFragment"
