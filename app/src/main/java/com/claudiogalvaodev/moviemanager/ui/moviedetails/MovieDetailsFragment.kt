@@ -29,18 +29,21 @@ import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
 class MovieDetailsFragment : Fragment() {
-    private val viewModel: MovieDetailsViewModel by viewModel()
+
+    private lateinit var viewModel: MovieDetailsViewModel
     private val binding by lazy {
         FragmentMovieDetailsBinding.inflate(layoutInflater)
     }
 
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val movieId by lazy {
-        args.movieId.toInt()
+        args.movieId
     }
     private lateinit var moviesSaved: List<MovieSaved>
 
@@ -54,6 +57,8 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = getViewModel { parametersOf(movieId) }
+
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
         getData()
@@ -62,11 +67,11 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun getData() {
-        viewModel.getMovieDetails(movieId)
-        viewModel.getMovieCredits(movieId)
-        viewModel.getProviders(movieId)
+        viewModel.getMovieDetails()
+        viewModel.getMovieCredits()
+        viewModel.getProviders()
         viewModel.getAllMyLists()
-        viewModel.checkIsMovieSaved(movieId)
+        viewModel.checkIsMovieSaved()
     }
 
     private fun setObservables() {
@@ -164,7 +169,7 @@ class MovieDetailsFragment : Fragment() {
             viewModel.isMovieSaved.collectLatest { isSaved ->
                 if (isSaved) {
                     binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(R.drawable.ic_done)
-                    binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(R.string.added_to_list)
+                    binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(R.string.saved_to_list)
                 }
             }
         }
@@ -213,7 +218,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun createMyListsAdapter(dialog: Dialog): MyListsAdapter {
-        val filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == movieId }
+        val filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
         val dialogAdapter = MyListsAdapter(filteredMoviesSaved).apply {
             onItemClick = { listSelected, action ->
                 dialog.hide()
@@ -231,7 +236,7 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.saveMovieToMyList(listSelected.id).collectLatest { successfullySaved ->
                 if(successfullySaved) {
-                    viewModel.checkIsMovieSaved(movieId)
+                    viewModel.checkIsMovieSaved()
                     Toast.makeText(context,
                         "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}",
                         Toast.LENGTH_LONG).show()
@@ -343,7 +348,7 @@ class MovieDetailsFragment : Fragment() {
         binding.fragmentMovieDetailsCollectionSequenceRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { movie ->
-                    if(movie.id != movieId) goToMovieDetails(movie)
+                    if(movie.id != viewModel.movieId) goToMovieDetails(movie)
                 }
             }
             adapter = simplePosterAdapter
@@ -407,7 +412,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun goToMovieDetails(movie: Movie) {
         val directions = MovieDetailsFragmentDirections
-            .actionMovieDetailsFragmentToMovieDetailsFragment(movie.id.toString())
+            .actionMovieDetailsFragmentToMovieDetailsFragment(movie.id.toLong())
         findNavController().navigate(directions)
     }
 
@@ -425,6 +430,5 @@ class MovieDetailsFragment : Fragment() {
                 .actionMovieDetailsFragmentToPeopleDetailsFragment(employe, movie)
             findNavController().navigate(directions)
         }
-
     }
 }

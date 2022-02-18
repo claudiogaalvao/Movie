@@ -14,7 +14,7 @@ android {
         applicationId "com.claudiogalvaodev.cinesete"
         minSdk 26
         targetSdk 31
-        versionCode 3
+        versionCode 5
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     def room_version = "2.4.1"
     def nav_version = "2.4.0-alpha02"
 

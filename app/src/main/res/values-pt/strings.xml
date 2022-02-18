@@ -101,7 +101,7 @@
     <string name="settings">Configurações</string>
     <string name="add_icon">Add icon</string>
     <string name="add_to_list">Adicionar à lista</string>
-    <string name="added_to_list">Adicionado</string>
+    <string name="saved_to_list">Salvo</string>
 
     <string name="my_lists_form_new_instruction">Dê um nome para sua nova lista</string>
     <string name="new_list_dialog_title">Criar nova lista</string>

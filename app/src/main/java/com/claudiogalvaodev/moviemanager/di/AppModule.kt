@@ -102,8 +102,6 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    single { GetMovieDetailsUseCases(get(), get(), get(), get()) }
-
     single { GetTrendingWeekMoviesUseCase(get()) }
     single { GetUpComingAndPlayingNowMoviesUseCase(get()) }
     single { GetMovieDetailsUseCase(get()) }
@@ -124,10 +122,30 @@ val viewModelModule = module {
     single { RemoveMovieFromMyListUseCase(get()) }
     single { CheckIsMovieSavedUseCase(get()) }
 
+    single {
+        AllMovieDetailsUseCase(
+            getMovieDetailsUseCase = get(),
+            getMovieProvidersUseCase = get(),
+            getMovieCreditsUseCase = get(),
+            getMovieCollectionUseCase = get(),
+            getAllMyListsUseCase = get(),
+            createNewListOnMyListsUseCase = get(),
+            saveMovieToMyListUseCase = get(),
+            removeMovieFromMyListUseCase = get(),
+            checkIsMovieSavedUseCase = get(),
+            getAllMoviesSavedUseCase = get()
+        )
+    }
+
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get()) }
-    viewModel { MovieDetailsViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { (movieId: Int) ->
+        MovieDetailsViewModel(
+            movieId = movieId,
+            allMovieDetailsUseCase = get()
+        )
+    }
     viewModel { PeopleDetailsViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { MyListsViewModel(get(), get(), get(), get()) }

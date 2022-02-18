@@ -18,13 +18,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
-    private val getAllMoviesSavedUseCase: GetAllMoviesSavedUseCase,
-    private val getMovieDetailsUseCases: GetMovieDetailsUseCases,
-    private val getAllMyListsUseCase: GetAllMyListsUseCase,
-    private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
-    private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
-    private val removeMovieFromMyListUseCase: RemoveMovieFromMyListUseCase,
-    private val checkIsMovieSavedUseCase: CheckIsMovieSavedUseCase,
+    val movieId: Int,
+    private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -52,19 +47,19 @@ class MovieDetailsViewModel(
     private val _moviesSaved = MutableStateFlow<List<MovieSaved>>(emptyList())
     val moviesSaved = _moviesSaved.asStateFlow()
 
-    private val _isMovieSaved = MutableStateFlow<Boolean>(false)
+    private val _isMovieSaved = MutableStateFlow(false)
     val isMovieSaved = _isMovieSaved.asStateFlow()
 
     init {
         viewModelScope.launch {
-            getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
+            allMovieDetailsUseCase.getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
                 _moviesSaved.emit(moviesSaved)
             }
         }
     }
 
-    fun checkIsMovieSaved(movieId: Int) = viewModelScope.launch(dispatcher) {
-        val result = checkIsMovieSavedUseCase.invoke(movieId)
+    fun checkIsMovieSaved() = viewModelScope.launch(dispatcher) {
+        val result = allMovieDetailsUseCase.checkIsMovieSavedUseCase.invoke(movieId)
         _isMovieSaved.emit(result)
     }
 
@@ -74,7 +69,7 @@ class MovieDetailsViewModel(
             val movie = _movie.value
 
             movie?.let {
-                val result = saveMovieToMyListUseCase.invoke(
+                val result = allMovieDetailsUseCase.saveMovieToMyListUseCase.invoke(
                     MovieSaved(
                         id = 0,
                         movieId = it.id,
@@ -94,7 +89,7 @@ class MovieDetailsViewModel(
             val movie = _movie.value
 
             movie?.let {
-                removeMovieFromMyListUseCase.invoke(movieId = it.id, myListId = myListId)
+                allMovieDetailsUseCase.removeMovieFromMyListUseCase.invoke(movieId = it.id, myListId = myListId)
             }
         }
     }
@@ -102,26 +97,26 @@ class MovieDetailsViewModel(
     fun createNewList(newList: MyList): Flow<Int> {
         val myListId = MutableStateFlow(0)
         viewModelScope.launch {
-            val listId = createNewListOnMyListsUseCase.invoke(newList)
+            val listId = allMovieDetailsUseCase.createNewListOnMyListsUseCase.invoke(newList)
             myListId.emit(listId.toInt())
         }
         return myListId
     }
 
     fun getAllMyLists() = viewModelScope.launch {
-        getAllMyListsUseCase.invoke().collectLatest { myLists ->
+        allMovieDetailsUseCase.getAllMyListsUseCase.invoke().collectLatest { myLists ->
             _myLists.emit(myLists)
         }
     }
 
-    fun getMovieDetails(movieId: Int) = viewModelScope.launch {
-        getMovieDetailsUseCases.getMovieDetailsUseCase.invoke(movieId)
-        _movie.emit(getMovieDetailsUseCases.getMovieDetailsUseCase.movie.value)
-        _companies.emit(getMovieDetailsUseCases.getMovieDetailsUseCase.companies.value)
+    fun getMovieDetails() = viewModelScope.launch {
+        allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
+        _movie.emit(allMovieDetailsUseCase.getMovieDetailsUseCase.movie.value)
+        _companies.emit(allMovieDetailsUseCase.getMovieDetailsUseCase.companies.value)
     }
 
-    fun getProviders(movieId: Int) = viewModelScope.launch {
-        val streamProvidersResult = getMovieDetailsUseCases.getMovieProvidersUseCase.invoke(movieId)
+    fun getProviders() = viewModelScope.launch {
+        val streamProvidersResult = allMovieDetailsUseCase.getMovieProvidersUseCase.invoke(movieId)
         if(streamProvidersResult.isSuccess) {
             val stream = streamProvidersResult.getOrDefault(emptyList())
             if(stream != null) {
@@ -130,14 +125,14 @@ class MovieDetailsViewModel(
         }
     }
 
-    fun getMovieCredits(movieId: Int) = viewModelScope.launch {
-        getMovieDetailsUseCases.getMovieCreditsUseCase.invoke(movieId)
-        _stars.emit(getMovieDetailsUseCases.getMovieCreditsUseCase.stars.value)
-        _directors.emit(getMovieDetailsUseCases.getMovieCreditsUseCase.directors.value)
+    fun getMovieCredits() = viewModelScope.launch {
+        allMovieDetailsUseCase.getMovieCreditsUseCase.invoke(movieId)
+        _stars.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.stars.value)
+        _directors.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.directors.value)
     }
 
     fun getMovieCollection(collectionId: Int) = viewModelScope.launch {
-        val movieCollectionResult = getMovieDetailsUseCases.getMovieCollectionUseCase.invoke(collectionId)
+        val movieCollectionResult = allMovieDetailsUseCase.getMovieCollectionUseCase.invoke(collectionId)
         if(movieCollectionResult.isSuccess) {
             val movieCompleteCollection = movieCollectionResult.getOrDefault(null)
             if(movieCompleteCollection?.parts?.isNotEmpty() == true) {

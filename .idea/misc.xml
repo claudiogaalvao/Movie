@@ -12,6 +12,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/bg_splash.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/bottom_gray_border.xml" value="0.31666666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_filter_button.xml" value="0.3074074074074074" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_home_indicator.xml" value="0.36203703703703705" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_radio_button.xml" value="0.34629629629629627" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/custom_rounded_options.xml" value="0.2518518518518518" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/drawable/gradient_gray.xml" value="0.3574074074074074" />
@@ -41,6 +42,8 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_my_lists.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_search.xml" value="0.2710526315789474" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/blank_fragment.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/content_movie_details_header.xml" value="0.36186594202898553" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/content_movie_details_stars.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/content_people_details_header.xml" value="0.36666666666666664" />
@@ -48,6 +51,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/custom_dialog_mylists_form.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/favorite_movies.xml" value="0.1" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_about_developer.xml" value="0.264" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_blank.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_discover.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_explore.xml" value="0.3509963768115942" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_explore_genders.xml" value="0.26876737720111216" />
@@ -88,6 +92,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_simple_poster.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_simple_poster_with_title.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_small_image_circle.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/main_fragment.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_details.xml" value="0.1" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/movie_poster_with_title.xml" value="0.36666666666666664" />

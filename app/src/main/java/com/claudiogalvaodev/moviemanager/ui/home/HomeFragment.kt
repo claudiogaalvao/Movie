@@ -98,8 +98,8 @@ class HomeFragment: Fragment() {
     }
 
     private fun goToMovieDetails(movie: Movie) {
-        val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra("movieId", movie.id)
-        startActivity(intent)
+        context?.let {
+            startActivity(MovieDetailsActivity.newInstance(it, movie.id))
+        }
     }
 }
