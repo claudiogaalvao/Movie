@@ -105,11 +105,11 @@ class MovieDetailsFragment : Fragment() {
                     Picasso.with(binding.root.context).load(it.getPoster()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
 
                     binding.fragmentMovieDetailsOverview.text = it.overview
-                    if(it.budget == 0) {
+                    if(it.budget == 0L) {
                         binding.fragmentMovieDetailsBudgetLabel.visibility = View.GONE
                         binding.fragmentMovieDetailsBudget.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsBudget.text = formatUtils.unformattedNumberToCurrency(it.budget.toLong())
+                        binding.fragmentMovieDetailsBudget.text = formatUtils.unformattedNumberToCurrency(it.budget)
                     }
 
                 }

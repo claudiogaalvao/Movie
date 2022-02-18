@@ -95,8 +95,13 @@ class PeopleDetailsViewModel(
     }
 
     fun getMovieDetails() = viewModelScope.launch {
-        getMovieDetailsUseCase.invoke(leastOneMovieId)
-        _leastOneMovie.emit(getMovieDetailsUseCase.movie.value)
+        val movieDetailsResult = getMovieDetailsUseCase.invoke(leastOneMovieId)
+        if(movieDetailsResult.isSuccess) {
+            val movieDetails = movieDetailsResult.getOrNull()
+            movieDetails?.let { movieDetailsUI ->
+                _leastOneMovie.emit(movieDetailsUI.movie)
+            }
+        }
     }
 
 }

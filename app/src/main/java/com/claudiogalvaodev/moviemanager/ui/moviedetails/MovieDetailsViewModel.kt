@@ -110,9 +110,14 @@ class MovieDetailsViewModel(
     }
 
     fun getMovieDetails() = viewModelScope.launch {
-        allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
-        _movie.emit(allMovieDetailsUseCase.getMovieDetailsUseCase.movie.value)
-        _companies.emit(allMovieDetailsUseCase.getMovieDetailsUseCase.companies.value)
+        val movieDetailsResult = allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
+        if(movieDetailsResult.isSuccess) {
+            val movieDetails = movieDetailsResult.getOrNull()
+            movieDetails?.let { movieDetailsUI ->
+                _movie.emit(movieDetailsUI.movie)
+                _companies.emit(movieDetailsUI.companies)
+            }
+        }
     }
 
     fun getProviders() = viewModelScope.launch {

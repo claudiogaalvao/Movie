@@ -1,30 +1,26 @@
 package com.claudiogalvaodev.moviemanager.usecases
 
 import com.claudiogalvaodev.moviemanager.data.model.Company
-import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.claudiogalvaodev.moviemanager.ui.model.MovieDetailsUI
 
 class GetMovieDetailsUseCase(
     private val repository: MoviesRepository
 ) {
 
-    private val _movie = MutableStateFlow<Movie?>(null)
-    val movie = _movie.asStateFlow()
-
-    private val _companies = MutableStateFlow<List<Company>?>(emptyList())
-    val companies = _companies.asStateFlow()
-
-    suspend operator fun invoke(movieId: Int) {
+    suspend operator fun invoke(movieId: Int): Result<MovieDetailsUI> {
         val moviesResult = repository.getDetails(movieId)
         if(moviesResult.isSuccess) {
             val movieDetails = moviesResult.getOrDefault(null)
             if(movieDetails != null) {
-                _movie.emit(movieDetails)
-                _companies.emit(filterCompanies(movieDetails.production_companies))
+                val movieDetailsUI = MovieDetailsUI(
+                    movie = movieDetails,
+                    companies = filterCompanies(movieDetails.production_companies)
+                )
+                return Result.success(movieDetailsUI)
             }
         }
+        return Result.failure(Exception("Do not return movie details"))
     }
 
     private fun filterCompanies(companies: List<Company>): List<Company> {

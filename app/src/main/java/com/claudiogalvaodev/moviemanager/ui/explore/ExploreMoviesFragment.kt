@@ -156,9 +156,9 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun goToMovieDetails(movieId: Int) {
-        val intent = Intent(activity, MovieDetailsActivity::class.java)
-        intent.putExtra("movieId", movieId)
-        startActivity(intent)
+        context?.let {
+            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+        }
     }
 
     private fun goToSearch() {
