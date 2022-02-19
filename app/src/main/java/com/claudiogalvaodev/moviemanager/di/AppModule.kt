@@ -16,6 +16,8 @@ import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -94,8 +96,10 @@ val retrofitModule = module {
 }
 
 val daoModule = module {
-    single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
-    single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
+    factory { CoroutineScope(Dispatchers.IO) }
+
+    single { CineSeteDatabase.getInstance(androidContext(), get()).myListsDao }
+    single { CineSeteDatabase.getInstance(androidContext(), get()).moviesSavedDao }
 }
 
 val repositoryModule = module {

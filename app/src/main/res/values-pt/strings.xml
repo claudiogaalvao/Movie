@@ -127,4 +127,9 @@
         \n\nUm abraço</string>
 
     <string name="search_movies_didnt_find">Desculpe. Não encontramos nenhum resultado para sua busca :(</string>
+
+
+    // Default value for pre populate My Lists
+    <string name="my_lists_favorites">Favoritos</string>
+    <string name="my_lists_watch_later">Quero Assistir</string>
 </resources>
