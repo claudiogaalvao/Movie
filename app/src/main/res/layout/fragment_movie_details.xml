@@ -27,12 +27,11 @@
 
     <TextView
         android:id="@+id/fragment_movie_details_overview"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_overview_label"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_overview_label"
         app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_overview_label"
         tools:text="@string/lorem_ipsum"/>
 
@@ -41,12 +40,13 @@
         android:text="@string/budget_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="12sp"
         android:textStyle="bold"
         android:textColor="@color/primary_gray"
         app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_overview"
-        app:layout_constraintStart_toStartOf="@+id/fragment_movie_details_overview" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/fragment_movie_details_budget"
@@ -62,11 +62,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/fragment_movie_details_availableon_parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_budget"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/fragment_movie_details_overview_label"
-        app:layout_constraintEnd_toEndOf="@+id/fragment_movie_details_overview_label"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_movie_details_budget"
         android:backgroundTint="@android:color/transparent"
         app:cardElevation="0dp">
 

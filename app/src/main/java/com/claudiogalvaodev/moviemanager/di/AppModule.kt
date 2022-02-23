@@ -39,7 +39,7 @@ val retrofitModule = module {
     }
     single {
         val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-        val currentDeviceRegion = Locale.getDefault().country
+        val currentDeviceRegion = "BR"
 
         val onlineInterceptor = Interceptor { chain ->
             val response: Response = chain.proceed(chain.request())

@@ -43,18 +43,22 @@ class FilterPeopleFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setCurrentValue()
+        setTitle()
+        getPeople(isInitialize = true)
+        setupRecyclerView()
+        setObservables()
+        setListeners()
+    }
+
+    private fun setCurrentValue() {
         val jsonCurrentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
-        currentValue = if(jsonCurrentValue.isNotBlank()) {
+        currentValue = if (jsonCurrentValue.isNotBlank()) {
             Gson().fromJson(jsonCurrentValue, Array<Employe>::class.java).asList()
         } else {
             emptyList()
         }
-
-        setTitle()
-        getPeople(true)
-        setupRecyclerView()
-        setObservables()
-        setListeners()
+        viewModel.initPeoplePreviousSelected(currentValue)
     }
 
     private fun setTitle() {
@@ -62,7 +66,6 @@ class FilterPeopleFragment: Fragment() {
     }
 
     private fun getPeople(isInitialize: Boolean = false) {
-        viewModel.initPeoplePreviousSelected(currentValue)
         viewModel.getAllPeople(isInitialize)
     }
 
@@ -94,12 +97,6 @@ class FilterPeopleFragment: Fragment() {
                     getPeople()
                 }
             }
-
-            if((scrollY > oldScrollY) && binding.filterButtonApply.isShown) {
-                slideDown(binding.filterButtonParent)
-            } else if(scrollY < oldScrollY && !binding.filterButtonApply.isShown) {
-                slideUp(binding.filterButtonParent)
-            }
         }
     }
 
@@ -122,7 +119,7 @@ class FilterPeopleFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.people.collectLatest { people ->
-                setPeople(people)
+                 setPeople(people)
             }
         }
     }
@@ -132,7 +129,7 @@ class FilterPeopleFragment: Fragment() {
                 obj ->
             when(obj) {
                 is Employe -> {
-                    viewModel.unselectPerson(obj)
+                     viewModel.unselectPerson(obj)
                 }
             }
         }
@@ -140,7 +137,7 @@ class FilterPeopleFragment: Fragment() {
         popularPeopleAdapter.onItemClick = { obj ->
             when(obj) {
                 is Employe -> {
-                    viewModel.selectPerson(obj)
+                     viewModel.selectPerson(obj)
                 }
             }
         }
@@ -170,36 +167,6 @@ class FilterPeopleFragment: Fragment() {
         var countImages = dpWidth - marginStart - marginEnd
         countImages /= (widthEachImage+spaceBetween)
         return countImages.roundToInt()
-    }
-
-    // slide the view from below itself to the current position
-    fun slideUp(view: View) {
-        view.visibility = View.VISIBLE
-        val animate = TranslateAnimation(
-            0F,  // fromXDelta
-            0F,  // toXDelta
-            view.height.toFloat(),  // fromYDelta
-            0F
-        ) // toYDelta
-        animate.duration = 500
-        animate.fillAfter = true
-        view.startAnimation(animate)
-        view.visibility = View.VISIBLE
-
-    }
-
-    // slide the view from its current position to below itself
-    fun slideDown(view: View) {
-        val animate = TranslateAnimation(
-            0F,  // fromXDelta
-            0F,  // toXDelta
-            0F,  // fromYDelta
-            view.height.toFloat()
-        ) // toYDelta
-        animate.duration = 500
-        animate.fillAfter = true
-        view.startAnimation(animate)
-        view.visibility = View.GONE
     }
 
 }

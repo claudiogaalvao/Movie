@@ -47,9 +47,8 @@ object formatUtils {
     }
 
     fun unformattedNumberToCurrency(value: Long): String {
-        val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-        val numberFormat = NumberFormat.getCurrencyInstance(Locale.forLanguageTag(currentDeviceLanguage))
-        numberFormat.maximumFractionDigits = 2;
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("en-US"))
+        numberFormat.maximumFractionDigits = 2
         val convert = numberFormat.format(value)
         return convert ?: value.toString()
     }

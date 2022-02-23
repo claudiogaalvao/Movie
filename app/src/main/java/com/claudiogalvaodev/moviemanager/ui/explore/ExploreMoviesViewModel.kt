@@ -29,7 +29,7 @@ class ExploreMoviesViewModel(
     val movies = _movies.asStateFlow()
 
     var isLoading: Boolean = false
-    var isUpdate: Boolean = false
+    var isFirstLoading: Boolean = false
     var getSecondPage: Boolean = false
 
     init {
@@ -57,16 +57,17 @@ class ExploreMoviesViewModel(
     fun getMoviesByCriterious() = viewModelScope.launch {
         withContext(dispatcher) {
             isLoading = true
-            val moviesResult = getMoviesByCriteriousUseCase.invoke(_filters.value, isUpdate)
+            val moviesResult = getMoviesByCriteriousUseCase.invoke(_filters.value, isFirstLoading)
 
             if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->
-                    if(isUpdate) {
+
+                    if(isFirstLoading) {
                         _movies.emit(movies)
                         isLoading = false
-                        isUpdate = false
+                        isFirstLoading = false
                         return@withContext
                     }
                     val moviesList = mutableListOf<Movie>()
@@ -76,7 +77,7 @@ class ExploreMoviesViewModel(
                 }
             }
             isLoading = false
-            isUpdate = false
+            isFirstLoading = false
         }
     }
 
@@ -89,7 +90,7 @@ class ExploreMoviesViewModel(
                     filter.currentValue = filterChanged.currentValue
                 }
             }
-            isUpdate = true
+            isFirstLoading = true
             _filters.emit(newFilters)
             getMoviesByCriterious()
         }

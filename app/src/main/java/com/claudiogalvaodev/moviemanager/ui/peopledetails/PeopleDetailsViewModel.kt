@@ -74,8 +74,8 @@ class PeopleDetailsViewModel(
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->
-                    moviesList.addAll(movies.filter { movie -> movie.id != leastOneMovieId })
                     moviesList.addAll(_movies.value)
+                    moviesList.addAll(movies.filter { movie -> movie.id != leastOneMovieId })
                     _movies.emit(moviesList)
                 }
             }

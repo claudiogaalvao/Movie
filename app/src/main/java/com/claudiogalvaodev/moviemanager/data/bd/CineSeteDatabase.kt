@@ -11,7 +11,7 @@ import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [MyList::class, MovieSaved::class], version = 1, exportSchema = false)
+@Database(entities = [MyList::class, MovieSaved::class], version = 2, exportSchema = false)
 abstract class CineSeteDatabase: RoomDatabase() {
 
     abstract val myListsDao: MyListsDao
@@ -30,6 +30,7 @@ abstract class CineSeteDatabase: RoomDatabase() {
                 CineSeteDatabase::class.java,
                 "database")
                 .addCallback(MyListsDatabaseCallback(context, coroutineScope, context.resources))
+                .fallbackToDestructiveMigration()
                 .build()
 
             return instance

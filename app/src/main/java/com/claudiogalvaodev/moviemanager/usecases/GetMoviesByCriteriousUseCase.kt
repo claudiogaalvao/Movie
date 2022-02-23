@@ -26,10 +26,6 @@ class GetMoviesByCriteriousUseCase(
         val withPeople = convertPeopleFromJson(criterious)
         val year = (criterious.find { filter -> filter.type == FilterType.YEARS })?.currentValue ?: ""
 
-//        val runtimeSelected = (criterious.find { filter -> filter.type == FilterType.RUNTIME })?.currentValue ?: ""
-//        val withRuntimeLte: Int = defineRuntimeLte(runtimeSelected)
-//        val withRuntimeGte: Int = defineRuntimeGte(runtimeSelected)
-
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
         val moviesResult = repository.getMoviesByCriterious(
@@ -40,9 +36,10 @@ class GetMoviesByCriteriousUseCase(
             voteCount = voteCount,
             withPeople = withPeople,
             year = year)
+
         if(moviesResult.isSuccess) {
             currentPage++
-            val validMovies = removeInvalidMovies(moviesResult.getOrDefault(emptyList()))
+            val validMovies = removeInvalidMovies(withPeople, moviesResult.getOrDefault(emptyList()))
             return Result.success(validMovies)
         }
         return moviesResult
@@ -62,14 +59,29 @@ class GetMoviesByCriteriousUseCase(
         return withPeople
     }
 
-    private fun removeInvalidMovies(movies: List<Movie>): List<Movie> {
+    private fun removeInvalidMovies(withPeopleId: String, movies: List<Movie>): List<Movie> {
         val justMoviesWithPosterAndBackdropImage = movies.filter { movie ->
             movie.poster_path != null || movie.backdrop_path != null
         }
-        return justMoviesWithPosterAndBackdropImage
+        return removeInconsistentData(withPeopleId, justMoviesWithPosterAndBackdropImage)
     }
 
-    fun generatePeopleSelectedConcatened(peopleSelected: List<Employe>): String {
+    private fun removeInconsistentData(withPeopleId: String, movies: List<Movie>): List<Movie> {
+        val mutableList = mutableListOf<Movie>()
+        val tomHollandId = "1136406"
+        val ladyGagaId = "237405"
+
+        mutableList.addAll(if (withPeopleId.contains(tomHollandId)) {
+            movies.filter { movie -> movie.id != 580489 }
+        } else if (withPeopleId.contains(ladyGagaId)) {
+            movies.filter { movie -> movie.id != 68718 }
+        } else {
+            movies
+        })
+        return mutableList
+    }
+
+    private fun generatePeopleSelectedConcatened(peopleSelected: List<Employe>): String {
         var peopleSelectedConcat = ""
         for(person in peopleSelected) {
             if(peopleSelected.first() == person) {

@@ -145,7 +145,7 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun submitMoviesList(movies: List<Movie>) {
-        if(movies.isEmpty()) {
+        if(movies.isEmpty() && !viewModel.isLoading) {
             binding.wathingIcon.visibility = View.VISIBLE
             binding.exploreMoviesDidntFindDescription.visibility = View.VISIBLE
         } else if(binding.wathingIcon.isVisible) {

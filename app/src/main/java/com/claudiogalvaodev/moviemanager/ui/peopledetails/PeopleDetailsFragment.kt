@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
@@ -104,7 +104,16 @@ class PeopleDetailsFragment : Fragment() {
     private fun setupAdapter() {
         moviesAdapter = SimplePosterAdapter().apply {
             onItemClick = { movieId ->
-                goToMovieDetails(movieId)
+                if(movieId == leastOneMovieId.toInt()) {
+                    findNavController().popBackStack()
+                } else {
+                    goToMovieDetails(movieId)
+                }
+            }
+            onFullyViewedListener = {
+                if(!viewModel.isMoviesLoading) {
+                    getMovies()
+                }
             }
         }
     }
@@ -115,28 +124,6 @@ class PeopleDetailsFragment : Fragment() {
             layoutManager = layout
             adapter = moviesAdapter
         }
-        setOnLoadMoreListener()
-    }
-
-    private fun setOnLoadMoreListener() {
-        binding.fragmentPeopleDetailsMoviesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if(dy <= 0) return
-
-                val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-
-                val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-                val isNotAtBeginning = firstVisibleItemPosition >= 0
-                val shouldPaginate = isNotAtBeginning && isAtLastItem && isNotAtBeginning
-                if(shouldPaginate && !viewModel.isMoviesLoading) {
-                    getMovies()
-                }
-            }
-        })
     }
 
     private fun setupObservers() {
