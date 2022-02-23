@@ -1,6 +1,5 @@
 package com.claudiogalvaodev.moviemanager.ui.peopledetails
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +10,15 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleDetailsBinding
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
@@ -51,7 +49,7 @@ class PeopleDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = getViewModel { parametersOf(personId, leastOneMovieId) }
-        viewModel.isUpdate = true
+        viewModel.isFirstLoading = true
 
         getPeopleDetails()
         getMovies()

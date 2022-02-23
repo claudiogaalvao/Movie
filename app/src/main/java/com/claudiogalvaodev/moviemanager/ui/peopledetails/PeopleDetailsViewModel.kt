@@ -32,14 +32,9 @@ class PeopleDetailsViewModel(
     private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
-    private val _leastOneMovie = MutableStateFlow<Movie?>(null)
-    val leastOneMovie = _leastOneMovie.asStateFlow()
-
     var isMoviesLoading: Boolean = false
-    var isUpdate: Boolean = false
+    var isFirstLoading: Boolean = false
     var getSecondPage: Boolean = false
-
-    private var theresNoMoreMovies = false
 
     private fun getFilter(): List<Filter> {
         val filters: MutableList<Filter> = mutableListOf()
@@ -63,44 +58,29 @@ class PeopleDetailsViewModel(
     fun getMovies() = viewModelScope.launch {
         withContext(dispatcher) {
             isMoviesLoading = true
-            val moviesResult = if(!theresNoMoreMovies) {
-                getMoviesByCriteriousUseCase.invoke(getFilter(), isUpdate)
-            } else {
-                Result.failure(Exception())
+            val moviesList = mutableListOf<Movie>()
+            val moviesResult = getMoviesByCriteriousUseCase.invoke(getFilter(), isFirstLoading)
+
+            if(isFirstLoading) {
+                val movieDetailsResult = getMovieDetailsUseCase.invoke(leastOneMovieId)
+                if(movieDetailsResult.isSuccess) {
+                    movieDetailsResult.getOrNull()?.let { movieDetailsUI ->
+                        moviesList.addAll(listOf(movieDetailsUI.movie))
+                    }
+                }
             }
 
             if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->
-                    if(movies.isEmpty()) {
-                        theresNoMoreMovies = true
-                        return@withContext
-                    }
-                    if(isUpdate) {
-                        _movies.emit(movies)
-                        isMoviesLoading = false
-                        isUpdate = false
-                        return@withContext
-                    }
-                    val moviesList = mutableListOf<Movie>()
+                    moviesList.addAll(movies.filter { movie -> movie.id != leastOneMovieId })
                     moviesList.addAll(_movies.value)
-                    moviesList.addAll(movies)
                     _movies.emit(moviesList)
                 }
             }
             isMoviesLoading = false
-            isUpdate = false
-        }
-    }
-
-    fun getMovieDetails() = viewModelScope.launch {
-        val movieDetailsResult = getMovieDetailsUseCase.invoke(leastOneMovieId)
-        if(movieDetailsResult.isSuccess) {
-            val movieDetails = movieDetailsResult.getOrNull()
-            movieDetails?.let { movieDetailsUI ->
-                _leastOneMovie.emit(movieDetailsUI.movie)
-            }
+            isFirstLoading = false
         }
     }
 
