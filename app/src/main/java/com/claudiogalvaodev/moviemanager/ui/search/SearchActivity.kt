@@ -20,6 +20,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Filmes)
         setContentView(binding.root)
         initializeFragment()
     }

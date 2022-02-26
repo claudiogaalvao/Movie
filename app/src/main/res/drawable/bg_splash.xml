@@ -3,9 +3,10 @@
 
     <item android:drawable="@color/primary_purple" />
 
-    <item android:width="200dp"
-        android:height="215dp"
-        android:drawable="@drawable/logo_vertical_negativa"
-        android:gravity="center" />
+    <item
+        android:width="200dp"
+        android:height="220dp"
+        android:gravity="center"
+        android:drawable="@drawable/logo_vertical_negativa" />
 
 </layer-list>

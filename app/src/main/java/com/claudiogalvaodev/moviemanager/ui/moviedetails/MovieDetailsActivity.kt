@@ -31,6 +31,7 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Filmes)
         setContentView(binding.root)
 
         val movieId = intent.getIntExtra(ARG_MOVIE_ID, 0)
