@@ -68,12 +68,12 @@ class GetMoviesByCriteriousUseCase(
 
     private fun removeInconsistentData(withPeopleId: String, movies: List<Movie>): List<Movie> {
         val mutableList = mutableListOf<Movie>()
-        val tomHollandId = "1136406"
-        val ladyGagaId = "237405"
+        val thId = "1136406"
+        val lgId = "237405"
 
-        mutableList.addAll(if (withPeopleId.contains(tomHollandId)) {
+        mutableList.addAll(if (withPeopleId.contains(thId)) {
             movies.filter { movie -> movie.id != 580489 }
-        } else if (withPeopleId.contains(ladyGagaId)) {
+        } else if (withPeopleId.contains(lgId)) {
             movies.filter { movie -> movie.id != 68718 }
         } else {
             movies

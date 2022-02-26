@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class PeopleDetailsViewModel(
     val personId: Int,
@@ -32,6 +33,7 @@ class PeopleDetailsViewModel(
     private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
+    private var isFinishMovies: Boolean = false
     var isMoviesLoading: Boolean = false
     var isFirstLoading: Boolean = false
     var getSecondPage: Boolean = false
@@ -59,7 +61,9 @@ class PeopleDetailsViewModel(
         withContext(dispatcher) {
             isMoviesLoading = true
             val moviesList = mutableListOf<Movie>()
-            val moviesResult = getMoviesByCriteriousUseCase.invoke(getFilter(), isFirstLoading)
+            val moviesResult = if (!isFinishMovies) {
+                getMoviesByCriteriousUseCase.invoke(getFilter(), isFirstLoading)
+            } else Result.failure(Exception("There is no more movies to get"))
 
             if(isFirstLoading) {
                 val movieDetailsResult = getMovieDetailsUseCase.invoke(leastOneMovieId)
@@ -74,6 +78,7 @@ class PeopleDetailsViewModel(
 
             if(moviesResult.isSuccess) {
                 moviesResult.getOrNull()?.let { movies ->
+                    if(movies.size < MAX_ITEMS_ON_REQUEST) isFinishMovies = true
                     moviesList.addAll(_movies.value)
                     moviesList.addAll(movies.filter { movie -> movie.id != leastOneMovieId })
                     _movies.emit(moviesList)
@@ -82,6 +87,10 @@ class PeopleDetailsViewModel(
             isMoviesLoading = false
             isFirstLoading = false
         }
+    }
+
+    companion object {
+        const val MAX_ITEMS_ON_REQUEST = 20
     }
 
 }

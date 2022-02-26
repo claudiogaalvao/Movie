@@ -112,6 +112,7 @@ class PeopleDetailsFragment : Fragment() {
             }
             onFullyViewedListener = {
                 if(!viewModel.isMoviesLoading) {
+                    viewModel.isMoviesLoading = true
                     getMovies()
                 }
             }
