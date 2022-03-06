@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.callback.MyListsDatabaseCallback
+import com.claudiogalvaodev.moviemanager.data.bd.callback.OscarNominationsCallback
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
+import com.claudiogalvaodev.moviemanager.data.bd.dao.OscarNominationsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import kotlinx.coroutines.CoroutineScope
@@ -16,6 +18,7 @@ abstract class CineSeteDatabase: RoomDatabase() {
 
     abstract val myListsDao: MyListsDao
     abstract val moviesSavedDao: MoviesSavedDao
+    abstract val oscarNominationsDao: OscarNominationsDao
 
     companion object {
         private lateinit var instance: CineSeteDatabase
@@ -30,6 +33,7 @@ abstract class CineSeteDatabase: RoomDatabase() {
                 CineSeteDatabase::class.java,
                 "database")
                 .addCallback(MyListsDatabaseCallback(context, coroutineScope, context.resources))
+                .addCallback(OscarNominationsCallback(context, coroutineScope, context.resources))
                 .fallbackToDestructiveMigration()
                 .build()
 

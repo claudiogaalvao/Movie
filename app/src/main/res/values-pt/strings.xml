@@ -128,8 +128,71 @@
 
     <string name="search_movies_didnt_find">Desculpe. Não encontramos nenhum resultado para sua busca :(</string>
 
-
-    // Default value for pre populate My Lists
+    <!-- Default value for pre populate My Lists -->
     <string name="my_lists_favorites">Favoritos</string>
     <string name="my_lists_watch_later">Quero Assistir</string>
+
+    <!-- Oscar Categories -->
+    <string name="oscar_best_picture">Melhor filme</string>
+    <string name="oscar_best_foreign_language_film">Melhor filme internacional</string>
+    <string name="oscar_best_directing">Melhor direção</string>
+    <string name="oscar_best_actress">Melhor atriz</string>
+    <string name="oscar_best_actor">Melhor ator</string>
+    <string name="oscar_best_supporting_actress">Melhor atriz coadjuvante</string>
+    <string name="oscar_best_supporting_actor">Melhor ator coadjuvante</string>
+    <string name="oscar_best_adapted_screenplay">Melhor roteiro adaptado</string>
+    <string name="oscar_best_original_screenplay">Melhor roteiro original</string>
+    <string name="oscar_best_costume_design">Melhor figurino</string>
+    <string name="oscar_best_original_score">Melhor trilha sonora</string>
+    <string name="oscar_best_animated_feature_film">Melhor animação</string>
+    <string name="oscar_best_animated_short">Melhor curta de animação</string>
+    <string name="oscar_best_live_action_short">Melhor curta-metragem em live action</string>
+    <string name="oscar_best_documentary_feature">Melhor documentário</string>
+    <string name="oscar_best_documentary_short">Melhor documentário de curta-metragem</string>
+    <string name="oscar_best_sound_mixing">Melhor som</string>
+    <string name="oscar_best_original_song">Melhor canção original</string>
+    <string name="oscar_best_makeup_and_hairstyling">Melhor maquiagem e cabelo</string>
+    <string name="oscar_best_visual_effects">Melhor efeitos visuais</string>
+    <string name="oscar_best_cinematography">Melhor melhor fotografia</string>
+    <string name="oscar_best_editing">Melhor edição</string>
+    <string name="oscar_best_production_design">Melhor design de produção</string>
+
+    <string name="oscar_event_date">27 de Março</string>
+    <string name="oscar_list_title">Indicados Oscar 2022</string>
+
+    <!-- Oscar Movie Titles -->
+    <string name="oscar_best_picture_dont_look_up">Não Olhe Para Cima</string>
+    <string name="oscar_best_picture_dune">Duna</string>
+    <string name="oscar_best_power_dog">Ataque dos Cães</string>
+    <string name="oscar_best_coda">No Ritmo do Coração</string>
+    <string name="oscar_king_richard">King Richard: Criando Campeãs</string>
+    <string name="oscar_nightmare_alley">O Beco do Pesadelo</string>
+    <string name="oscar_west_side_story">Amor, Sublime Amor</string>
+    <string name="oscar_flee">Fuga</string>
+    <string name="oscar_hand_god">A Mão de Deus</string>
+    <string name="oscar_lunana">A felicidade das pequenas coisas</string>
+    <string name="oscar_worst_person">A pior pessoa do mundo</string>
+    <string name="oscar_eyes_tammy">Os Olhos de Tammy Faye</string>
+    <string name="oscar_lost_daughter">A Filha Perdida</string>
+    <string name="oscar_parallel_mothers">Mães Paralelas</string>
+    <string name="oscar_being_ricardos">Apresentando os Ricardos</string>
+    <string name="oscar_tragedy_macbeth">A Tragédia de Macbeth</string>
+    <string name="oscar_mitchells_machines">A Família Mitchell e a Revolta das Máquinas</string>
+    <string name="oscar_raya_last_dragon">Raya e o Último Dragão</string>
+    <string name="oscar_robin_robin">A Sabiá Sabiazinha</string>
+    <string name="oscar_summer_soul">Summer of Soul (…ou, Quando a Revolução Não Pôde Ser Televisionada)</string>
+    <string name="oscar_three_songs_benazir">Três Canções para Benazir</string>
+    <string name="oscar_007_no_time_die">007: Sem Tempo para Morrer</string>
+    <string name="oscar_four_good_days">Quatro Dias a Teu Lado</string>
+    <string name="oscar_coming_2_america">Um Príncipe em Nova York 2</string>
+    <string name="oscar_house_gucci">Casa Gucci</string>
+    <string name="oscar_shang_chi_ten_rings">Shang-Chi e a Lenda dos Dez Anéis</string>
+    <string name="oscar_spider_man_no_way_home">Homem-Aranha: Sem Volta Para Casa</string>
+
+    <!-- Oscar International movies countries -->
+    <string name="country_japan">Japão</string>
+    <string name="country_denmark">Dinamarca</string>
+    <string name="country_italy">Itália</string>
+    <string name="country_bhutan">Butão</string>
+    <string name="country_norway">Noruega</string>
 </resources>

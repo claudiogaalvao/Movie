@@ -135,7 +135,71 @@
     <string name="search_movies_didnt_find">Sorry. We couldn\'t find any results for your research :(</string>
 
 
-    // Default value for pre populate My Lists
+    <!-- Default value for pre populate My Lists -->
     <string name="my_lists_favorites">Favorites</string>
     <string name="my_lists_watch_later">Watch Later</string>
+
+    <!-- Oscar Categories -->
+    <string name="oscar_best_picture">Best picture</string>
+    <string name="oscar_best_foreign_language_film">Best foreign-language film</string>
+    <string name="oscar_best_directing">Best directing</string>
+    <string name="oscar_best_actress">Best actress</string>
+    <string name="oscar_best_actor">Best actor</string>
+    <string name="oscar_best_supporting_actress">Best supporting actress</string>
+    <string name="oscar_best_supporting_actor">Best supporting actor</string>
+    <string name="oscar_best_adapted_screenplay">Best adapted screenplay</string>
+    <string name="oscar_best_original_screenplay">Best original screenplay</string>
+    <string name="oscar_best_costume_design">Best costume design</string>
+    <string name="oscar_best_original_score">Best original score</string>
+    <string name="oscar_best_animated_feature_film">Best animated feature film</string>
+    <string name="oscar_best_animated_short">Best animated short</string>
+    <string name="oscar_best_live_action_short">Best live-action short</string>
+    <string name="oscar_best_documentary_feature">Best documentary feature</string>
+    <string name="oscar_best_documentary_short">Best documentary short</string>
+    <string name="oscar_best_sound_mixing">Best sound mixing</string>
+    <string name="oscar_best_original_song">Best original song</string>
+    <string name="oscar_best_makeup_and_hairstyling">Best makeup and hairstyling</string>
+    <string name="oscar_best_visual_effects">Best visual effects</string>
+    <string name="oscar_best_cinematography">Best cinematography</string>
+    <string name="oscar_best_editing">Best editing</string>
+    <string name="oscar_best_production_design">Best production design</string>
+
+    <string name="oscar_event_date">March 27</string>
+    <string name="oscar_list_title">Oscar Nominees 2022</string>
+
+    <!-- Oscar Movie Titles -->
+    <string name="oscar_best_picture_dont_look_up">Don\'t look up</string>
+    <string name="oscar_best_picture_dune">Dune</string>
+    <string name="oscar_best_power_dog">The Power of the Dog</string>
+    <string name="oscar_best_coda">CODA</string>
+    <string name="oscar_king_richard">King Richard</string>
+    <string name="oscar_nightmare_alley">Nightmare Alley</string>
+    <string name="oscar_west_side_story">West Side Story</string>
+    <string name="oscar_flee">Flee</string>
+    <string name="oscar_hand_god">The Hand of God</string>
+    <string name="oscar_lunana">Lunana: A Yak in the Classroom</string>
+    <string name="oscar_worst_person">The worst person in the world</string>
+    <string name="oscar_eyes_tammy">The Eyes of Tammy Faye</string>
+    <string name="oscar_lost_daughter">The Lost Daughter</string>
+    <string name="oscar_parallel_mothers">Parallel Mothers</string>
+    <string name="oscar_being_ricardos">Being the Ricardos</string>
+    <string name="oscar_tragedy_macbeth">The Tragedy of Macbeth</string>
+    <string name="oscar_mitchells_machines">The Mitchells vs. the Machines</string>
+    <string name="oscar_raya_last_dragon">Raya and the Last Dragon</string>
+    <string name="oscar_robin_robin">Robin Robin</string>
+    <string name="oscar_summer_soul">Summer of Soul (…Or, When the Revolution Could Not Be Televised)</string>
+    <string name="oscar_three_songs_benazir">Three Songs for Benazir</string>
+    <string name="oscar_007_no_time_die">007: No Time to Die</string>
+    <string name="oscar_four_good_days">Four Good Days</string>
+    <string name="oscar_coming_2_america">Coming 2 America</string>
+    <string name="oscar_house_gucci">House of Gucci</string>
+    <string name="oscar_shang_chi_ten_rings">Shang-Chi and the Legend of the Ten Rings</string>
+    <string name="oscar_spider_man_no_way_home">Spider-Man: No Way Home</string>
+
+    <!-- Oscar International movies countries -->
+    <string name="country_japan">Japan</string>
+    <string name="country_denmark">Denmark</string>
+    <string name="country_italy">Italy</string>
+    <string name="country_bhutan">Bhutan</string>
+    <string name="country_norway">Norway</string>
 </resources>
