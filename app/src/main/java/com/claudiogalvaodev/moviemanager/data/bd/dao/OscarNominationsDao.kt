@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OscarNominationsDao {
@@ -13,5 +14,5 @@ interface OscarNominationsDao {
     suspend fun populate(oscarNominactions: List<OscarNomination>)
 
     @Query("SELECT * FROM OscarNomination")
-    suspend fun getAll(): List<OscarNomination>
+    fun getAll(): Flow<List<OscarNomination>>
 }

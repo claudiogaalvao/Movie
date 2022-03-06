@@ -71,4 +71,16 @@
             android:name="MyListName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/oscarListFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.speciallist.OscarListFragment"
+        android:label="OscarListFragment"
+        tools:layout="@layout/fragment_oscar_nomination">
+        <action
+            android:id="@+id/action_oscarListFragment_to_peopleDetailsFragment"
+            app:destination="@id/peopleDetailsFragment" />
+        <action
+            android:id="@+id/action_oscarListFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
 </navigation>

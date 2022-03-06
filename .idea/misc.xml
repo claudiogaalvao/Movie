@@ -41,6 +41,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_movies_explore.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_my_lists.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_search.xml" value="0.2710526315789474" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_special_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/blank_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
@@ -72,6 +73,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_movies_with_filters.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_my_list_details.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_my_lists.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_oscar_nomination.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_people_and_companies.xml" value="0.264" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_people_details.xml" value="0.264" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/fragment_search.xml" value="0.20520833333333333" />
@@ -84,6 +86,7 @@
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_large_image_circle_with_title.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_options_my_lists.xml" value="0.4" />
+        <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_oscar_nomination.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_principal_backdrop.xml" value="0.13125" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_radio_button.xml" value="0.264" />
         <entry key="..\:/Users/claud/OneDrive/Documentos/Projetos/Filmes/app/src/main/res/layout/item_radio_option.xml" value="0.264" />

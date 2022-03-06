@@ -351,8 +351,8 @@ class MovieDetailsFragment : Fragment() {
 
         binding.fragmentMovieDetailsCollectionSequenceRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { movie ->
-                    if(movie.id != viewModel.movieId) goToMovieDetails(movie)
+                onItemClick = { itemId, _, _ ->
+                    if(itemId != viewModel.movieId) goToMovieDetails(itemId)
                 }
             }
             adapter = simplePosterAdapter
@@ -414,9 +414,9 @@ class MovieDetailsFragment : Fragment() {
         return countImages.roundToInt()
     }
 
-    private fun goToMovieDetails(movie: Movie) {
+    private fun goToMovieDetails(movieId: Int) {
         val directions = MovieDetailsFragmentDirections
-            .actionMovieDetailsFragmentToMovieDetailsFragment(movie.id.toLong())
+            .actionMovieDetailsFragmentToMovieDetailsFragment(movieId.toLong())
         findNavController().navigate(directions)
     }
 

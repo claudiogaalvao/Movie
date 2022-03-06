@@ -1,5 +1,5 @@
 package com.claudiogalvaodev.moviemanager.utils.enums
 
-enum class OscarNominationType {
+enum class ItemType {
     MOVIE, PERSON
 }

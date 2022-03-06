@@ -13,6 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Splash">
+        <activity android:name=".ui.speciallist.SpecialListActivity"
+            android:exported="true" />
         <activity android:name=".ui.menu.aboutdeveloper.AboutDeveloperActivity"
             android:exported="true" />
         <activity

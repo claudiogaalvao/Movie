@@ -12,6 +12,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListActivity
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -34,6 +35,7 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getMovies()
         setObservables()
+        configBannerSpecialList()
     }
 
     private fun getMovies() {
@@ -65,7 +67,7 @@ class HomeFragment: Fragment() {
         binding.fragmentHomeTrendingRecyclerview.apply {
             val principalMoviesAdapter = PrincipalMoviesAdapter().apply {
                 onItemClick = { movie ->
-                    goToMovieDetails(movie)
+                    goToMovieDetails(movie.id)
                 }
             }
             adapter = principalMoviesAdapter
@@ -76,8 +78,8 @@ class HomeFragment: Fragment() {
     private fun configUpComingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeComingUpRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { movie ->
-                    goToMovieDetails(movie)
+                onItemClick = { itemId, _, _ ->
+                    goToMovieDetails(itemId)
                 }
             }
             adapter = simplePosterAdapter
@@ -88,8 +90,8 @@ class HomeFragment: Fragment() {
     private fun configLatestMoviesList(movies: List<Movie>) {
         binding.fragmentHomePlayingNowRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { movie ->
-                    goToMovieDetails(movie)
+                onItemClick = { itemId, _, _ ->
+                    goToMovieDetails(itemId)
                 }
             }
             adapter = simplePosterAdapter
@@ -97,9 +99,20 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun goToMovieDetails(movie: Movie) {
+    private fun configBannerSpecialList() {
+        binding.bannerSpecialListCardview.setOnClickListener {
+            goToSpecialLists()
+        }
+    }
+
+    private fun goToSpecialLists() {
+        val intent = Intent(context, SpecialListActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToMovieDetails(movieId: Int) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movie.id))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId))
         }
     }
 }

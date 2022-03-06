@@ -4,16 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.claudiogalvaodev.moviemanager.data.bd.callback.MyListsDatabaseCallback
 import com.claudiogalvaodev.moviemanager.data.bd.callback.OscarNominationsCallback
+import com.claudiogalvaodev.moviemanager.data.bd.converter.Converters
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.OscarNominationsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [MyList::class, MovieSaved::class], version = 2, exportSchema = false)
+@Database(entities = [MyList::class, MovieSaved::class, OscarNomination::class], version = 2, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class CineSeteDatabase: RoomDatabase() {
 
     abstract val myListsDao: MyListsDao

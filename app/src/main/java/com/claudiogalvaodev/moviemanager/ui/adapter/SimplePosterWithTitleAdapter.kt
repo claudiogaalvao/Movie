@@ -6,15 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter.*
+import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
+import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
-class SimplePosterWithTitleAdapter: ListAdapter<Movie, SimplePosterWithTitleViewHolder>(DIFF_CALLBACK) {
+class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((movie: Movie) -> Unit)? = null
+    var onItemClick: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,23 +32,47 @@ class SimplePosterWithTitleAdapter: ListAdapter<Movie, SimplePosterWithTitleView
 
     class SimplePosterWithTitleViewHolder(
         private val binding: ItemSimplePosterWithTitleBinding,
-        private val clickListener: ((movie: Movie) -> Unit)?
+        private val clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
-            with(binding) {
-                 Picasso.with(root.context).load(movie.getPoster()).into(moviePosterWithTitleImage)
-                moviePosterWithTitleTitle.text = movie.title
-                moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(movie.release_date)
+        fun bind(obj: Any) {
+            when(obj) {
+                is Movie -> {
+                    with(binding) {
+                        Picasso.with(root.context).load(obj.getPoster()).into(moviePosterWithTitleImage)
+                        moviePosterWithTitleTitle.text = obj.title
+                        moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(obj.release_date)
 
-                binding.moviePosterWithTitleImage.setOnClickListener {
-                    clickListener?.invoke(movie)
+                        binding.moviePosterWithTitleImage.setOnClickListener {
+                            clickListener?.invoke(obj.id, ItemType.MOVIE, 0)
+                        }
+                    }
+                }
+                is OscarNomination -> {
+                    with(binding) {
+                        Picasso.with(root.context).load(obj.imageUrl).into(moviePosterWithTitleImage)
+                        moviePosterWithTitleTitle.text = obj.title
+                        if(obj.type == ItemType.MOVIE &&
+                            !obj.categories.contains(OscarCategory.BEST_FOREIGN_LANGUAGE_FILM) &&
+                            !obj.categories.contains(OscarCategory.BEST_ORIGINAL_SONG)
+                        ) {
+                            obj.releaseDate?.let { moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(it) }
+                        } else {
+                            moviePosterWithTitleRelease.text = obj.subtitle
+                        }
+
+                        binding.moviePosterWithTitleImage.setOnClickListener {
+                            clickListener?.invoke(obj.itemId, obj.type, obj.leastOneMovieId ?: 0)
+                        }
+                    }
                 }
             }
         }
 
         companion object {
-            fun create(parent: ViewGroup, clickListener: ((movie: Movie) -> Unit)?): SimplePosterWithTitleViewHolder {
+            fun create(parent: ViewGroup,
+                       clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?
+            ): SimplePosterWithTitleViewHolder {
                 val binding = ItemSimplePosterWithTitleBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return SimplePosterWithTitleViewHolder(binding, clickListener)
@@ -54,13 +81,13 @@ class SimplePosterWithTitleAdapter: ListAdapter<Movie, SimplePosterWithTitleView
     }
 
     companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Any>() {
+            override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
                 return oldItem == newItem
             }
 
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
                 return oldItem == newItem
             }
 

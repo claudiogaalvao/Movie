@@ -16,6 +16,7 @@ import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
+import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
@@ -100,10 +101,11 @@ val daoModule = module {
 
     single { CineSeteDatabase.getInstance(androidContext(), get()).myListsDao }
     single { CineSeteDatabase.getInstance(androidContext(), get()).moviesSavedDao }
+    single { CineSeteDatabase.getInstance(androidContext(), get()).oscarNominationsDao }
 }
 
 val repositoryModule = module {
-    single { MoviesRepository(get(), get(), get()) }
+    single { MoviesRepository(get(), get(), get(), get()) }
 }
 
 val viewModelModule = module {
@@ -126,6 +128,7 @@ val viewModelModule = module {
     single { GetAllMoviesSavedUseCase(get()) }
     single { RemoveMovieFromMyListUseCase(get()) }
     single { CheckIsMovieSavedUseCase(get()) }
+    single { GetAllOscarNominationUseCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -168,6 +171,7 @@ val viewModelModule = module {
             getMovieCreditsUseCase = get()
         )
     }
+    viewModel { SpecialListViewModel(get()) }
 }
 
 val appModules = listOf(
