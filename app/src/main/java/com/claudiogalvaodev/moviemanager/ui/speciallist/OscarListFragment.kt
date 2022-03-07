@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
 import com.claudiogalvaodev.moviemanager.databinding.FragmentOscarNominationBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
@@ -99,220 +100,52 @@ class OscarListFragment: Fragment() {
         }
     }
 
-    private fun configBestPictureAdapter() {
-        bestPictureAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestPictureRecyclerview.adapter = bestPictureAdapter
-    }
-
-    private fun configBestForeignLanguageAdapter() {
-        bestForeignLanguageAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestForeignLanguageFilmRecyclerview.adapter =
-            bestForeignLanguageAdapter
-    }
-
-    private fun configBestDirectingAdapter() {
-        bestDirectingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestDirectingRecyclerview.adapter = bestDirectingAdapter
-    }
-
-    private fun configBestActressAdapter() {
-        bestActressAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestActressRecyclerview.adapter = bestActressAdapter
-    }
-
-    private fun configBestActorAdapter() {
-        bestActorAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestActorRecyclerview.adapter = bestActorAdapter
-    }
-
-    private fun configBestSupportingActressAdapter() {
-        bestSupportingActressAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestSupportingActressRecyclerview.adapter = bestSupportingActressAdapter
-    }
-
-    private fun configBestSupportingActorAdapter() {
-        bestSupportingActorAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestSupportingActorRecyclerview.adapter = bestSupportingActorAdapter
-    }
-
-    private fun configBestAdaptedScreenplayAdapter() {
-        bestAdaptedScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestAdaptedScreenplayRecyclerview.adapter = bestAdaptedScreenplayAdapter
-    }
-
-    private fun configBestOriginalScreenplayAdapter() {
-        bestOriginalScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestOriginalScreenplayRecyclerview.adapter = bestOriginalScreenplayAdapter
-    }
-
-    private fun configBestCostumeDesignAdapter() {
-        bestCostumeDesignAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestCostumeDesignRecyclerview.adapter = bestCostumeDesignAdapter
-    }
-
-    private fun configBestOriginalScoreAdapter() {
-        bestOriginalScoreAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestOriginalScoreRecyclerview.adapter = bestOriginalScoreAdapter
-    }
-
-    private fun configBestAnimatedFeatureFilmAdapter() {
-        bestAnimatedFeatureFilmAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestAnimatedFeatureFilmRecyclerview.adapter = bestAnimatedFeatureFilmAdapter
-    }
-
-    private fun configBestAnimatedShortAdapter() {
-        bestAnimatedShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestAnimatedShortRecyclerview.adapter = bestAnimatedShortAdapter
-    }
-
-    private fun configBestLiveActionShortAdapter() {
-        bestLiveActionShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestLiveActionShortRecyclerview.adapter = bestLiveActionShortAdapter
-    }
-
-    private fun configBestDocumentaryFeatureAdapter() {
-        bestDocumentaryFeatureAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestDocumentaryFeatureRecyclerview.adapter = bestDocumentaryFeatureAdapter
-    }
-
-    private fun configBestDocumentaryShortAdapter() {
-        bestDocumentaryShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestDocumentaryShortRecyclerview.adapter = bestDocumentaryShortAdapter
-    }
-
-    private fun configBestSoundMixingAdapter() {
-        bestSoundMixingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestSoundMixingRecyclerview.adapter = bestSoundMixingAdapter
-    }
-
-    private fun configBestOriginalSongAdapter() {
-        bestOriginalSongAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestOriginalSongRecyclerview.adapter = bestOriginalSongAdapter
-    }
-
-    private fun configBestMakeupAndHairstylingAdapter() {
-        bestMakeupAndHairstylingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestMakeupAndHairstylingRecyclerview.adapter = bestMakeupAndHairstylingAdapter
-    }
-
-    private fun configBestVisualEffectsAdapter() {
-        bestVisualEffectsAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestVisualEffectsRecyclerview.adapter = bestVisualEffectsAdapter
-    }
-
-    private fun configBestCinematographyAdapter() {
-        bestCinematographyAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestBestCinematographyRecyclerview.adapter = bestCinematographyAdapter
-    }
-
-    private fun configBestEditingAdapter() {
-        bestEditingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialListBestEditingRecyclerview.adapter = bestEditingAdapter
-    }
-
-    private fun configProductionDesignAdapter() {
-        bestProductionDesignAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
-        }
-        binding.fragmentSpecialBestProductionDesignRecyclerview.adapter = bestProductionDesignAdapter
-    }
-
     private fun setObservers() {
         lifecycleScope.launchWhenStarted {
             viewModel.oscarNomination.collectLatest { oscarNomination ->
-                bestPictureAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_PICTURE) })
-                bestForeignLanguageAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_FOREIGN_LANGUAGE_FILM) })
-                bestDirectingAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_DIRECTING) })
-                bestActressAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ACTRESS) })
-                bestActorAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ACTOR) })
-                bestSupportingActressAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_SUPPORTING_ACTRESS) })
-                bestSupportingActorAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_SUPPORTING_ACTOR) })
-                bestAdaptedScreenplayAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ADAPTED_SCREENPLAY) })
-                bestOriginalScreenplayAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ORIGINAL_SCREENPLAY) })
-                bestCostumeDesignAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_COSTUME_DESIGN) })
-                bestOriginalScoreAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ORIGINAL_SCORE) })
-                bestAnimatedFeatureFilmAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ANIMATED_FEATURE_FILM) })
-                bestAnimatedShortAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ANIMATED_SHORT) })
-                bestLiveActionShortAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_LIVE_ACTION_SHORT) })
-                bestDocumentaryFeatureAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_DOCUMENTARY_FEATURE) })
-                bestDocumentaryShortAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_DOCUMENTARY_SHORT) })
-                bestSoundMixingAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_SOUND_MIXING) })
-                bestOriginalSongAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_ORIGINAL_SONG) })
-                bestMakeupAndHairstylingAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING) })
-                bestVisualEffectsAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_VISUAL_EFFECTS) })
-                bestCinematographyAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_CINEMATOGRAPHY) })
-                bestEditingAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_EDITING) })
-                bestProductionDesignAdapter.submitList(oscarNomination.filter { nomination ->
-                    nomination.categories.contains(OscarCategory.BEST_PRODUCTION_DESIGN) })
+                bestPictureAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_PICTURE))
+                bestForeignLanguageAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_FOREIGN_LANGUAGE_FILM))
+                bestDirectingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DIRECTING))
+                bestActressAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ACTRESS))
+                bestActorAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ACTOR))
+                bestSupportingActressAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SUPPORTING_ACTRESS))
+                bestSupportingActorAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SUPPORTING_ACTOR))
+                bestAdaptedScreenplayAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ADAPTED_SCREENPLAY))
+                bestOriginalScreenplayAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SCREENPLAY))
+                bestCostumeDesignAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_COSTUME_DESIGN))
+                bestOriginalScoreAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SCORE))
+                bestAnimatedFeatureFilmAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ANIMATED_FEATURE_FILM))
+                bestAnimatedShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ANIMATED_SHORT))
+                bestLiveActionShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_LIVE_ACTION_SHORT))
+                bestDocumentaryFeatureAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DOCUMENTARY_FEATURE))
+                bestDocumentaryShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DOCUMENTARY_SHORT))
+                bestSoundMixingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SOUND_MIXING))
+                bestOriginalSongAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SONG))
+                bestMakeupAndHairstylingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING))
+                bestVisualEffectsAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_VISUAL_EFFECTS))
+                bestCinematographyAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_CINEMATOGRAPHY))
+                bestEditingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_EDITING))
+                bestProductionDesignAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_PRODUCTION_DESIGN))
                 if(oscarNomination.isNotEmpty()) showAllMovieNominationsTitle()
             }
         }
+    }
+
+    private fun returnItemsSorted(items: List<OscarNomination>, filterByOscarCategory: OscarCategory): List<OscarNomination> {
+        val itemsByCurrentCategory = items.filter { item ->
+            item.categories.contains(filterByOscarCategory)
+        }.toMutableList()
+        val winnerFromCurrentCategory = itemsByCurrentCategory.filter { item ->
+            item.categoriesWinner.contains(filterByOscarCategory)
+        }
+        itemsByCurrentCategory.sortBy { it.title }
+        if(winnerFromCurrentCategory.isNotEmpty()) {
+            itemsByCurrentCategory.reverse()
+            itemsByCurrentCategory.remove(winnerFromCurrentCategory.first())
+            itemsByCurrentCategory.add(winnerFromCurrentCategory.first())
+            itemsByCurrentCategory.reverse()
+        }
+        return itemsByCurrentCategory
     }
 
     private fun showAllMovieNominationsTitle() {
@@ -339,6 +172,191 @@ class OscarListFragment: Fragment() {
         binding.fragmentSpecialBestCinematographyTitle.visibility = View.VISIBLE
         binding.fragmentSpecialListBestEditingTitle.visibility = View.VISIBLE
         binding.fragmentSpecialBestProductionDesignTitle.visibility = View.VISIBLE
+    }
+
+    private fun configBestPictureAdapter() {
+        bestPictureAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_PICTURE
+        }
+        binding.fragmentSpecialListBestPictureRecyclerview.adapter = bestPictureAdapter
+    }
+
+    private fun configBestForeignLanguageAdapter() {
+        bestForeignLanguageAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_FOREIGN_LANGUAGE_FILM
+        }
+        binding.fragmentSpecialListBestForeignLanguageFilmRecyclerview.adapter =
+            bestForeignLanguageAdapter
+    }
+
+    private fun configBestDirectingAdapter() {
+        bestDirectingAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_DIRECTING
+        }
+        binding.fragmentSpecialListBestDirectingRecyclerview.adapter = bestDirectingAdapter
+    }
+
+    private fun configBestActressAdapter() {
+        bestActressAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ACTRESS
+        }
+        binding.fragmentSpecialListBestActressRecyclerview.adapter = bestActressAdapter
+    }
+
+    private fun configBestActorAdapter() {
+        bestActorAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ACTOR
+        }
+        binding.fragmentSpecialBestActorRecyclerview.adapter = bestActorAdapter
+    }
+
+    private fun configBestSupportingActressAdapter() {
+        bestSupportingActressAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_SUPPORTING_ACTRESS
+        }
+        binding.fragmentSpecialListBestSupportingActressRecyclerview.adapter = bestSupportingActressAdapter
+    }
+
+    private fun configBestSupportingActorAdapter() {
+        bestSupportingActorAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_SUPPORTING_ACTOR
+        }
+        binding.fragmentSpecialBestSupportingActorRecyclerview.adapter = bestSupportingActorAdapter
+    }
+
+    private fun configBestAdaptedScreenplayAdapter() {
+        bestAdaptedScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ADAPTED_SCREENPLAY
+        }
+        binding.fragmentSpecialListBestAdaptedScreenplayRecyclerview.adapter = bestAdaptedScreenplayAdapter
+    }
+
+    private fun configBestOriginalScreenplayAdapter() {
+        bestOriginalScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ORIGINAL_SCREENPLAY
+        }
+        binding.fragmentSpecialBestOriginalScreenplayRecyclerview.adapter = bestOriginalScreenplayAdapter
+    }
+
+    private fun configBestCostumeDesignAdapter() {
+        bestCostumeDesignAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_COSTUME_DESIGN
+        }
+        binding.fragmentSpecialListBestCostumeDesignRecyclerview.adapter = bestCostumeDesignAdapter
+    }
+
+    private fun configBestOriginalScoreAdapter() {
+        bestOriginalScoreAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ORIGINAL_SCORE
+        }
+        binding.fragmentSpecialBestOriginalScoreRecyclerview.adapter = bestOriginalScoreAdapter
+    }
+
+    private fun configBestAnimatedFeatureFilmAdapter() {
+        bestAnimatedFeatureFilmAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ANIMATED_FEATURE_FILM
+        }
+        binding.fragmentSpecialListBestAnimatedFeatureFilmRecyclerview.adapter = bestAnimatedFeatureFilmAdapter
+    }
+
+    private fun configBestAnimatedShortAdapter() {
+        bestAnimatedShortAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ANIMATED_SHORT
+        }
+        binding.fragmentSpecialBestAnimatedShortRecyclerview.adapter = bestAnimatedShortAdapter
+    }
+
+    private fun configBestLiveActionShortAdapter() {
+        bestLiveActionShortAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_LIVE_ACTION_SHORT
+        }
+        binding.fragmentSpecialListBestLiveActionShortRecyclerview.adapter = bestLiveActionShortAdapter
+    }
+
+    private fun configBestDocumentaryFeatureAdapter() {
+        bestDocumentaryFeatureAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_DOCUMENTARY_FEATURE
+        }
+        binding.fragmentSpecialBestDocumentaryFeatureRecyclerview.adapter = bestDocumentaryFeatureAdapter
+    }
+
+    private fun configBestDocumentaryShortAdapter() {
+        bestDocumentaryShortAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_DOCUMENTARY_SHORT
+        }
+        binding.fragmentSpecialListBestDocumentaryShortRecyclerview.adapter = bestDocumentaryShortAdapter
+    }
+
+    private fun configBestSoundMixingAdapter() {
+        bestSoundMixingAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_SOUND_MIXING
+        }
+        binding.fragmentSpecialBestSoundMixingRecyclerview.adapter = bestSoundMixingAdapter
+    }
+
+    private fun configBestOriginalSongAdapter() {
+        bestOriginalSongAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_ORIGINAL_SONG
+        }
+        binding.fragmentSpecialListBestOriginalSongRecyclerview.adapter = bestOriginalSongAdapter
+    }
+
+    private fun configBestMakeupAndHairstylingAdapter() {
+        bestMakeupAndHairstylingAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING
+        }
+        binding.fragmentSpecialBestMakeupAndHairstylingRecyclerview.adapter = bestMakeupAndHairstylingAdapter
+    }
+
+    private fun configBestVisualEffectsAdapter() {
+        bestVisualEffectsAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_VISUAL_EFFECTS
+        }
+        binding.fragmentSpecialListBestVisualEffectsRecyclerview.adapter = bestVisualEffectsAdapter
+    }
+
+    private fun configBestCinematographyAdapter() {
+        bestCinematographyAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_CINEMATOGRAPHY
+        }
+        binding.fragmentSpecialBestBestCinematographyRecyclerview.adapter = bestCinematographyAdapter
+    }
+
+    private fun configBestEditingAdapter() {
+        bestEditingAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_EDITING
+        }
+        binding.fragmentSpecialListBestEditingRecyclerview.adapter = bestEditingAdapter
+    }
+
+    private fun configProductionDesignAdapter() {
+        bestProductionDesignAdapter = SimplePosterWithTitleAdapter().apply {
+            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            oscarCategory = OscarCategory.BEST_PRODUCTION_DESIGN
+        }
+        binding.fragmentSpecialBestProductionDesignRecyclerview.adapter = bestProductionDesignAdapter
     }
 
     private fun goToMovieDetails(movieId: Int) {

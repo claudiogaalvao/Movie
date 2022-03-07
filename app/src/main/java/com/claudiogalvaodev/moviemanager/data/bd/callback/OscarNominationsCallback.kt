@@ -63,7 +63,13 @@ class OscarNominationsCallback(
                 OscarCategory.BEST_VISUAL_EFFECTS,
                 OscarCategory.BEST_CINEMATOGRAPHY,
                 OscarCategory.BEST_EDITING,
-                OscarCategory.BEST_PRODUCTION_DESIGN)),
+                OscarCategory.BEST_PRODUCTION_DESIGN),
+            categoriesWinner = listOf(
+                OscarCategory.BEST_PICTURE,
+                OscarCategory.BEST_ADAPTED_SCREENPLAY,
+                OscarCategory.BEST_COSTUME_DESIGN,
+            )
+        ),
         OscarNomination(id = 0, itemId = 718032,
             type = ItemType.MOVIE,
             title = "Licorice Pizza",

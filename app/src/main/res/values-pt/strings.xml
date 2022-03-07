@@ -195,4 +195,6 @@
     <string name="country_italy">Itália</string>
     <string name="country_bhutan">Butão</string>
     <string name="country_norway">Noruega</string>
+
+    <string name="oscar_winner_label">Vencedor</string>
 </resources>

@@ -2,6 +2,7 @@ package com.claudiogalvaodev.moviemanager.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,12 +19,13 @@ import com.squareup.picasso.Picasso
 class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHolder>(DIFF_CALLBACK) {
 
     var onItemClick: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)? = null
+    var oscarCategory: OscarCategory? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): SimplePosterWithTitleViewHolder {
-        return SimplePosterWithTitleViewHolder.create(parent, onItemClick)
+        return SimplePosterWithTitleViewHolder.create(parent, onItemClick, oscarCategory)
     }
 
     override fun onBindViewHolder(holder: SimplePosterWithTitleViewHolder, position: Int) {
@@ -32,7 +34,8 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
 
     class SimplePosterWithTitleViewHolder(
         private val binding: ItemSimplePosterWithTitleBinding,
-        private val clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?
+        private val clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?,
+        private val oscarCategory: OscarCategory?
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(obj: Any) {
@@ -53,12 +56,20 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                         Picasso.with(root.context).load(obj.imageUrl).into(moviePosterWithTitleImage)
                         moviePosterWithTitleTitle.text = obj.title
                         if(obj.type == ItemType.MOVIE &&
-                            !obj.categories.contains(OscarCategory.BEST_FOREIGN_LANGUAGE_FILM) &&
-                            !obj.categories.contains(OscarCategory.BEST_ORIGINAL_SONG)
+                            oscarCategory != OscarCategory.BEST_FOREIGN_LANGUAGE_FILM &&
+                            oscarCategory != OscarCategory.BEST_ORIGINAL_SONG
                         ) {
                             obj.releaseDate?.let { moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(it) }
                         } else {
                             moviePosterWithTitleRelease.text = obj.subtitle
+                        }
+
+                        if(obj.categoriesWinner.isNotEmpty()) {
+                            binding.moviePosterStatusParent.visibility = if(obj.categoriesWinner.contains(oscarCategory)) {
+                                 View.VISIBLE
+                            } else {
+                                View.GONE
+                            }
                         }
 
                         binding.moviePosterWithTitleImage.setOnClickListener {
@@ -71,11 +82,12 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
 
         companion object {
             fun create(parent: ViewGroup,
-                       clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?
+                       clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?,
+                       oscarCategory: OscarCategory?
             ): SimplePosterWithTitleViewHolder {
                 val binding = ItemSimplePosterWithTitleBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                return SimplePosterWithTitleViewHolder(binding, clickListener)
+                return SimplePosterWithTitleViewHolder(binding, clickListener, oscarCategory)
             }
         }
     }

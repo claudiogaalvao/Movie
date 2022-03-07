@@ -202,4 +202,6 @@
     <string name="country_italy">Italy</string>
     <string name="country_bhutan">Bhutan</string>
     <string name="country_norway">Norway</string>
+
+    <string name="oscar_winner_label">Winner</string>
 </resources>

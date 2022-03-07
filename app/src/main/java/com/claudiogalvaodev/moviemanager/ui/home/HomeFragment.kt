@@ -15,6 +15,7 @@ import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListActivity
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
 class HomeFragment: Fragment() {
 
@@ -22,6 +23,8 @@ class HomeFragment: Fragment() {
     private val binding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
     }
+
+    private val limitDateToShowOscarBanner = LocalDate.parse("2022-04-10")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -100,6 +103,7 @@ class HomeFragment: Fragment() {
     }
 
     private fun configBannerSpecialList() {
+        if(LocalDate.now().isAfter(limitDateToShowOscarBanner)) binding.bannerSpecialListCardview.visibility = View.GONE
         binding.bannerSpecialListCardview.setOnClickListener {
             goToSpecialLists()
         }
