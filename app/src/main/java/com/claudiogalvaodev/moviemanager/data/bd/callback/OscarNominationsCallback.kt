@@ -19,24 +19,16 @@ class OscarNominationsCallback(
     private val resources: Resources?
 ): RoomDatabase.Callback() {
 
-    override fun onCreate(db: SupportSQLiteDatabase) {
+    override fun onOpen(db: SupportSQLiteDatabase) {
         super.onCreate(db)
         scope?.launch {
-            CineSeteDatabase.getInstance(context).oscarNominationsDao
-                .populate(populateOscarNominationsDatabase())
+            val cursor = db.query("SELECT * FROM OscarNomination")
+            if(cursor.count == 0) {
+                CineSeteDatabase.getInstance(context).oscarNominationsDao
+                    .populate(populateOscarNominationsDatabase())
+            }
         }
     }
-
-//    override fun onOpen(db: SupportSQLiteDatabase) {
-//        super.onOpen(db)
-//        scope?.launch {
-//            val oscarNominationDao = CineSeteDatabase.getInstance(context).oscarNominationsDao
-//            val result = oscarNominationDao.getAll()
-//            if(result.isEmpty()) {
-//                oscarNominationDao.populate(populateOscarNominationsDatabase())
-//            }
-//        }
-//    }
 
     private fun populateOscarNominationsDatabase() = listOf(
         OscarNomination(id = 0, itemId = 777270,
