@@ -99,9 +99,9 @@ val retrofitModule = module {
 val daoModule = module {
     factory { CoroutineScope(Dispatchers.IO) }
 
-    single { CineSeteDatabase.getInstance(androidContext(), get()).myListsDao }
-    single { CineSeteDatabase.getInstance(androidContext(), get()).moviesSavedDao }
-    single { CineSeteDatabase.getInstance(androidContext(), get()).oscarNominationsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
+    single { CineSeteDatabase.getInstance(androidContext()).oscarNominationsDao }
 }
 
 val repositoryModule = module {

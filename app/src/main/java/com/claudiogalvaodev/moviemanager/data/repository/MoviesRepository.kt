@@ -16,7 +16,7 @@ class MoviesRepository(
     private val oscarNominationsDao: OscarNominationsDao
 ) {
 
-    fun getAllOscarNomination() = oscarNominationsDao.getAll()
+    suspend fun getAllOscarNomination() = oscarNominationsDao.getAll()
 
     suspend fun isMovieSaved(movieId: Int): Boolean {
         return moviesSavedDao.getMovieSavedById(movieId) != null

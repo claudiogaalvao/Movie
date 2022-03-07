@@ -10,6 +10,7 @@ import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
 import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class OscarNominationsCallback(
@@ -25,6 +26,17 @@ class OscarNominationsCallback(
                 .populate(populateOscarNominationsDatabase())
         }
     }
+
+//    override fun onOpen(db: SupportSQLiteDatabase) {
+//        super.onOpen(db)
+//        scope?.launch {
+//            val oscarNominationDao = CineSeteDatabase.getInstance(context).oscarNominationsDao
+//            val result = oscarNominationDao.getAll()
+//            if(result.isEmpty()) {
+//                oscarNominationDao.populate(populateOscarNominationsDatabase())
+//            }
+//        }
+//    }
 
     private fun populateOscarNominationsDatabase() = listOf(
         OscarNomination(id = 0, itemId = 777270,
@@ -63,12 +75,7 @@ class OscarNominationsCallback(
                 OscarCategory.BEST_VISUAL_EFFECTS,
                 OscarCategory.BEST_CINEMATOGRAPHY,
                 OscarCategory.BEST_EDITING,
-                OscarCategory.BEST_PRODUCTION_DESIGN),
-            categoriesWinner = listOf(
-                OscarCategory.BEST_PICTURE,
-                OscarCategory.BEST_ADAPTED_SCREENPLAY,
-                OscarCategory.BEST_COSTUME_DESIGN,
-            )
+                OscarCategory.BEST_PRODUCTION_DESIGN)
         ),
         OscarNomination(id = 0, itemId = 718032,
             type = ItemType.MOVIE,

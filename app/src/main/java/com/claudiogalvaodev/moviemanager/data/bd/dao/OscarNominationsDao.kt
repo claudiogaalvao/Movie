@@ -14,5 +14,5 @@ interface OscarNominationsDao {
     suspend fun populate(oscarNominactions: List<OscarNomination>)
 
     @Query("SELECT * FROM OscarNomination")
-    fun getAll(): Flow<List<OscarNomination>>
+    suspend fun getAll(): List<OscarNomination>
 }

@@ -24,9 +24,8 @@ class SpecialListViewModel(
     }
 
     private fun getAllSpecialItemsSaved() = viewModelScope.launch(dispatcher) {
-        getAllOscarNominationUseCase.invoke().collectLatest { allOscarNomination ->
-            _oscarNomination.emit(allOscarNomination)
-        }
+        val result = getAllOscarNominationUseCase.invoke()
+        _oscarNomination.emit(result)
 
     }
 

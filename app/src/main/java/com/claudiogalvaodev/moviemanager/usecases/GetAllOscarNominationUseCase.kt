@@ -6,6 +6,6 @@ class GetAllOscarNominationUseCase(
     private val repository: MoviesRepository
 ) {
 
-    fun invoke() = repository.getAllOscarNomination()
+    suspend fun invoke() = repository.getAllOscarNomination()
 
 }
