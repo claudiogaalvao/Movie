@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
     id 'com.google.secrets_gradle_plugin' version '0.6.1'
 }
 
@@ -14,8 +15,8 @@ android {
         applicationId "com.claudiogalvaodev.cinesete"
         minSdk 26
         targetSdk 31
-        versionCode 13
-        versionName "1.0.1"
+        versionCode 18
+        versionName "1.0.18"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -76,6 +77,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    implementation platform('com.google.firebase:firebase-bom:29.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:4.2.0'

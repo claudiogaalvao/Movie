@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "564309694605",
+    "project_id": "cineseteapp",
+    "storage_bucket": "cineseteapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564309694605:android:177feeafb965edb2c16ac4",
+        "android_client_info": {
+          "package_name": "com.claudiogalvaodev.cinesete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564309694605-7npetrb516mv9th7k1vtfmq2b2ke0dk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhGDkTiy8J4CZ-J0bofYO-vEmOqACL9Dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564309694605-7npetrb516mv9th7k1vtfmq2b2ke0dk5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

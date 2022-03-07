@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.claudiogalvaodev.moviemanager.data.model.* { *; }
+-keep class com.claudiogalvaodev.moviemanager.utils.enums.* { *; }
