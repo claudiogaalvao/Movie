@@ -158,7 +158,7 @@ class OscarNominationsCallback(
             releaseDate = "2021-11-24",
             categories = listOf(
                 OscarCategory.BEST_FOREIGN_LANGUAGE_FILM)),
-        OscarNomination(id = 0, itemId = 718032,
+        OscarNomination(id = 0, itemId = 627087,
             type = ItemType.MOVIE,
             title = resources?.getString(R.string.oscar_lunana) ?: "",
             subtitle = resources?.getString(R.string.country_bhutan) ?: "",
@@ -375,7 +375,7 @@ class OscarNominationsCallback(
             releaseDate = "2021-09-17",
             categories = listOf(
                 OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING)),
-        OscarNomination(id = 0, itemId = 601470,
+        OscarNomination(id = 0, itemId = 644495,
             type = ItemType.MOVIE,
             title = resources?.getString(R.string.oscar_house_gucci) ?: "",
             imageUrl = "https://image.tmdb.org/t/p/w500/dAPdK3L2STpHo4DFKwtL2gdo89L.jpg",
