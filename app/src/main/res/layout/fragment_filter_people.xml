@@ -4,12 +4,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
+
+    <EditText
+        android:id="@+id/search_people"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="4dp"
+        android:padding="4dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawableTint="@color/white"
+        android:maxLines="1"
+        android:inputType="text"
+        android:hint="@string/search_person_hint"
+        android:textColorHint="@color/primary_gray"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_search_rounded"
+        android:importantForAutofill="no" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/fragment_filter_people_and_companies_nestedscroll"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_people">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

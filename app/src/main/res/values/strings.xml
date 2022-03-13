@@ -65,6 +65,7 @@
     <string name="selected_actors_title">People selected</string>
     <string name="popular_actors_title">Popular people</string>
     <string name="filter_people_select_instructions">Select someone to filter the movies that they participated. If you choose more than one, we\'ll try to find movies that they worked toguether!</string>
+    <string name="search_person_hint">Search by name</string>
 
     <!-- Runtime labels -->
     <string name="filter_runtime_short">Short (shorter than 40min)</string>
