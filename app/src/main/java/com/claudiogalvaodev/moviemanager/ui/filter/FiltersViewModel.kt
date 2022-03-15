@@ -6,16 +6,15 @@ import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Genre
 import com.claudiogalvaodev.moviemanager.usecases.GetAllGenresUseCase
 import com.claudiogalvaodev.moviemanager.usecases.GetAllPeopleUseCase
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.claudiogalvaodev.moviemanager.usecases.SearchPeopleUseCase
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
     private val getAllGenresUseCase: GetAllGenresUseCase,
+    private val searchPeopleUseCase: SearchPeopleUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -27,6 +26,9 @@ class FiltersViewModel(
 
     private val _peopleSelected = MutableStateFlow<List<Employe>>(emptyList())
     val peopleSelected = _peopleSelected.asStateFlow()
+
+    private val _peopleFound = MutableStateFlow<List<Employe>>(mutableListOf())
+    val peopleFound = _peopleFound.asStateFlow()
 
     var isLoadingActors: Boolean = false
 
@@ -89,15 +91,54 @@ class FiltersViewModel(
             selectedPeople.addAll(_peopleSelected.value)
             selectedPeople.remove(person)
 
-            val position = person.position
-            if(position != null && allPeople.size > position) {
-                allPeople.add(position, person)
-            } else {
-                allPeople.add(person)
+            person.position.let { position ->
+                if(position != null && position >= 0 && allPeople.size > position) {
+                    allPeople.add(position, person)
+                } else {
+                    allPeople.add(person)
+                }
+                _peopleSelected.emit(selectedPeople)
+                _people.emit(allPeople)
             }
-            _peopleSelected.emit(selectedPeople)
-            _people.emit(allPeople)
         }
+    }
+
+    // Search people
+    private var lastQuery = ""
+
+    var isSearchLoading: Boolean = false
+    var isNewSearch: Boolean = true
+    var getSearchResultSecondPage: Boolean = true
+
+    fun searchPeople(query: String) = viewModelScope.launch {
+        withContext(dispatcher) {
+            if(isNewSearch) {
+                if(query == lastQuery) return@withContext
+                lastQuery = query
+            }
+
+            isSearchLoading = true
+            val peopleResult = searchPeopleUseCase.invoke(query, isNewSearch)
+
+            if(getSearchResultSecondPage && _peopleFound.value.isNotEmpty()) getSearchResultSecondPage = false
+
+            if(peopleResult.isSuccess) {
+                peopleResult.getOrNull()?.let { movies ->
+                    val peopleList = mutableListOf<Employe>()
+                    peopleList.addAll(_peopleFound.value)
+                    peopleList.addAll(movies.filter { movie -> !(_peopleSelected.value.contains(movie)) })
+                    _peopleFound.emit(peopleList)
+                    isSearchLoading = false
+                }
+                isSearchLoading = false
+                isNewSearch = true
+            }
+        }
+    }
+
+    fun loadMorePeople() {
+        isNewSearch = false
+        searchPeople(lastQuery)
     }
 
 }

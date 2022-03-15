@@ -253,4 +253,21 @@ class MoviesRepository(
         return result
     }
 
+    suspend fun searchPeople(page: Int, query: String): Result<List<Employe>> {
+        var result: Result<List<Employe>> = Result.success(emptyList())
+        try {
+            val response = service.searchPerson(page, query)
+            if(response.isSuccessful) {
+                response.body()?.results?.let { people ->
+                    result = Result.success(people)
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to search people"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
 }

@@ -55,4 +55,10 @@ interface MovieService {
         @Query("page") page: Int,
         @Query("query") query: String,
     ): Response<MoviesResponse>
+
+    @GET("search/person")
+    suspend fun searchPerson(
+        @Query("page") page: Int,
+        @Query("query") query: String,
+    ): Response<PeopleResponse>
 }

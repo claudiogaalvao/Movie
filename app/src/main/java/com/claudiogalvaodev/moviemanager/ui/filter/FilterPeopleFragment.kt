@@ -1,12 +1,15 @@
 package com.claudiogalvaodev.moviemanager.ui.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +20,9 @@ import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
 import com.google.gson.Gson
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
@@ -28,9 +33,12 @@ class FilterPeopleFragment: Fragment() {
         FragmentFilterPeopleBinding.inflate(layoutInflater)
     }
 
+    private lateinit var searchResultAdapter: CircleWithTitleAdapter
     private lateinit var selectedPeopleAdapter: CircleWithTitleAdapter
     private lateinit var popularPeopleAdapter: CircleWithTitleAdapter
     private lateinit var currentValue: List<Employe>
+
+    private var isSearchInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +57,11 @@ class FilterPeopleFragment: Fragment() {
         setupRecyclerView()
         setObservables()
         setListeners()
+    }
+
+    private fun searchPeople(query: String) {
+        isSearchInitialized = true
+        viewModel.searchPeople(query)
     }
 
     private fun setCurrentValue() {
@@ -70,11 +83,18 @@ class FilterPeopleFragment: Fragment() {
     }
 
     private fun setupRecyclerView() {
+        searchResultAdapter = CircleWithTitleAdapter()
         selectedPeopleAdapter = CircleWithTitleAdapter()
         popularPeopleAdapter = CircleWithTitleAdapter()
 
+        val searchResultRecyclerViewLayout = GridLayoutManager(context, calcNumberOfColumns())
         val selectedPeopleRecyclerViewLayout = GridLayoutManager(context, calcNumberOfColumns())
         val popularRecyclerViewLayout = GridLayoutManager(context, calcNumberOfColumns())
+
+        binding.fragmentSearchResultRecyclerview.apply {
+            layoutManager = searchResultRecyclerViewLayout
+            adapter = searchResultAdapter
+        }
 
         binding.fragmentPeopleAndCompaniesActorsSelectedRecyclerview.apply {
             layoutManager = selectedPeopleRecyclerViewLayout
@@ -86,6 +106,7 @@ class FilterPeopleFragment: Fragment() {
             adapter = popularPeopleAdapter
         }
         setOnLoadMoreListener()
+        setSearchPeopleResultOnLoadMoreListener()
     }
 
     private fun setOnLoadMoreListener() {
@@ -119,12 +140,50 @@ class FilterPeopleFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.people.collectLatest { people ->
-                 setPeople(people)
+                popularPeopleAdapter.submitList(people)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.peopleFound.collectLatest { people ->
+                if(isSearchInitialized) {
+                    binding.fragmentSearchResultRecyclerview.visibility = View.VISIBLE
+                    binding.fragmentPeopleSelectedParent.visibility = View.GONE
+                    binding.fragmentPopularPeopleParent.visibility = View.GONE
+                    searchResultAdapter.submitList(people)
+                }
             }
         }
     }
 
     private fun setListeners() {
+        binding.searchPeople.addTextChangedListener { editable ->
+            lifecycleScope.launch {
+                if(editable.toString().isBlank()) hideSearchResult()
+                delay(2000)
+                searchPeople(editable.toString())
+            }
+        }
+
+        binding.searchPeople.setOnEditorActionListener { textView, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.searchPeople(textView.text.toString())
+                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(textView.windowToken, 0)
+            }
+            false
+        }
+
+        searchResultAdapter.onItemClick = { obj ->
+            binding.searchPeople.setText("")
+            hideSearchResult()
+            when(obj) {
+                is Employe -> {
+                    viewModel.selectPerson(obj)
+                }
+            }
+        }
+
         selectedPeopleAdapter.onItemClick = {
                 obj ->
             when(obj) {
@@ -147,12 +206,27 @@ class FilterPeopleFragment: Fragment() {
         }
     }
 
+    private fun hideSearchResult() {
+        isSearchInitialized = false
+        binding.fragmentSearchResultRecyclerview.visibility = View.GONE
+        binding.fragmentPeopleSelectedParent.visibility = View.VISIBLE
+        binding.fragmentPopularPeopleParent.visibility = View.VISIBLE
+    }
+
     private fun setSelectedPeople(people: List<Employe>) {
         selectedPeopleAdapter.submitList(people)
     }
 
-    private fun setPeople(people: List<Employe>) {
-        popularPeopleAdapter.submitList(people)
+    private fun setSearchPeopleResultOnLoadMoreListener() {
+        binding.fragmentFilterPeopleAndCompaniesNestedscroll.setOnScrollChangeListener { nestedView, _, scrollY, _, oldScrollY ->
+            val child = nestedView.findViewById<RecyclerView>(binding.fragmentSearchResultRecyclerview.id)
+            if(child.isNotEmpty()) {
+                if ((scrollY >= (child.measuredHeight - nestedView.measuredHeight)) &&
+                    scrollY > oldScrollY && !viewModel.isSearchLoading) {
+                    viewModel.loadMorePeople()
+                }
+            }
+        }
     }
 
     private fun calcNumberOfColumns(): Int {
