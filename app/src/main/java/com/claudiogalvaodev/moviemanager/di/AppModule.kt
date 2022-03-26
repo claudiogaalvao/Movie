@@ -6,17 +6,19 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
-import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
-import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
-import com.claudiogalvaodev.moviemanager.usecases.*
-import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
 import com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsViewModel
+import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
+import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
+import com.claudiogalvaodev.moviemanager.usecases.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
@@ -27,13 +29,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
-private const val BASE_URL = BuildConfig.MOVIEDB_BASE_URL
+private const val MOVIEDB_BASE_URL = BuildConfig.MOVIEDB_BASE_URL
 private const val TOKEN = BuildConfig.MOVIEDB_TOKEN
 
 val retrofitModule = module {
     single<Retrofit> {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(MOVIEDB_BASE_URL)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -99,13 +101,12 @@ val retrofitModule = module {
 val daoModule = module {
     factory { CoroutineScope(Dispatchers.IO) }
 
-    single { CineSeteDatabase.getInstance(androidContext(), get()).myListsDao }
-    single { CineSeteDatabase.getInstance(androidContext(), get()).moviesSavedDao }
-    single { CineSeteDatabase.getInstance(androidContext(), get()).oscarNominationsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
 }
 
 val repositoryModule = module {
-    single { MoviesRepository(get(), get(), get(), get()) }
+    single { MoviesRepository(get(), get(), get()) }
 }
 
 val viewModelModule = module {
@@ -128,7 +129,6 @@ val viewModelModule = module {
     single { GetAllMoviesSavedUseCase(get()) }
     single { RemoveMovieFromMyListUseCase(get()) }
     single { CheckIsMovieSavedUseCase(get()) }
-    single { GetAllOscarNominationUseCase(get()) }
     single { SearchPeopleUseCase(get()) }
 
     single {
@@ -146,7 +146,11 @@ val viewModelModule = module {
         )
     }
 
-    viewModel { HomeViewModel(get(), get()) }
+    single {
+        Firebase.firestore
+    }
+
+    viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
     viewModel { (movieId: Int) ->
@@ -172,7 +176,12 @@ val viewModelModule = module {
             getMovieCreditsUseCase = get()
         )
     }
-    viewModel { SpecialListViewModel(get()) }
+    viewModel { (eventId: String) ->
+        SpecialListViewModel(
+            eventId = eventId,
+            firestoreDB = get()
+        )
+    }
 }
 
 val appModules = listOf(

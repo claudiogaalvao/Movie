@@ -1,32 +1,66 @@
 package com.claudiogalvaodev.moviemanager.ui.speciallist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
-import com.claudiogalvaodev.moviemanager.usecases.GetAllOscarNominationUseCase
+import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
+import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import java.util.*
 
 class SpecialListViewModel(
-    private val getAllOscarNominationUseCase: GetAllOscarNominationUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    val eventId: String,
+    private val firestoreDB: FirebaseFirestore
 ): ViewModel() {
 
-    private val _oscarNomination = MutableStateFlow<List<OscarNomination>>(mutableListOf())
+    private val _oscarNomination = MutableStateFlow<List<SpecialItem>>(mutableListOf())
     val oscarNomination = _oscarNomination.asStateFlow()
 
     init {
-        getAllSpecialItemsSaved()
+        getAllItemsFromEventById()
     }
 
-    private fun getAllSpecialItemsSaved() = viewModelScope.launch(dispatcher) {
-        val result = getAllOscarNominationUseCase.invoke()
-        _oscarNomination.emit(result)
+    private fun getAllItemsFromEventById() {
+        try {
+            Log.i("eventId", eventId)
+            firestoreDB.collection("itemsForEvents")
+                .whereEqualTo("eventRef", eventId)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    if (snapshot != null) {
+                        val allItems: MutableList<SpecialItem> = mutableListOf()
+                        for (document in snapshot.documents) {
+                            val currentLanguage = Locale.getDefault().toLanguageTag().replace("-", "")
 
+                            val title = document["title.${currentLanguage}"].toString()
+                            val subtitle = document["subtitle.${currentLanguage}"].toString()
+                            val type = document["type"].toString()
+                            val imageUrl = document["imageUrl.${currentLanguage}"].toString()
+                            val categories = if(document["categories"] != null) document["categories"] as List<*> else emptyList<String>()
+                            val categoriesWinner = if(document["categoriesWinner"] != null) document["categoriesWinner"] as List<*> else emptyList<String>()
+
+                            val item = SpecialItem(
+                                itemId = document["itemId"].toString().toInt(),
+                                title = if (title.isBlank()) document["title.enUS"].toString() else title,
+                                subtitle = if (subtitle.isBlank()) document["subtitle.enUS"].toString() else subtitle,
+                                type = type,
+                                releaseDate = document["releaseDate"].toString(),
+                                imageUrl = if (imageUrl.isBlank()) document["imageUrl.enUS"].toString() else imageUrl,
+                                leastOneMovieId = if (type == ItemType.PERSON.name) document["leastOneMovieId"].toString().toInt() else 0,
+                                categories = categories.map { it.toString() },
+                                categoriesWinner = categoriesWinner.map { it.toString() }
+                            )
+                            allItems.add(item)
+                        }
+                        _oscarNomination.value = allItems
+                    }
+                }
+        } catch (e: Exception) {
+            Log.i("firestore error", "Something went wrong when try to get items from firestore")
+        }
     }
 
 }

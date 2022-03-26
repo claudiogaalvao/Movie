@@ -30,6 +30,28 @@ object formatUtils {
         }
     }
 
+    fun dateFromAmericanFormatToDateWithDayAndMonthName(date: String): String? {
+        try {
+            val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val initDate = LocalDate.parse(date, initFormatter)
+
+            val endDate = when(currentDeviceLanguage) {
+                "pt-BR" -> {
+                    val brFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM")
+                    initDate.format(brFormatter)
+                }
+                else -> {
+                    val usFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd")
+                    initDate.format(usFormatter)
+                }
+            }
+            return endDate
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
     fun dateFromAmericanFormatToAge(birthday: String): String? {
         try {
             val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

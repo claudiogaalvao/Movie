@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
 import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
-import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter.*
+import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter.SimplePosterWithTitleViewHolder
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
@@ -51,21 +51,21 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                         }
                     }
                 }
-                is OscarNomination -> {
+                is SpecialItem -> {
                     with(binding) {
                         Picasso.with(root.context).load(obj.imageUrl).into(moviePosterWithTitleImage)
                         moviePosterWithTitleTitle.text = obj.title
-                        if(obj.type == ItemType.MOVIE &&
+                        if(obj.type == ItemType.MOVIE.name &&
                             oscarCategory != OscarCategory.BEST_FOREIGN_LANGUAGE_FILM &&
                             oscarCategory != OscarCategory.BEST_ORIGINAL_SONG
                         ) {
-                            obj.releaseDate?.let { moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(it) }
+                            obj.releaseDate.let { moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(it) }
                         } else {
                             moviePosterWithTitleRelease.text = obj.subtitle
                         }
 
                         if(obj.categoriesWinner.isNotEmpty()) {
-                            binding.moviePosterStatusParent.visibility = if(obj.categoriesWinner.contains(oscarCategory)) {
+                            binding.moviePosterStatusParent.visibility = if(obj.categoriesWinner.contains(oscarCategory?.name)) {
                                  View.VISIBLE
                             } else {
                                 View.GONE
@@ -73,7 +73,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                         }
 
                         binding.moviePosterWithTitleImage.setOnClickListener {
-                            clickListener?.invoke(obj.itemId, obj.type, obj.leastOneMovieId ?: 0)
+                            clickListener?.invoke(obj.itemId, ItemType.valueOf(obj.type), obj.leastOneMovieId)
                         }
                     }
                 }

@@ -2,7 +2,6 @@ package com.claudiogalvaodev.moviemanager.data.repository
 
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
-import com.claudiogalvaodev.moviemanager.data.bd.dao.OscarNominationsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.*
@@ -13,10 +12,7 @@ class MoviesRepository(
     private val service: MovieService,
     private val myListsDao: MyListsDao,
     private val moviesSavedDao: MoviesSavedDao,
-    private val oscarNominationsDao: OscarNominationsDao
 ) {
-
-    suspend fun getAllOscarNomination() = oscarNominationsDao.getAll()
 
     suspend fun isMovieSaved(movieId: Int): Boolean {
         return moviesSavedDao.getMovieSavedById(movieId) != null

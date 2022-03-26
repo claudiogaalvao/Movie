@@ -20,7 +20,8 @@
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="8dp"
-            android:backgroundTint="@android:color/transparent">
+            android:backgroundTint="@android:color/transparent"
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -30,7 +31,6 @@
                     android:id="@+id/banner_scpecial_list_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/cover_oscar"
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/generic_description" />
 
@@ -43,8 +43,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginBottom="8dp"
                     android:textSize="11sp"
-                    android:textColor="@color/primary_gray"
-                    android:text="@string/oscar_event_date" />
+                    android:textColor="@color/primary_gray" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

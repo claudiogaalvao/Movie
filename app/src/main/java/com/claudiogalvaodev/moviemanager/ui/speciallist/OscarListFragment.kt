@@ -7,21 +7,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.claudiogalvaodev.moviemanager.data.bd.entity.OscarNomination
+import androidx.navigation.fragment.navArgs
+import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.databinding.FragmentOscarNominationBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsFragmentDirections
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class OscarListFragment: Fragment() {
 
-    private val viewModel: SpecialListViewModel by viewModel()
+    private lateinit var viewModel: SpecialListViewModel
     private val binding by lazy {
         FragmentOscarNominationBinding.inflate(layoutInflater)
+    }
+
+    private val args: OscarListFragmentArgs by navArgs()
+    private val eventId by lazy {
+        args.eventId
     }
 
     private lateinit var bestPictureAdapter: SimplePosterWithTitleAdapter
@@ -58,6 +64,8 @@ class OscarListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = getViewModel { parametersOf(eventId) }
 
         setupAdapter()
         setObservers()
@@ -131,12 +139,12 @@ class OscarListFragment: Fragment() {
         }
     }
 
-    private fun returnItemsSorted(items: List<OscarNomination>, filterByOscarCategory: OscarCategory): List<OscarNomination> {
+    private fun returnItemsSorted(items: List<SpecialItem>, filterByOscarCategory: OscarCategory): List<SpecialItem> {
         val itemsByCurrentCategory = items.filter { item ->
-            item.categories.contains(filterByOscarCategory)
+            item.categories.contains(filterByOscarCategory.name)
         }.toMutableList()
         val winnerFromCurrentCategory = itemsByCurrentCategory.filter { item ->
-            item.categoriesWinner.contains(filterByOscarCategory)
+            item.categoriesWinner.contains(filterByOscarCategory.name)
         }
         itemsByCurrentCategory.sortBy { it.title }
         if(winnerFromCurrentCategory.isNotEmpty()) {

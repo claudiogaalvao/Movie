@@ -1,18 +1,21 @@
 package com.claudiogalvaodev.moviemanager.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.claudiogalvaodev.moviemanager.data.model.Event
 import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListActivity
+import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithDayAndMonthName
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDate
@@ -24,7 +27,9 @@ class HomeFragment: Fragment() {
         FragmentHomeBinding.inflate(layoutInflater)
     }
 
-    private val limitDateToShowOscarBanner = LocalDate.parse("2022-04-10")
+    private val storage by lazy {
+        FirebaseStorage.getInstance()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +41,8 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getMovies()
-        setObservables()
-        configBannerSpecialList()
-    }
 
-    private fun getMovies() {
-        viewModel.getTrendingMovies()
-        viewModel.getUpComingAndPlayingNow()
+        setObservables()
     }
 
     private fun setObservables() {
@@ -62,6 +61,12 @@ class HomeFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.playingNowMovies.collectLatest { movies ->
                 configLatestMoviesList(movies)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.events.collectLatest { events ->
+                configBannerSpecialList(events)
             }
         }
     }
@@ -102,16 +107,37 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun configBannerSpecialList() {
-        if(LocalDate.now().isAfter(limitDateToShowOscarBanner)) binding.bannerSpecialListCardview.visibility = View.GONE
-        binding.bannerSpecialListCardview.setOnClickListener {
-            goToSpecialLists()
+    private fun configBannerSpecialList(events: List<Event>) {
+
+        for (event in events) {
+            val startAtToShowBanner = LocalDate.parse(event.startAt)
+            val finishAtToShowBanner = LocalDate.parse(event.finishAt)
+            if (LocalDate.now().isAfter(startAtToShowBanner) &&
+                LocalDate.now().isBefore(finishAtToShowBanner)
+            ) {
+                val imageUrl = event.imageUrl
+                storage.getReferenceFromUrl(imageUrl).downloadUrl.addOnSuccessListener { uri ->
+                    Picasso.with(context).load(uri).into(binding.bannerScpecialListImage)
+                    showBanner(event)
+                }
+            }
         }
     }
 
-    private fun goToSpecialLists() {
-        val intent = Intent(context, SpecialListActivity::class.java)
-        startActivity(intent)
+    private fun showBanner(event: Event) {
+        binding.bannerSpecialListCardview.apply {
+            visibility = View.VISIBLE
+            setOnClickListener {
+                goToSpecialLists(event.id, event.title)
+            }
+        }
+        binding.bannerScpecialListText.text = dateFromAmericanFormatToDateWithDayAndMonthName(event.eventDate)
+    }
+
+    private fun goToSpecialLists(eventId: String, eventName: String) {
+        context?.let {
+            startActivity(SpecialListActivity.newInstance(it, eventId, eventName))
+        }
     }
 
     private fun goToMovieDetails(movieId: Int) {
