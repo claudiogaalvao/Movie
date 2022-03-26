@@ -97,10 +97,10 @@ class OscarListFragment: Fragment() {
         configProductionDesignAdapter()
     }
 
-    private fun onItemClickListener(itemId: Int, type: ItemType, leastOneMovieId: Int) {
+    private fun onItemClickListener(itemId: Int, type: ItemType, leastOneMovieId: Int, releaseDate: String) {
         when (type) {
             ItemType.MOVIE -> {
-                goToMovieDetails(itemId)
+                goToMovieDetails(itemId, releaseDate)
             }
             ItemType.PERSON -> {
                 goToPeopleDetails(itemId, leastOneMovieId)
@@ -184,7 +184,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestPictureAdapter() {
         bestPictureAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_PICTURE
         }
         binding.fragmentSpecialListBestPictureRecyclerview.adapter = bestPictureAdapter
@@ -192,7 +192,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestForeignLanguageAdapter() {
         bestForeignLanguageAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_FOREIGN_LANGUAGE_FILM
         }
         binding.fragmentSpecialListBestForeignLanguageFilmRecyclerview.adapter =
@@ -201,7 +201,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestDirectingAdapter() {
         bestDirectingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_DIRECTING
         }
         binding.fragmentSpecialListBestDirectingRecyclerview.adapter = bestDirectingAdapter
@@ -209,7 +209,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestActressAdapter() {
         bestActressAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ACTRESS
         }
         binding.fragmentSpecialListBestActressRecyclerview.adapter = bestActressAdapter
@@ -217,7 +217,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestActorAdapter() {
         bestActorAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ACTOR
         }
         binding.fragmentSpecialBestActorRecyclerview.adapter = bestActorAdapter
@@ -225,7 +225,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestSupportingActressAdapter() {
         bestSupportingActressAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_SUPPORTING_ACTRESS
         }
         binding.fragmentSpecialListBestSupportingActressRecyclerview.adapter = bestSupportingActressAdapter
@@ -233,7 +233,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestSupportingActorAdapter() {
         bestSupportingActorAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_SUPPORTING_ACTOR
         }
         binding.fragmentSpecialBestSupportingActorRecyclerview.adapter = bestSupportingActorAdapter
@@ -241,7 +241,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestAdaptedScreenplayAdapter() {
         bestAdaptedScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ADAPTED_SCREENPLAY
         }
         binding.fragmentSpecialListBestAdaptedScreenplayRecyclerview.adapter = bestAdaptedScreenplayAdapter
@@ -249,7 +249,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestOriginalScreenplayAdapter() {
         bestOriginalScreenplayAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ORIGINAL_SCREENPLAY
         }
         binding.fragmentSpecialBestOriginalScreenplayRecyclerview.adapter = bestOriginalScreenplayAdapter
@@ -257,7 +257,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestCostumeDesignAdapter() {
         bestCostumeDesignAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_COSTUME_DESIGN
         }
         binding.fragmentSpecialListBestCostumeDesignRecyclerview.adapter = bestCostumeDesignAdapter
@@ -265,7 +265,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestOriginalScoreAdapter() {
         bestOriginalScoreAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ORIGINAL_SCORE
         }
         binding.fragmentSpecialBestOriginalScoreRecyclerview.adapter = bestOriginalScoreAdapter
@@ -273,7 +273,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestAnimatedFeatureFilmAdapter() {
         bestAnimatedFeatureFilmAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ANIMATED_FEATURE_FILM
         }
         binding.fragmentSpecialListBestAnimatedFeatureFilmRecyclerview.adapter = bestAnimatedFeatureFilmAdapter
@@ -281,7 +281,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestAnimatedShortAdapter() {
         bestAnimatedShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ANIMATED_SHORT
         }
         binding.fragmentSpecialBestAnimatedShortRecyclerview.adapter = bestAnimatedShortAdapter
@@ -289,7 +289,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestLiveActionShortAdapter() {
         bestLiveActionShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_LIVE_ACTION_SHORT
         }
         binding.fragmentSpecialListBestLiveActionShortRecyclerview.adapter = bestLiveActionShortAdapter
@@ -297,7 +297,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestDocumentaryFeatureAdapter() {
         bestDocumentaryFeatureAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_DOCUMENTARY_FEATURE
         }
         binding.fragmentSpecialBestDocumentaryFeatureRecyclerview.adapter = bestDocumentaryFeatureAdapter
@@ -305,7 +305,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestDocumentaryShortAdapter() {
         bestDocumentaryShortAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_DOCUMENTARY_SHORT
         }
         binding.fragmentSpecialListBestDocumentaryShortRecyclerview.adapter = bestDocumentaryShortAdapter
@@ -313,7 +313,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestSoundMixingAdapter() {
         bestSoundMixingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_SOUND_MIXING
         }
         binding.fragmentSpecialBestSoundMixingRecyclerview.adapter = bestSoundMixingAdapter
@@ -321,7 +321,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestOriginalSongAdapter() {
         bestOriginalSongAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_ORIGINAL_SONG
         }
         binding.fragmentSpecialListBestOriginalSongRecyclerview.adapter = bestOriginalSongAdapter
@@ -329,7 +329,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestMakeupAndHairstylingAdapter() {
         bestMakeupAndHairstylingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING
         }
         binding.fragmentSpecialBestMakeupAndHairstylingRecyclerview.adapter = bestMakeupAndHairstylingAdapter
@@ -337,7 +337,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestVisualEffectsAdapter() {
         bestVisualEffectsAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_VISUAL_EFFECTS
         }
         binding.fragmentSpecialListBestVisualEffectsRecyclerview.adapter = bestVisualEffectsAdapter
@@ -345,7 +345,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestCinematographyAdapter() {
         bestCinematographyAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_CINEMATOGRAPHY
         }
         binding.fragmentSpecialBestBestCinematographyRecyclerview.adapter = bestCinematographyAdapter
@@ -353,7 +353,7 @@ class OscarListFragment: Fragment() {
 
     private fun configBestEditingAdapter() {
         bestEditingAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_EDITING
         }
         binding.fragmentSpecialListBestEditingRecyclerview.adapter = bestEditingAdapter
@@ -361,15 +361,15 @@ class OscarListFragment: Fragment() {
 
     private fun configProductionDesignAdapter() {
         bestProductionDesignAdapter = SimplePosterWithTitleAdapter().apply {
-            onItemClick = { itemId, type, leastOneMovieId -> onItemClickListener(itemId, type, leastOneMovieId) }
+            onItemClick = { itemId, type, leastOneMovieId, releaseDate -> onItemClickListener(itemId, type, leastOneMovieId, releaseDate) }
             oscarCategory = OscarCategory.BEST_PRODUCTION_DESIGN
         }
         binding.fragmentSpecialBestProductionDesignRecyclerview.adapter = bestProductionDesignAdapter
     }
 
-    private fun goToMovieDetails(movieId: Int) {
+    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
         }
     }
 

@@ -19,6 +19,7 @@ import com.claudiogalvaodev.moviemanager.databinding.ActivityMovieDetailsBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val ARG_MOVIE_ID = "movieId"
+private const val ARG_RELEASE_DATE = "releaseDate"
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -35,8 +36,9 @@ class MovieDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val movieId = intent.getIntExtra(ARG_MOVIE_ID, 0)
+        val releaseDate = intent.getStringExtra(ARG_RELEASE_DATE) ?: ""
 
-        initializeFragment(movieId)
+        initializeFragment(movieId, releaseDate)
         configToolbar()
     }
 
@@ -44,9 +46,10 @@ class MovieDetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.activityMovieDetailsToolbar)
     }
 
-    private fun initializeFragment(movieId: Int) {
+    private fun initializeFragment(movieId: Int, releaseDate: String) {
         val bundle = Bundle().apply {
             putLong("movieId", movieId.toLong())
+            putString("releaseDate", releaseDate)
         }
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.activity_movie_details_nav_host_fragment) as NavHostFragment
@@ -82,9 +85,10 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun newInstance(context: Context, movieId: Int): Intent {
+        fun newInstance(context: Context, movieId: Int, releaseDate: String): Intent {
             val intent = Intent(context, MovieDetailsActivity::class.java)
             intent.putExtra(ARG_MOVIE_ID, movieId)
+            intent.putExtra(ARG_RELEASE_DATE, releaseDate)
             return intent
         }
     }

@@ -107,7 +107,7 @@ class PeopleDetailsFragment : Fragment() {
                 if(movieId == leastOneMovieId.toInt()) {
                     findNavController().popBackStack()
                 } else {
-                    goToMovieDetails(movieId)
+                    goToMovieDetails(movieId, "")
                 }
             }
             onFullyViewedListener = {
@@ -159,9 +159,9 @@ class PeopleDetailsFragment : Fragment() {
         moviesAdapter.submitList(movies)
     }
 
-    private fun goToMovieDetails(movieId: Int) {
+    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
         }
     }
 

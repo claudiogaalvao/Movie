@@ -75,7 +75,7 @@ class HomeFragment: Fragment() {
         binding.fragmentHomeTrendingRecyclerview.apply {
             val principalMoviesAdapter = PrincipalMoviesAdapter().apply {
                 onItemClick = { movie ->
-                    goToMovieDetails(movie.id)
+                    goToMovieDetails(movie.id, "")
                 }
             }
             adapter = principalMoviesAdapter
@@ -86,8 +86,8 @@ class HomeFragment: Fragment() {
     private fun configUpComingMoviesList(movies: List<Movie>) {
         binding.fragmentHomeComingUpRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { itemId, _, _ ->
-                    goToMovieDetails(itemId)
+                onItemClick = { itemId, _, _, releaseDate ->
+                    goToMovieDetails(itemId, releaseDate)
                 }
             }
             adapter = simplePosterAdapter
@@ -98,8 +98,8 @@ class HomeFragment: Fragment() {
     private fun configLatestMoviesList(movies: List<Movie>) {
         binding.fragmentHomePlayingNowRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { itemId, _, _ ->
-                    goToMovieDetails(itemId)
+                onItemClick = { itemId, _, _, releaseDate ->
+                    goToMovieDetails(itemId, releaseDate)
                 }
             }
             adapter = simplePosterAdapter
@@ -140,9 +140,9 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun goToMovieDetails(movieId: Int) {
+    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
         }
     }
 }

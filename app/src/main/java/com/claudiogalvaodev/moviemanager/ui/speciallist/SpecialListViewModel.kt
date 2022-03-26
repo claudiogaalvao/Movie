@@ -44,11 +44,11 @@ class SpecialListViewModel(
 
                             val item = SpecialItem(
                                 itemId = document["itemId"].toString().toInt(),
-                                title = if (title.isBlank()) document["title.enUS"].toString() else title,
-                                subtitle = if (subtitle.isBlank()) document["subtitle.enUS"].toString() else subtitle,
+                                title = if (title == "null") document["title.enUS"].toString() else title,
+                                subtitle = if (subtitle == "null") document["subtitle.enUS"].toString() else subtitle,
                                 type = type,
                                 releaseDate = document["releaseDate"].toString(),
-                                imageUrl = if (imageUrl.isBlank()) document["imageUrl.enUS"].toString() else imageUrl,
+                                imageUrl = if (imageUrl == "null") document["imageUrl.enUS"].toString() else imageUrl,
                                 leastOneMovieId = if (type == ItemType.PERSON.name) document["leastOneMovieId"].toString().toInt() else 0,
                                 categories = categories.map { it.toString() },
                                 categoriesWinner = categoriesWinner.map { it.toString() }

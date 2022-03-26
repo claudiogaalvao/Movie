@@ -88,7 +88,7 @@ class ExploreMoviesFragment: Fragment() {
 
         moviesAdapter = SimplePosterAdapter().apply {
             onItemClick = { movieId ->
-                goToMovieDetails(movieId)
+                goToMovieDetails(movieId, "")
             }
         }
     }
@@ -155,9 +155,9 @@ class ExploreMoviesFragment: Fragment() {
         moviesAdapter.submitList(movies)
     }
 
-    private fun goToMovieDetails(movieId: Int) {
+    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movieId))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
         }
     }
 

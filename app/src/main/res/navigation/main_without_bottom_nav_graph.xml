@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_peopleDetailsFragment"
             app:destination="@id/peopleDetailsFragment" />
+        <argument
+            android:name="releaseDate"
+            app:argType="string" />
     </fragment>
 
     <fragment

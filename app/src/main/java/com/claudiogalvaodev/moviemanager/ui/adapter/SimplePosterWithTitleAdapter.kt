@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 
 class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)? = null
+    var onItemClick: ((itemId: Int, type: ItemType, leastOneMovieId: Int, releaseDate: String) -> Unit)? = null
     var oscarCategory: OscarCategory? = null
 
     override fun onCreateViewHolder(
@@ -34,7 +34,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
 
     class SimplePosterWithTitleViewHolder(
         private val binding: ItemSimplePosterWithTitleBinding,
-        private val clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?,
+        private val clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int, releaseDate: String) -> Unit)?,
         private val oscarCategory: OscarCategory?
     ): RecyclerView.ViewHolder(binding.root) {
 
@@ -47,7 +47,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                         moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(obj.release_date)
 
                         binding.moviePosterWithTitleImage.setOnClickListener {
-                            clickListener?.invoke(obj.id, ItemType.MOVIE, 0)
+                            clickListener?.invoke(obj.id, ItemType.MOVIE, 0, obj.release_date)
                         }
                     }
                 }
@@ -73,7 +73,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                         }
 
                         binding.moviePosterWithTitleImage.setOnClickListener {
-                            clickListener?.invoke(obj.itemId, ItemType.valueOf(obj.type), obj.leastOneMovieId)
+                            clickListener?.invoke(obj.itemId, ItemType.valueOf(obj.type), obj.leastOneMovieId, obj.releaseDate)
                         }
                     }
                 }
@@ -82,7 +82,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
 
         companion object {
             fun create(parent: ViewGroup,
-                       clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int) -> Unit)?,
+                       clickListener: ((itemId: Int, type: ItemType, leastOneMovieId: Int, releaseDate: String) -> Unit)?,
                        oscarCategory: OscarCategory?
             ): SimplePosterWithTitleViewHolder {
                 val binding = ItemSimplePosterWithTitleBinding

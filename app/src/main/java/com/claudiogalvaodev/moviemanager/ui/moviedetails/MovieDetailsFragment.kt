@@ -44,6 +44,9 @@ class MovieDetailsFragment : Fragment() {
     private val movieId by lazy {
         args.movieId
     }
+    private val releaseDate by lazy {
+        args.releaseDate
+    }
     private lateinit var moviesSaved: List<MovieSaved>
 
     override fun onCreateView(
@@ -83,7 +86,8 @@ class MovieDetailsFragment : Fragment() {
                         viewModel.getMovieCollection(collection.id)
                     }
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsTitle.text = it.title
-                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils.dateFromAmericanFormatToDateWithMonthName(it.release_date)
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils
+                        .dateFromAmericanFormatToDateWithMonthName(if (releaseDate.isBlank()) it.release_date else releaseDate)
 
                     val genresAdapter = SimpleOptionsAdapter()
                     binding.fragmentMovieDetailsHeader.genreRecyclerview.adapter = genresAdapter
@@ -351,8 +355,8 @@ class MovieDetailsFragment : Fragment() {
 
         binding.fragmentMovieDetailsCollectionSequenceRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
-                onItemClick = { itemId, _, _ ->
-                    if(itemId != viewModel.movieId) goToMovieDetails(itemId)
+                onItemClick = { itemId, _, _, releaseDate ->
+                    if(itemId != viewModel.movieId) goToMovieDetails(itemId, releaseDate)
                 }
             }
             adapter = simplePosterAdapter
@@ -414,9 +418,9 @@ class MovieDetailsFragment : Fragment() {
         return countImages.roundToInt()
     }
 
-    private fun goToMovieDetails(movieId: Int) {
+    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
         val directions = MovieDetailsFragmentDirections
-            .actionMovieDetailsFragmentToMovieDetailsFragment(movieId.toLong())
+            .actionMovieDetailsFragmentToMovieDetailsFragment(movieId.toLong(), releaseDate)
         findNavController().navigate(directions)
     }
 
