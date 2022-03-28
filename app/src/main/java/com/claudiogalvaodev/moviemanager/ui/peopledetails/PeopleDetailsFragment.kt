@@ -1,6 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.peopledetails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,7 +105,8 @@ class PeopleDetailsFragment : Fragment() {
     private fun setupAdapter() {
         moviesAdapter = SimplePosterAdapter().apply {
             onItemClick = { movieId ->
-                if(movieId == leastOneMovieId.toInt()) {
+                val destination = findNavController().previousBackStackEntry?.destination?.displayName.toString()
+                if(movieId == leastOneMovieId.toInt() && destination.contains("movieDetailsFragment")) {
                     findNavController().popBackStack()
                 } else {
                     goToMovieDetails(movieId, "")
