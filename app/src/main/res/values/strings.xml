@@ -166,4 +166,5 @@
     <string name="oscar_best_production_design">Best production design</string>
 
     <string name="oscar_winner_label">Winner</string>
+    <string name="trailers_label" translatable="false">Trailers</string>
 </resources>

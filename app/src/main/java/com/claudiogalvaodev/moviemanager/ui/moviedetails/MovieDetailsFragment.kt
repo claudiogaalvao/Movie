@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -63,17 +64,8 @@ class MovieDetailsFragment : Fragment() {
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
-        getData()
         setObservables()
         setListeners()
-    }
-
-    private fun getData() {
-        viewModel.getMovieDetails()
-        viewModel.getMovieCredits()
-        viewModel.getProviders()
-        viewModel.getAllMyLists()
-        viewModel.checkIsMovieSaved()
     }
 
     private fun setObservables() {
@@ -179,6 +171,12 @@ class MovieDetailsFragment : Fragment() {
                     binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(R.drawable.ic_done)
                     binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(R.string.saved_to_list)
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.videos.collectLatest { videos ->
+                Log.i("videos", videos.size.toString())
             }
         }
     }

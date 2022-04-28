@@ -1,6 +1,5 @@
 package com.claudiogalvaodev.moviemanager.usecases
 
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 import kotlinx.coroutines.flow.collectLatest
 

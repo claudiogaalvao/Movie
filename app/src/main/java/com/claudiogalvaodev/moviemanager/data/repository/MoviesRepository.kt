@@ -58,6 +58,23 @@ class MoviesRepository(
         return result
     }
 
+    suspend fun getVideos(movieId: Int): Result<List<Video>> {
+        var result = Result.success(mutableListOf<Video>())
+        try {
+            val response = service.getVideos(movieId)
+            if (response.isSuccessful) {
+                response.body()?.results?.let {
+                    result = Result.success(it.toMutableList())
+                }
+            } else {
+                result = Result.failure(exception = Exception("Something went wrong when try to get videos"))
+            }
+        } catch (e: Exception) {
+            result = Result.failure(exception = e)
+        }
+        return result
+    }
+
     suspend fun getCredits(movieId: Int): Result<Credits?> {
         var result: Result<Credits?> = Result.success(null)
         try {

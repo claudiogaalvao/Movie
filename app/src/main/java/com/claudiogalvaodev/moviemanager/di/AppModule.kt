@@ -130,6 +130,7 @@ val viewModelModule = module {
     single { RemoveMovieFromMyListUseCase(get()) }
     single { CheckIsMovieSavedUseCase(get()) }
     single { SearchPeopleUseCase(get()) }
+    single { GetVideosFromMovieUseCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -142,7 +143,8 @@ val viewModelModule = module {
             saveMovieToMyListUseCase = get(),
             removeMovieFromMyListUseCase = get(),
             checkIsMovieSavedUseCase = get(),
-            getAllMoviesSavedUseCase = get()
+            getAllMoviesSavedUseCase = get(),
+            getVideosFromMovieUseCase = get()
         )
     }
 

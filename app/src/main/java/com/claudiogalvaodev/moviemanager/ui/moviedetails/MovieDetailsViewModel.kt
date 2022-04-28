@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
-import com.claudiogalvaodev.moviemanager.data.model.Company
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.data.model.*
 import com.claudiogalvaodev.moviemanager.usecases.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -50,11 +47,22 @@ class MovieDetailsViewModel(
     private val _isMovieSaved = MutableStateFlow(false)
     val isMovieSaved = _isMovieSaved.asStateFlow()
 
+    private val _videos = MutableStateFlow<List<Video>>(emptyList())
+    val videos = _videos.asStateFlow()
+
     init {
-        viewModelScope.launch {
-            allMovieDetailsUseCase.getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
-                _moviesSaved.emit(moviesSaved)
-            }
+        getAllMoviesSaved()
+        getMovieDetails()
+        getMovieCredits()
+        getProviders()
+        getAllMyLists()
+        checkIsMovieSaved()
+        getVideos()
+    }
+
+    fun getAllMoviesSaved() = viewModelScope.launch {
+        allMovieDetailsUseCase.getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
+            _moviesSaved.emit(moviesSaved)
         }
     }
 
@@ -117,6 +125,14 @@ class MovieDetailsViewModel(
                 _movie.emit(movieDetailsUI.movie)
                 _companies.emit(movieDetailsUI.companies)
             }
+        }
+    }
+
+    fun getVideos() = viewModelScope.launch {
+        val videosResult = allMovieDetailsUseCase.getVideosFromMovieUseCase.invoke(movieId)
+        if (videosResult.isSuccess) {
+            val videos = videosResult.getOrNull()
+            videos?.let { _videos.emit(it) }
         }
     }
 

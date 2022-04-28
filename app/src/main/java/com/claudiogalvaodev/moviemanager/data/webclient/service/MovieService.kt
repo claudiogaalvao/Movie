@@ -19,7 +19,15 @@ interface MovieService {
     suspend fun getPlayingNow(@Query("page") page: Int = 1): Response<MoviesResponse>
 
     @GET("movie/{id}")
-    suspend fun getDetails(@Path("id") id: Int): Response<Movie>
+    suspend fun getDetails(
+        @Path("id") id: Int,
+        @Query("append_to_response") append: String = "videos"
+    ): Response<Movie>
+
+    @GET("movie/{id}/videos")
+    suspend fun getVideos(
+        @Path("id") movieId: Int
+    ): Response<VideosResponse>
 
     @GET("movie/{id}/credits")
     suspend fun getCredits(@Path("id") id: Int): Response<Credits>

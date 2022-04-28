@@ -11,4 +11,5 @@ data class AllMovieDetailsUseCase(
     val removeMovieFromMyListUseCase: RemoveMovieFromMyListUseCase,
     val checkIsMovieSavedUseCase: CheckIsMovieSavedUseCase,
     val getAllMoviesSavedUseCase: GetAllMoviesSavedUseCase,
+    val getVideosFromMovieUseCase: GetVideosFromMovieUseCase
 )
