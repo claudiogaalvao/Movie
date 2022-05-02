@@ -72,7 +72,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
                             }
                         }
 
-                        binding.moviePosterWithTitleImage.setOnClickListener {
+                        binding.root.setOnClickListener {
                             clickListener?.invoke(obj.itemId, ItemType.valueOf(obj.type), obj.leastOneMovieId, obj.releaseDate)
                         }
                     }

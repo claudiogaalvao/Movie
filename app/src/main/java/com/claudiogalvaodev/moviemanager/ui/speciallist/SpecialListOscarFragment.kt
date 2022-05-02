@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
-import com.claudiogalvaodev.moviemanager.databinding.FragmentOscarNominationBinding
+import com.claudiogalvaodev.moviemanager.databinding.FragmentSpecialListOscarBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
@@ -18,14 +18,14 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
-class OscarListFragment: Fragment() {
+class SpecialListOscarFragment: Fragment() {
 
     private lateinit var viewModel: SpecialListViewModel
     private val binding by lazy {
-        FragmentOscarNominationBinding.inflate(layoutInflater)
+        FragmentSpecialListOscarBinding.inflate(layoutInflater)
     }
 
-    private val args: OscarListFragmentArgs by navArgs()
+    private val args: SpecialListOscarFragmentArgs by navArgs()
     private val eventId by lazy {
         args.eventId
     }
@@ -110,31 +110,31 @@ class OscarListFragment: Fragment() {
 
     private fun setObservers() {
         lifecycleScope.launchWhenStarted {
-            viewModel.oscarNomination.collectLatest { oscarNomination ->
-                bestPictureAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_PICTURE))
-                bestForeignLanguageAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_FOREIGN_LANGUAGE_FILM))
-                bestDirectingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DIRECTING))
-                bestActressAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ACTRESS))
-                bestActorAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ACTOR))
-                bestSupportingActressAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SUPPORTING_ACTRESS))
-                bestSupportingActorAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SUPPORTING_ACTOR))
-                bestAdaptedScreenplayAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ADAPTED_SCREENPLAY))
-                bestOriginalScreenplayAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SCREENPLAY))
-                bestCostumeDesignAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_COSTUME_DESIGN))
-                bestOriginalScoreAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SCORE))
-                bestAnimatedFeatureFilmAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ANIMATED_FEATURE_FILM))
-                bestAnimatedShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ANIMATED_SHORT))
-                bestLiveActionShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_LIVE_ACTION_SHORT))
-                bestDocumentaryFeatureAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DOCUMENTARY_FEATURE))
-                bestDocumentaryShortAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_DOCUMENTARY_SHORT))
-                bestSoundMixingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_SOUND_MIXING))
-                bestOriginalSongAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_ORIGINAL_SONG))
-                bestMakeupAndHairstylingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING))
-                bestVisualEffectsAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_VISUAL_EFFECTS))
-                bestCinematographyAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_CINEMATOGRAPHY))
-                bestEditingAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_EDITING))
-                bestProductionDesignAdapter.submitList(returnItemsSorted(oscarNomination, OscarCategory.BEST_PRODUCTION_DESIGN))
-                if(oscarNomination.isNotEmpty()) showAllMovieNominationsTitle()
+            viewModel.specialItem.collectLatest { specialItem ->
+                bestPictureAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_PICTURE))
+                bestForeignLanguageAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_FOREIGN_LANGUAGE_FILM))
+                bestDirectingAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_DIRECTING))
+                bestActressAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ACTRESS))
+                bestActorAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ACTOR))
+                bestSupportingActressAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_SUPPORTING_ACTRESS))
+                bestSupportingActorAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_SUPPORTING_ACTOR))
+                bestAdaptedScreenplayAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ADAPTED_SCREENPLAY))
+                bestOriginalScreenplayAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ORIGINAL_SCREENPLAY))
+                bestCostumeDesignAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_COSTUME_DESIGN))
+                bestOriginalScoreAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ORIGINAL_SCORE))
+                bestAnimatedFeatureFilmAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ANIMATED_FEATURE_FILM))
+                bestAnimatedShortAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ANIMATED_SHORT))
+                bestLiveActionShortAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_LIVE_ACTION_SHORT))
+                bestDocumentaryFeatureAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_DOCUMENTARY_FEATURE))
+                bestDocumentaryShortAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_DOCUMENTARY_SHORT))
+                bestSoundMixingAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_SOUND_MIXING))
+                bestOriginalSongAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_ORIGINAL_SONG))
+                bestMakeupAndHairstylingAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_MAKEUP_AND_HAIRSTYLING))
+                bestVisualEffectsAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_VISUAL_EFFECTS))
+                bestCinematographyAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_CINEMATOGRAPHY))
+                bestEditingAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_EDITING))
+                bestProductionDesignAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_PRODUCTION_DESIGN))
+                if(specialItem.isNotEmpty()) showAllMovieNominationsTitle()
             }
         }
     }
@@ -374,7 +374,7 @@ class OscarListFragment: Fragment() {
     }
 
     private fun goToPeopleDetails(personId: Int, leastOneMovieId: Int) {
-        val directions = OscarListFragmentDirections
+        val directions = SpecialListOscarFragmentDirections
             .actionOscarListFragmentToPeopleDetailsFragment(personId.toLong(), leastOneMovieId.toLong())
         findNavController().navigate(directions)
     }
