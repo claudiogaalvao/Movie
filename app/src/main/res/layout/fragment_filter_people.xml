@@ -33,7 +33,8 @@
         android:id="@+id/fragment_filter_people_and_companies_nestedscroll"
         android:layout_height="0dp"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_people">
+        app:layout_constraintTop_toBottomOf="@+id/search_people"
+        app:layout_constraintBottom_toTopOf="@+id/filter_button_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
