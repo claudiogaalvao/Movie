@@ -76,9 +76,9 @@
     </fragment>
     <fragment
         android:id="@+id/oscarListFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.speciallist.OscarListFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListOscarFragment"
         android:label="OscarListFragment"
-        tools:layout="@layout/fragment_oscar_nomination">
+        tools:layout="@layout/fragment_special_list_oscar">
         <action
             android:id="@+id/action_oscarListFragment_to_peopleDetailsFragment"
             app:destination="@id/peopleDetailsFragment" />
@@ -87,6 +87,21 @@
             app:destination="@id/movieDetailsFragment" />
         <argument
             android:name="eventId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/genericListFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListGenericFragment"
+        android:label="GenericListFragment"
+        tools:layout="@layout/fragment_special_list_generic">
+        <action
+            android:id="@+id/action_genericListFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+        <argument
+            android:name="eventDescription"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -16,8 +16,8 @@ class SpecialListViewModel(
     private val firestoreDB: FirebaseFirestore
 ): ViewModel() {
 
-    private val _oscarNomination = MutableStateFlow<List<SpecialItem>>(mutableListOf())
-    val oscarNomination = _oscarNomination.asStateFlow()
+    private val _specialItem = MutableStateFlow<List<SpecialItem>>(mutableListOf())
+    val specialItem = _specialItem.asStateFlow()
 
     init {
         getAllItemsFromEventById()
@@ -25,7 +25,6 @@ class SpecialListViewModel(
 
     private fun getAllItemsFromEventById() {
         try {
-            Log.i("eventId", eventId)
             firestoreDB.collection("itemsForEvents")
                 .whereEqualTo("eventRef", eventId)
                 .get()
@@ -55,7 +54,7 @@ class SpecialListViewModel(
                             )
                             allItems.add(item)
                         }
-                        _oscarNomination.value = allItems
+                        _specialItem.value = allItems
                     }
                 }
         } catch (e: Exception) {

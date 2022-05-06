@@ -13,6 +13,7 @@ import com.claudiogalvaodev.moviemanager.databinding.ActivitySpecialListBinding
 
 private const val ARG_EVENT_ID = "eventId"
 private const val ARG_EVENT_NAME = "eventName"
+private const val ARG_EVENT_DESCRIPTION = "eventDescription"
 
 class SpecialListActivity : AppCompatActivity() {
 
@@ -30,8 +31,9 @@ class SpecialListActivity : AppCompatActivity() {
 
         val eventId = intent.getStringExtra(ARG_EVENT_ID) ?: ""
         val eventName = intent.getStringExtra(ARG_EVENT_NAME) ?: ""
+        val eventDescription = intent.getStringExtra(ARG_EVENT_DESCRIPTION) ?: ""
 
-        initializeFragment(eventId, eventName)
+        initializeFragment(eventId, eventName, eventDescription)
         configToolbar()
     }
 
@@ -39,9 +41,16 @@ class SpecialListActivity : AppCompatActivity() {
         setSupportActionBar(binding.activitySpecialListsToolbar)
     }
 
-    private fun initializeFragment(eventId: String, eventName: String) {
+    private fun initializeFragment(eventId: String, eventName: String, eventDescription: String) {
         val bundle = Bundle().apply {
             putString("eventId", eventId)
+        }
+
+        val fragmentId = if (eventId == OSCAR_ID) {
+            R.id.oscarListFragment
+        } else {
+            bundle.putString("eventDescription", eventDescription)
+            R.id.genericListFragment
         }
 
         binding.activitySpecialListsToolbarTitle.text = eventName
@@ -52,7 +61,7 @@ class SpecialListActivity : AppCompatActivity() {
         // Config graph with different startDestination
         val graphInflater = navHostFragment.navController.navInflater
         val navGraph = graphInflater.inflate(R.navigation.main_without_bottom_nav_graph)
-        navGraph.setStartDestination(R.id.oscarListFragment)
+        navGraph.setStartDestination(fragmentId)
         navController.setGraph(navGraph, bundle)
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -75,10 +84,15 @@ class SpecialListActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun newInstance(context: Context, eventId: String, eventName: String): Intent {
+        const val OSCAR_ID = "14Eplyr2gOeXIJ1lYny2"
+
+        fun newInstance(context: Context, eventId: String,
+                        eventName: String, eventDescription: String
+        ): Intent {
             val intent = Intent(context, SpecialListActivity::class.java)
             intent.putExtra(ARG_EVENT_ID, eventId)
             intent.putExtra(ARG_EVENT_NAME, eventName)
+            intent.putExtra(ARG_EVENT_DESCRIPTION, eventDescription)
             return intent
         }
     }

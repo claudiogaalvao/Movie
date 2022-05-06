@@ -110,10 +110,11 @@ class HomeFragment: Fragment() {
     private fun configBannerSpecialList(events: List<Event>) {
 
         for (event in events) {
+            val currentDate = LocalDate.now()
             val startAtToShowBanner = LocalDate.parse(event.startAt)
             val finishAtToShowBanner = LocalDate.parse(event.finishAt)
-            if (LocalDate.now().isAfter(startAtToShowBanner) &&
-                LocalDate.now().isBefore(finishAtToShowBanner)
+            if (currentDate.isAfter(startAtToShowBanner) &&
+                currentDate.isBefore(finishAtToShowBanner)
             ) {
                 val imageUrl = event.imageUrl
                 storage.getReferenceFromUrl(imageUrl).downloadUrl.addOnSuccessListener { uri ->
@@ -128,15 +129,14 @@ class HomeFragment: Fragment() {
         binding.bannerSpecialListCardview.apply {
             visibility = View.VISIBLE
             setOnClickListener {
-                goToSpecialLists(event.id, event.title)
+                goToSpecialLists(event.id, event.title, event.description)
             }
         }
-        binding.bannerScpecialListText.text = dateFromAmericanFormatToDateWithDayAndMonthName(event.eventDate)
     }
 
-    private fun goToSpecialLists(eventId: String, eventName: String) {
+    private fun goToSpecialLists(eventId: String, eventName: String, eventDescription: String) {
         context?.let {
-            startActivity(SpecialListActivity.newInstance(it, eventId, eventName))
+            startActivity(SpecialListActivity.newInstance(it, eventId, eventName, eventDescription))
         }
     }
 
