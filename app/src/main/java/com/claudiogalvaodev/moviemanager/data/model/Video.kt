@@ -11,4 +11,8 @@ data class Video(
     val site: String,
     val size: Int,
     val type: String
-)
+) {
+
+    fun getThumbnailUrl() = "https://img.youtube.com/vi/${key}/sddefault.jpg"
+
+}

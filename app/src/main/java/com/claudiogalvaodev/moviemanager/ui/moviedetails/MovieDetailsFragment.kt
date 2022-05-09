@@ -1,6 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,10 +23,8 @@ import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
-import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
-import com.claudiogalvaodev.moviemanager.ui.adapter.MyListsAdapter
-import com.claudiogalvaodev.moviemanager.ui.adapter.SimpleOptionsAdapter
-import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
+import com.claudiogalvaodev.moviemanager.ui.YouTubePlayerActivity
+import com.claudiogalvaodev.moviemanager.ui.adapter.*
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
@@ -49,6 +48,10 @@ class MovieDetailsFragment : Fragment() {
         args.releaseDate
     }
     private lateinit var moviesSaved: List<MovieSaved>
+
+    private val videoPreviewAdapter by lazy {
+        VideoPreviewAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -176,7 +179,9 @@ class MovieDetailsFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.videos.collectLatest { videos ->
-                Log.i("videos", videos.size.toString())
+                if(videos.isNotEmpty()) binding.fragmentMovieDetailsTrailers.visibility = View.VISIBLE
+                binding.fragmentMovieDetailsTrailersRecyclerview.adapter = videoPreviewAdapter
+                videoPreviewAdapter.submitList(videos)
             }
         }
     }
@@ -184,6 +189,10 @@ class MovieDetailsFragment : Fragment() {
     private fun setListeners() {
         binding.fragmentMovieDetailsHeader.addToListParent.setOnClickListener {
             showMyListsOptions()
+        }
+
+        videoPreviewAdapter.onItemClick = { videoId ->
+            goToYouTubePlayer(videoId)
         }
     }
 
@@ -435,6 +444,13 @@ class MovieDetailsFragment : Fragment() {
             val directions = MovieDetailsFragmentDirections
                 .actionMovieDetailsFragmentToPeopleDetailsFragment(employe.id, movie.id.toLong())
             findNavController().navigate(directions)
+        }
+    }
+
+    private fun goToYouTubePlayer(videoId: String) {
+        context?.let {
+            val intent = YouTubePlayerActivity.newInstance(it, videoId)
+            startActivity(intent)
         }
     }
 }
