@@ -1,6 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,9 +118,13 @@ class HomeFragment: Fragment() {
                 currentDate.isBefore(finishAtToShowBanner)
             ) {
                 val imageUrl = event.imageUrl
-                storage.getReferenceFromUrl(imageUrl).downloadUrl.addOnSuccessListener { uri ->
-                    Picasso.with(context).load(uri).into(binding.bannerScpecialListImage)
-                    showBanner(event)
+                try {
+                    storage.getReferenceFromUrl(imageUrl).downloadUrl.addOnSuccessListener { uri ->
+                        Picasso.with(context).load(uri).into(binding.bannerScpecialListImage)
+                        showBanner(event)
+                    }
+                } catch (e: Exception) {
+                    Log.e("firebase", "Something went wrong")
                 }
             }
         }
