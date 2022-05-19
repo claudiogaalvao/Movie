@@ -3,7 +3,6 @@ package com.claudiogalvaodev.moviemanager.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.R
@@ -37,14 +36,14 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
     private fun initializePlayer(videoId: String) {
         binding.youtubePlayer.initialize(YOUTUBE_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(
-                p0: YouTubePlayer.Provider?,
-                p1: YouTubePlayer?,
-                p2: Boolean
+                provider: YouTubePlayer.Provider?,
+                player: YouTubePlayer?,
+                wasRestored: Boolean
             ) {
-                p1?.let {
+                player?.let {
                     with(it) {
                         loadVideo(videoId)
-                        play()
+                        // setFullscreen(true)
                     }
                 }
 
@@ -56,6 +55,7 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
                 p1: YouTubeInitializationResult?
             ) {
                 Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                finish()
             }
 
         })
