@@ -23,8 +23,8 @@ import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
-import com.claudiogalvaodev.moviemanager.ui.YouTubePlayerActivity
 import com.claudiogalvaodev.moviemanager.ui.adapter.*
+import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest

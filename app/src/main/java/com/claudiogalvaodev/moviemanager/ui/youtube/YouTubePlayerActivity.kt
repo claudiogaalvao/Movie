@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui
+package com.claudiogalvaodev.moviemanager.ui.youtube
 
 import android.content.Context
 import android.content.Intent
@@ -29,25 +29,18 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
         setContentView(binding.root)
 
         videoId?.let {
-            initializePlayer(it)
+            initializePlayer(it, savedInstanceState)
         }
     }
 
-    private fun initializePlayer(videoId: String) {
+    private fun initializePlayer(videoId: String, savedInstanceState: Bundle?) {
         binding.youtubePlayer.initialize(YOUTUBE_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(
                 provider: YouTubePlayer.Provider?,
                 player: YouTubePlayer?,
                 wasRestored: Boolean
             ) {
-                player?.let {
-                    with(it) {
-                        loadVideo(videoId)
-                        // setFullscreen(true)
-                    }
-                }
-
-
+                setupPlayer(player, videoId, savedInstanceState)
             }
 
             override fun onInitializationFailure(
@@ -59,6 +52,34 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
             }
 
         })
+    }
+
+    private fun setupPlayer(
+        player: YouTubePlayer?,
+        videoId: String,
+        savedInstanceState: Bundle?
+    ) {
+        player?.let {
+            with(it) {
+                loadVideo(videoId)
+                if (savedInstanceState == null) setFullscreen(true)
+                setPlayerStateChangeListener(object : YouTubePlayer.PlayerStateChangeListener {
+                    override fun onLoading() { }
+
+                    override fun onLoaded(p0: String?) { }
+
+                    override fun onAdStarted() { }
+
+                    override fun onVideoStarted() { }
+
+                    override fun onVideoEnded() {
+                        finish()
+                    }
+
+                    override fun onError(p0: YouTubePlayer.ErrorReason?) { }
+                })
+            }
+        }
     }
 
     companion object {
