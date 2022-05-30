@@ -10,6 +10,8 @@ import com.claudiogalvaodev.moviemanager.databinding.ActivityYoutubePlayerBindin
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 
 private const val ARG_VIDEO_ID = "videoId"
 
@@ -44,9 +46,10 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
             }
 
             override fun onInitializationFailure(
-                p0: YouTubePlayer.Provider?,
-                p1: YouTubeInitializationResult?
+                provider: YouTubePlayer.Provider?,
+                result: YouTubeInitializationResult?
             ) {
+                sendError("Youtube initialization failure: ${result?.name}")
                 Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -76,9 +79,19 @@ class YouTubePlayerActivity : YouTubeBaseActivity() {
                         finish()
                     }
 
-                    override fun onError(p0: YouTubePlayer.ErrorReason?) { }
+                    override fun onError(error: YouTubePlayer.ErrorReason?) {
+                        sendError("Youtube initialized successfully but get unknown error to load video: ${error?.name}")
+                    }
                 })
             }
+        }
+    }
+
+    private fun sendError(message: String) {
+        try {
+            throw Exception(message)
+        } catch (e: Exception) {
+            Firebase.crashlytics.recordException(e)
         }
     }
 

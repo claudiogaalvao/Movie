@@ -1,11 +1,11 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
+import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -25,6 +25,7 @@ import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.*
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
+import com.claudiogalvaodev.moviemanager.utils.Constants
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
@@ -33,6 +34,7 @@ import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
+@SuppressLint("HardwareIds")
 class MovieDetailsFragment : Fragment() {
 
     private lateinit var viewModel: MovieDetailsViewModel
@@ -51,6 +53,10 @@ class MovieDetailsFragment : Fragment() {
 
     private val videoPreviewAdapter by lazy {
         VideoPreviewAdapter()
+    }
+
+    private val androidId by lazy {
+        Settings.Secure.getString(context?.contentResolver, Settings.Secure.ANDROID_ID)
     }
 
     override fun onCreateView(
@@ -77,6 +83,8 @@ class MovieDetailsFragment : Fragment() {
                 val rate = "${movie?.vote_average.toString()}/10"
 
                 movie?.let {
+                    showAdminInfo("Movie id: ${it.id}")
+
                     movie.belongs_to_collection?.let { collection ->
                         viewModel.getMovieCollection(collection.id)
                     }
@@ -183,6 +191,12 @@ class MovieDetailsFragment : Fragment() {
                 binding.fragmentMovieDetailsTrailersRecyclerview.adapter = videoPreviewAdapter
                 videoPreviewAdapter.submitList(videos)
             }
+        }
+    }
+
+    private fun showAdminInfo(info: String) {
+        if(Constants.ADMINS_DEVICE.contains(androidId)) {
+            Toast.makeText(context, info, Toast.LENGTH_LONG).show()
         }
     }
 
