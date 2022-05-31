@@ -102,6 +102,7 @@
     <string name="settings">Configurações</string>
     <string name="add_icon">Add icon</string>
     <string name="add_to_list">Adicionar à lista</string>
+    <string name="add_to_special_list">Adicionar à lista especial</string>
     <string name="saved_to_list">Salvo</string>
 
     <string name="my_lists_form_new_instruction">Dê um nome para sua nova lista</string>
@@ -111,7 +112,9 @@
     <string name="bottomsheet_title">Escolha a lista</string>
 
     <string name="movie_saved_successfully_message">Salvo em</string>
+    <string name="movie_failed_to_save_message">Algo deu errado ao tentar salvar filme</string>
     <string name="movie_removed_successfully_message">Removido de</string>
+    <string name="movie_failed_to_delete_movie_message">Algo deu errado ao tentar deletar filme</string>
     <string name="list_deleted_successfully_message">Lista excluída</string>
 
     <string name="delete_my_list">Excluir</string>

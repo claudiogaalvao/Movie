@@ -24,8 +24,9 @@ import com.claudiogalvaodev.moviemanager.data.model.Provider
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.*
+import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
+import com.claudiogalvaodev.moviemanager.ui.model.SaveOn
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
-import com.claudiogalvaodev.moviemanager.utils.Constants
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +50,9 @@ class MovieDetailsFragment : Fragment() {
     private val releaseDate by lazy {
         args.releaseDate
     }
+
     private lateinit var moviesSaved: List<MovieSaved>
+    private lateinit var filteredMoviesSaved: List<MovieSaved>
 
     private val videoPreviewAdapter by lazy {
         VideoPreviewAdapter()
@@ -69,12 +72,18 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel { parametersOf(movieId) }
+        viewModel = getViewModel { parametersOf(movieId, androidId) }
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
         setObservables()
         setListeners()
+        showOrHideAdminFeatures()
+    }
+
+    private fun showOrHideAdminFeatures() {
+        binding.fragmentMovieDetailsHeader.addToSpecialListParent
+            .visibility = if (viewModel.isAdmin()) View.VISIBLE else View.GONE
     }
 
     private fun setObservables() {
@@ -83,8 +92,6 @@ class MovieDetailsFragment : Fragment() {
                 val rate = "${movie?.vote_average.toString()}/10"
 
                 movie?.let {
-                    showAdminInfo("Movie id: ${it.id}")
-
                     movie.belongs_to_collection?.let { collection ->
                         viewModel.getMovieCollection(collection.id)
                     }
@@ -173,6 +180,7 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.moviesSaved.collectLatest { movies ->
                 moviesSaved = movies
+                filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
             }
         }
 
@@ -194,15 +202,29 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun showAdminInfo(info: String) {
-        if(Constants.ADMINS_DEVICE.contains(androidId)) {
-            Toast.makeText(context, info, Toast.LENGTH_LONG).show()
-        }
-    }
-
     private fun setListeners() {
         binding.fragmentMovieDetailsHeader.addToListParent.setOnClickListener {
-            showMyListsOptions()
+            val options = viewModel.myLists.value.map {
+                BottomSheetOfListsUI(
+                    id = it.id.toString(),
+                    name = it.name,
+                    isSaved = filteredMoviesSaved.find { movie -> movie.myListId == it.id } != null,
+                    saveOn = SaveOn.USER_LIST
+                )
+            }
+            showOptionsBottomSheet(options)
+        }
+
+        binding.fragmentMovieDetailsHeader.addToSpecialListParent.setOnClickListener {
+            val options = viewModel.events.value.map {
+                BottomSheetOfListsUI(
+                    id = it.id,
+                    name = it.title,
+                    isSaved = false,
+                    saveOn = SaveOn.SPECIAL_LIST
+                )
+            }
+            showOptionsBottomSheet(options)
         }
 
         videoPreviewAdapter.onItemClick = { videoId ->
@@ -210,7 +232,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun showMyListsOptions() {
+    private fun showOptionsBottomSheet(options: List<BottomSheetOfListsUI>) {
         context?.let {
             val dialog = Dialog(it)
             val dialogBinding = CustomBottomsheetBinding.inflate(layoutInflater)
@@ -223,7 +245,7 @@ class MovieDetailsFragment : Fragment() {
                 dialog.hide()
             }
 
-            setupMyListsRecyclerView(dialogBinding, dialog)
+            setupMyListsRecyclerView(options, dialogBinding, dialog)
             dialog.show()
             dialog.window?.apply {
                 setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -234,53 +256,38 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupMyListsRecyclerView(dialogBinding: CustomBottomsheetBinding, dialog: Dialog) {
+    private fun setupMyListsRecyclerView(
+        options: List<BottomSheetOfListsUI>,
+        dialogBinding: CustomBottomsheetBinding,
+        dialog: Dialog
+    ) {
         val dialogAdapter = createMyListsAdapter(dialog)
         dialogBinding.customBottomsheetRecyclerview.adapter = dialogAdapter
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.myLists.collectLatest { myLists ->
-                dialogAdapter.submitList(myLists)
-            }
-        }
-
+        dialogAdapter.submitList(options)
     }
 
-    private fun createMyListsAdapter(dialog: Dialog): MyListsAdapter {
-        val filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
-        val dialogAdapter = MyListsAdapter(filteredMoviesSaved).apply {
+    private fun createMyListsAdapter(dialog: Dialog): BottomSheetOfListsAdapter {
+        val dialogAdapter = BottomSheetOfListsAdapter().apply {
             onItemClick = { listSelected, action ->
                 dialog.hide()
                 when(action) {
-                    MyListsAdapter.Companion.Action.INSERT -> saveMovieToMyList(listSelected)
-                    MyListsAdapter.Companion.Action.REMOVE -> removeMovieFromMyList(listSelected)
-                }
+                    BottomSheetOfListsAdapter.Companion.Action.INSERT -> viewModel.saveMovieOnList(listSelected) { isSuccess ->
+                        val message = if (isSuccess)
+                            "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}"
+                        else getString(R.string.movie_failed_to_save_message)
 
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    }
+                    BottomSheetOfListsAdapter.Companion.Action.REMOVE -> viewModel.removeMovieFromList(listSelected) {isSuccess ->
+                        val message = if (isSuccess)
+                            "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}"
+                        else getString(R.string.movie_failed_to_delete_movie_message)
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
         return dialogAdapter
-    }
-
-    private fun saveMovieToMyList(listSelected: MyList) {
-        lifecycleScope.launch {
-            viewModel.saveMovieToMyList(listSelected.id).collectLatest { successfullySaved ->
-                if(successfullySaved) {
-                    viewModel.checkIsMovieSaved()
-                    Toast.makeText(context,
-                        "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}",
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun removeMovieFromMyList(listSelected: MyList) {
-        lifecycleScope.launch {
-            viewModel.removeMovieFromMyList(listSelected.id)
-            Toast.makeText(context,
-                "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}",
-                Toast.LENGTH_LONG).show()
-        }
     }
 
     private fun configStreamProvidersList(provider: List<Provider>) {
@@ -418,7 +425,15 @@ class MovieDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.createNewList(newList).collectLatest { myListId ->
                 if(myListId != 0) {
-                    saveMovieToMyList(MyList(id = myListId, name = newList.name, posterPath = newList.posterPath))
+                    viewModel.saveMovieOnList(
+                        BottomSheetOfListsUI(id = myListId.toString(), name = newList.name, isSaved = true, saveOn = SaveOn.USER_LIST)
+                    ) { isSuccess ->
+                        val message = if (isSuccess)
+                            "${getString(R.string.movie_saved_successfully_message)} ${newList.name}"
+                        else getString(R.string.movie_failed_to_save_message)
+
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

@@ -1,11 +1,16 @@
 package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
 import com.claudiogalvaodev.moviemanager.data.model.*
+import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
+import com.claudiogalvaodev.moviemanager.ui.model.SaveOn
 import com.claudiogalvaodev.moviemanager.usecases.*
+import com.claudiogalvaodev.moviemanager.utils.Constants
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,9 +18,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MovieDetailsViewModel(
     val movieId: Int,
+    val androidId: String,
+    private val firestoreDB: FirebaseFirestore,
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
@@ -50,6 +58,9 @@ class MovieDetailsViewModel(
     private val _videos = MutableStateFlow<List<Video>>(emptyList())
     val videos = _videos.asStateFlow()
 
+    private val _events = MutableStateFlow<List<Event>>(emptyList())
+    val events = _events.asStateFlow()
+
     init {
         getAllMoviesSaved()
         getMovieDetails()
@@ -58,47 +69,115 @@ class MovieDetailsViewModel(
         getAllMyLists()
         checkIsMovieSaved()
         getVideos()
+        getAllEvents()
     }
 
-    fun getAllMoviesSaved() = viewModelScope.launch {
+    private fun getAllMoviesSaved() = viewModelScope.launch {
         allMovieDetailsUseCase.getAllMoviesSavedUseCase.invoke().collectLatest { moviesSaved ->
             _moviesSaved.emit(moviesSaved)
         }
     }
 
-    fun checkIsMovieSaved() = viewModelScope.launch(dispatcher) {
+    private fun checkIsMovieSaved() = viewModelScope.launch(dispatcher) {
         val result = allMovieDetailsUseCase.checkIsMovieSavedUseCase.invoke(movieId)
         _isMovieSaved.emit(result)
     }
 
-    fun saveMovieToMyList(myListId: Int): Flow<Boolean> {
-        val successfullySaved = MutableStateFlow(false)
-        viewModelScope.launch {
-            val movie = _movie.value
-
-            movie?.let {
-                val result = allMovieDetailsUseCase.saveMovieToMyListUseCase.invoke(
-                    MovieSaved(
-                        id = 0,
-                        movieId = it.id,
-                        moviePosterUrl = it.getPoster(),
-                        myListId = myListId
-                    ))
-                if(result.isSuccess) {
-                    successfullySaved.emit(true)
-                }
-            }
+    fun saveMovieOnList(listSelected: BottomSheetOfListsUI, callback: (isSuccess: Boolean) -> Unit) {
+        when (listSelected.saveOn) {
+            SaveOn.USER_LIST -> saveOnUserList(listSelected, callback)
+            SaveOn.SPECIAL_LIST -> saveMovieToSpecialList(listSelected, callback)
         }
-        return successfullySaved
     }
 
-    fun removeMovieFromMyList(myListId: Int) {
-        viewModelScope.launch {
-            val movie = _movie.value
-
-            movie?.let {
-                allMovieDetailsUseCase.removeMovieFromMyListUseCase.invoke(movieId = it.id, myListId = myListId)
+    private fun saveOnUserList(
+        listSelected: BottomSheetOfListsUI,
+        callback: (isSuccess: Boolean) -> Unit
+    ) = viewModelScope.launch {
+        _movie.value?.let {
+            val result = allMovieDetailsUseCase.saveMovieToMyListUseCase.invoke(
+                MovieSaved(
+                    id = 0,
+                    movieId = it.id,
+                    moviePosterUrl = it.getPoster(),
+                    myListId = listSelected.id.toInt()
+                )
+            )
+            if (result.isSuccess) {
+                checkIsMovieSaved()
+                callback.invoke(true)
             }
+        }
+    }
+
+    private fun saveMovieToSpecialList(
+        listSelected: BottomSheetOfListsUI,
+        callback: (isSuccess: Boolean) -> Unit
+    ) {
+        if (isAdmin()) {
+            _movie.value?.let{
+
+                val imageUrl = hashMapOf(
+                    "enUS" to it.getPoster(),
+                    "ptBR" to it.getPoster()
+                )
+                val title = hashMapOf(
+                    "enUS" to it.original_title,
+                    "ptBR" to it.title
+                )
+
+                val newItem = hashMapOf(
+                    "eventRef" to listSelected.id,
+                    "imageUrl" to imageUrl,
+                    "itemId" to it.id,
+                    "releaseDate" to it.release_date,
+                    "title" to title,
+                    "type" to "MOVIE"
+                )
+
+                firestoreDB.collection("itemsForEvents")
+                    .document("movie-${it.original_title}")
+                    .set(newItem)
+                    .addOnSuccessListener { callback.invoke(true) }
+                    .addOnFailureListener { callback.invoke(false) }
+            }
+        }
+    }
+
+    fun removeMovieFromList(
+        listSelected: BottomSheetOfListsUI,
+        callback: (isSuccess: Boolean) -> Unit
+    ) {
+        when (listSelected.saveOn) {
+            SaveOn.USER_LIST -> removeMovieFromUserList(listSelected, callback)
+            SaveOn.SPECIAL_LIST -> removeMovieFromSpecialList(listSelected, callback)
+        }
+    }
+
+    private fun removeMovieFromUserList(
+        listSelected: BottomSheetOfListsUI,
+        callback: (isSuccess: Boolean) -> Unit
+    ) = viewModelScope.launch {
+        _movie.value?.let {
+            val result =  allMovieDetailsUseCase.removeMovieFromMyListUseCase
+                .invoke(movieId = it.id, myListId = listSelected.id.toInt())
+            if (result.isSuccess) {
+                checkIsMovieSaved()
+                callback.invoke(true)
+            }
+        }
+    }
+
+    private fun removeMovieFromSpecialList(
+        listSelected: BottomSheetOfListsUI,
+        callback: (isSuccess: Boolean) -> Unit
+    ) {
+        if (isAdmin()) {
+            firestoreDB.collection("itemsForEvents")
+                .document(listSelected.id)
+                .delete()
+                .addOnSuccessListener { callback.invoke(true) }
+                .addOnFailureListener { callback.invoke(false) }
         }
     }
 
@@ -111,13 +190,13 @@ class MovieDetailsViewModel(
         return myListId
     }
 
-    fun getAllMyLists() = viewModelScope.launch {
+    private fun getAllMyLists() = viewModelScope.launch {
         allMovieDetailsUseCase.getAllMyListsUseCase.invoke().collectLatest { myLists ->
             _myLists.emit(myLists)
         }
     }
 
-    fun getMovieDetails() = viewModelScope.launch {
+    private fun getMovieDetails() = viewModelScope.launch {
         val movieDetailsResult = allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
         if(movieDetailsResult.isSuccess) {
             val movieDetails = movieDetailsResult.getOrNull()
@@ -128,7 +207,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    fun getVideos() = viewModelScope.launch {
+    private fun getVideos() = viewModelScope.launch {
         val videosResult = allMovieDetailsUseCase.getVideosFromMovieUseCase.invoke(movieId)
         if (videosResult.isSuccess) {
             val videos = videosResult.getOrNull()
@@ -136,7 +215,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    fun getProviders() = viewModelScope.launch {
+    private fun getProviders() = viewModelScope.launch {
         val streamProvidersResult = allMovieDetailsUseCase.getMovieProvidersUseCase.invoke(movieId)
         if(streamProvidersResult.isSuccess) {
             val stream = streamProvidersResult.getOrDefault(emptyList())
@@ -146,7 +225,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    fun getMovieCredits() = viewModelScope.launch {
+    private fun getMovieCredits() = viewModelScope.launch {
         allMovieDetailsUseCase.getMovieCreditsUseCase.invoke(movieId)
         _stars.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.stars.value)
         _directors.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.directors.value)
@@ -190,6 +269,34 @@ class MovieDetailsViewModel(
             } else "${company.name}, "
         }
         return companiesConcat
+    }
+
+    fun isAdmin() = !Constants.ADMINS_DEVICE.contains(androidId)
+
+    private fun getAllEvents() {
+        try {
+            firestoreDB.collection("events").get()
+                .addOnSuccessListener { snapshot ->
+                    val currentLanguage = Locale.getDefault().toLanguageTag().replace("-", "")
+
+                    val allEvents: MutableList<Event> = mutableListOf()
+                    for (document in snapshot.documents) {
+                        val event = Event(
+                            id = document.id,
+                            title = document["title.${currentLanguage}"].toString(),
+                            description = document["description.${currentLanguage}"].toString(),
+                            imageUrl = document["imageUrl.${currentLanguage}"].toString(),
+                            eventDate = document["eventDate"].toString(),
+                            startAt = document["startAt"].toString(),
+                            finishAt = document["finishAt"].toString(),
+                        )
+                        allEvents.add(event)
+                    }
+                    _events.value = allEvents
+                }
+        } catch (e: Exception) {
+            Log.i("firestore error", "Something went wrong when try to get events from firestore")
+        }
     }
 
 }

@@ -155,9 +155,11 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
-    viewModel { (movieId: Int) ->
+    viewModel { (movieId: Int, androidId: String) ->
         MovieDetailsViewModel(
             movieId = movieId,
+            androidId = androidId,
+            firestoreDB = get(),
             allMovieDetailsUseCase = get()
         )
     }

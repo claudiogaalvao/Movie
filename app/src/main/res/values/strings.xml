@@ -101,6 +101,7 @@
     <string name="settings">Settings</string>
     <string name="add_icon">Add icon</string>
     <string name="add_to_list">Add to list</string>
+    <string name="add_to_special_list">Add to special list</string>
     <string name="saved_to_list">Saved</string>
 
     <string name="my_lists_form_new_instruction">Choose a name for your new list</string>
@@ -110,12 +111,13 @@
     <string name="bottomsheet_title">Choose the list</string>
 
     <string name="movie_saved_successfully_message">Saved on</string>
+    <string name="movie_failed_to_save_message">Something went wrong when try to save movie</string>
     <string name="movie_removed_successfully_message">Removed from</string>
+    <string name="movie_failed_to_delete_movie_message">Something went wrong when try to delete movie</string>
     <string name="list_deleted_successfully_message">List deleted</string>
 
     <string name="delete_my_list">Delete</string>
     <string name="edit_my_list">Edit</string>
-
 
     <string name="filter_alertdialog_delete_mylist_message">Do you want to continue? You\'ll delete the list and lose all saved movies.</string>
 
