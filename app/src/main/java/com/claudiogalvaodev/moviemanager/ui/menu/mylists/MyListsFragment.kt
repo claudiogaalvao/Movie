@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMyListsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.ForwardWithImageAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -66,8 +66,8 @@ class MyListsFragment : Fragment() {
         }
     }
 
-    private fun setMyLists(myLists: List<MyList>) {
-        myListsAdapter.submitList(myLists)
+    private fun setMyLists(userListEntities: List<UserListEntity>) {
+        myListsAdapter.submitList(userListEntities)
     }
 
     private fun setupListeners() {
@@ -87,16 +87,16 @@ class MyListsFragment : Fragment() {
                 .setView(dialogView)
                 .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
                     val newListName = myListEditText?.text
-                    viewModel.createNewList(MyList(id = 0, name = newListName.toString()))
+                    viewModel.createNewList(UserListEntity(id = 0, name = newListName.toString()))
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
                 .show()
         }
     }
 
-    private fun goToMyListDetails(myList: MyList) {
+    private fun goToMyListDetails(userListEntity: UserListEntity) {
         val directions = MyListsFragmentDirections
-            .actionMyListsFragmentToMyListFragmentDetails(myList.id, myList.name)
+            .actionMyListsFragmentToMyListFragmentDetails(userListEntity.id, userListEntity.name)
         findNavController().navigate(directions)
     }
 

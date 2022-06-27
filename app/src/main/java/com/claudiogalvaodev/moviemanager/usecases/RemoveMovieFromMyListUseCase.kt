@@ -11,13 +11,6 @@ class RemoveMovieFromMyListUseCase(
         movieId: Int, myListId: Int
     ): Result<Unit> {
         repository.removeMoveFromMyList(movieId, myListId)
-        repository.getMoviesByMyListId(myListId).collectLatest { allMovieSaved ->
-            if(allMovieSaved.isEmpty()) {
-                repository.updateMyListPosterPath(myListId, "")
-            } else {
-                repository.updateMyListPosterPath(myListId, allMovieSaved.first().moviePosterUrl)
-            }
-        }
         return Result.success(Unit)
     }
 

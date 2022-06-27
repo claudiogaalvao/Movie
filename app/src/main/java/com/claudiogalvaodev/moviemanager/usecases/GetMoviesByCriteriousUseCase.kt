@@ -61,7 +61,7 @@ class GetMoviesByCriteriousUseCase(
 
     private fun removeInvalidMovies(withPeopleId: String, movies: List<Movie>): List<Movie> {
         val justMoviesWithPosterAndBackdropImage = movies.filter { movie ->
-            movie.poster_path != null || movie.backdrop_path != null
+            movie.poster_path.isBlank() || movie.backdrop_path.isBlank()
         }
         return removeInconsistentData(withPeopleId, justMoviesWithPosterAndBackdropImage)
     }

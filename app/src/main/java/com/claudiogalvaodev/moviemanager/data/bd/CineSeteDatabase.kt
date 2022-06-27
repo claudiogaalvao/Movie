@@ -9,15 +9,15 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.converter.Converters
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
-import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
+import com.claudiogalvaodev.moviemanager.data.bd.dao.UserListsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 
-@Database(entities = [MyList::class, MovieSaved::class], version = 4, exportSchema = true)
+@Database(entities = [UserListEntity::class, MovieSaved::class], version = 5, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class CineSeteDatabase: RoomDatabase() {
 
-    abstract val myListsDao: MyListsDao
+    abstract val userListsDao: UserListsDao
     abstract val moviesSavedDao: MoviesSavedDao
 
     companion object {
@@ -32,7 +32,7 @@ abstract class CineSeteDatabase: RoomDatabase() {
                 CineSeteDatabase::class.java,
                 "database")
                 .createFromAsset("database/CineSete.db")
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                 .build()
 
             return instance
@@ -51,6 +51,15 @@ abstract class CineSeteDatabase: RoomDatabase() {
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE OscarNomination")
+            }
+        }
+
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Copy data from MyList to UserList
+                database.execSQL("INSERT INTO UserList (name) SELECT name FROM MyList")
+                // Remove table MyList
+                database.execSQL("DROP TABLE MyList")
             }
 
         }

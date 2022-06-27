@@ -42,7 +42,7 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
             when(obj) {
                 is Movie -> {
                     with(binding) {
-                        Picasso.with(root.context).load(obj.getPoster()).into(moviePosterWithTitleImage)
+                        Picasso.with(root.context).load(obj.getPosterUrl()).into(moviePosterWithTitleImage)
                         moviePosterWithTitleTitle.text = obj.title
                         moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(obj.release_date)
 

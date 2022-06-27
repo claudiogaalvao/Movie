@@ -3,10 +3,10 @@ package com.claudiogalvaodev.moviemanager.ui.menu.mylists
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 import com.claudiogalvaodev.moviemanager.usecases.CreateNewListOnMyListsUseCase
 import com.claudiogalvaodev.moviemanager.usecases.DeleteMyListUseCase
-import com.claudiogalvaodev.moviemanager.usecases.GetAllMyListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.GetAllUserListsUseCase
 import com.claudiogalvaodev.moviemanager.usecases.GetMoviesByMyListIdUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -19,27 +19,27 @@ import kotlinx.coroutines.withContext
 class MyListsViewModel(
     private val createNewListOnMyListsUseCase: CreateNewListOnMyListsUseCase,
     private val getMoviesByMyListIdUseCase: GetMoviesByMyListIdUseCase,
-    private val getAllMyListsUseCase: GetAllMyListsUseCase,
+    private val getAllUserListsUseCase: GetAllUserListsUseCase,
     private val deleteMyListUseCase: DeleteMyListUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
-    private val _myLists = MutableStateFlow<List<MyList>>(emptyList())
+    private val _myLists = MutableStateFlow<List<UserListEntity>>(emptyList())
     val myLists = _myLists.asStateFlow()
 
     private val _movies = MutableStateFlow<List<MovieSaved>>(emptyList())
     val movies = _movies.asStateFlow()
 
-    fun createNewList(newList: MyList) = viewModelScope.launch {
+    fun createNewList(newListEntity: UserListEntity) = viewModelScope.launch {
         withContext(dispatcher) {
-            createNewListOnMyListsUseCase.invoke(newList)
+            createNewListOnMyListsUseCase.invoke(newListEntity)
             getAllMyLists()
         }
     }
 
     fun getAllMyLists() = viewModelScope.launch {
         withContext(dispatcher) {
-            getAllMyListsUseCase.invoke().collectLatest { allMyLists ->
+            getAllUserListsUseCase.invoke().collectLatest { allMyLists ->
                 _myLists.emit(allMyLists)
             }
         }

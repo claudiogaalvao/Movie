@@ -2,7 +2,7 @@ package com.claudiogalvaodev.moviemanager.usecases
 
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
 
-class GetAllMyListsUseCase(
+class GetAllUserListsUseCase(
     private val repository: MoviesRepository
 ) {
 

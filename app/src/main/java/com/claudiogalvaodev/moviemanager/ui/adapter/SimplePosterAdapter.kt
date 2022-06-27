@@ -54,7 +54,7 @@ class SimplePosterAdapter: ListAdapter<Any, SimplePosterViewHolder>(DIFF_CALLBAC
             when(obj) {
                 is Movie -> {
                     with(binding) {
-                        Picasso.with(root.context).load(obj.getPoster()).into(itemSimplePosterImage)
+                        Picasso.with(root.context).load(obj.getPosterUrl()).into(itemSimplePosterImage)
 
                         binding.root.setOnClickListener {
                             clickListener?.invoke(obj.id)

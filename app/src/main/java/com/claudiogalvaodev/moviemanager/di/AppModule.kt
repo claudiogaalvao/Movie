@@ -101,7 +101,7 @@ val retrofitModule = module {
 val daoModule = module {
     factory { CoroutineScope(Dispatchers.IO) }
 
-    single { CineSeteDatabase.getInstance(androidContext()).myListsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).userListsDao }
     single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
 }
 
@@ -122,8 +122,8 @@ val viewModelModule = module {
     single { GetPersonDetailsUseCase(get()) }
     single { SearchMoviesUseCase(get()) }
     single { CreateNewListOnMyListsUseCase(get()) }
-    single { GetAllMyListsUseCase(get()) }
-    single { SaveMovieToMyListUseCase(get()) }
+    single { GetAllUserListsUseCase(get()) }
+    single { SaveMovieOnUserListUseCase(get()) }
     single { GetMoviesByMyListIdUseCase(get()) }
     single { DeleteMyListUseCase(get()) }
     single { GetAllMoviesSavedUseCase(get()) }
@@ -138,9 +138,9 @@ val viewModelModule = module {
             getMovieProvidersUseCase = get(),
             getMovieCreditsUseCase = get(),
             getMovieCollectionUseCase = get(),
-            getAllMyListsUseCase = get(),
+            getAllUserListsUseCase = get(),
             createNewListOnMyListsUseCase = get(),
-            saveMovieToMyListUseCase = get(),
+            saveMovieOnMyListUseCase = get(),
             removeMovieFromMyListUseCase = get(),
             checkIsMovieSavedUseCase = get(),
             getAllMoviesSavedUseCase = get(),
@@ -159,7 +159,6 @@ val viewModelModule = module {
         MovieDetailsViewModel(
             movieId = movieId,
             androidId = androidId,
-            firestoreDB = get(),
             allMovieDetailsUseCase = get()
         )
     }

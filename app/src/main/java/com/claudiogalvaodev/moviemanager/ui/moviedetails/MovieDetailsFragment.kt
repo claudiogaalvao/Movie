@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 import com.claudiogalvaodev.moviemanager.data.model.Company
 import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.data.model.Movie
@@ -78,12 +78,6 @@ class MovieDetailsFragment : Fragment() {
 
         setObservables()
         setListeners()
-        showOrHideAdminFeatures()
-    }
-
-    private fun showOrHideAdminFeatures() {
-        binding.fragmentMovieDetailsHeader.addToSpecialListParent
-            .visibility = if (viewModel.isAdmin()) View.VISIBLE else View.GONE
     }
 
     private fun setObservables() {
@@ -116,7 +110,7 @@ class MovieDetailsFragment : Fragment() {
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.text = rate
                     }
 
-                    Picasso.with(binding.root.context).load(it.getPoster()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
+                    Picasso.with(binding.root.context).load(it.getPosterUrl()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
 
                     if(it.overview.isBlank()) {
                         binding.fragmentMovieDetailsOverviewLabel.visibility = View.GONE
@@ -177,21 +171,22 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.moviesSaved.collectLatest { movies ->
-                moviesSaved = movies
-                filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.isMovieSaved.collectLatest { isSaved ->
-                if (isSaved) {
-                    binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(R.drawable.ic_done)
-                    binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(R.string.saved_to_list)
-                }
-            }
-        }
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.moviesSaved.collectLatest { movies ->
+//                moviesSaved = movies
+//                filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
+//            }
+//        }
+//
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.isMovieSaved.collectLatest { isSaved ->
+//                val (imageResourceId, stringId) = if (isSaved) {
+//                    Pair(R.drawable.ic_done, R.string.saved_to_list)
+//                } else Pair(R.drawable.ic_add, R.string.add_to_list)
+//                binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(imageResourceId)
+//                binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(stringId)
+//            }
+//        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.videos.collectLatest { videos ->
@@ -210,18 +205,6 @@ class MovieDetailsFragment : Fragment() {
                     name = it.name,
                     isSaved = filteredMoviesSaved.find { movie -> movie.myListId == it.id } != null,
                     saveOn = SaveOn.USER_LIST
-                )
-            }
-            showOptionsBottomSheet(options)
-        }
-
-        binding.fragmentMovieDetailsHeader.addToSpecialListParent.setOnClickListener {
-            val options = viewModel.events.value.map {
-                BottomSheetOfListsUI(
-                    id = it.id,
-                    name = it.title,
-                    isSaved = false,
-                    saveOn = SaveOn.SPECIAL_LIST
                 )
             }
             showOptionsBottomSheet(options)
@@ -271,17 +254,14 @@ class MovieDetailsFragment : Fragment() {
             onItemClick = { listSelected, action ->
                 dialog.hide()
                 when(action) {
-                    BottomSheetOfListsAdapter.Companion.Action.INSERT -> viewModel.saveMovieOnList(listSelected) { isSuccess ->
-                        val message = if (isSuccess)
-                            "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}"
-                        else getString(R.string.movie_failed_to_save_message)
-
+                    BottomSheetOfListsAdapter.Companion.Action.INSERT -> {
+                        viewModel.saveMovieOnUserList(listSelected)
+                        val message = "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}"
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     }
-                    BottomSheetOfListsAdapter.Companion.Action.REMOVE -> viewModel.removeMovieFromList(listSelected) {isSuccess ->
-                        val message = if (isSuccess)
-                            "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}"
-                        else getString(R.string.movie_failed_to_delete_movie_message)
+                    BottomSheetOfListsAdapter.Companion.Action.REMOVE -> {
+                        viewModel.removeMovieFromUserList(listSelected)
+                        val message = "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}"
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     }
                 }
@@ -414,26 +394,22 @@ class MovieDetailsFragment : Fragment() {
                 .setView(dialogView)
                 .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
                     val newListName = myListEditText?.text
-                    createNewList(MyList(id = 0, name = newListName.toString()))
+                    createNewList(UserListEntity(id = 0, name = newListName.toString()))
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
                 .show()
         }
     }
 
-    private fun createNewList(newList: MyList) {
+    private fun createNewList(newListEntity: UserListEntity) {
         lifecycleScope.launch {
-            viewModel.createNewList(newList).collectLatest { myListId ->
+            viewModel.createNewUserList(newListEntity).collectLatest { myListId ->
                 if(myListId != 0) {
-                    viewModel.saveMovieOnList(
-                        BottomSheetOfListsUI(id = myListId.toString(), name = newList.name, isSaved = true, saveOn = SaveOn.USER_LIST)
-                    ) { isSuccess ->
-                        val message = if (isSuccess)
-                            "${getString(R.string.movie_saved_successfully_message)} ${newList.name}"
-                        else getString(R.string.movie_failed_to_save_message)
-
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    }
+                    viewModel.saveMovieOnUserList(
+                        BottomSheetOfListsUI(id = myListId.toString(), name = newListEntity.name, isSaved = true, saveOn = SaveOn.USER_LIST)
+                    )
+                    val message = "${getString(R.string.movie_saved_successfully_message)} ${newListEntity.name}"
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -30,7 +30,7 @@ class PrincipalMoviesAdapter: ListAdapter<Movie, PrincipalMoviesViewHolder>(DIFF
 
         fun bind(movie: Movie) {
             with(binding) {
-                 Picasso.with(root.context).load(movie.getBackdrop()).into(principalCoverImage)
+                 Picasso.with(root.context).load(movie.getBackdropUrl()).into(principalCoverImage)
                 principalCoverTitle.text = movie.title
 
                 binding.principalCoverImage.setOnClickListener {

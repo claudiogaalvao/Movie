@@ -19,25 +19,25 @@ import kotlinx.parcelize.Parcelize
 // Pesquisar sobre DTO
 class Movie(
     val id: Int,
-    val title: String,
-    val original_title: String,
-    val original_language: String,
-    val release_date: String,
-    val popularity: Double,
-    val vote_count: Int,
-    val vote_average: Double,
-    val adult: Boolean,
-    val video: Boolean,
-    val overview: String,
-    val backdrop_path: String?,
-    val poster_path: String?,
-    val belongs_to_collection: Collection?,
-    val budget: Long,
-    val revenue: Long,
-    val genres: List<Genre>,
-    val production_companies: List<Company>,
-    val status: String,
-    val runtime: Int
+    val title: String = "",
+    val original_title: String = "",
+    val original_language: String = "",
+    val release_date: String = "",
+    val popularity: Double = 0.0,
+    val vote_count: Int = 0,
+    val vote_average: Double = 0.0,
+    val adult: Boolean = false,
+    val video: Boolean = false,
+    val overview: String = "",
+    val backdrop_path: String = "",
+    var poster_path: String = "",
+    val belongs_to_collection: Collection? = null,
+    val budget: Long = 0,
+    val revenue: Long = 0,
+    val genres: List<Genre> = emptyList(),
+    val production_companies: List<Company> = emptyList(),
+    val status: String = "",
+    val runtime: Int = 0
 ) {
 
     fun getDuration(): String {
@@ -48,11 +48,19 @@ class Movie(
         return genres.map { genre -> genre.name }
     }
 
-    fun getPoster(imageSize: PosterSizes = PosterSizes.W_500) : String {
+    fun getPosterUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$poster_path"
     }
 
-    fun getBackdrop(imageSize: BackdropSizes = BackdropSizes.W_780) : String {
+    fun savePosterPathFromPosterUrl(posterUrl: String) {
+        val imageSize: PosterSizes = PosterSizes.W_500
+        poster_path = posterUrl.replace(
+            "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}",
+            ""
+        )
+    }
+
+    fun getBackdropUrl(imageSize: BackdropSizes = BackdropSizes.W_780) : String {
         return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getBackdropSize(imageSize)}$backdrop_path"
     }
 

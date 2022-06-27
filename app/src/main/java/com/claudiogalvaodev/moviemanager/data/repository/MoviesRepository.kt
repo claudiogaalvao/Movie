@@ -1,16 +1,17 @@
 package com.claudiogalvaodev.moviemanager.data.repository
 
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
-import com.claudiogalvaodev.moviemanager.data.bd.dao.MyListsDao
+import com.claudiogalvaodev.moviemanager.data.bd.dao.UserListsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MyList
+import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 import com.claudiogalvaodev.moviemanager.data.model.*
 import com.claudiogalvaodev.moviemanager.data.model.Collection
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
+import kotlinx.coroutines.flow.collectLatest
 
 class MoviesRepository(
     private val service: MovieService,
-    private val myListsDao: MyListsDao,
+    private val userListsDao: UserListsDao,
     private val moviesSavedDao: MoviesSavedDao,
 ) {
 
@@ -20,26 +21,41 @@ class MoviesRepository(
 
     fun getAllMoviesSaved() = moviesSavedDao.getAll()
 
-    suspend fun saveMovieToMyList(movieSaved: MovieSaved): Result<Unit> {
+    fun getUserListById(userListId: Int): UserListEntity = userListsDao.getUserListById(userListId)
+
+    // If there is movies on MoviesSaved, get this movies and save in the new table,
+    //  then remove all movies from MoviesSaved
+    // TODO(Remove this logic in the next version)
+    suspend fun saveMovieOnUserList(userListEntity: UserListEntity, movie: Movie): Result<Unit> {
         return try {
-            moviesSavedDao.saveMovie(movieSaved)
+            moviesSavedDao.getMoviesByMyListId(userListEntity.id).collectLatest { moviesSaved ->
+                val moviesToSave: List<Movie> = listOf(
+                    *convertMoviesSavedToMovie(moviesSaved).toTypedArray(),
+                    *(userListEntity.movies).toTypedArray(),
+                    movie)
+                userListsDao.saveMovieOnUserList(userListId = userListEntity.id, movies = moviesToSave)
+            }
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(exception = Exception("Something went wrong when try to save movie to list"))
         }
     }
 
-    suspend fun removeMoveFromMyList(movieId: Int, myListId: Int) = moviesSavedDao.remove(movieId, myListId)
+    private fun convertMoviesSavedToMovie(moviesSaved: List<MovieSaved>): List<Movie> = moviesSaved.map {
+        val newMovie = Movie(id = it.movieId)
+        newMovie.savePosterPathFromPosterUrl(it.moviePosterUrl)
+        newMovie
+    }
 
-    fun getMoviesByMyListId(myListId: Int) = moviesSavedDao.getMoviesByMyListId(myListId)
+    suspend fun removeMoveFromMyList(movieId: Int, userListId: Int) = moviesSavedDao.remove(movieId, userListId)
 
-    suspend fun createNewList(newList: MyList) = myListsDao.create(newList)
+    fun getMoviesByMyListId(userListId: Int) = moviesSavedDao.getMoviesByMyListId(userListId)
 
-    fun getAllMyLists() = myListsDao.getAll()
+    suspend fun createNewList(newUserListEntity: UserListEntity) = userListsDao.create(newUserListEntity)
 
-    fun deleteMyList(myListId: Int) = myListsDao.delete(myListId)
+    fun getAllMyLists() = userListsDao.getAll()
 
-    suspend fun updateMyListPosterPath(myListId: Int, posterPath: String) = myListsDao.updatePosterPath(myListId, posterPath)
+    fun deleteMyList(userListId: Int) = userListsDao.delete(userListId)
 
     suspend fun getDetails(id: Int): Result<Movie?> {
         var result: Result<Movie?> = Result.success(null)
