@@ -50,7 +50,7 @@ class GetUpComingAndPlayingNowMoviesUseCase(
 
     private fun removeInvalidMovies(movies: List<Movie>): List<Movie> {
         val justMoviesWithPosterAndBackdropImage = movies.filter { movie ->
-            movie.poster_path.isBlank() || movie.backdrop_path.isBlank()
+            movie.poster_path.isNullOrBlank() || movie.backdrop_path.isNullOrBlank()
         }
         return justMoviesWithPosterAndBackdropImage
     }
