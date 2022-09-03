@@ -4,26 +4,34 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
+import com.claudiogalvaodev.moviemanager.data.bd.database.CineSeteDatabase
+import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.repository.CustomListsRepository
+import com.claudiogalvaodev.moviemanager.data.repository.ICustomListsRepository
+import com.claudiogalvaodev.moviemanager.data.repository.IMoviesRepository
 import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
-import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieService
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.IMovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.MovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
-import com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsViewModel
+import com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
-import com.claudiogalvaodev.moviemanager.usecases.*
+import com.claudiogalvaodev.moviemanager.usecases.customlists.*
+import com.claudiogalvaodev.moviemanager.usecases.movies.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -95,18 +103,22 @@ val retrofitModule = module {
             .cache(cache)
             .build()
     }
-    single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
+    single<MovieClient> { get<Retrofit>().create(MovieClient::class.java) }
 }
 
 val daoModule = module {
     factory { CoroutineScope(Dispatchers.IO) }
 
-    single { CineSeteDatabase.getInstance(androidContext()).userListsDao }
+    single { CineSeteDatabase.getInstance(androidContext()).customListsDao }
     single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
 }
 
-val repositoryModule = module {
-    single { MoviesRepository(get(), get(), get()) }
+val dataModule = module {
+    single<IMovieRemoteDatasource> { MovieRemoteDatasource(get()) }
+    single<IMoviesRepository> { MoviesRepository(get()) }
+
+    single<ICustomListsLocalDatasource> { CustomListsLocalDatasource(get(), get()) }
+    single<ICustomListsRepository> { CustomListsRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -116,19 +128,17 @@ val viewModelModule = module {
     single { GetMovieProvidersUseCase(get()) }
     single { GetMovieCreditsUseCase(get()) }
     single { GetMovieCollectionUseCase(get()) }
-    single { GetMoviesByCriteriousUseCase(get()) }
+    single { GetMoviesByCriterionUseCase(get()) }
     single { GetAllGenresUseCase(get()) }
     single { GetAllPeopleUseCase(get()) }
     single { GetPersonDetailsUseCase(get()) }
     single { SearchMoviesUseCase(get()) }
-    single { CreateNewListOnMyListsUseCase(get()) }
-    single { GetAllUserListsUseCase(get()) }
-    single { SaveMovieOnUserListUseCase(get()) }
-    single { GetMoviesByMyListIdUseCase(get()) }
-    single { DeleteMyListUseCase(get()) }
-    single { GetAllMoviesSavedUseCase(get()) }
-    single { RemoveMovieFromMyListUseCase(get()) }
-    single { CheckIsMovieSavedUseCase(get()) }
+    single { CreateNewCustomListUseCase(get()) }
+    single { GetAllCustomListsUseCase(get()) }
+    single { SaveMovieOnCustomListUseCase(get()) }
+    single { GetMoviesByListIdUseCase(get()) }
+    single { DeleteCustomListUseCase(get()) }
+    single { RemoveMovieFromCustomListUseCase(get()) }
     single { SearchPeopleUseCase(get()) }
     single { GetVideosFromMovieUseCase(get()) }
 
@@ -138,12 +148,10 @@ val viewModelModule = module {
             getMovieProvidersUseCase = get(),
             getMovieCreditsUseCase = get(),
             getMovieCollectionUseCase = get(),
-            getAllUserListsUseCase = get(),
-            createNewListOnMyListsUseCase = get(),
-            saveMovieOnMyListUseCase = get(),
-            removeMovieFromMyListUseCase = get(),
-            checkIsMovieSavedUseCase = get(),
-            getAllMoviesSavedUseCase = get(),
+            getAllCustomListsUseCase = get(),
+            createNewCustomListUseCase = get(),
+            saveMovieOnCustomListUseCase = get(),
+            removeMovieFromCustomListUseCase = get(),
             getVideosFromMovieUseCase = get()
         )
     }
@@ -167,12 +175,12 @@ val viewModelModule = module {
             personId = personId,
             leastOneMovieId = leastOneMovieId,
             getMovieDetailsUseCase = get(),
-            getMoviesByCriteriousUseCase = get(),
+            getMoviesByCriterionUseCase = get(),
             getPersonDetailsUseCase = get()
         )
     }
     viewModel { SearchViewModel(get()) }
-    viewModel { MyListsViewModel(get(), get(), get(), get()) }
+    viewModel { CustomListsViewModel(get(), get(), get(), get()) }
     viewModel { (movieId: Int) ->
         PeopleAndCompaniesViewModel(
             movieId = movieId,
@@ -188,5 +196,5 @@ val viewModelModule = module {
 }
 
 val appModules = listOf(
-    retrofitModule, repositoryModule, viewModelModule, daoModule
+    retrofitModule, dataModule, viewModelModule, daoModule
 )

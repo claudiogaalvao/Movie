@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.claudiogalvaodev.moviemanager.data.model.Event
-import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.ui.model.EventModel
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
@@ -17,7 +17,7 @@ import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 
 class HomeFragment: Fragment() {
@@ -71,7 +71,7 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun configTrendingMoviesList(movies: List<Movie>) {
+    private fun configTrendingMoviesList(movieModels: List<MovieModel>) {
         binding.fragmentHomeTrendingRecyclerview.apply {
             val principalMoviesAdapter = PrincipalMoviesAdapter().apply {
                 onItemClick = { movie ->
@@ -79,11 +79,11 @@ class HomeFragment: Fragment() {
                 }
             }
             adapter = principalMoviesAdapter
-            principalMoviesAdapter.submitList(movies)
+            principalMoviesAdapter.submitList(movieModels)
         }
     }
 
-    private fun configUpComingMoviesList(movies: List<Movie>) {
+    private fun configUpComingMoviesList(movieModels: List<MovieModel>) {
         binding.fragmentHomeComingUpRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { itemId, _, _, releaseDate ->
@@ -91,11 +91,11 @@ class HomeFragment: Fragment() {
                 }
             }
             adapter = simplePosterAdapter
-            simplePosterAdapter.submitList(movies)
+            simplePosterAdapter.submitList(movieModels)
         }
     }
 
-    private fun configLatestMoviesList(movies: List<Movie>) {
+    private fun configLatestMoviesList(movieModels: List<MovieModel>) {
         binding.fragmentHomePlayingNowRecyclerview.apply {
             val simplePosterAdapter = SimplePosterWithTitleAdapter().apply {
                 onItemClick = { itemId, _, _, releaseDate ->
@@ -103,11 +103,11 @@ class HomeFragment: Fragment() {
                 }
             }
             adapter = simplePosterAdapter
-            simplePosterAdapter.submitList(movies)
+            simplePosterAdapter.submitList(movieModels)
         }
     }
 
-    private fun configBannerSpecialList(events: List<Event>) {
+    private fun configBannerSpecialList(events: List<EventModel>) {
 
         for (event in events) {
             val currentDate = LocalDate.now()
@@ -129,7 +129,7 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun showBanner(event: Event) {
+    private fun showBanner(event: EventModel) {
         binding.bannerSpecialListCardview.apply {
             visibility = View.VISIBLE
             setOnClickListener {

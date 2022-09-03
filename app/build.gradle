@@ -44,6 +44,7 @@ android {
 dependencies {
     def room_version = "2.4.1"
     def nav_version = "2.4.0-alpha02"
+    def koin_version = "3.2.0"
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
@@ -62,7 +63,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'org.koin:koin-android-viewmodel:2.1.6'
+
+    // Koin
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    testImplementation "io.insert-koin:koin-test:$koin_version"
+    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"

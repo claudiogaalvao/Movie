@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.model.Video
 import com.claudiogalvaodev.moviemanager.databinding.ItemPreviewVideoWithTitleBinding
+import com.claudiogalvaodev.moviemanager.ui.model.VideoModel
 import com.squareup.picasso.Picasso
 
-class VideoPreviewAdapter: ListAdapter<Video, VideoPreviewAdapter.VideoPreviewViewHolder>(
+class VideoPreviewAdapter: ListAdapter<VideoModel, VideoPreviewAdapter.VideoPreviewViewHolder>(
     DIFF_CALLBACK) {
 
     var onItemClick: ((videoId: String) -> Unit)? = null
@@ -27,7 +27,7 @@ class VideoPreviewAdapter: ListAdapter<Video, VideoPreviewAdapter.VideoPreviewVi
         private val clickListener: ((videoId: String) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: Video) {
+        fun bind(video: VideoModel) {
             with(binding) {
                 Picasso.with(root.context).load(video.getThumbnailUrl()).into(thumbnailImage)
                 moviePosterWithTitleTitle.text = video.name
@@ -52,12 +52,12 @@ class VideoPreviewAdapter: ListAdapter<Video, VideoPreviewAdapter.VideoPreviewVi
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Video>() {
-            override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<VideoModel>() {
+            override fun areItemsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean {
+            override fun areContentsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
                 return oldItem == newItem
             }
 

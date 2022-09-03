@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityFiltersBinding
-import com.claudiogalvaodev.moviemanager.data.model.Filter
+import com.claudiogalvaodev.moviemanager.ui.model.FilterModel
 import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 
 class FiltersActivity: AppCompatActivity() {
@@ -20,7 +20,7 @@ class FiltersActivity: AppCompatActivity() {
         ActivityFiltersBinding.inflate(layoutInflater)
     }
 
-    private var filterSelected: Filter? = null
+    private var filterSelected: FilterModel? = null
     private lateinit var currentValue: String
     private lateinit var newCurrentValue: String
 
@@ -47,7 +47,7 @@ class FiltersActivity: AppCompatActivity() {
         initializeFragment()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if(filterSelected?.type != FilterType.SORT_BY) {
             if(currentValue.isNotBlank()) menuInflater.inflate(R.menu.filter_options_menu, menu)
         }
@@ -132,12 +132,12 @@ class FiltersActivity: AppCompatActivity() {
         binding.activityFilterToolbarTitle.text = title
     }
 
-    class Contract: ActivityResultContract<Filter, Filter?>() {
-        override fun createIntent(context: Context, input: Filter?): Intent {
+    class Contract: ActivityResultContract<FilterModel, FilterModel?>() {
+        override fun createIntent(context: Context, input: FilterModel): Intent {
             return Intent(context, FiltersActivity::class.java).putExtra(KEY_FILTER, input)
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): Filter? {
+        override fun parseResult(resultCode: Int, intent: Intent?): FilterModel? {
             return intent?.getParcelableExtra(KEY_RESULT)
         }
 

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.model.Filter
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.usecases.GetMoviesByCriteriousUseCase
+import com.claudiogalvaodev.moviemanager.ui.model.FilterModel
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMoviesByCriterionUseCase
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,14 +18,14 @@ import kotlinx.coroutines.withContext
 
 class ExploreMoviesViewModel(
     private val context: Context,
-    private val getMoviesByCriteriousUseCase: GetMoviesByCriteriousUseCase,
+    private val getMoviesByCriterionUseCase: GetMoviesByCriterionUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _filters = MutableStateFlow<List<Filter>>(emptyList())
+    private val _filters = MutableStateFlow<List<FilterModel>>(emptyList())
     val filters = _filters.asStateFlow()
 
-    private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
+    private val _movies = MutableStateFlow<List<MovieModel>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
     var isLoading: Boolean = false
@@ -33,31 +33,29 @@ class ExploreMoviesViewModel(
     var getSecondPage: Boolean = false
 
     init {
-        viewModelScope.launch {
-            withContext(dispatcher) {
-                val filters = listOf(
-                    Filter(type = FilterType.SORT_BY,
-                        name = context.resources.getString(R.string.filter_type_orderby),
-                        currentValue = OrderByConstants.POPULARITY_DESC),
-                    Filter(type = FilterType.GENRES,
-                        name = context.resources.getString(R.string.filter_type_genres),
-                        currentValue = ""),
-                    Filter(type = FilterType.PEOPLE,
-                        name = context.resources.getString(R.string.filter_type_people),
-                        currentValue = ""),
-                    Filter(type = FilterType.YEARS,
-                        name = context.resources.getString(R.string.filter_type_years),
-                        currentValue = "")
-                )
-                _filters.emit(filters)
-            }
+        viewModelScope.launch(dispatcher) {
+            val filters = listOf(
+                FilterModel(type = FilterType.SORT_BY,
+                    name = context.resources.getString(R.string.filter_type_orderby),
+                    currentValue = OrderByConstants.POPULARITY_DESC),
+                FilterModel(type = FilterType.GENRES,
+                    name = context.resources.getString(R.string.filter_type_genres),
+                    currentValue = ""),
+                FilterModel(type = FilterType.PEOPLE,
+                    name = context.resources.getString(R.string.filter_type_people),
+                    currentValue = ""),
+                FilterModel(type = FilterType.YEARS,
+                    name = context.resources.getString(R.string.filter_type_years),
+                    currentValue = "")
+            )
+            _filters.emit(filters)
         }
     }
 
     fun getMoviesByCriterious() = viewModelScope.launch {
         withContext(dispatcher) {
             isLoading = true
-            val moviesResult = getMoviesByCriteriousUseCase.invoke(_filters.value, isFirstLoading)
+            val moviesResult = getMoviesByCriterionUseCase.invoke(_filters.value, isFirstLoading)
 
             if(getSecondPage && _movies.value.isNotEmpty()) getSecondPage = false
 
@@ -70,7 +68,7 @@ class ExploreMoviesViewModel(
                         isFirstLoading = false
                         return@withContext
                     }
-                    val moviesList = mutableListOf<Movie>()
+                    val moviesList = mutableListOf<MovieModel>()
                     moviesList.addAll(_movies.value)
                     moviesList.addAll(movies)
                     _movies.emit(moviesList)
@@ -81,7 +79,7 @@ class ExploreMoviesViewModel(
         }
     }
 
-    fun updateFilter(filterChanged: Filter) = viewModelScope.launch {
+    fun updateFilter(filterChanged: FilterModel) = viewModelScope.launch {
         withContext(dispatcher) {
             val newFilters = _filters.value.toMutableList()
             newFilters.map { filter ->

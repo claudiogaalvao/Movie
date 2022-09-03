@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
 import com.claudiogalvaodev.moviemanager.databinding.ItemForwardWithImageBinding
+import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import com.squareup.picasso.Picasso
 
-class ForwardWithImageAdapter: ListAdapter<UserListEntity, ForwardWithImageAdapter.ForwardWithImageViewHolder>(
+class ForwardWithImageAdapter: ListAdapter<CustomListModel, ForwardWithImageAdapter.ForwardWithImageViewHolder>(
     DIFF_CALLBACK) {
 
-    var onItemClick: ((userListEntity: UserListEntity) -> Unit)? = null
+    var onItemClick: ((customListEntity: CustomListModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForwardWithImageViewHolder {
         return ForwardWithImageViewHolder.create(parent, onItemClick)
@@ -24,26 +24,26 @@ class ForwardWithImageAdapter: ListAdapter<UserListEntity, ForwardWithImageAdapt
 
     class ForwardWithImageViewHolder(
         private val binding: ItemForwardWithImageBinding,
-        private val clickListener: ((userListEntity: UserListEntity) -> Unit)?
+        private val clickListener: ((customList: CustomListModel) -> Unit)?
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(userListEntity: UserListEntity) {
-            binding.itemForwardTitle.text = userListEntity.name
+        fun bind(customList: CustomListModel) {
+            binding.itemForwardTitle.text = customList.name
 
-            if (userListEntity.movies.isNotEmpty()) {
-                val posterUrl = userListEntity.movies.last().getPosterUrl()
+            if (customList.posterPath.isNotBlank()) {
+                val posterUrl = customList.getPosterUrl()
                 Picasso.with(binding.root.context).load(posterUrl)
                     .into(binding.itemForwardImagePreview)
             } else binding.itemForwardImagePreview.setImageDrawable(null)
 
             binding.root.setOnClickListener {
-                clickListener?.invoke(userListEntity)
+                clickListener?.invoke(customList)
             }
         }
 
         companion object {
             fun create(parent: ViewGroup,
-                       clickListener: ((userListEntity: UserListEntity) -> Unit)?
+                       clickListener: ((customListEntity: CustomListModel) -> Unit)?
             ):ForwardWithImageViewHolder {
                 val binding = ItemForwardWithImageBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -54,14 +54,14 @@ class ForwardWithImageAdapter: ListAdapter<UserListEntity, ForwardWithImageAdapt
     }
 
     companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<UserListEntity>() {
-            override fun areItemsTheSame(oldItem: UserListEntity, newItem: UserListEntity): Boolean {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<CustomListModel>() {
+            override fun areItemsTheSame(oldItem: CustomListModel, newItem: CustomListModel): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: UserListEntity,
-                newItem: UserListEntity
+                oldItem: CustomListModel,
+                newItem: CustomListModel
             ): Boolean {
                 return oldItem.id == newItem.id
             }

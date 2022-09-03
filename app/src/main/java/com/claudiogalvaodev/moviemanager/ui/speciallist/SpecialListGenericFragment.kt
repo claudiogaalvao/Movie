@@ -11,7 +11,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentSpecialListGenericB
 import com.claudiogalvaodev.moviemanager.ui.adapter.SecondaryPosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class SpecialListGenericFragment: Fragment() {

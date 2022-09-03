@@ -1,7 +1,6 @@
 package com.claudiogalvaodev.moviemanager.ui.peopledetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Movie
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
@@ -68,16 +67,16 @@ class PeopleDetailsFragment : Fragment() {
         viewModel.getMovies()
     }
 
-    private fun bindHeaderInfo(person: Employe?) {
+    private fun bindHeaderInfo(person: PersonModel?) {
         person?.let {
             Picasso.with(binding.root.context).load(it.getProfileImageUrl())
                 .into(binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsProfilePhoto)
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsName.text = it.name
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = it.known_for_department
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsDepartment.text = it.knownForDepartment
         }
     }
 
-    private fun bindPersonDetailsInfo(person: Employe?) {
+    private fun bindPersonDetailsInfo(person: PersonModel?) {
         person?.let {
             if(it.biography.isNullOrEmpty()) {
                 binding.fragmentPeopleDetailsBiographyLabel.visibility = View.GONE
@@ -98,7 +97,7 @@ class PeopleDetailsFragment : Fragment() {
                 }
             }
 
-            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.place_of_birth
+            binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthplace.text = person.placeOfBirth
         }
     }
 
@@ -109,7 +108,7 @@ class PeopleDetailsFragment : Fragment() {
                 if(movieId == leastOneMovieId.toInt() && destination.contains("movieDetailsFragment")) {
                     findNavController().popBackStack()
                 } else {
-                    goToMovieDetails(movieId, "")
+                    goToMovieDetails(movieId)
                 }
             }
             onFullyViewedListener = {
@@ -157,13 +156,13 @@ class PeopleDetailsFragment : Fragment() {
         }
     }
 
-    private fun setMoviesList(movies: List<Movie>) {
-        moviesAdapter.submitList(movies)
+    private fun setMoviesList(movieModels: List<MovieModel>) {
+        moviesAdapter.submitList(movieModels)
     }
 
-    private fun goToMovieDetails(movieId: Int, releaseDate: String) {
+    private fun goToMovieDetails(movieId: Int) {
         context?.let {
-            startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
+            startActivity(MovieDetailsActivity.newInstance(it, movieId, ""))
         }
     }
 

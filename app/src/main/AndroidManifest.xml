@@ -27,7 +27,7 @@
         <activity android:name=".ui.menu.aboutdeveloper.AboutDeveloperActivity"
             android:exported="true" />
         <activity
-            android:name="com.claudiogalvaodev.moviemanager.ui.menu.mylists.MyListsActivity"
+            android:name="com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsActivity"
             android:exported="true" />
         <activity
             android:name=".ui.search.SearchActivity"
@@ -57,7 +57,7 @@
             android:resource="@color/primary_purple" />
 
         <service
-            android:name=".data.webclient.service.FirebaseService"
+            android:name=".data.webclient.service.firebase.FirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

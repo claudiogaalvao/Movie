@@ -16,14 +16,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterPeopleBinding
-import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
 class FilterPeopleFragment: Fragment() {
@@ -36,7 +36,7 @@ class FilterPeopleFragment: Fragment() {
     private lateinit var searchResultAdapter: CircleWithTitleAdapter
     private lateinit var selectedPeopleAdapter: CircleWithTitleAdapter
     private lateinit var popularPeopleAdapter: CircleWithTitleAdapter
-    private lateinit var currentValue: List<Employe>
+    private lateinit var currentValue: List<PersonModel>
 
     private var isSearchInitialized = false
 
@@ -67,7 +67,7 @@ class FilterPeopleFragment: Fragment() {
     private fun setCurrentValue() {
         val jsonCurrentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
         currentValue = if (jsonCurrentValue.isNotBlank()) {
-            Gson().fromJson(jsonCurrentValue, Array<Employe>::class.java).asList()
+            Gson().fromJson(jsonCurrentValue, Array<PersonModel>::class.java).asList()
         } else {
             emptyList()
         }
@@ -178,7 +178,7 @@ class FilterPeopleFragment: Fragment() {
             binding.searchPeople.setText("")
             hideSearchResult()
             when(obj) {
-                is Employe -> {
+                is PersonModel -> {
                     viewModel.selectPerson(obj)
                 }
             }
@@ -187,7 +187,7 @@ class FilterPeopleFragment: Fragment() {
         selectedPeopleAdapter.onItemClick = {
                 obj ->
             when(obj) {
-                is Employe -> {
+                is PersonModel -> {
                      viewModel.unselectPerson(obj)
                 }
             }
@@ -195,7 +195,7 @@ class FilterPeopleFragment: Fragment() {
 
         popularPeopleAdapter.onItemClick = { obj ->
             when(obj) {
-                is Employe -> {
+                is PersonModel -> {
                      viewModel.selectPerson(obj)
                 }
             }
@@ -213,7 +213,7 @@ class FilterPeopleFragment: Fragment() {
         binding.fragmentPopularPeopleParent.visibility = View.VISIBLE
     }
 
-    private fun setSelectedPeople(people: List<Employe>) {
+    private fun setSelectedPeople(people: List<PersonModel>) {
         selectedPeopleAdapter.submitList(people)
     }
 

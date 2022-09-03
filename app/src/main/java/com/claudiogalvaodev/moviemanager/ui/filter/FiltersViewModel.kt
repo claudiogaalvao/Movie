@@ -2,11 +2,11 @@ package com.claudiogalvaodev.moviemanager.ui.filter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Genre
-import com.claudiogalvaodev.moviemanager.usecases.GetAllGenresUseCase
-import com.claudiogalvaodev.moviemanager.usecases.GetAllPeopleUseCase
-import com.claudiogalvaodev.moviemanager.usecases.SearchPeopleUseCase
+import com.claudiogalvaodev.moviemanager.ui.model.GenreModel
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllGenresUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllPeopleUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.SearchPeopleUseCase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,16 +18,16 @@ class FiltersViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _genres = MutableStateFlow<List<Genre>>(emptyList())
+    private val _genres = MutableStateFlow<List<GenreModel>>(emptyList())
     val genres = _genres.asStateFlow()
 
-    private val _people = MutableStateFlow<List<Employe>>(emptyList())
+    private val _people = MutableStateFlow<List<PersonModel>>(emptyList())
     val people = _people.asStateFlow()
 
-    private val _peopleSelected = MutableStateFlow<List<Employe>>(emptyList())
+    private val _peopleSelected = MutableStateFlow<List<PersonModel>>(emptyList())
     val peopleSelected = _peopleSelected.asStateFlow()
 
-    private val _peopleFound = MutableStateFlow<List<Employe>>(mutableListOf())
+    private val _peopleFound = MutableStateFlow<List<PersonModel>>(mutableListOf())
     val peopleFound = _peopleFound.asStateFlow()
 
     var isLoadingActors: Boolean = false
@@ -43,7 +43,7 @@ class FiltersViewModel(
         }
     }
 
-    fun initPeoplePreviousSelected(peoplePreviousSelected: List<Employe>) = viewModelScope.launch {
+    fun initPeoplePreviousSelected(peoplePreviousSelected: List<PersonModel>) = viewModelScope.launch {
         withContext(dispatcher) {
             _peopleSelected.emit(peoplePreviousSelected)
         }
@@ -55,7 +55,7 @@ class FiltersViewModel(
             val peopleResult = getAllPeopleUseCase.invoke(isInitialize)
             if(peopleResult.isSuccess) {
                 peopleResult.getOrNull()?.let { allPeople ->
-                    val peopleList = mutableListOf<Employe>()
+                    val peopleList = mutableListOf<PersonModel>()
                     peopleList.addAll(_people.value)
 
                     val allPeopleFiltered = allPeople.toMutableList()
@@ -69,10 +69,10 @@ class FiltersViewModel(
         }
     }
 
-    fun selectPerson(personSelected: Employe) = viewModelScope.launch {
+    fun selectPerson(personSelected: PersonModel) = viewModelScope.launch {
         withContext(dispatcher) {
             val allPeople = people.value.toMutableList()
-            val selectedPeople = mutableListOf<Employe>()
+            val selectedPeople = mutableListOf<PersonModel>()
             selectedPeople.addAll(_peopleSelected.value)
 
             personSelected.position = allPeople.indexOf(personSelected)
@@ -84,15 +84,15 @@ class FiltersViewModel(
         }
     }
 
-    fun unselectPerson(person: Employe) = viewModelScope.launch {
+    fun unselectPerson(person: PersonModel) = viewModelScope.launch {
         withContext(dispatcher) {
             val allPeople = people.value.toMutableList()
-            val selectedPeople = mutableListOf<Employe>()
+            val selectedPeople = mutableListOf<PersonModel>()
             selectedPeople.addAll(_peopleSelected.value)
             selectedPeople.remove(person)
 
             person.position.let { position ->
-                if(position != null && position >= 0 && allPeople.size > position) {
+                if(position >= 0 && allPeople.size > position) {
                     allPeople.add(position, person)
                 } else {
                     allPeople.add(person)
@@ -123,10 +123,10 @@ class FiltersViewModel(
             if(getSearchResultSecondPage && _peopleFound.value.isNotEmpty()) getSearchResultSecondPage = false
 
             if(peopleResult.isSuccess) {
-                peopleResult.getOrNull()?.let { movies ->
-                    val peopleList = mutableListOf<Employe>()
+                peopleResult.getOrNull()?.let { people ->
+                    val peopleList = mutableListOf<PersonModel>()
                     peopleList.addAll(_peopleFound.value)
-                    peopleList.addAll(movies.filter { movie -> !(_peopleSelected.value.contains(movie)) })
+                    peopleList.addAll(people.filter { movie -> !(_peopleSelected.value.contains(movie)) })
                     _peopleFound.emit(peopleList)
                     isSearchLoading = false
                 }

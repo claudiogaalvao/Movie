@@ -1,24 +1,24 @@
 package com.claudiogalvaodev.moviemanager.data.bd.dao
 
 import androidx.room.*
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSavedEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesSavedDao {
 
-    @Query("SELECT * FROM MovieSaved")
-    fun getAll(): Flow<List<MovieSaved>>
+    @Query("SELECT * FROM MovieSavedEntity")
+    suspend fun getAll(): List<MovieSavedEntity>
 
-    @Query("SELECT * FROM MovieSaved WHERE movieId == :movieId")
-    suspend fun getMovieSavedById(movieId: Int): MovieSaved?
+    @Query("SELECT * FROM MovieSavedEntity WHERE movieId == :movieId")
+    suspend fun getMovieSavedById(movieId: Int): List<MovieSavedEntity>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun saveMovie(movieToSave: MovieSaved)
+    suspend fun saveMovie(movieToSave: MovieSavedEntity)
 
-    @Query("SELECT * FROM MovieSaved WHERE myListId = :myListId")
-    fun getMoviesByMyListId(myListId: Int): Flow<List<MovieSaved>>
+    @Query("SELECT * FROM MovieSavedEntity WHERE listId = :listId")
+    suspend fun getMoviesByListId(listId: Int): List<MovieSavedEntity>
 
-    @Query("DELETE FROM MovieSaved WHERE movieId = :movieId AND myListId = :myListId")
-    suspend fun remove(movieId: Int, myListId: Int)
+    @Query("DELETE FROM MovieSavedEntity WHERE movieId = :movieId AND listId = :listId")
+    suspend fun remove(movieId: Int, listId: Int)
 }

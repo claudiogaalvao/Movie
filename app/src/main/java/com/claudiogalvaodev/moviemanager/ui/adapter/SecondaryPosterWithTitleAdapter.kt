@@ -6,11 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
+import com.claudiogalvaodev.moviemanager.ui.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.databinding.ItemSecondayPosterWithTitleBinding
-import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
-import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
 import com.squareup.picasso.Picasso
 
 class SecondaryPosterWithTitleAdapter: ListAdapter<SpecialItem, SecondaryPosterWithTitleAdapter.SecondaryPosterWithTitleViewHolder>(DIFF_CALLBACK) {

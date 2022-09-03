@@ -15,14 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.databinding.FragmentSearchBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
 class SearchFragment : Fragment() {
@@ -114,8 +114,8 @@ class SearchFragment : Fragment() {
         viewModel.searchMovies(query)
     }
 
-    private fun submitMoviesList(movies: List<Movie>) {
-        moviesAdapter.submitList(movies)
+    private fun submitMoviesList(movieModels: List<MovieModel>) {
+        moviesAdapter.submitList(movieModels)
     }
 
     private fun setOnLoadMoreListener() {

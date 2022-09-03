@@ -2,8 +2,8 @@ package com.claudiogalvaodev.moviemanager.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.usecases.SearchMoviesUseCase
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.usecases.movies.SearchMoviesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ class SearchViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
-    private val _movies = MutableStateFlow<List<Movie>>(mutableListOf())
+    private val _movies = MutableStateFlow<List<MovieModel>>(mutableListOf())
     val movies = _movies.asStateFlow()
 
     private var lastQuery = ""
@@ -45,7 +45,7 @@ class SearchViewModel(
                         isUpdate = true
                         return@withContext
                     }
-                    val moviesList = mutableListOf<Movie>()
+                    val moviesList = mutableListOf<MovieModel>()
                     moviesList.addAll(_movies.value)
                     moviesList.addAll(movies)
                     _movies.emit(moviesList)

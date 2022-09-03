@@ -1,7 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.model
 
 data class BottomSheetOfListsUI(
-    val id: String,
+    val id: Int,
     val name: String,
     val isSaved: Boolean,
     val saveOn: SaveOn

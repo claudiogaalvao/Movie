@@ -12,7 +12,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterGenreBinding
 import com.claudiogalvaodev.moviemanager.databinding.ItemRadioButtonBinding
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FilterGenresFragment: Fragment() {
 

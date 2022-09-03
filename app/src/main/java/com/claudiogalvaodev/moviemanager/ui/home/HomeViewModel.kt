@@ -3,10 +3,10 @@ package com.claudiogalvaodev.moviemanager.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.model.Event
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.usecases.GetTrendingWeekMoviesUseCase
-import com.claudiogalvaodev.moviemanager.usecases.GetUpComingAndPlayingNowMoviesUseCase
+import com.claudiogalvaodev.moviemanager.ui.model.EventModel
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetTrendingWeekMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetUpComingAndPlayingNowMoviesUseCase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -22,16 +22,16 @@ class HomeViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _trendingMovies = MutableStateFlow<List<Movie>>(emptyList())
+    private val _trendingMovies = MutableStateFlow<List<MovieModel>>(emptyList())
     val trendingMovies = _trendingMovies.asStateFlow()
 
-    private val _upComingMovies = MutableStateFlow<List<Movie>>(emptyList())
+    private val _upComingMovies = MutableStateFlow<List<MovieModel>>(emptyList())
     val upComingMovies = _upComingMovies.asStateFlow()
 
-    private val _playingNowMovies = MutableStateFlow<List<Movie>>(emptyList())
+    private val _playingNowMovies = MutableStateFlow<List<MovieModel>>(emptyList())
     val playingNowMovies = _playingNowMovies.asStateFlow()
 
-    private val _events = MutableStateFlow<List<Event>>(emptyList())
+    private val _events = MutableStateFlow<List<EventModel>>(emptyList())
     val events = _events.asStateFlow()
 
     init {
@@ -48,21 +48,27 @@ class HomeViewModel(
     }
 
     private fun getUpComingAndPlayingNow() = viewModelScope.launch(dispatcher) {
-        getUpComingAndPlayingNowMoviesUseCase.invoke()
+        val highlightsResult = getUpComingAndPlayingNowMoviesUseCase.invoke()
 
-        _upComingMovies.emit(getUpComingAndPlayingNowMoviesUseCase.upComingMovies.value)
-        _playingNowMovies.emit(getUpComingAndPlayingNowMoviesUseCase.playingNowMovies.value)
+        if (highlightsResult.isSuccess) {
+            val highlightsModel = highlightsResult.getOrNull()
+            highlightsModel?.let {
+                _upComingMovies.emit(it.upComing)
+                _playingNowMovies.emit(it.playingNow)
+            }
+        }
     }
 
+    // TODO Create a service and datasource just for firebase bd
     private fun getEvents() {
         try {
             firestoreDB.collection("events").get().addOnSuccessListener { snapshot ->
                 if(snapshot != null) {
                     val currentLanguage = Locale.getDefault().toLanguageTag().replace("-", "")
 
-                    val allEvents: MutableList<Event> = mutableListOf()
+                    val allEvents: MutableList<EventModel> = mutableListOf()
                     for (document in snapshot.documents) {
-                        val event = Event(
+                        val event = EventModel(
                             id = document.id,
                             title = document["title.${currentLanguage}"].toString(),
                             description = document["description.${currentLanguage}"].toString(),

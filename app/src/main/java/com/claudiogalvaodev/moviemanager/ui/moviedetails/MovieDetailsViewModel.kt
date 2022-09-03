@@ -2,16 +2,12 @@ package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
-import com.claudiogalvaodev.moviemanager.data.model.*
-import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
-import com.claudiogalvaodev.moviemanager.usecases.*
+import com.claudiogalvaodev.moviemanager.ui.model.*
+import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
@@ -20,35 +16,38 @@ class MovieDetailsViewModel(
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
-    private val _movie = MutableStateFlow<Movie?>(null)
+    private val _movie = MutableStateFlow<MovieModel?>(null)
     val movie = _movie.asStateFlow()
 
-    private val _streamProviders = MutableStateFlow<List<Provider>?>(emptyList())
+    private val _streamProviders = MutableStateFlow<List<ProviderModel>?>(emptyList())
     val streamProviders = _streamProviders.asStateFlow()
 
-    private val _directors = MutableStateFlow<List<Employe>?>(emptyList())
+    private val _directors = MutableStateFlow<List<PersonModel>?>(emptyList())
     val directors = _directors.asStateFlow()
 
-    private val _stars = MutableStateFlow<List<Employe>?>(emptyList())
-    val stars = _stars.asStateFlow()
+    private val _actors = MutableStateFlow<List<PersonModel>?>(emptyList())
+    val stars = _actors.asStateFlow()
 
-    private val _companies = MutableStateFlow<List<Company>?>(emptyList())
+    private val _companies = MutableStateFlow<List<ProductionCompanyModel>?>(emptyList())
     val companies = _companies.asStateFlow()
 
-    private val _collection = MutableStateFlow<List<Movie>?>(emptyList())
+    private val _collection = MutableStateFlow<List<MovieModel>?>(emptyList())
     val collection = _collection.asStateFlow()
 
-    private val _userLists = MutableStateFlow<List<UserListEntity>>(emptyList())
-    val myLists = _userLists.asStateFlow()
+    private val _customLists = MutableStateFlow<List<CustomListModel>>(emptyList())
+    val customLists = _customLists.asStateFlow()
 
-    private val _videos = MutableStateFlow<List<Video>>(emptyList())
+    private val _isMovieSaved = MutableStateFlow(false)
+    val isMovieSaved = _isMovieSaved.asStateFlow()
+
+    private val _videos = MutableStateFlow<List<VideoModel>>(emptyList())
     val videos = _videos.asStateFlow()
 
     init {
         getMovieDetails()
         getMovieCredits()
         getProviders()
-        getAllUserLists()
+        getAllCustomLists()
         getVideos()
     }
 
@@ -56,9 +55,9 @@ class MovieDetailsViewModel(
         val movieDetailsResult = allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
         if(movieDetailsResult.isSuccess) {
             val movieDetails = movieDetailsResult.getOrNull()
-            movieDetails?.let { movieDetailsUI ->
-                _movie.emit(movieDetailsUI.movie)
-                _companies.emit(movieDetailsUI.companies)
+            movieDetails?.let {
+                _movie.emit(it)
+                _companies.emit(it.productionCompanies)
             }
         }
     }
@@ -82,9 +81,14 @@ class MovieDetailsViewModel(
     }
 
     private fun getMovieCredits() = viewModelScope.launch(dispatcher) {
-        allMovieDetailsUseCase.getMovieCreditsUseCase.invoke(movieId)
-        _stars.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.stars.value)
-        _directors.emit(allMovieDetailsUseCase.getMovieCreditsUseCase.directors.value)
+        val creditsModelResult = allMovieDetailsUseCase.getMovieCreditsUseCase.invoke(movieId)
+        if (creditsModelResult.isSuccess) {
+            val creditsModel = creditsModelResult.getOrNull()
+            creditsModel?.let {
+                _actors.emit(it.actors)
+                _directors.emit(it.directors)
+            }
+        }
     }
 
     fun getMovieCollection(collectionId: Int) = viewModelScope.launch(dispatcher) {
@@ -127,39 +131,54 @@ class MovieDetailsViewModel(
         return companiesConcat
     }
 
-    private fun getAllUserLists() = viewModelScope.launch(dispatcher) {
-        allMovieDetailsUseCase.getAllUserListsUseCase.invoke().collectLatest { myLists ->
-            _userLists.emit(myLists)
+    private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {
+        val customListsResult = allMovieDetailsUseCase.getAllCustomListsUseCase.invoke()
+        if (customListsResult.isSuccess) {
+            val customLists = customListsResult.getOrNull()
+            customLists?.let {
+                _customLists.emit(it)
+                _isMovieSaved.emit(hasMovieSaved(it))
+            }
         }
     }
 
-    fun saveMovieOnUserList(
+    private fun hasMovieSaved(customList: List<CustomListModel>): Boolean {
+        val hasMovie = customList.find { customListModel ->
+            customListModel.movies.find { movieModel ->
+                movieModel.id == movieId
+            } != null
+        } != null
+        return hasMovie
+    }
+
+    suspend fun saveMovieOnCustomList(
+        listId: Int
+    ): Boolean = _movie.value?.let {
+        val result = allMovieDetailsUseCase.saveMovieOnCustomListUseCase.invoke(
+            listId = listId,
+            movieId = it.id,
+            posterPath = it.posterPath
+        )
+        result.isSuccess
+    } ?: false
+
+    suspend fun removeMovieFromCustomList(
         listSelected: BottomSheetOfListsUI
-    ) = viewModelScope.launch(dispatcher) {
-        _movie.value?.let {
-            allMovieDetailsUseCase.saveMovieOnMyListUseCase.invoke(
-                listSelected,
-                it
-            )
-        }
-    }
+    ): Boolean = _movie.value?.let {
+        val result = allMovieDetailsUseCase.removeMovieFromCustomListUseCase
+            .invoke(movieId = it.id, listId = listSelected.id)
+        result.isSuccess
+    } ?: false
 
-    fun removeMovieFromUserList(
-        listSelected: BottomSheetOfListsUI
-    ) = viewModelScope.launch(dispatcher) {
-        _movie.value?.let {
-            allMovieDetailsUseCase.removeMovieFromMyListUseCase
-                .invoke(movieId = it.id, myListId = listSelected.id.toInt())
+    suspend fun createNewCustomListThenSaveMovie(listName: String): Boolean {
+        val listIdResult = allMovieDetailsUseCase.createNewCustomListUseCase.invoke(listName)
+        if (listIdResult.isSuccess) {
+            val listId = listIdResult.getOrNull()
+            listId?.let {
+                return saveMovieOnCustomList(listId = it)
+            }
         }
-    }
-
-    fun createNewUserList(newListEntity: UserListEntity): Flow<Int> {
-        val myListId = MutableStateFlow(0)
-        viewModelScope.launch(dispatcher) {
-            val listId = allMovieDetailsUseCase.createNewListOnMyListsUseCase.invoke(newListEntity)
-            myListId.emit(listId.toInt())
-        }
-        return myListId
+        return false
     }
 
 }

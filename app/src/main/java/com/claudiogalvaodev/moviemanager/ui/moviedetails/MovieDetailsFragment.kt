@@ -15,23 +15,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSaved
-import com.claudiogalvaodev.moviemanager.data.bd.entity.UserListEntity
-import com.claudiogalvaodev.moviemanager.data.model.Company
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSavedEntity
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.*
-import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
-import com.claudiogalvaodev.moviemanager.ui.model.SaveOn
+import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
 import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
+import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
@@ -50,9 +45,6 @@ class MovieDetailsFragment : Fragment() {
     private val releaseDate by lazy {
         args.releaseDate
     }
-
-    private lateinit var moviesSaved: List<MovieSaved>
-    private lateinit var filteredMoviesSaved: List<MovieSaved>
 
     private val videoPreviewAdapter by lazy {
         VideoPreviewAdapter()
@@ -83,15 +75,15 @@ class MovieDetailsFragment : Fragment() {
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
             viewModel.movie.collectLatest { movie ->
-                val rate = "${movie?.vote_average.toString()}/10"
 
-                movie?.let {
-                    movie.belongs_to_collection?.let { collection ->
-                        viewModel.getMovieCollection(collection.id)
+                movie?.let { it ->
+                    movie.collectionId?.let { collectionId ->
+                        viewModel.getMovieCollection(collectionId)
                     }
                     binding.fragmentMovieDetailsHeader.fragmentMovieDetailsTitle.text = it.title
-                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = formatUtils
-                        .dateFromAmericanFormatToDateWithMonthName(if (releaseDate.isBlank()) it.release_date else releaseDate)
+                    binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRelease.text = it.releaseDate?.let { releaseDate ->
+                        dateFromAmericanFormatToDateWithMonthName(releaseDate)
+                    }
 
                     val genresAdapter = SimpleOptionsAdapter()
                     binding.fragmentMovieDetailsHeader.genreRecyclerview.adapter = genresAdapter
@@ -103,26 +95,26 @@ class MovieDetailsFragment : Fragment() {
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsDuration.text = it.getDuration()
                     }
 
-                    if(it.vote_average == 0.0) {
+                    if(it.voteAverage == 0.0) {
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.visibility = View.GONE
                         binding.fragmentMovieDetailsHeader.fragmentMovieDetailsImdbLogo.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.text = rate
+                        binding.fragmentMovieDetailsHeader.fragmentMovieDetailsRate.text = it.getVoteAverage()
                     }
 
                     Picasso.with(binding.root.context).load(it.getPosterUrl()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
 
-                    if(it.overview.isBlank()) {
+                    if(it.overview.isNullOrBlank()) {
                         binding.fragmentMovieDetailsOverviewLabel.visibility = View.GONE
                     } else {
                         binding.fragmentMovieDetailsOverview.text = it.overview
                     }
 
-                    if(it.budget == 0L) {
+                    if(it.budget == 0) {
                         binding.fragmentMovieDetailsBudgetLabel.visibility = View.GONE
                         binding.fragmentMovieDetailsBudget.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsBudget.text = formatUtils.unformattedNumberToCurrency(it.budget)
+                        binding.fragmentMovieDetailsBudget.text = formatUtils.unformattedNumberToCurrency(it.budget.toLong())
                     }
 
                 }
@@ -177,16 +169,16 @@ class MovieDetailsFragment : Fragment() {
 //                filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
 //            }
 //        }
-//
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.isMovieSaved.collectLatest { isSaved ->
-//                val (imageResourceId, stringId) = if (isSaved) {
-//                    Pair(R.drawable.ic_done, R.string.saved_to_list)
-//                } else Pair(R.drawable.ic_add, R.string.add_to_list)
-//                binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(imageResourceId)
-//                binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(stringId)
-//            }
-//        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isMovieSaved.collectLatest { isSaved ->
+                val (imageResourceId, stringId) = if (isSaved) {
+                    Pair(R.drawable.ic_done, R.string.saved_to_list)
+                } else Pair(R.drawable.ic_add, R.string.add_to_list)
+                binding.fragmentMovieDetailsHeader.addToListIcon.setImageResource(imageResourceId)
+                binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(stringId)
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.videos.collectLatest { videos ->
@@ -199,11 +191,11 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setListeners() {
         binding.fragmentMovieDetailsHeader.addToListParent.setOnClickListener {
-            val options = viewModel.myLists.value.map {
+            val options = viewModel.customLists.value.map {
                 BottomSheetOfListsUI(
-                    id = it.id.toString(),
+                    id = it.id,
                     name = it.name,
-                    isSaved = filteredMoviesSaved.find { movie -> movie.myListId == it.id } != null,
+                    isSaved = it.movies.find { movie -> movie.id == movieId.toInt() } != null,
                     saveOn = SaveOn.USER_LIST
                 )
             }
@@ -255,14 +247,20 @@ class MovieDetailsFragment : Fragment() {
                 dialog.hide()
                 when(action) {
                     BottomSheetOfListsAdapter.Companion.Action.INSERT -> {
-                        viewModel.saveMovieOnUserList(listSelected)
-                        val message = "${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}"
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        lifecycleScope.launch {
+                            val isSavedSuccessfully = viewModel.saveMovieOnCustomList(listSelected.id)
+                            if (isSavedSuccessfully) {
+                                showMessage("${getString(R.string.movie_saved_successfully_message)} ${listSelected.name}")
+                            } else showMessage(getString(R.string.movie_failed_to_save_message))
+                        }
                     }
                     BottomSheetOfListsAdapter.Companion.Action.REMOVE -> {
-                        viewModel.removeMovieFromUserList(listSelected)
-                        val message = "${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}"
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        lifecycleScope.launch {
+                            val isRemovedSuccessfully = viewModel.removeMovieFromCustomList(listSelected)
+                            if (isRemovedSuccessfully) {
+                                showMessage("${getString(R.string.movie_removed_successfully_message)} ${listSelected.name}")
+                            } else showMessage(getString(R.string.movie_failed_to_delete_movie_message))
+                        }
                     }
                 }
             }
@@ -270,7 +268,11 @@ class MovieDetailsFragment : Fragment() {
         return dialogAdapter
     }
 
-    private fun configStreamProvidersList(provider: List<Provider>) {
+    private fun showMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun configStreamProvidersList(provider: List<ProviderModel>) {
         if(provider.isEmpty()) {
             binding.fragmentMovieDetailsAvailableOnRecyclerview.visibility = View.GONE
             binding.fragmentMovieDetailsAvailableOnMessage.visibility = View.VISIBLE
@@ -286,8 +288,8 @@ class MovieDetailsFragment : Fragment() {
         circleAdapter.submitList(provider)
     }
 
-    private fun configDirectorsList(employe: List<Employe>) {
-        if(employe.isEmpty()) {
+    private fun configDirectorsList(person: List<PersonModel>) {
+        if(person.isEmpty()) {
             binding.fragmentMovieDetailsDirectors.text = resources.getString(R.string.movie_details_directors_message)
             binding.fragmentMovieDetailsDirectors.maxLines = 2
             return
@@ -299,11 +301,11 @@ class MovieDetailsFragment : Fragment() {
         binding.fragmentMovieDetailsDirectorsRecyclerview.apply {
             adapter = circleAdapter
         }
-        circleAdapter.submitList(employe)
+        circleAdapter.submitList(person)
     }
 
-    private fun configStarsList(allEmployes: List<Employe>, employesToShowFirst: List<Employe>) {
-        if(employesToShowFirst.isEmpty()) {
+    private fun configStarsList(allPeople: List<PersonModel>, peopleToShowFirst: List<PersonModel>) {
+        if(peopleToShowFirst.isEmpty()) {
             binding.fragmentMovieDetailsStarsName.text = resources.getString(R.string.movie_details_stars_message)
             binding.fragmentMovieDetailsStarsName.maxLines = 2
             return
@@ -315,15 +317,15 @@ class MovieDetailsFragment : Fragment() {
         binding.fragmentMovieDetailsStarsRecyclerview.apply {
             adapter = circleAdapter
         }
-        circleAdapter.submitList(employesToShowFirst)
-        setupShowAllStars(allEmployes, employesToShowFirst)
+        circleAdapter.submitList(peopleToShowFirst)
+        setupShowAllStars(allPeople, peopleToShowFirst)
     }
 
     private fun setupShowAllStars(
-        allEmployes: List<Employe>,
-        employesToShowFirst: List<Employe>
+        allPeople: List<PersonModel>,
+        employesToShowFirst: List<PersonModel>
     ) {
-        if (allEmployes.size > employesToShowFirst.size) {
+        if (allPeople.size > employesToShowFirst.size) {
             binding.fragmentMovieDetailsStarsSeeMore.visibility = View.VISIBLE
             viewModel.stars.value?.let { _ ->
                 binding.fragmentMovieDetailsStarsSeeMore.setOnClickListener {
@@ -336,7 +338,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun configCompaniesList(companies: List<Company>) {
+    private fun configCompaniesList(companies: List<ProductionCompanyModel>) {
         if(companies.isEmpty()) {
             binding.fragmentMovieDetailsCompanies.text = resources.getString(R.string.movie_details_companies_message)
             binding.fragmentMovieDetailsCompanies.maxLines = 2
@@ -352,7 +354,7 @@ class MovieDetailsFragment : Fragment() {
         circleAdapter.submitList(companies)
     }
 
-    private fun configCollectionList(collection: List<Movie>) {
+    private fun configCollectionList(collection: List<MovieModel>) {
         if(collection.isEmpty()) {
             binding.fragmentMovieDetailsCollectionSequenceLabel.visibility = View.GONE
             binding.fragmentMovieDetailsCollectionSequenceRecyclerview.visibility = View.GONE
@@ -393,25 +395,16 @@ class MovieDetailsFragment : Fragment() {
             builder.setTitle(getString(R.string.new_list_dialog_title))
                 .setView(dialogView)
                 .setPositiveButton(getString(R.string.new_list_dialog_button)) { _, _ ->
-                    val newListName = myListEditText?.text
-                    createNewList(UserListEntity(id = 0, name = newListName.toString()))
+                    lifecycleScope.launch {
+                        val newListName = myListEditText?.text
+                        val isSavedSuccessfully = viewModel.createNewCustomListThenSaveMovie(newListName.toString())
+                        if (isSavedSuccessfully) {
+                            showMessage("${getString(R.string.movie_saved_successfully_message)} ${newListName.toString()}")
+                        } else showMessage(getString(R.string.movie_failed_to_save_message))
+                    }
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
                 .show()
-        }
-    }
-
-    private fun createNewList(newListEntity: UserListEntity) {
-        lifecycleScope.launch {
-            viewModel.createNewUserList(newListEntity).collectLatest { myListId ->
-                if(myListId != 0) {
-                    viewModel.saveMovieOnUserList(
-                        BottomSheetOfListsUI(id = myListId.toString(), name = newListEntity.name, isSaved = true, saveOn = SaveOn.USER_LIST)
-                    )
-                    val message = "${getString(R.string.movie_saved_successfully_message)} ${newListEntity.name}"
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                }
-            }
         }
     }
 
@@ -444,10 +437,10 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun goToPeopleDetails(employe: Employe) {
+    private fun goToPeopleDetails(person: PersonModel) {
         viewModel.movie.value?.let { movie ->
             val directions = MovieDetailsFragmentDirections
-                .actionMovieDetailsFragmentToPeopleDetailsFragment(employe.id, movie.id.toLong())
+                .actionMovieDetailsFragmentToPeopleDetailsFragment(person.id.toLong(), movie.id.toLong())
             findNavController().navigate(directions)
         }
     }

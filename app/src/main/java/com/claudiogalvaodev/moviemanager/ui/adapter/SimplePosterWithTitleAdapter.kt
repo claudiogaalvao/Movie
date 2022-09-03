@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.model.Movie
-import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.ui.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter.SimplePosterWithTitleViewHolder
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
@@ -40,14 +40,14 @@ class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHo
 
         fun bind(obj: Any) {
             when(obj) {
-                is Movie -> {
+                is MovieModel -> {
                     with(binding) {
                         Picasso.with(root.context).load(obj.getPosterUrl()).into(moviePosterWithTitleImage)
                         moviePosterWithTitleTitle.text = obj.title
-                        moviePosterWithTitleRelease.text = dateFromAmericanFormatToDateWithMonthName(obj.release_date)
+                        moviePosterWithTitleRelease.text = obj.releaseDate?.let { dateFromAmericanFormatToDateWithMonthName(it) } ?: ""
 
                         binding.moviePosterWithTitleImage.setOnClickListener {
-                            clickListener?.invoke(obj.id, ItemType.MOVIE, 0, obj.release_date)
+                            clickListener?.invoke(obj.id, ItemType.MOVIE, 0, obj.releaseDate ?: "")
                         }
                     }
                 }

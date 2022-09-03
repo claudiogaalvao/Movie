@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.data.model.MenuItem
+import com.claudiogalvaodev.moviemanager.ui.model.MenuItem
 import com.claudiogalvaodev.moviemanager.databinding.ItemMenuBinding
 import com.claudiogalvaodev.moviemanager.utils.enums.MenuItemType
 

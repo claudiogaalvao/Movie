@@ -2,11 +2,9 @@ package com.claudiogalvaodev.moviemanager.ui.speciallist
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.claudiogalvaodev.moviemanager.data.model.SpecialItem
+import com.claudiogalvaodev.moviemanager.ui.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.*

@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemLargeImageCircleWithTitleBinding
-import com.claudiogalvaodev.moviemanager.data.model.Company
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter.CircleWithTitleViewHolder
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProductionCompanyModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.squareup.picasso.Picasso
-import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter.*
 
 class CircleWithTitleAdapter: ListAdapter<Any, CircleWithTitleViewHolder>(DIFF_CALLBACK) {
 
@@ -35,20 +35,20 @@ class CircleWithTitleAdapter: ListAdapter<Any, CircleWithTitleViewHolder>(DIFF_C
             fun bind(obj: Any) {
                 with(binding) {
                     when(obj) {
-                        is Employe -> {
+                        is PersonModel -> {
                             Picasso.with(root.context).load(obj.getProfileImageUrl()).into(itemLargeImageCircleProfilePhoto)
                             itemLargeImageCircleTitle.text = obj.name
                             itemLargeImageCircleSubtitle.text = obj.character
                         }
-                        is Company -> {
+                        is ProductionCompanyModel -> {
                             itemLargeImageCircleProfilePhoto.scaleType = ImageView.ScaleType.FIT_CENTER
                             Picasso.with(root.context).load(obj.getLogoImageUrl()).into(itemLargeImageCircleProfilePhoto)
                             itemLargeImageCircleTitle.text = obj.name
                         }
-                        is Provider -> {
+                        is ProviderModel -> {
                             itemLargeImageCircleProfilePhoto.scaleType = ImageView.ScaleType.FIT_CENTER
                             Picasso.with(root.context).load(obj.getLogoImageUrl()).into(itemLargeImageCircleProfilePhoto)
-                            itemLargeImageCircleTitle.text = obj.provider_name
+                            itemLargeImageCircleTitle.text = obj.name
                         }
                     }
                     root.setOnClickListener {

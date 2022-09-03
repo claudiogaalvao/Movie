@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemSmallImageCircleBinding
-import com.claudiogalvaodev.moviemanager.data.model.Company
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.data.model.Provider
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProductionCompanyModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.squareup.picasso.Picasso
 
+// TODO Use view type implementation here
 class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIFF_CALLBACK) {
 
-    var onClickListener: ((employeSelected: Employe) -> Unit)? = null
+    var onClickListener: ((personSelected: PersonModel) -> Unit)? = null
     var onLongClickListener: ((imageDescription: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircleAdapterViewHolder {
@@ -28,21 +29,21 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
 
     class CircleAdapterViewHolder(
         private val binding: ItemSmallImageCircleBinding,
-        private val clickListener: ((employeSelected: Employe) -> Unit)?,
+        private val clickListener: ((personSelected: PersonModel) -> Unit)?,
         private val longClickListener: ((imageDescription: String) -> Unit)?
         ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(obj: Any) {
             with(binding) {
                 when(obj) {
-                    is Employe -> {
+                    is PersonModel -> {
                         Picasso.with(root.context).load(obj.getProfileImageUrl()).into(itemImageCircleProfilePhoto)
                     }
-                    is Company -> {
+                    is ProductionCompanyModel -> {
                         itemImageCircleProfilePhoto.scaleType = ImageView.ScaleType.FIT_CENTER
                         Picasso.with(root.context).load(obj.getLogoImageUrl()).into(itemImageCircleProfilePhoto)
                     }
-                    is Provider -> {
+                    is ProviderModel -> {
                         itemImageCircleProfilePhoto.scaleType = ImageView.ScaleType.FIT_CENTER
                         Picasso.with(root.context).load(obj.getLogoImageUrl()).into(itemImageCircleProfilePhoto)
                     }
@@ -54,7 +55,7 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
         }
 
         private fun setupClickListener(obj: Any) {
-            if (obj is Employe) {
+            if (obj is PersonModel) {
                 binding.root.setOnClickListener {
                     clickListener?.invoke(obj)
                 }
@@ -64,9 +65,9 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
         private fun setupLongClickListener(obj: Any) {
             binding.root.setOnLongClickListener {
                 when (obj) {
-                    is Employe -> longClickListener?.invoke(obj.name)
-                    is Company -> longClickListener?.invoke(obj.name)
-                    is Provider -> longClickListener?.invoke(obj.provider_name)
+                    is PersonModel -> longClickListener?.invoke(obj.name)
+                    is ProductionCompanyModel -> longClickListener?.invoke(obj.name)
+                    is ProviderModel -> longClickListener?.invoke(obj.name)
                 }
                 true
             }
@@ -74,7 +75,7 @@ class CircleAdapter: ListAdapter<Any, CircleAdapter.CircleAdapterViewHolder>(DIF
 
         companion object {
             fun create(parent: ViewGroup,
-                       clickListener: ((employeSelected: Employe) -> Unit)?,
+                       clickListener: ((personSelected: PersonModel) -> Unit)?,
                        longClickListener: ((imageDescription: String) -> Unit)?,
             ): CircleAdapterViewHolder {
                 val binding = ItemSmallImageCircleBinding

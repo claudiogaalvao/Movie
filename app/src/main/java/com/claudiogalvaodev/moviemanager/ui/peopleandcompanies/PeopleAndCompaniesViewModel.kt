@@ -2,8 +2,8 @@ package com.claudiogalvaodev.moviemanager.ui.peopleandcompanies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.data.model.Employe
-import com.claudiogalvaodev.moviemanager.usecases.GetMovieCreditsUseCase
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMovieCreditsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +16,17 @@ class PeopleAndCompaniesViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
-    private val _stars = MutableStateFlow<List<Employe>?>(emptyList())
-    val stars = _stars.asStateFlow()
+    private val _actors = MutableStateFlow<List<PersonModel>?>(emptyList())
+    val actors = _actors.asStateFlow()
 
     fun getMovieCredits() = viewModelScope.launch(dispatcher) {
-        getMovieCreditsUseCase.invoke(movieId)
-        _stars.emit(getMovieCreditsUseCase.stars.value)
+        val creditsModelResult = getMovieCreditsUseCase.invoke(movieId)
+        if (creditsModelResult.isSuccess) {
+            val creditsModel = creditsModelResult.getOrNull()
+            creditsModel?.let {
+                _actors.emit(it.actors)
+            }
+        }
     }
 
 }

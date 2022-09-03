@@ -10,12 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.model.Employe
 import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
@@ -55,7 +55,7 @@ class PeopleAndCompaniesFragment: Fragment() {
     private fun setupAdapter() {
         circleWithTitleAdapter = CircleWithTitleAdapter().apply {
             onItemClick = { obj ->
-                if (obj is Employe) {
+                if (obj is PersonModel) {
                     goToPeopleDetails(obj)
                 }
             }
@@ -68,7 +68,7 @@ class PeopleAndCompaniesFragment: Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launchWhenStarted {
-            viewModel.stars.collectLatest { people ->
+            viewModel.actors.collectLatest { people ->
                 people?.let {
                     configPeopleList(it)
                     setupRecyclerViewLayoutManager()
@@ -77,7 +77,7 @@ class PeopleAndCompaniesFragment: Fragment() {
         }
     }
 
-    private fun configPeopleList(people: List<Employe>) {
+    private fun configPeopleList(people: List<PersonModel>) {
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.adapter = circleWithTitleAdapter
         circleWithTitleAdapter.submitList(people)
     }
@@ -91,9 +91,9 @@ class PeopleAndCompaniesFragment: Fragment() {
         binding.fragmentPeopleAndCompaniesPopularActorsRecyclerview.layoutManager = layoutManager
     }
 
-    private fun goToPeopleDetails(employe: Employe) {
+    private fun goToPeopleDetails(person: PersonModel) {
         val directions = PeopleAndCompaniesFragmentDirections
-            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(employe.id, movieId)
+            .actionPeopleAndCompaniesFragmentToPeopleDetailsFragment2(person.id.toLong(), movieId)
         findNavController().navigate(directions)
     }
 

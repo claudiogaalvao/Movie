@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
-import com.claudiogalvaodev.moviemanager.data.model.Movie
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
@@ -20,8 +20,8 @@ import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.ui.search.SearchActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ExploreMoviesFragment: Fragment() {
 
@@ -144,15 +144,15 @@ class ExploreMoviesFragment: Fragment() {
         }
     }
 
-    private fun submitMoviesList(movies: List<Movie>) {
-        if(movies.isEmpty() && !viewModel.isLoading) {
+    private fun submitMoviesList(movieModels: List<MovieModel>) {
+        if(movieModels.isEmpty() && !viewModel.isLoading) {
             binding.wathingIcon.visibility = View.VISIBLE
             binding.exploreMoviesDidntFindDescription.visibility = View.VISIBLE
         } else if(binding.wathingIcon.isVisible) {
             binding.wathingIcon.visibility = View.GONE
             binding.exploreMoviesDidntFindDescription.visibility = View.GONE
         }
-        moviesAdapter.submitList(movies)
+        moviesAdapter.submitList(movieModels)
     }
 
     private fun goToMovieDetails(movieId: Int, releaseDate: String) {

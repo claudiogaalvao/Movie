@@ -3,20 +3,13 @@ package com.claudiogalvaodev.moviemanager.ui.moviedetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.commit
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityMovieDetailsBinding
-import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val ARG_MOVIE_ID = "movieId"
 private const val ARG_RELEASE_DATE = "releaseDate"

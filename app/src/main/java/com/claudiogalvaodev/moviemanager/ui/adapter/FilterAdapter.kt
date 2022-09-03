@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.claudiogalvaodev.moviemanager.databinding.ItemFilterBinding
-import com.claudiogalvaodev.moviemanager.data.model.Filter
+import com.claudiogalvaodev.moviemanager.ui.model.FilterModel
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter.FilterViewHolder
 
-class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
+class FilterAdapter: ListAdapter<FilterModel, FilterViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((filter: Filter) -> Unit)? = null
+    var onItemClick: ((filter: FilterModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         return FilterViewHolder.create(parent, onItemClick)
@@ -24,10 +24,10 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
 
     class FilterViewHolder(
         private val binding: ItemFilterBinding,
-        private val clickListener: ((filter: Filter) -> Unit)?
+        private val clickListener: ((filter: FilterModel) -> Unit)?
         ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(filter: Filter) {
+        fun bind(filter: FilterModel) {
             binding.itemFilterButton.text = filter.name
             binding.itemFilterButton.isSelected = filter.currentValue.isNotBlank()
 
@@ -37,7 +37,7 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
         }
 
         companion object {
-            fun create(parent: ViewGroup, clickListener: ((filter: Filter) -> Unit)?): FilterViewHolder {
+            fun create(parent: ViewGroup, clickListener: ((filter: FilterModel) -> Unit)?): FilterViewHolder {
                 val binding = ItemFilterBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 return FilterViewHolder(binding, clickListener)
@@ -47,13 +47,13 @@ class FilterAdapter: ListAdapter<Filter, FilterViewHolder>(DIFF_CALLBACK) {
     }
 
     companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Filter>() {
-            override fun areItemsTheSame(oldItem: Filter, newItem: Filter): Boolean {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<FilterModel>() {
+            override fun areItemsTheSame(oldItem: FilterModel, newItem: FilterModel): Boolean {
                 return oldItem.currentValue == newItem.currentValue
             }
 
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: Filter, newItem: Filter): Boolean {
+            override fun areContentsTheSame(oldItem: FilterModel, newItem: FilterModel): Boolean {
                 return oldItem == newItem
             }
 
