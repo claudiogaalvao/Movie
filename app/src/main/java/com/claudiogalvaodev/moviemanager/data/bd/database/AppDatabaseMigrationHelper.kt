@@ -23,41 +23,22 @@ internal object AppDatabaseMigrationHelper {
         }
     }
 
-    val MIGRATION_4_5 = object : Migration(4, 5) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            // CustomListEntity
-
-            // drop CustomListEntity table
-            // rename MyList to CustomListEntity
-            try {
-                // CustomListEntity
-                database.execSQL("CREATE TABLE IF NOT EXISTS `CustomListEntity` (id INTEGER NOT NULL, name TEXT NOT NULL, posterPath TEXT, PRIMARY KEY(`id`))")
-                database.execSQL("INSERT INTO CustomListEntity (id, name, posterPath) SELECT id, name, posterPath FROM MyList")
-                database.execSQL("DROP TABLE MyList")
-
-                // MovieSavedEntity
-                database.execSQL("CREATE TABLE IF NOT EXISTS `MovieSavedEntity` (id INTEGER NOT NULL, movieId INTEGER NOT NULL, posterPath TEXT, listId INTEGER NOT NULL, PRIMARY KEY(`id`))")
-                database.execSQL("INSERT INTO MovieSavedEntity (id, movieId, posterPath, listId) SELECT id, movieId, moviePosterUrl, myListId FROM MovieSaved")
-                database.execSQL("DROP TABLE MovieSaved")
-            } catch (e: SQLiteException) {
-                Log.i("migration", e.message.toString())
-            }
-
-//            database.execSQL("DROP TABLE `CustomListEntity`")
-//            database.execSQL("ALTER TABLE `MyList` RENAME TO `CustomListEntity`")
-
-            // MovieSavedEntity
-            // drop MovieSavedEntity
-            // alter MovieSaved to MovieSavedEntity
-            // add column posterPath
-            // add column listId
-//            database.execSQL("DROP TABLE `MovieSavedEntity`")
-//            database.execSQL("ALTER TABLE `MovieSaved` RENAME TO `MovieSavedEntity`")
-//            database.execSQL("ALTER TABLE `MovieSaved` ADD COLUMN posterPath TEXT")
-//            database.execSQL("ALTER TABLE `MovieSaved` ADD COLUMN listId INTEGER")
-
-        }
-
-    }
+//    val MIGRATION_4_5 = object : Migration(4, 5) {
+//        override fun migrate(database: SupportSQLiteDatabase) {
+//            try {
+//                // CustomListEntity
+//                database.execSQL("CREATE TABLE IF NOT EXISTS `CustomListEntity` (id INTEGER NOT NULL, name TEXT NOT NULL, posterPath TEXT, PRIMARY KEY(`id`))")
+//                database.execSQL("INSERT INTO CustomListEntity (id, name, posterPath) SELECT id, name, posterPath FROM MyList")
+//                database.execSQL("DROP TABLE MyList")
+//
+//                // MovieSavedEntity
+//                database.execSQL("CREATE TABLE IF NOT EXISTS `MovieSavedEntity` (id INTEGER NOT NULL, movieId INTEGER NOT NULL, posterPath TEXT, listId INTEGER NOT NULL, PRIMARY KEY(`id`))")
+//                database.execSQL("INSERT INTO MovieSavedEntity (id, movieId, posterPath, listId) SELECT id, movieId, moviePosterUrl, myListId FROM MovieSaved")
+//                database.execSQL("DROP TABLE MovieSaved")
+//            } catch (e: SQLiteException) {
+//                Log.i("migration", e.message.toString())
+//            }
+//        }
+//    }
 
 }
