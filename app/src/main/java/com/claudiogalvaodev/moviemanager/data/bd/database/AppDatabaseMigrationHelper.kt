@@ -23,22 +23,21 @@ internal object AppDatabaseMigrationHelper {
         }
     }
 
-//    val MIGRATION_4_5 = object : Migration(4, 5) {
-//        override fun migrate(database: SupportSQLiteDatabase) {
-//            try {
-//                // CustomListEntity
-//                database.execSQL("CREATE TABLE IF NOT EXISTS `CustomListEntity` (id INTEGER NOT NULL, name TEXT NOT NULL, posterPath TEXT, PRIMARY KEY(`id`))")
-//                database.execSQL("INSERT INTO CustomListEntity (id, name, posterPath) SELECT id, name, posterPath FROM MyList")
-//                database.execSQL("DROP TABLE MyList")
-//
-//                // MovieSavedEntity
-//                database.execSQL("CREATE TABLE IF NOT EXISTS `MovieSavedEntity` (id INTEGER NOT NULL, movieId INTEGER NOT NULL, posterPath TEXT, listId INTEGER NOT NULL, PRIMARY KEY(`id`))")
-//                database.execSQL("INSERT INTO MovieSavedEntity (id, movieId, posterPath, listId) SELECT id, movieId, moviePosterUrl, myListId FROM MovieSaved")
-//                database.execSQL("DROP TABLE MovieSaved")
-//            } catch (e: SQLiteException) {
-//                Log.i("migration", e.message.toString())
-//            }
-//        }
-//    }
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            try {
+                // CustomListEntity
+                database.execSQL("ALTER TABLE MyList RENAME TO CustomListEntity")
+
+                // MovieSavedEntity
+                database.execSQL("ALTER TABLE MovieSaved RENAME TO MovieSavedEntity")
+                database.execSQL("ALTER TABLE MovieSavedEntity RENAME COLUMN moviePosterUrl TO posterPath")
+                database.execSQL("ALTER TABLE MovieSavedEntity RENAME COLUMN myListId TO listId")
+
+            } catch (e: SQLiteException) {
+                Log.i("migration", e.message.toString())
+            }
+        }
+    }
 
 }
