@@ -9,8 +9,8 @@ data class MovieSavedEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val movieId: Int,
-    val posterPath: String,
-    val listId: Int
+    val moviePosterUrl: String,
+    val myListId: Int
 )
 
 fun MovieSavedEntity.toModel() = MovieModel(
@@ -21,7 +21,7 @@ fun MovieSavedEntity.toModel() = MovieModel(
     releaseDate = "",
     genres = emptyList(),
     backdropPath = "",
-    posterPath = this.posterPath,
+    posterPath = this.moviePosterUrl,
     budget = 0,
     voteAverage = 0.0,
     collectionId = null,

@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.data.bd.database
+package com.claudiogalvaodev.moviemanager.data.bd.migration
 
 import android.database.sqlite.SQLiteException
 import android.util.Log
@@ -33,7 +33,6 @@ internal object AppDatabaseMigrationHelper {
                 database.execSQL("ALTER TABLE MovieSaved RENAME TO MovieSavedEntity")
                 database.execSQL("ALTER TABLE MovieSavedEntity RENAME COLUMN moviePosterUrl TO posterPath")
                 database.execSQL("ALTER TABLE MovieSavedEntity RENAME COLUMN myListId TO listId")
-
             } catch (e: SQLiteException) {
                 Log.i("migration", e.message.toString())
             }

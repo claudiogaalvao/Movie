@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.data.bd.database.CineSeteDatabase
+import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.repository.CustomListsRepository

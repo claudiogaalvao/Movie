@@ -9,13 +9,13 @@ data class CustomListEntity(
     @PrimaryKey (autoGenerate = true)
     val id: Int,
     val name: String,
-    val posterPath: String
+    val posterPath: String? = null
 )
 
 fun CustomListEntity.toModel() = CustomListModel(
     id = this.id,
     name = this.name,
-    posterPath = this.posterPath,
+    posterPath = this.posterPath ?: "",
     movies = emptyList()
 )
 

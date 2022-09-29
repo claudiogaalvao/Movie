@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">CineSete</string>
+    <string name="channel_name">My chanel</string>
+    <string name="channel_description">My chanel description</string>
 
     <!-- Fragments title -->
     <string name="fragment_home_title">Home</string>

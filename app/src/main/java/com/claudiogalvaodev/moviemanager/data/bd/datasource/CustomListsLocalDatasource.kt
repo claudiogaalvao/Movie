@@ -25,7 +25,7 @@ class CustomListsLocalDatasource(
 
     override suspend fun saveMovieOnCustomList(listId: Int, movieId: Int, posterPath: String): Result<Unit> {
         return try {
-            moviesSavedDao.saveMovie(MovieSavedEntity(id = 1, movieId = movieId, posterPath = posterPath, listId = listId))
+            moviesSavedDao.saveMovie(MovieSavedEntity(id = 1, movieId = movieId, moviePosterUrl = posterPath, myListId = listId))
             customListsDao.updatePosterPath(listId, posterPath)
             Result.success(Unit)
         } catch (e: Exception) {
@@ -66,7 +66,7 @@ class CustomListsLocalDatasource(
                 movies?.let { movieSavedList ->
                     val customListsWithMovies = customListsModel.map { customListModel ->
                         customListModel.copy(movies = movieSavedList
-                            .filter { it.listId == customListModel.id }
+                            .filter { it.myListId == customListModel.id }
                             .toListOfMovieModel()
                         )
                     }

@@ -16,9 +16,9 @@ interface MoviesSavedDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun saveMovie(movieToSave: MovieSavedEntity)
 
-    @Query("SELECT * FROM MovieSavedEntity WHERE listId = :listId")
+    @Query("SELECT * FROM MovieSavedEntity WHERE myListId = :listId")
     suspend fun getMoviesByListId(listId: Int): List<MovieSavedEntity>
 
-    @Query("DELETE FROM MovieSavedEntity WHERE movieId = :movieId AND listId = :listId")
+    @Query("DELETE FROM MovieSavedEntity WHERE movieId = :movieId AND myListId = :listId")
     suspend fun remove(movieId: Int, listId: Int)
 }

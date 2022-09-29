@@ -2,10 +2,13 @@ package com.claudiogalvaodev.moviemanager.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.claudiogalvaodev.moviemanager.R
+import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity: AppCompatActivity() {
     private val binding by lazy {
@@ -16,6 +19,12 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Thread.sleep(2000)
         setTheme(R.style.Theme_Filmes)
+
+        val db = CineSeteDatabase.getInstance(applicationContext)
+
+        lifecycleScope.launch {
+            db.moviesSavedDao.getAll().forEach(::println)
+        }
 
         setContentView(binding.root)
 
