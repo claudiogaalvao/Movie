@@ -6,6 +6,6 @@ class GetMoviesByListIdUseCase(
     private val repository: ICustomListsRepository
 ) {
 
-    suspend fun invoke(listId: Int) = repository.getMoviesByListId(listId)
+    operator fun invoke(listId: Int) = repository.getMoviesByListId(listId)
 
 }

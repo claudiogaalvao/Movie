@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.menu.customLists
+package com.claudiogalvaodev.moviemanager.ui.customLists
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,10 +9,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMyListsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.ForwardWithImageAdapter
+import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsActivity
 import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,8 +36,6 @@ class CustomListsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as CustomListsActivity).setToolbarTitle(getString(R.string.my_lists))
 
         setupAdapter()
         setupRecyclerView()
@@ -94,9 +92,9 @@ class CustomListsFragment : Fragment() {
     }
 
     private fun goToMyListDetails(customList: CustomListModel) {
-        val directions = CustomListsFragmentDirections
-            .actionMyListsFragmentToMyListFragmentDetails(customList.id, customList.name)
-        findNavController().navigate(directions)
+        context?.let {
+            startActivity(CustomListsActivity.newInstance(it, customList.id, customList.name))
+        }
     }
 
 }

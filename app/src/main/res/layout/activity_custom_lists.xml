@@ -30,13 +30,20 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/activity_my_lists_nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/activity_my_lists_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/activity_my_lists_toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:navGraph="@navigation/main_without_bottom_nav_graph"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/activity_my_lists_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

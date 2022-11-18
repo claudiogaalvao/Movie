@@ -2,8 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_details_nav_graph"
-    app:startDestination="@id/myListsFragment">
+    android:id="@+id/movie_details_nav_graph">
 
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -51,27 +50,18 @@
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/myListsFragment"
-        android:name="com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsFragment"
-        android:label="fragment_my_lists"
-        tools:layout="@layout/fragment_my_lists" >
-        <action
-            android:id="@+id/action_myListsFragment_to_myListFragmentDetails"
-            app:destination="@id/myListFragmentDetails" />
-    </fragment>
-    <fragment
         android:id="@+id/myListFragmentDetails"
-        android:name="com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListDetailsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListDetailsFragment"
         android:label="MyListFragmentDetails"
         tools:layout="@layout/fragment_custom_list_details">
         <action
             android:id="@+id/action_myListFragmentDetails_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <argument
-            android:name="MyListId"
+            android:name="customListId"
             app:argType="integer" />
         <argument
-            android:name="MyListName"
+            android:name="customListName"
             app:argType="string" />
     </fragment>
     <fragment

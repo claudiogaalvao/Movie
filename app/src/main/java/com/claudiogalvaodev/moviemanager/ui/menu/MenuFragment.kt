@@ -12,7 +12,6 @@ import com.claudiogalvaodev.moviemanager.ui.model.MenuItem
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMenuBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.MenuAdapter
 import com.claudiogalvaodev.moviemanager.ui.menu.aboutdeveloper.AboutDeveloperActivity
-import com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.MenuItemType
 
 class MenuFragment: Fragment() {
@@ -23,9 +22,6 @@ class MenuFragment: Fragment() {
 
     private val menuItems: List<MenuItem> by lazy {
         listOf(
-            MenuItem(iconId = R.drawable.ic_bookmark,
-                title = getString(R.string.my_lists),
-                type = MenuItemType.MY_LISTS),
             MenuItem(iconId = R.drawable.ic_code,
                 title = getString(R.string.about_developer),
                 type = MenuItemType.ABOUT_DEVELOPER),
@@ -59,9 +55,6 @@ class MenuFragment: Fragment() {
         menuItemsAdapter = MenuAdapter().apply {
             onClickListener = { menuItemType ->
                 when(menuItemType) {
-                    MenuItemType.MY_LISTS -> {
-                        goToMyLists()
-                    }
                     MenuItemType.ABOUT_DEVELOPER -> {
                         goToAboutDeveloper()
                     }
@@ -73,11 +66,6 @@ class MenuFragment: Fragment() {
     private fun setupRecyclerView() {
         binding.fragmentMenuRecyclerview.adapter = menuItemsAdapter
         menuItemsAdapter.submitList(menuItems)
-    }
-
-    private fun goToMyLists() {
-        val intent = Intent(activity, CustomListsActivity::class.java)
-        startActivity(intent)
     }
 
     private fun goToAboutDeveloper() {

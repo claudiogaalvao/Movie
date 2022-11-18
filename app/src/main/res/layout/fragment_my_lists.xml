@@ -5,7 +5,7 @@
     android:id="@+id/my_lists"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.menu.customLists.CustomListsFragment">
+    tools:context=".ui.customLists.CustomListsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_lists_recyclerview"
@@ -21,6 +21,7 @@
         android:id="@+id/my_lists_fab"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_add"

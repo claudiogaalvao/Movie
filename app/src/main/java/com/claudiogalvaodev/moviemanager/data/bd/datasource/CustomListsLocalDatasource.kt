@@ -24,10 +24,14 @@ class CustomListsLocalDatasource(
         }
     }
 
-    override suspend fun removeMoveFromCustomList(movieId: Int, listId: Int): Result<Unit> {
+    override suspend fun removeMoveFromCustomList(
+        movieId: Int,
+        listId: Int,
+        newPosterPath: String?
+    ): Result<Unit> {
         return try {
             moviesSavedDao.remove(movieId, listId)
-            // TODO Update poster path on Custom List
+            newPosterPath?.let { customListsDao.updatePosterPath(listId, it) }
             Result.success(Unit)
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().log(e.message.toString())
@@ -35,13 +39,14 @@ class CustomListsLocalDatasource(
         }
     }
 
-    override suspend fun getMoviesByListId(listId: Int) : Result<List<MovieModel>> {
-        return try {
-            val moviesSaved = moviesSavedDao.getMoviesByListId(listId)
-            Result.success(moviesSaved.toListOfMovieModel())
+    override fun getMoviesByListId(listId: Int) : Flow<Result<List<MovieModel>>> = flow {
+        try {
+            moviesSavedDao.getMoviesByListId(listId).collect { moviesSavedEntity ->
+                emit(Result.success(moviesSavedEntity.toListOfMovieModel().reversed()))
+            }
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().log(e.message.toString())
-            Result.failure(exception = Exception("Something went wrong when try to get movies by list id"))
+            emit(Result.failure(exception = Exception("Something went wrong when try to get movies by list id")))
         }
     }
 
@@ -55,6 +60,7 @@ class CustomListsLocalDatasource(
                     customListModel.copy(movies = moviesSavedEntity
                         .filterMoviesByListId(customListModel.id)
                         .toListOfMovieModel()
+                        .reversed()
                     )
                 }
                 emit(Result.success(customListsWithMovies))

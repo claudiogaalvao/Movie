@@ -14,10 +14,10 @@ class CustomListsRepository(
         return customListsLocalDatasource.saveMovieOnCustomList(listId, movieId, posterPath)
     }
 
-    override suspend fun removeMoveFromCustomList(movieId: Int, listId: Int) =
-        customListsLocalDatasource.removeMoveFromCustomList(movieId, listId)
+    override suspend fun removeMoveFromCustomList(movieId: Int, listId: Int, newPosterPath: String?) =
+        customListsLocalDatasource.removeMoveFromCustomList(movieId, listId, newPosterPath)
 
-    override suspend fun getMoviesByListId(listId: Int) = customListsLocalDatasource.getMoviesByListId(listId)
+    override fun getMoviesByListId(listId: Int) = customListsLocalDatasource.getMoviesByListId(listId)
 
     override fun getAllCustomList() = customListsLocalDatasource.getAllCustomList()
 

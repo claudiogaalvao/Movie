@@ -154,20 +154,18 @@ class MovieDetailsViewModel(
     suspend fun saveMovieOnCustomList(
         listId: Int
     ): Boolean = _movie.value?.let {
-        val result = allMovieDetailsUseCase.saveMovieOnCustomListUseCase.invoke(
+        allMovieDetailsUseCase.saveMovieOnCustomListUseCase.invoke(
             listId = listId,
             movieId = it.id,
             posterPath = it.posterPath
-        )
-        result.isSuccess
+        ).isSuccess
     } ?: false
 
     suspend fun removeMovieFromCustomList(
         listSelected: BottomSheetOfListsUI
     ): Boolean = _movie.value?.let {
-        val result = allMovieDetailsUseCase.removeMovieFromCustomListUseCase
-            .invoke(movieId = it.id, listId = listSelected.id)
-        result.isSuccess
+        val selectedList = customLists.value.find { it.id == listSelected.id }
+        allMovieDetailsUseCase.removeMovieFromCustomListUseCase(movieId = it.id, selectedList = selectedList).isSuccess
     } ?: false
 
     suspend fun createNewCustomListThenSaveMovie(listName: String): Boolean {

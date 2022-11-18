@@ -8,9 +8,9 @@ interface ICustomListsRepository {
 
     suspend fun saveMovieOnCustomList(listId: Int, movieId: Int, posterPath: String): Result<Unit>
 
-    suspend fun removeMoveFromCustomList(movieId: Int, listId: Int): Result<Unit>
+    suspend fun removeMoveFromCustomList(movieId: Int, listId: Int, newPosterPath: String?): Result<Unit>
 
-    suspend fun getMoviesByListId(listId: Int): Result<List<MovieModel>>
+    fun getMoviesByListId(listId: Int): Flow<Result<List<MovieModel>>>
 
     fun getAllCustomList(): Flow<Result<List<CustomListModel>>>
 

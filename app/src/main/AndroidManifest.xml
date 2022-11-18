@@ -27,7 +27,7 @@
         <activity android:name=".ui.menu.aboutdeveloper.AboutDeveloperActivity"
             android:exported="true" />
         <activity
-            android:name="com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsActivity"
+            android:name="com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsActivity"
             android:exported="true" />
         <activity
             android:name=".ui.search.SearchActivity"

@@ -1,6 +1,5 @@
 package com.claudiogalvaodev.moviemanager.ui.explore
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
@@ -10,14 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentExploreMoviesBinding
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import com.claudiogalvaodev.moviemanager.ui.search.SearchActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -58,21 +55,6 @@ class ExploreMoviesFragment: Fragment() {
         setupAdapter()
         setupRecyclerView()
         setObservables()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.explore_options_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.search -> {
-                goToSearch()
-                true
-            }
-            else -> true
-        }
     }
 
     private fun getMovies() {
@@ -159,11 +141,6 @@ class ExploreMoviesFragment: Fragment() {
         context?.let {
             startActivity(MovieDetailsActivity.newInstance(it, movieId, releaseDate))
         }
-    }
-
-    private fun goToSearch() {
-        val intent = Intent(activity, SearchActivity::class.java)
-        startActivity(intent)
     }
 
     private fun calcNumberOfColumns(): Int {

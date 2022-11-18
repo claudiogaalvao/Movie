@@ -18,6 +18,18 @@
         tools:layout="@layout/fragment_explore_movies" />
 
     <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/customListsFragment"
+        android:name="com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsFragment"
+        android:label="MyListsFragment"
+        tools:layout="@layout/fragment_my_lists" />
+
+    <fragment
         android:id="@+id/menuFragment"
         android:name="com.claudiogalvaodev.moviemanager.ui.menu.MenuFragment"
         android:label="MenuFragment"

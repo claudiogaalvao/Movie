@@ -17,7 +17,9 @@ import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
-import com.claudiogalvaodev.moviemanager.ui.menu.customLists.CustomListsViewModel
+import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
+import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
@@ -180,7 +182,17 @@ val viewModelModule = module {
         )
     }
     viewModel { SearchViewModel(get()) }
-    viewModel { CustomListsViewModel(get(), get(), get(), get()) }
+    viewModel { CustomListsViewModel(
+        createNewCustomListUseCase = get(),
+        getAllCustomListsUseCase = get()
+    ) }
+    viewModel { (customListId: Int) ->
+        CustomListsDetailsViewModel(
+            customListId = customListId,
+            getMoviesByListIdUseCase = get(),
+            deleteCustomListUseCase = get()
+        )
+    }
     viewModel { (movieId: Int) ->
         PeopleAndCompaniesViewModel(
             movieId = movieId,

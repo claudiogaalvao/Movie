@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.menu.customLists
+package com.claudiogalvaodev.moviemanager.ui.customLists.details
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,12 +16,13 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
 
 class CustomListDetailsFragment: Fragment() {
 
-    private val viewModel: CustomListsViewModel by viewModel()
+    private lateinit var viewModel: CustomListsDetailsViewModel
     private val binding by lazy {
         FragmentCustomListDetailsBinding.inflate(layoutInflater)
     }
@@ -29,11 +30,11 @@ class CustomListDetailsFragment: Fragment() {
     private lateinit var moviesAdapter: SimplePosterAdapter
 
     private val args: CustomListDetailsFragmentArgs by navArgs()
-    private val listId by lazy {
-        args.myListId
+    private val customListId by lazy {
+        args.customListId
     }
-    private val listName by lazy {
-        args.myListName
+    private val customListName by lazy {
+        args.customListName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +53,10 @@ class CustomListDetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as CustomListsActivity).setToolbarTitle(listName)
+        viewModel = getViewModel { parametersOf(customListId) }
 
-        getData()
+        (activity as CustomListsActivity).setToolbarTitle(customListName)
+
         setupAdapter()
         setupRecyclerView()
         setupObservers()
@@ -90,17 +92,13 @@ class CustomListDetailsFragment: Fragment() {
                 .setTitle(resources.getString(R.string.filter_alertdialog_title))
                 .setMessage(resources.getString(R.string.filter_alertdialog_delete_mylist_message))
                 .setPositiveButton(resources.getString(R.string.filter_alertdialog_positive)) { _, _ ->
-                    viewModel.deleteMyList(listId)
+                    viewModel.deleteMyList()
                     Toast.makeText(context, getString(R.string.list_deleted_successfully_message), Toast.LENGTH_LONG).show()
-                    findNavController().popBackStack()
+                    activity?.finish()
                 }
                 .setNegativeButton(resources.getString(R.string.filter_alertdialog_negative), null)
                 .show()
         }
-    }
-
-    private fun getData() {
-        viewModel.getMoviesByListId(listId)
     }
 
     private fun setupAdapter() {
