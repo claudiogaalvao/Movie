@@ -2,6 +2,7 @@ package com.claudiogalvaodev.moviemanager.data.repository
 
 import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import kotlinx.coroutines.flow.Flow
 
 interface ICustomListsRepository {
 
@@ -11,7 +12,7 @@ interface ICustomListsRepository {
 
     suspend fun getMoviesByListId(listId: Int): Result<List<MovieModel>>
 
-    suspend fun getAllCustomList(): Result<List<CustomListModel>>
+    fun getAllCustomList(): Flow<Result<List<CustomListModel>>>
 
     suspend fun createNewCustomList(listName: String): Result<Int>
 

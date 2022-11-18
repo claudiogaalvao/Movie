@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CustomListsViewModel(
@@ -28,15 +29,18 @@ class CustomListsViewModel(
     private val _movies = MutableStateFlow<List<MovieModel>>(emptyList())
     val movies = _movies.asStateFlow()
 
-    fun createNewList(listName: String) = viewModelScope.launch(dispatcher) {
-        createNewCustomListUseCase.invoke(listName)
+    init {
         getAllCustomLists()
     }
 
-    fun getAllCustomLists() = viewModelScope.launch(dispatcher) {
-        val allCustomListsResult = getAllCustomListsUseCase.invoke()
-        if (allCustomListsResult.isSuccess) {
-            val allCustomLists = allCustomListsResult.getOrNull()
+    fun createNewList(listName: String) = viewModelScope.launch(dispatcher) {
+        createNewCustomListUseCase(listName)
+        getAllCustomLists()
+    }
+
+    private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {
+        getAllCustomListsUseCase().collectLatest { customListsResult ->
+            val allCustomLists = customListsResult.getOrNull()
             allCustomLists?.let {
                 _customLists.emit(it)
             }

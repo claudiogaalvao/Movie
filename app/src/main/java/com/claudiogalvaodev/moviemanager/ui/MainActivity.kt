@@ -20,12 +20,6 @@ class MainActivity: AppCompatActivity() {
         Thread.sleep(2000)
         setTheme(R.style.Theme_Filmes)
 
-        val db = CineSeteDatabase.getInstance(applicationContext)
-
-        lifecycleScope.launch {
-            db.moviesSavedDao.getAll().forEach(::println)
-        }
-
         setContentView(binding.root)
 
         setNavigationController()

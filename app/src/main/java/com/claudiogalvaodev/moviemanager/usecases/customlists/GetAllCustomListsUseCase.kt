@@ -6,6 +6,6 @@ class GetAllCustomListsUseCase(
     private val repository: ICustomListsRepository
 ) {
 
-    suspend fun invoke() = repository.getAllCustomList()
+    operator fun invoke() = repository.getAllCustomList()
 
 }

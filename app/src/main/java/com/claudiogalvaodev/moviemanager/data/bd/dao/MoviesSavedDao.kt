@@ -8,12 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface MoviesSavedDao {
 
     @Query("SELECT * FROM MovieSavedEntity")
-    suspend fun getAll(): List<MovieSavedEntity>
+    fun getAll(): Flow<List<MovieSavedEntity>>
 
-    @Query("SELECT * FROM MovieSavedEntity WHERE movieId == :movieId")
-    suspend fun getMovieSavedById(movieId: Int): List<MovieSavedEntity>
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMovie(movieToSave: MovieSavedEntity)
 
     @Query("SELECT * FROM MovieSavedEntity WHERE myListId = :listId")

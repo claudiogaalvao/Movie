@@ -2,6 +2,7 @@ package com.claudiogalvaodev.moviemanager.data.bd.dao
 
 import androidx.room.*
 import com.claudiogalvaodev.moviemanager.data.bd.entity.CustomListEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CustomListsDao {
@@ -10,7 +11,7 @@ interface CustomListsDao {
     suspend fun create(listEntity: CustomListEntity): Long
 
     @Query("SELECT * FROM CustomListEntity")
-    suspend fun getAll(): List<CustomListEntity>
+    fun getAll(): Flow<List<CustomListEntity>>
 
     @Query("SELECT * FROM CustomListEntity WHERE id = :listId")
     suspend fun getCustomListById(listId: Int): CustomListEntity

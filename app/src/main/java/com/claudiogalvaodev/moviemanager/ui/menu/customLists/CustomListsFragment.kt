@@ -38,7 +38,6 @@ class CustomListsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as CustomListsActivity).setToolbarTitle(getString(R.string.my_lists))
-        viewModel.getAllCustomLists()
 
         setupAdapter()
         setupRecyclerView()

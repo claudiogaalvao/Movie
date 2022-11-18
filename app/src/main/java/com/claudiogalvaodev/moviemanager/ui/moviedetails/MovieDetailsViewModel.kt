@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
@@ -132,8 +133,7 @@ class MovieDetailsViewModel(
     }
 
     private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {
-        val customListsResult = allMovieDetailsUseCase.getAllCustomListsUseCase.invoke()
-        if (customListsResult.isSuccess) {
+        allMovieDetailsUseCase.getAllCustomListsUseCase.invoke().collectLatest { customListsResult ->
             val customLists = customListsResult.getOrNull()
             customLists?.let {
                 _customLists.emit(it)

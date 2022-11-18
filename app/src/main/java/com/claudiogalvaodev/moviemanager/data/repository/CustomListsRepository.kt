@@ -3,7 +3,7 @@ package com.claudiogalvaodev.moviemanager.data.repository
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 
 class CustomListsRepository(
-    private val customListsLocalRepository: ICustomListsLocalDatasource,
+    private val customListsLocalDatasource: ICustomListsLocalDatasource,
 ): ICustomListsRepository {
 
     override suspend fun saveMovieOnCustomList(
@@ -11,20 +11,20 @@ class CustomListsRepository(
         movieId: Int,
         posterPath: String
     ): Result<Unit> {
-        return customListsLocalRepository.saveMovieOnCustomList(listId, movieId, posterPath)
+        return customListsLocalDatasource.saveMovieOnCustomList(listId, movieId, posterPath)
     }
 
     override suspend fun removeMoveFromCustomList(movieId: Int, listId: Int) =
-        customListsLocalRepository.removeMoveFromCustomList(movieId, listId)
+        customListsLocalDatasource.removeMoveFromCustomList(movieId, listId)
 
-    override suspend fun getMoviesByListId(listId: Int) = customListsLocalRepository.getMoviesByListId(listId)
+    override suspend fun getMoviesByListId(listId: Int) = customListsLocalDatasource.getMoviesByListId(listId)
 
-    override suspend fun getAllCustomList() = customListsLocalRepository.getAllCustomList()
+    override fun getAllCustomList() = customListsLocalDatasource.getAllCustomList()
 
     override suspend fun createNewCustomList(listName: String) =
-        customListsLocalRepository.createNewCustomList(listName)
+        customListsLocalDatasource.createNewCustomList(listName)
 
-    override suspend fun deleteCustomList(listId: Int) = customListsLocalRepository.deleteCustomList(listId)
+    override suspend fun deleteCustomList(listId: Int) = customListsLocalDatasource.deleteCustomList(listId)
 
 
 }

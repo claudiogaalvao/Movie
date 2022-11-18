@@ -7,7 +7,7 @@ import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 @Entity
 data class MovieSavedEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val movieId: Int,
     val moviePosterUrl: String,
     val myListId: Int
@@ -29,3 +29,5 @@ fun MovieSavedEntity.toModel() = MovieModel(
 )
 
 fun List<MovieSavedEntity>.toListOfMovieModel() = this.map { it.toModel() }
+
+fun List<MovieSavedEntity>.filterMoviesByListId(listId: Int) = this.filter { it.myListId == listId }
