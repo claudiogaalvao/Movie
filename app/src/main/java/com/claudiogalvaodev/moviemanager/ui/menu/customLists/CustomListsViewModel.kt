@@ -35,7 +35,6 @@ class CustomListsViewModel(
 
     fun createNewList(listName: String) = viewModelScope.launch(dispatcher) {
         createNewCustomListUseCase(listName)
-        getAllCustomLists()
     }
 
     private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {

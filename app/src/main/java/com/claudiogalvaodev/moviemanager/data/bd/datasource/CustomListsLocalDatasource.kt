@@ -6,14 +6,11 @@ import com.claudiogalvaodev.moviemanager.data.bd.entity.*
 import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class CustomListsLocalDatasource(
     private val customListsDao: CustomListsDao,
-    private val moviesSavedDao: MoviesSavedDao,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val moviesSavedDao: MoviesSavedDao
 ): ICustomListsLocalDatasource {
 
     override suspend fun saveMovieOnCustomList(listId: Int, movieId: Int, posterPath: String): Result<Unit> {
@@ -48,26 +45,25 @@ class CustomListsLocalDatasource(
         }
     }
 
-    override fun getAllCustomList() : Flow<Result<List<CustomListModel>>> = flow {
+    override fun getAllCustomList() : Flow<Result<List<CustomListModel>>> {
         try {
-            customListsDao.getAll().collect { customListsEntity ->
+            val customListsEntityFlow = customListsDao.getAll()
+            val moviesSavedEntityFlow = moviesSavedDao.getAll()
+            return combineTransform(customListsEntityFlow, moviesSavedEntityFlow) { customListsEntity, moviesSavedEntity ->
                 val customListsModel = customListsEntity.toListOfCustomListModel()
-                emit(Result.success(customListsModel))
-                moviesSavedDao.getAll().collect { moviesSavedEntity ->
-                    val customListsWithMovies = customListsModel.map { customListModel ->
-                        customListModel.copy(movies = moviesSavedEntity
-                            .filterMoviesByListId(customListModel.id)
-                            .toListOfMovieModel()
-                        )
-                    }
-                    emit(Result.success(customListsWithMovies))
+                val customListsWithMovies = customListsModel.map { customListModel ->
+                    customListModel.copy(movies = moviesSavedEntity
+                        .filterMoviesByListId(customListModel.id)
+                        .toListOfMovieModel()
+                    )
                 }
+                emit(Result.success(customListsWithMovies))
             }
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().log(e.message.toString())
-            emit(Result.failure(exception = Exception("Something went wrong when try to get all custom list")))
+            return flowOf(Result.failure(exception = Exception("Something went wrong when try to get all custom list")))
         }
-    }.flowOn(dispatcher)
+    }
 
     override suspend fun createNewCustomList(listName: String): Result<Int> {
         return try {
