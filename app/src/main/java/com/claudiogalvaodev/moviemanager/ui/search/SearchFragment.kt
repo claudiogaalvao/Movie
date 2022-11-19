@@ -3,21 +3,26 @@ package com.claudiogalvaodev.moviemanager.ui.search
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.databinding.FragmentSearchBinding
+import com.claudiogalvaodev.moviemanager.ui.MainActivity
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -36,11 +41,28 @@ class SearchFragment : Fragment() {
 
     private var isSearchInitialized = false
 
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        val r = Rect()
+        binding.root.getWindowVisibleDisplayFrame(r)
+        val screenHeight: Int = binding.root.rootView.height
+        val keypadHeight = screenHeight - r.bottom
+        if (keypadHeight > screenHeight * 0.15) {
+            (activity as MainActivity).hideBottomNavigation()
+        } else {
+            (activity as MainActivity).showBottomNavigation()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +73,11 @@ class SearchFragment : Fragment() {
         setupRecyclerView()
         setObservers()
         setupListeners()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
     }
 
     private fun setupAdapter() {
@@ -71,17 +98,19 @@ class SearchFragment : Fragment() {
     }
 
     private fun setObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.movies.collectLatest { movies ->
-                if(movies.isEmpty() && isSearchInitialized) {
-                    binding.wathingIcon.visibility = View.VISIBLE
-                    binding.searchMoviesDidntFindDescription.visibility = View.VISIBLE
-                } else if(binding.wathingIcon.isVisible) {
-                    binding.wathingIcon.visibility = View.GONE
-                    binding.searchMoviesDidntFindDescription.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.movies.collectLatest { movies ->
+                    if(movies.isEmpty() && isSearchInitialized) {
+                        binding.wathingIcon.visibility = View.VISIBLE
+                        binding.searchMoviesDidntFindDescription.visibility = View.VISIBLE
+                    } else if(binding.wathingIcon.isVisible) {
+                        binding.wathingIcon.visibility = View.GONE
+                        binding.searchMoviesDidntFindDescription.visibility = View.GONE
+                    }
+                    submitMoviesList(movies)
+                    if(viewModel.getSecondPage) viewModel.loadMoreMovies()
                 }
-                submitMoviesList(movies)
-                if(viewModel.getSecondPage) viewModel.loadMoreMovies()
             }
         }
     }

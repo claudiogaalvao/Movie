@@ -87,7 +87,7 @@
     <string name="age_label">• %s years old</string>
     <string name="biography_label">Biography</string>
     <string name="movies_with_label">Movies with this person</string>
-    <string name="seach_label">Search</string>
+    <string name="search_label">Search</string>
     <string name="edittext_search_hint">Search by movie title</string>
 
     <!-- Menu -->

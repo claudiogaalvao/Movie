@@ -1,14 +1,12 @@
 package com.claudiogalvaodev.moviemanager.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.databinding.ActivityMainBinding
-import kotlinx.coroutines.launch
 
 class MainActivity: AppCompatActivity() {
     private val binding by lazy {
@@ -32,5 +30,13 @@ class MainActivity: AppCompatActivity() {
             .findFragmentById(R.id.activity_main_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.activityMainBottomNavigation.setupWithNavController(navController)
+    }
+
+    fun showBottomNavigation() {
+        binding.activityMainBottomNavigation.visibility = View.VISIBLE
+    }
+
+    fun hideBottomNavigation() {
+        binding.activityMainBottomNavigation.visibility = View.GONE
     }
 }

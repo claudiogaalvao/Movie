@@ -23,8 +23,8 @@
                 android:layout_height="match_parent"
                 android:padding="17dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_back"
-                android:contentDescription="@string/icon_back" />
+                android:src="@drawable/ic_search"
+                android:contentDescription="@string/search_label" />
 
             <EditText
                 android:id="@+id/search_fragment_edittext"
