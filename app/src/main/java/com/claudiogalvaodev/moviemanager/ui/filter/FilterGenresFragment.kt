@@ -36,15 +36,9 @@ class FilterGenresFragment: Fragment() {
 
         currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
-        setTitle()
         getGenres()
         setObservables()
         setupListener()
-    }
-
-    private fun setTitle() {
-        (activity as FiltersActivity)
-            .setToolbarTitle(resources.getString(R.string.fragment_genres_title))
     }
 
     private fun getGenres() {

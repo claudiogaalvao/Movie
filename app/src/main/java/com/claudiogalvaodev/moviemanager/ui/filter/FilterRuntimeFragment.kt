@@ -29,14 +29,8 @@ class FilterRuntimeFragment : Fragment() {
 
         currentValue = arguments?.getString(FiltersActivity.KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
-        setTitle()
         initBinding()
         setupListener()
-    }
-
-    private fun setTitle() {
-        (activity as FiltersActivity)
-            .setToolbarTitle(resources.getString(R.string.fragment_filter_runtime_title))
     }
 
     private fun initBinding() {

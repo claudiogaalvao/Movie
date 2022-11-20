@@ -33,14 +33,8 @@ class FilterYearFragment: Fragment() {
 
         currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
-        setTitle()
         setItemsToRadioGroup()
         setupListener()
-    }
-
-    private fun setTitle() {
-        (activity as FiltersActivity)
-            .setToolbarTitle(resources.getString(R.string.filter_type_years))
     }
 
     private fun setItemsToRadioGroup() {

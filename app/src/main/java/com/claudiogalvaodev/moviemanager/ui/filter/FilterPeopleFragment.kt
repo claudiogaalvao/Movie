@@ -52,7 +52,6 @@ class FilterPeopleFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setCurrentValue()
-        setTitle()
         getPeople(isInitialize = true)
         setupRecyclerView()
         setObservables()
@@ -72,10 +71,6 @@ class FilterPeopleFragment: Fragment() {
             emptyList()
         }
         viewModel.initPeoplePreviousSelected(currentValue)
-    }
-
-    private fun setTitle() {
-        (activity as FiltersActivity).setToolbarTitle(resources.getString(R.string.fragment_people_title))
     }
 
     private fun getPeople(isInitialize: Boolean = false) {

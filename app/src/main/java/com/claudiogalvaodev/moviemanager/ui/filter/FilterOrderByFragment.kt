@@ -31,8 +31,6 @@ class FilterOrderByFragment: Fragment() {
 
         currentValue = arguments?.getString(KEY_BUNDLE_CURRENT_VALUE).orEmpty()
 
-        (activity as FiltersActivity)
-            .setToolbarTitle(resources.getString(R.string.fragment_orderby_title))
         initBinding()
         setupListener()
     }

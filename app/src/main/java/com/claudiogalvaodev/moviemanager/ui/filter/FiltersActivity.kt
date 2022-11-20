@@ -82,11 +82,26 @@ class FiltersActivity: AppCompatActivity() {
 
     private fun getFragment(): Fragment {
         val fragment = when(filterSelected?.type) {
-            FilterType.SORT_BY -> FilterOrderByFragment()
-            FilterType.GENRES -> FilterGenresFragment()
-            FilterType.PEOPLE -> FilterPeopleFragment()
-            FilterType.YEARS -> FilterYearFragment()
-            FilterType.RUNTIME -> FilterRuntimeFragment()
+            FilterType.SORT_BY -> {
+                setToolbarTitle(resources.getString(R.string.fragment_orderby_title))
+                FilterOrderByFragment()
+            }
+            FilterType.GENRES -> {
+                setToolbarTitle(resources.getString(R.string.fragment_genres_title))
+                FilterGenresFragment()
+            }
+            FilterType.PEOPLE -> {
+                setToolbarTitle(resources.getString(R.string.fragment_people_title))
+                FilterPeopleFragment()
+            }
+            FilterType.YEARS -> {
+                setToolbarTitle(resources.getString(R.string.filter_type_years))
+                FilterYearFragment()
+            }
+            FilterType.RUNTIME -> {
+                setToolbarTitle(resources.getString(R.string.fragment_filter_runtime_title))
+                FilterRuntimeFragment()
+            }
             else -> throw Exception("Unrecognize filter type to select a fragment")
         }
 
@@ -122,13 +137,13 @@ class FiltersActivity: AppCompatActivity() {
         finish()
     }
 
-    fun getFilterSelected() {
+    private fun getFilterSelected() {
         val newFilter = filterSelected
         newFilter?.currentValue = newCurrentValue
         setResult(RESULT_OK, Intent().putExtra(KEY_RESULT, newFilter))
     }
 
-    fun setToolbarTitle(title: String) {
+    private fun setToolbarTitle(title: String) {
         binding.activityFilterToolbarTitle.text = title
     }
 
