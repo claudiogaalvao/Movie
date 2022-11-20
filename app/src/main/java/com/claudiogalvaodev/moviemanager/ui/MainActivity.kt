@@ -7,11 +7,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityMainBinding
+import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +25,14 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         setNavigationController()
+
+        binding.activityMainBottomNavigation.setOnItemReselectedListener {
+            when (it.itemId) {
+                R.id.searchFragment -> {
+                    // viewModel.resetSearch()
+                }
+            }
+        }
     }
 
     private fun setNavigationController() {

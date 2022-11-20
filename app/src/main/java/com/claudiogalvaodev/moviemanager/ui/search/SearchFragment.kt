@@ -119,7 +119,7 @@ class SearchFragment : Fragment() {
     private fun setupListeners() {
         binding.searchFragmentEdittext.addTextChangedListener { editable ->
             lifecycleScope.launch {
-                delay(3000)
+                delay(2000)
                 searchMovie(editable.toString())
             }
         }
@@ -131,10 +131,6 @@ class SearchFragment : Fragment() {
                 imm.hideSoftInputFromWindow(textView.windowToken, 0)
             }
             false
-        }
-
-        binding.searchFragmentBackButton.setOnClickListener {
-            activity?.finish()
         }
     }
 
