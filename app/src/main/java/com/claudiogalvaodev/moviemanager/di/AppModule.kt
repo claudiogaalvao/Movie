@@ -27,6 +27,7 @@ import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
 import com.claudiogalvaodev.moviemanager.usecases.customlists.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.*
+import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -165,9 +166,10 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
-    viewModel { (movieId: Int, androidId: String) ->
+    viewModel { (movieId: Int, releaseDate: String, androidId: String) ->
         MovieDetailsViewModel(
             movieId = movieId,
+            releaseDate = releaseDate,
             androidId = androidId,
             allMovieDetailsUseCase = get()
         )
@@ -207,6 +209,12 @@ val viewModelModule = module {
     }
 }
 
+val notificationsModule = module {
+    single {
+        CineSeteNotificationManager(androidContext())
+    }
+}
+
 val appModules = listOf(
-    retrofitModule, dataModule, viewModelModule, daoModule
+    notificationsModule, retrofitModule, dataModule, viewModelModule, daoModule
 )

@@ -11,8 +11,8 @@ import androidx.navigation.ui.navigateUp
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.ActivityMovieDetailsBinding
 
-private const val ARG_MOVIE_ID = "movieId"
-private const val ARG_RELEASE_DATE = "releaseDate"
+const val ARG_MOVIE_ID = "movieId"
+const val ARG_RELEASE_DATE = "releaseDate"
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -78,6 +78,8 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val TAG = "MovieDetailsActivity"
+
         fun newInstance(context: Context, movieId: Int, releaseDate: String): Intent {
             val intent = Intent(context, MovieDetailsActivity::class.java)
             intent.putExtra(ARG_MOVIE_ID, movieId)

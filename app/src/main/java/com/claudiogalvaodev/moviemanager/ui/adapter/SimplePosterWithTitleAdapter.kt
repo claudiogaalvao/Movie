@@ -13,7 +13,7 @@ import com.claudiogalvaodev.moviemanager.databinding.ItemSimplePosterWithTitleBi
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter.SimplePosterWithTitleViewHolder
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
 
 class SimplePosterWithTitleAdapter: ListAdapter<Any, SimplePosterWithTitleViewHolder>(DIFF_CALLBACK) {

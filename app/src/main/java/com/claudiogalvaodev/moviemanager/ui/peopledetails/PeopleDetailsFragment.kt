@@ -15,7 +15,7 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -86,14 +86,14 @@ class PeopleDetailsFragment : Fragment() {
             }
             person.birthday?.let { birthday ->
                 binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsBirthdate.text =
-                    formatUtils.dateFromAmericanFormatToDateWithMonthName(birthday)
+                    FormatUtils.dateFromAmericanFormatToDateWithMonthName(birthday)
             }
 
             binding.fragmentPeopleDetailsHeader.fragmentPeopleDetailsAge.text = if(!person.deathday.isNullOrEmpty()) {
-                "${context?.getString(R.string.separator_bullet)} ${formatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)}"
+                "${context?.getString(R.string.separator_bullet)} ${FormatUtils.dateFromAmericanFormatToDateWithMonthName(person.deathday)}"
             } else {
                 person.birthday?.let { birthday ->
-                    context?.getString(R.string.age_label, formatUtils.dateFromAmericanFormatToAge(birthday))
+                    context?.getString(R.string.age_label, FormatUtils.dateFromAmericanFormatToAge(birthday))
                 }
             }
 

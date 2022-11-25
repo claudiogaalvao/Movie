@@ -15,19 +15,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSavedEntity
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.*
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils
-import com.claudiogalvaodev.moviemanager.utils.format.formatUtils.dateFromAmericanFormatToDateWithMonthName
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
+import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
+import com.claudiogalvaodev.moviemanager.utils.notification.channels.MovieReleaseNotificationChannel
+import com.claudiogalvaodev.moviemanager.utils.notification.notifications.MovieReleaseNotification
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import java.util.*
 import kotlin.math.roundToInt
 
 @SuppressLint("HardwareIds")
@@ -54,6 +58,9 @@ class MovieDetailsFragment : Fragment() {
         Settings.Secure.getString(context?.contentResolver, Settings.Secure.ANDROID_ID)
     }
 
+    private val cineSeteNotificationManager: CineSeteNotificationManager by inject()
+    private val movieReleaseNotificationChannel = MovieReleaseNotificationChannel()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +71,7 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel { parametersOf(movieId, androidId) }
+        viewModel = getViewModel { parametersOf(movieId, releaseDate, androidId) }
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
@@ -75,7 +82,6 @@ class MovieDetailsFragment : Fragment() {
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
             viewModel.movie.collectLatest { movie ->
-
                 movie?.let { it ->
                     movie.collectionId?.let { collectionId ->
                         viewModel.getMovieCollection(collectionId)
@@ -104,6 +110,12 @@ class MovieDetailsFragment : Fragment() {
 
                     Picasso.with(binding.root.context).load(it.getPosterUrl()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
 
+                    if (viewModel.shouldShowActionRememberMe()) {
+                        binding.fragmentMovieDetailsHeader.actionButtonRememberMe.visibility = View.VISIBLE
+                    } else {
+                        binding.fragmentMovieDetailsHeader.actionButtonRememberMe.visibility = View.GONE
+                    }
+
                     if(it.overview.isNullOrBlank()) {
                         binding.fragmentMovieDetailsOverviewLabel.visibility = View.GONE
                     } else {
@@ -114,7 +126,7 @@ class MovieDetailsFragment : Fragment() {
                         binding.fragmentMovieDetailsBudgetLabel.visibility = View.GONE
                         binding.fragmentMovieDetailsBudget.visibility = View.GONE
                     } else {
-                        binding.fragmentMovieDetailsBudget.text = formatUtils.unformattedNumberToCurrency(it.budget.toLong())
+                        binding.fragmentMovieDetailsBudget.text = FormatUtils.unformattedNumberToCurrency(it.budget.toLong())
                     }
 
                 }
@@ -163,13 +175,6 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.moviesSaved.collectLatest { movies ->
-//                moviesSaved = movies
-//                filteredMoviesSaved = moviesSaved.filter { movie -> movie.movieId == viewModel.movieId }
-//            }
-//        }
-
         lifecycleScope.launchWhenStarted {
             viewModel.isMovieSaved.collectLatest { isSaved ->
                 val (imageResourceId, stringId) = if (isSaved) {
@@ -200,6 +205,23 @@ class MovieDetailsFragment : Fragment() {
                 )
             }
             showOptionsBottomSheet(options)
+        }
+
+        binding.fragmentMovieDetailsHeader.rememberMeParent.setOnClickListener {
+            binding.fragmentMovieDetailsHeader.apply {
+                rememberMeIcon.imageTintList = context?.getColorStateList(R.color.secondary_purple)
+                rememberMeText.setTextColor(context?.getColorStateList(R.color.secondary_purple))
+                rememberMeText.text = context?.getText(R.string.remember_me_active)
+            }
+            val notification = MovieReleaseNotification(
+                id = movieId.toInt(),
+                title = getString(R.string.notification_release_movie_title),
+                message = getString(R.string.notification_release_movie_message, viewModel.movie.value?.title),
+                movieId = movieId.toInt(),
+                movieRelease = releaseDate
+            )
+            cineSeteNotificationManager.scheduleNotification(notification)
+            Toast.makeText(context, "Alerta ativado", Toast.LENGTH_SHORT).show()
         }
 
         videoPreviewAdapter.onItemClick = { videoId ->

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.isFutureDate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
     val movieId: Int,
+    val releaseDate: String,
     val androidId: String,
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -57,7 +59,7 @@ class MovieDetailsViewModel(
         if(movieDetailsResult.isSuccess) {
             val movieDetails = movieDetailsResult.getOrNull()
             movieDetails?.let {
-                _movie.emit(it)
+                _movie.emit(it.copy(releaseDate = releaseDate))
                 _companies.emit(it.productionCompanies)
             }
         }
@@ -130,6 +132,12 @@ class MovieDetailsViewModel(
             } else "${company.name}, "
         }
         return companiesConcat
+    }
+
+    fun shouldShowActionRememberMe(): Boolean {
+        return _movie.value?.releaseDate?.let { releaseDate ->
+            isFutureDate(releaseDate)
+        } ?: false
     }
 
     private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {

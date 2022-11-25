@@ -51,4 +51,8 @@ class MainActivity: AppCompatActivity() {
     fun hideBottomNavigation() {
         binding.activityMainBottomNavigation.visibility = View.GONE
     }
+
+    companion object {
+        const val TAG = "MainActivity"
+    }
 }

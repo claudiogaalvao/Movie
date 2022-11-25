@@ -1,17 +1,24 @@
 package com.claudiogalvaodev.moviemanager.utils.format
 
-import java.lang.Exception
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.Exception
 
-object formatUtils {
+private const val DATE_TIME_PATTERN = "yyyy-MM-dd"
+
+object FormatUtils {
+
+    fun String.convertToDate(): LocalDate {
+        val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
+        return LocalDate.parse(this, initFormatter)
+    }
 
     fun dateFromAmericanFormatToDateWithMonthName(date: String): String? {
         try {
             val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
             val initDate = LocalDate.parse(date, initFormatter)
 
             val endDate = when(currentDeviceLanguage) {
@@ -33,7 +40,7 @@ object formatUtils {
     fun dateFromAmericanFormatToDateWithDayAndMonthName(date: String): String? {
         try {
             val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
             val initDate = LocalDate.parse(date, initFormatter)
 
             val endDate = when(currentDeviceLanguage) {
@@ -54,7 +61,7 @@ object formatUtils {
 
     fun dateFromAmericanFormatToAge(birthday: String): String? {
         try {
-            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
             val birthdayDate = LocalDate.parse(birthday, initFormatter)
             val currentDate = LocalDate.now()
 
@@ -65,6 +72,20 @@ object formatUtils {
             return age.toString()
         } catch (e: Exception) {
             return null
+        }
+    }
+
+    fun isFutureDate(date: String): Boolean {
+        return try {
+            val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
+            val dateFormatter = LocalDate.parse(date, initFormatter)
+            val currentDate = LocalDate.now()
+
+            val diffInDays = dateFormatter.dayOfYear.minus(currentDate.dayOfYear)
+
+            diffInDays > 0
+        } catch (e: Exception) {
+            false
         }
     }
 
