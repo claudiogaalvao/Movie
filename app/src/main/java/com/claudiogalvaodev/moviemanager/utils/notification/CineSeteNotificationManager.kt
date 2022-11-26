@@ -20,6 +20,7 @@ import com.claudiogalvaodev.moviemanager.utils.notification.channels.INotificati
 import com.claudiogalvaodev.moviemanager.utils.notification.channels.INotificationChannel
 import com.claudiogalvaodev.moviemanager.utils.notification.channels.MovieReleaseNotificationChannel
 import com.claudiogalvaodev.moviemanager.utils.notification.notifications.MovieReleaseNotification
+import java.time.LocalDateTime
 
 class CineSeteNotificationManager(
     private val context: Context
@@ -69,6 +70,7 @@ class CineSeteNotificationManager(
     }
 
     fun scheduleNotification(
+        timeInMillis: Long,
         notification: INotification
     ) {
         val broadcastIntent = Intent(context, MovieReleaseBroadcastReceiver::class.java).apply {
@@ -76,12 +78,9 @@ class CineSeteNotificationManager(
         }
         val pendingIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
 
-        val currentTime = System.currentTimeMillis()
-        val tenSecondsInMillis = 1000 * 10 // TODO get date time in millis from the movie release date
-
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
-            currentTime + tenSecondsInMillis,
+            timeInMillis,
             pendingIntent
         )
     }

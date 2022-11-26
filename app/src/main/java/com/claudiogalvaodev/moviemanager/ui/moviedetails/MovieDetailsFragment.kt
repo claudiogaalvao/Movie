@@ -21,6 +21,7 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.*
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.convertToTimeInMillis
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
 import com.claudiogalvaodev.moviemanager.utils.notification.channels.MovieReleaseNotificationChannel
@@ -220,7 +221,10 @@ class MovieDetailsFragment : Fragment() {
                 movieId = movieId.toInt(),
                 movieRelease = releaseDate
             )
-            cineSeteNotificationManager.scheduleNotification(notification)
+            cineSeteNotificationManager.scheduleNotification(
+                timeInMillis = releaseDate.convertToTimeInMillis(),
+                notification = notification
+            )
             Toast.makeText(context, "Alerta ativado", Toast.LENGTH_SHORT).show()
         }
 

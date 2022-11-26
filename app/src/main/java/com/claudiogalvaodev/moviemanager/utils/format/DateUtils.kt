@@ -1,7 +1,10 @@
 package com.claudiogalvaodev.moviemanager.utils.format
 
+import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.convertToTimeInMillis
 import java.text.NumberFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.Exception
@@ -10,9 +13,12 @@ private const val DATE_TIME_PATTERN = "yyyy-MM-dd"
 
 object FormatUtils {
 
-    fun String.convertToDate(): LocalDate {
+    fun String.convertToTimeInMillis(): Long {
         val initFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)
-        return LocalDate.parse(this, initFormatter)
+        val date = LocalDate.parse(this, initFormatter)
+        val dateTime = date.atTime(0,0)
+        val zoneDateTime = dateTime.atZone(ZoneId.of("America/Sao_Paulo"))
+        return zoneDateTime.toInstant().toEpochMilli()
     }
 
     fun dateFromAmericanFormatToDateWithMonthName(date: String): String? {
