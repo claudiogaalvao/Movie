@@ -76,7 +76,7 @@ class CineSeteNotificationManager(
         val broadcastIntent = Intent(context, MovieReleaseBroadcastReceiver::class.java).apply {
             putExtras(notification.getBundle())
         }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
