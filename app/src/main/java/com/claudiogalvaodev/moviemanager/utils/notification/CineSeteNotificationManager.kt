@@ -85,36 +85,4 @@ class CineSeteNotificationManager(
         )
     }
 
-//    operator fun invoke(context: Context, title: String, message: String, timeInMillis: Long, destination: Intent) {
-
-//        val intent = Intent(context.applicationContext, Notification::class.java)
-//        intent.putExtra(ARGS_TITLE_EXTRA, text)
-//        intent.putExtra(ARGS_MESSAGE_EXTRA, message)
-//
-//        val pendingIntent = PendingIntent.getBroadcast(
-//            context.applicationContext,
-//            ARGS_NOTIFICATION_ID,
-//            intent,
-//            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-//        )
-//
-//        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        alarmManager.setExactAndAllowWhileIdle(
-//            AlarmManager.RTC_WAKEUP,
-//            timeInMillis,
-//            pendingIntent
-//        )
-//
-//        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(context, Notification::class.java)
-//        intent.putExtra(ARGS_TITLE_EXTRA, title)
-//        intent.putExtra(ARGS_MESSAGE_EXTRA, message)
-//
-//        val pendingIntent = PendingIntent.getBroadcast(context, ARGS_NOTIFICATION_ID, intent, PendingIntent.FLAG_IMMUTABLE)
-//        val basicPendingIntent = PendingIntent.getActivity(context, ARGS_NOTIFICATION_ID, destination, PendingIntent.FLAG_IMMUTABLE)
-//
-//        val clockInfo = AlarmManager.AlarmClockInfo(timeInMillis, pendingIntent)
-//        alarmManager.setAlarmClock(clockInfo, basicPendingIntent)
-//    }
-
 }
