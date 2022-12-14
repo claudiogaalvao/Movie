@@ -1,9 +1,9 @@
 package com.claudiogalvaodev.moviemanager.utils.notification.channels
 
 import android.app.NotificationManager
-import com.claudiogalvaodev.moviemanager.utils.notification.notifications.MovieReleaseNotification
 
 class MovieReleaseNotificationChannel: INotificationChannel {
+    // TODO Channel name and description from resources
     override val channelId: String
         get() = "movie_release_channel"
     override val channelName: String

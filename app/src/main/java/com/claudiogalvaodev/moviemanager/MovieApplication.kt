@@ -2,14 +2,14 @@ package com.claudiogalvaodev.moviemanager
 
 import android.app.Application
 import com.claudiogalvaodev.moviemanager.di.appModules
-import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
+import com.claudiogalvaodev.moviemanager.utils.notification.ICineSeteNotificationManager
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class MovieApplication: Application() {
 
-    private val cineSeteNotificationManager: CineSeteNotificationManager by inject()
+    private val notificationManager: ICineSeteNotificationManager by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -21,7 +21,7 @@ class MovieApplication: Application() {
     }
 
     private fun createNotificationChannels() {
-        cineSeteNotificationManager.createNotificationChannels()
+        notificationManager.createNotificationChannels()
     }
 
 }

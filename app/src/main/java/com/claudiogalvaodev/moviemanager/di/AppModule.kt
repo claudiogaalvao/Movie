@@ -7,10 +7,9 @@ import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
-import com.claudiogalvaodev.moviemanager.data.repository.CustomListsRepository
-import com.claudiogalvaodev.moviemanager.data.repository.ICustomListsRepository
-import com.claudiogalvaodev.moviemanager.data.repository.IMoviesRepository
-import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.repository.*
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.MovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
@@ -19,7 +18,6 @@ import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
-import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
@@ -27,7 +25,9 @@ import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
 import com.claudiogalvaodev.moviemanager.usecases.customlists.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.*
+import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
 import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
+import com.claudiogalvaodev.moviemanager.utils.notification.ICineSeteNotificationManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -114,6 +114,7 @@ val daoModule = module {
 
     single { CineSeteDatabase.getInstance(androidContext()).customListsDao }
     single { CineSeteDatabase.getInstance(androidContext()).moviesSavedDao }
+    single { CineSeteDatabase.getInstance(androidContext()).scheduledNotificationsDao }
 }
 
 val dataModule = module {
@@ -122,6 +123,9 @@ val dataModule = module {
 
     single<ICustomListsLocalDatasource> { CustomListsLocalDatasource(get(), get()) }
     single<ICustomListsRepository> { CustomListsRepository(get()) }
+
+    single<IScheduledNotificationsLocalDatasource> { ScheduledNotificationsLocalDatasource(get()) }
+    single<IScheduledNotificationsRepository> { ScheduledNotificationsRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -144,6 +148,7 @@ val viewModelModule = module {
     single { RemoveMovieFromCustomListUseCase(get()) }
     single { SearchPeopleUseCase(get()) }
     single { GetVideosFromMovieUseCase(get()) }
+    single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -171,7 +176,8 @@ val viewModelModule = module {
             movieId = movieId,
             releaseDate = releaseDate,
             androidId = androidId,
-            allMovieDetailsUseCase = get()
+            allMovieDetailsUseCase = get(),
+            scheduleMovieReleaseNotificationUseCase = get()
         )
     }
     viewModel { (personId: Int, leastOneMovieId: Int) ->
@@ -210,7 +216,7 @@ val viewModelModule = module {
 }
 
 val notificationsModule = module {
-    single {
+    single<ICineSeteNotificationManager> {
         CineSeteNotificationManager(androidContext())
     }
 }

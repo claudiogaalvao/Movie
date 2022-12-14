@@ -214,16 +214,12 @@ class MovieDetailsFragment : Fragment() {
                 rememberMeText.setTextColor(context?.getColorStateList(R.color.secondary_purple))
                 rememberMeText.text = context?.getText(R.string.remember_me_active)
             }
-            val notification = MovieReleaseNotification(
-                id = movieId.toInt(),
-                title = getString(R.string.notification_release_movie_title),
-                message = getString(R.string.notification_release_movie_message, viewModel.movie.value?.title),
-                movieId = movieId.toInt(),
-                movieRelease = releaseDate
-            )
-            cineSeteNotificationManager.scheduleNotification(
-                timeInMillis = releaseDate.convertToTimeInMillis(),
-                notification = notification
+            viewModel.scheduleNotification(
+                notificationTitle = getString(R.string.notification_release_movie_title),
+                notificationDescription = getString(
+                    R.string.notification_release_movie_message,
+                    viewModel.movie.value?.title
+                )
             )
             Toast.makeText(context, "Alerta ativado", Toast.LENGTH_SHORT).show()
         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.isFutureDate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,8 @@ class MovieDetailsViewModel(
     val releaseDate: String,
     val androidId: String,
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val scheduleMovieReleaseNotificationUseCase: ScheduleMovieReleaseNotificationUseCase,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
     private val _movie = MutableStateFlow<MovieModel?>(null)
     val movie = _movie.asStateFlow()
@@ -54,7 +56,7 @@ class MovieDetailsViewModel(
         getVideos()
     }
 
-    private fun getMovieDetails() = viewModelScope.launch(dispatcher) {
+    private fun getMovieDetails() = viewModelScope.launch(ioDispatcher) {
         val movieDetailsResult = allMovieDetailsUseCase.getMovieDetailsUseCase.invoke(movieId)
         if(movieDetailsResult.isSuccess) {
             val movieDetails = movieDetailsResult.getOrNull()
@@ -65,7 +67,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    private fun getVideos() = viewModelScope.launch(dispatcher) {
+    private fun getVideos() = viewModelScope.launch(ioDispatcher) {
         val videosResult = allMovieDetailsUseCase.getVideosFromMovieUseCase.invoke(movieId)
         if (videosResult.isSuccess) {
             val videos = videosResult.getOrNull()
@@ -73,7 +75,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    private fun getProviders() = viewModelScope.launch(dispatcher) {
+    private fun getProviders() = viewModelScope.launch(ioDispatcher) {
         val streamProvidersResult = allMovieDetailsUseCase.getMovieProvidersUseCase.invoke(movieId)
         if(streamProvidersResult.isSuccess) {
             val stream = streamProvidersResult.getOrDefault(emptyList())
@@ -83,7 +85,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    private fun getMovieCredits() = viewModelScope.launch(dispatcher) {
+    private fun getMovieCredits() = viewModelScope.launch(ioDispatcher) {
         val creditsModelResult = allMovieDetailsUseCase.getMovieCreditsUseCase.invoke(movieId)
         if (creditsModelResult.isSuccess) {
             val creditsModel = creditsModelResult.getOrNull()
@@ -94,7 +96,7 @@ class MovieDetailsViewModel(
         }
     }
 
-    fun getMovieCollection(collectionId: Int) = viewModelScope.launch(dispatcher) {
+    fun getMovieCollection(collectionId: Int) = viewModelScope.launch(ioDispatcher) {
         val movieCollectionResult = allMovieDetailsUseCase.getMovieCollectionUseCase.invoke(collectionId)
         if(movieCollectionResult.isSuccess) {
             val movieCompleteCollection = movieCollectionResult.getOrDefault(null)
@@ -140,7 +142,7 @@ class MovieDetailsViewModel(
         } ?: false
     }
 
-    private fun getAllCustomLists() = viewModelScope.launch(dispatcher) {
+    private fun getAllCustomLists() = viewModelScope.launch(ioDispatcher) {
         allMovieDetailsUseCase.getAllCustomListsUseCase.invoke().collectLatest { customListsResult ->
             val customLists = customListsResult.getOrNull()
             customLists?.let {
@@ -185,6 +187,15 @@ class MovieDetailsViewModel(
             }
         }
         return false
+    }
+
+    fun scheduleNotification(
+        notificationTitle: String,
+        notificationDescription: String
+    ) = viewModelScope.launch(ioDispatcher) {
+        movie.value?.let {
+            scheduleMovieReleaseNotificationUseCase(it, notificationTitle, notificationDescription)
+        }
     }
 
 }
