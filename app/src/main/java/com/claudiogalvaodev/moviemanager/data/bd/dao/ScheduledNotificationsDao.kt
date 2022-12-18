@@ -15,6 +15,9 @@ interface ScheduledNotificationsDao {
     @Query("SELECT * FROM ScheduledNotificationsEntity")
     fun getAll(): Flow<List<ScheduledNotificationsEntity>>
 
+    @Query("SELECT * FROM ScheduledNotificationsEntity where movieId = :movieId")
+    suspend fun getScheduledNotificationByMovieId(movieId: Int): ScheduledNotificationsEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(scheduledNotificationsEntity: ScheduledNotificationsEntity)
 

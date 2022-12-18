@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.notification.HasMovieReleaseScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.isFutureDate
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,6 +20,7 @@ class MovieDetailsViewModel(
     val androidId: String,
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
     private val scheduleMovieReleaseNotificationUseCase: ScheduleMovieReleaseNotificationUseCase,
+    private val hasMovieReleaseScheduledNotification: HasMovieReleaseScheduledNotification,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
     private val _movie = MutableStateFlow<MovieModel?>(null)
@@ -48,12 +50,16 @@ class MovieDetailsViewModel(
     private val _videos = MutableStateFlow<List<VideoModel>>(emptyList())
     val videos = _videos.asStateFlow()
 
+    private val _isActiveRemindAt = MutableStateFlow(false)
+    val isActiveRemindAt = _isActiveRemindAt.asStateFlow()
+
     init {
         getMovieDetails()
         getMovieCredits()
         getProviders()
         getAllCustomLists()
         getVideos()
+        checkIfHasMovieReleaseScheduledNotification()
     }
 
     private fun getMovieDetails() = viewModelScope.launch(ioDispatcher) {
@@ -195,6 +201,13 @@ class MovieDetailsViewModel(
     ) = viewModelScope.launch(ioDispatcher) {
         movie.value?.let {
             scheduleMovieReleaseNotificationUseCase(it, notificationTitle, notificationDescription)
+        }
+    }
+
+    private fun checkIfHasMovieReleaseScheduledNotification() = viewModelScope.launch(ioDispatcher) {
+        movie.value?.let {
+            val result = hasMovieReleaseScheduledNotification(it.id)
+            _isActiveRemindAt.emit(result)
         }
     }
 

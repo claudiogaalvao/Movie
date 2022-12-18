@@ -21,18 +21,15 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.*
 import com.claudiogalvaodev.moviemanager.ui.model.*
 import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
-import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.convertToTimeInMillis
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
 import com.claudiogalvaodev.moviemanager.utils.notification.channels.MovieReleaseNotificationChannel
-import com.claudiogalvaodev.moviemanager.utils.notification.notifications.MovieReleaseNotification
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.*
 import kotlin.math.roundToInt
 
 @SuppressLint("HardwareIds")
@@ -58,9 +55,6 @@ class MovieDetailsFragment : Fragment() {
     private val androidId by lazy {
         Settings.Secure.getString(context?.contentResolver, Settings.Secure.ANDROID_ID)
     }
-
-    private val cineSeteNotificationManager: CineSeteNotificationManager by inject()
-    private val movieReleaseNotificationChannel = MovieReleaseNotificationChannel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -193,6 +187,16 @@ class MovieDetailsFragment : Fragment() {
                 videoPreviewAdapter.submitList(videos)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isActiveRemindAt.collectLatest { isActive ->
+                if (isActive) {
+                    changeRemindMeButtonToActiveLayout()
+                } else {
+                    changeRemindMeButtonToInactiveLayout()
+                }
+            }
+        }
     }
 
     private fun setListeners() {
@@ -209,11 +213,10 @@ class MovieDetailsFragment : Fragment() {
         }
 
         binding.fragmentMovieDetailsHeader.rememberMeParent.setOnClickListener {
-            binding.fragmentMovieDetailsHeader.apply {
-                rememberMeIcon.imageTintList = context?.getColorStateList(R.color.secondary_purple)
-                rememberMeText.setTextColor(context?.getColorStateList(R.color.secondary_purple))
-                rememberMeText.text = context?.getText(R.string.remember_me_active)
-            }
+            // TODO Check actual state to decide what to do
+            // If inactive, schedule the notification
+            // If active, cancel scheduled notification
+            changeRemindMeButtonToActiveLayout()
             viewModel.scheduleNotification(
                 notificationTitle = getString(R.string.notification_release_movie_title),
                 notificationDescription = getString(
@@ -226,6 +229,22 @@ class MovieDetailsFragment : Fragment() {
 
         videoPreviewAdapter.onItemClick = { videoId ->
             goToYouTubePlayer(videoId)
+        }
+    }
+    
+    private fun changeRemindMeButtonToActiveLayout() {
+        binding.fragmentMovieDetailsHeader.apply {
+            rememberMeIcon.imageTintList = context?.getColorStateList(R.color.secondary_purple)
+            rememberMeText.setTextColor(context?.getColorStateList(R.color.secondary_purple))
+            rememberMeText.text = context?.getText(R.string.remember_me_active)
+        }
+    }
+
+    private fun changeRemindMeButtonToInactiveLayout() {
+        binding.fragmentMovieDetailsHeader.apply {
+            rememberMeIcon.imageTintList = context?.getColorStateList(R.color.white)
+            rememberMeText.setTextColor(context?.getColorStateList(R.color.white))
+            rememberMeText.text = context?.getText(R.string.remember_me)
         }
     }
 

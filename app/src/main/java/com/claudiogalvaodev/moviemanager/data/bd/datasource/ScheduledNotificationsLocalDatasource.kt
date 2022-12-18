@@ -2,6 +2,7 @@ package com.claudiogalvaodev.moviemanager.data.bd.datasource
 
 import com.claudiogalvaodev.moviemanager.data.bd.dao.ScheduledNotificationsDao
 import com.claudiogalvaodev.moviemanager.data.bd.entity.toListOfScheduledNotificationModel
+import com.claudiogalvaodev.moviemanager.data.bd.entity.toModel
 import com.claudiogalvaodev.moviemanager.ui.model.ScheduledNotificationsModel
 import com.claudiogalvaodev.moviemanager.ui.model.toEntity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -20,6 +21,16 @@ class ScheduledNotificationsLocalDatasource(
         } catch (e: Exception) {
             FirebaseCrashlytics.getInstance().log(e.message.toString())
             emit(Result.failure(exception = Exception("Something went wrong when try to get scheduled notifications")))
+        }
+    }
+
+    override suspend fun getScheduledNotificationByMovieId(movieId: Int): Result<ScheduledNotificationsModel> {
+        return try {
+            val scheduledNotificationEntity = scheduledNotificationsDao.getScheduledNotificationByMovieId(movieId)
+            Result.success(scheduledNotificationEntity.toModel())
+        } catch (e: Exception) {
+            FirebaseCrashlytics.getInstance().log(e.message.toString())
+            Result.failure(exception = Exception("Something went wrong when try to save scheduled notification"))
         }
     }
 

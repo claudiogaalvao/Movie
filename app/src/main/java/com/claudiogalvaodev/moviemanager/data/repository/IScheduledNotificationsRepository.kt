@@ -7,6 +7,8 @@ interface IScheduledNotificationsRepository {
 
     fun getAll(): Flow<Result<List<ScheduledNotificationsModel>>>
 
+    suspend fun getScheduledNotificationByMovieId(movieId: Int): Result<ScheduledNotificationsModel>
+
     suspend fun save(notification: ScheduledNotificationsModel): Result<Unit>
 
     suspend fun update(notification: ScheduledNotificationsModel): Result<Unit>

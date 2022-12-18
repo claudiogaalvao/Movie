@@ -9,6 +9,9 @@ class ScheduledNotificationsRepository(
 
     override fun getAll() = localDatasource.getAll()
 
+    override suspend fun getScheduledNotificationByMovieId(movieId: Int): Result<ScheduledNotificationsModel> =
+        localDatasource.getScheduledNotificationByMovieId(movieId)
+
     override suspend fun save(notification: ScheduledNotificationsModel): Result<Unit> =
         localDatasource.save(notification)
 

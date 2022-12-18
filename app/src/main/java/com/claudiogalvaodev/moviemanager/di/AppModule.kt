@@ -25,6 +25,7 @@ import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
 import com.claudiogalvaodev.moviemanager.usecases.customlists.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.*
+import com.claudiogalvaodev.moviemanager.usecases.notification.HasMovieReleaseScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
 import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
 import com.claudiogalvaodev.moviemanager.utils.notification.ICineSeteNotificationManager
@@ -149,6 +150,7 @@ val viewModelModule = module {
     single { SearchPeopleUseCase(get()) }
     single { GetVideosFromMovieUseCase(get()) }
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
+    single { HasMovieReleaseScheduledNotification(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -177,7 +179,8 @@ val viewModelModule = module {
             releaseDate = releaseDate,
             androidId = androidId,
             allMovieDetailsUseCase = get(),
-            scheduleMovieReleaseNotificationUseCase = get()
+            scheduleMovieReleaseNotificationUseCase = get(),
+            hasMovieReleaseScheduledNotification = get()
         )
     }
     viewModel { (personId: Int, leastOneMovieId: Int) ->
