@@ -1,13 +1,10 @@
 package com.claudiogalvaodev.moviemanager.utils.format
 
-import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.convertToTimeInMillis
 import java.text.NumberFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.Exception
 
 private const val DATE_TIME_PATTERN = "yyyy-MM-dd"
 

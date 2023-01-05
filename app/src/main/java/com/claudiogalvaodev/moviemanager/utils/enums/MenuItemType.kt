@@ -1,5 +1,5 @@
 package com.claudiogalvaodev.moviemanager.utils.enums
 
 enum class MenuItemType {
-    ABOUT_DEVELOPER
+    SCHEDULED_NOTIFICATIONS, ABOUT_DEVELOPER
 }

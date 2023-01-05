@@ -12,6 +12,7 @@ import com.claudiogalvaodev.moviemanager.ui.model.MenuItem
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMenuBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.MenuAdapter
 import com.claudiogalvaodev.moviemanager.ui.menu.aboutdeveloper.AboutDeveloperActivity
+import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ScheduledNotificationsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.MenuItemType
 
 class MenuFragment: Fragment() {
@@ -22,13 +23,26 @@ class MenuFragment: Fragment() {
 
     private val menuItems: List<MenuItem> by lazy {
         listOf(
-            MenuItem(iconId = R.drawable.ic_code,
+            MenuItem(
+                iconId = R.drawable.ic_time,
+                title = getString(R.string.scheduled_notifications),
+                type = MenuItemType.SCHEDULED_NOTIFICATIONS,
+                onClick = {
+                    goToScheduledNotifications()
+                }
+            ),
+            MenuItem(
+                iconId = R.drawable.ic_code,
                 title = getString(R.string.about_developer),
-                type = MenuItemType.ABOUT_DEVELOPER),
+                type = MenuItemType.ABOUT_DEVELOPER,
+                onClick = {
+                    goToAboutDeveloper()
+                }
+            )
         )
     }
 
-    private lateinit var menuItemsAdapter: MenuAdapter
+    private val menuItemsAdapter: MenuAdapter = MenuAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +56,6 @@ class MenuFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setVersionName()
-        setupAdapter()
         setupRecyclerView()
     }
 
@@ -51,21 +64,14 @@ class MenuFragment: Fragment() {
         binding.fragmentMenuVersion.text = versionName
     }
 
-    private fun setupAdapter() {
-        menuItemsAdapter = MenuAdapter().apply {
-            onClickListener = { menuItemType ->
-                when(menuItemType) {
-                    MenuItemType.ABOUT_DEVELOPER -> {
-                        goToAboutDeveloper()
-                    }
-                }
-            }
-        }
-    }
-
     private fun setupRecyclerView() {
         binding.fragmentMenuRecyclerview.adapter = menuItemsAdapter
         menuItemsAdapter.submitList(menuItems)
+    }
+
+    private fun goToScheduledNotifications() {
+        val intent = Intent(activity, ScheduledNotificationsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun goToAboutDeveloper() {

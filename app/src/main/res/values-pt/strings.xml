@@ -101,6 +101,7 @@
     <!-- Menu options -->
     <string name="my_lists">Minhas Listas</string>
     <string name="about_developer">Sobre o desenvolvedor</string>
+    <string name="scheduled_notifications">Notificações agendadas</string>
     <string name="settings">Configurações</string>
     <string name="add_icon">Add icon</string>
     <string name="time_icon">Clock icon</string>
