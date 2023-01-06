@@ -1,8 +1,8 @@
 package com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import com.claudiogalvaodev.moviemanager.R
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val Purple200 = Color(R.color.primary_purple)
+val Purple500 = Color(R.color.primary_purple)
+val Purple700 = Color(R.color.primary_purple)
