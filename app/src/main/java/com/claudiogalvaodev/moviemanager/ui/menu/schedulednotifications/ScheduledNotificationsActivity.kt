@@ -17,24 +17,40 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.ui.model.ScheduledNotificationsModel
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ScheduledNotificationsActivity : ComponentActivity() {
+
+    private val viewModel: ScheduledNotificationsViewModel by viewModel()
+
+    private var allItems: List<ScheduledNotificationsModel> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getScheduledNotifications()
         setContent {
-            val allItems = listOf<ScheduledNotificationsModel>()
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background,
                 contentColor = MaterialTheme.colors.background
             ) {
                 AllScheduledNotification(allItems)
+            }
+        }
+    }
+
+    private fun getScheduledNotifications() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.allScheduledNotificationResult.collectLatest {
+                val scheduledNotifications = it.getOrNull() ?: emptyList()
+                allItems = scheduledNotifications
             }
         }
     }
@@ -82,21 +98,21 @@ fun ScheduledItemCard(item: ScheduledNotificationsModel) {
                 contentDescription = item.movieName,
                 contentScale = ContentScale.Crop
             )
-            Text(
-                text = item.movieName,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
+            Column(
                 modifier = Modifier.padding(start = 12.dp)
-            )
-            Text(
-                text = item.remindAt.toString(),
-                fontSize = 16.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 12.dp),
-                textAlign = TextAlign.End
-            )
+            ) {
+                Text(
+                    text = item.movieName,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+
+                )
+                Text(
+                    text = "Release date: ${item.remindAt}",
+                    fontSize = 16.sp
+                )
+            }
         }
     }
     Spacer(modifier = Modifier.height(16.dp))

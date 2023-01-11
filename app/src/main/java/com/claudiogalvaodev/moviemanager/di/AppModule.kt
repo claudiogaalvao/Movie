@@ -18,6 +18,7 @@ import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ScheduledNotificationsViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
@@ -25,6 +26,7 @@ import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
 import com.claudiogalvaodev.moviemanager.usecases.customlists.*
 import com.claudiogalvaodev.moviemanager.usecases.movies.*
+import com.claudiogalvaodev.moviemanager.usecases.notification.GetAllScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.HasMovieReleaseScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
 import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
@@ -151,6 +153,7 @@ val viewModelModule = module {
     single { GetVideosFromMovieUseCase(get()) }
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
     single { HasMovieReleaseScheduledNotification(get()) }
+    single { GetAllScheduledNotification(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -216,6 +219,9 @@ val viewModelModule = module {
             firestoreDB = get()
         )
     }
+    viewModel { ScheduledNotificationsViewModel(
+        getAllScheduledNotification = get()
+    ) }
 }
 
 val notificationsModule = module {
