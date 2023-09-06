@@ -1,8 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.model
 
-import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
-import com.claudiogalvaodev.moviemanager.utils.getPosterSize
+import com.claudiogalvaodev.moviemanager.utils.image.getFullUrl
 
 data class ProductionCompanyModel(
     val id: Int,
@@ -11,8 +10,7 @@ data class ProductionCompanyModel(
     val logoPath: String
 ) {
 
-    fun getLogoImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
-        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$logoPath"
-    }
+    fun getLogoImageUrl(imageSize: PosterSizes = PosterSizes.W_500) =
+        getFullUrl(logoPath, imageSize)
 
 }

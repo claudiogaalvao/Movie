@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+
+android {
+    compileSdk ProjectConfig.compileSdk
+
+    defaultConfig {
+        minSdk ProjectConfig.minSdk
+        targetSdk ProjectConfig.targetSdk
+        versionCode ProjectConfig.versionCode
+        versionName ProjectConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation(AndroidX.coreKtx)
+    implementation(AndroidX.appCompat)
+    implementation(Google.material)
+
+    testImplementation(JUnit.junit)
+    testImplementation(AndroidXTest.testCore)
+    testImplementation(AndroidXTest.archCoreTesting)
+    testImplementation(Kotlin.kotlinxCoroutinesTest)
+    testImplementation(Koin.test)
+    testImplementation(Koin.junit4)
+    testImplementation(Mockito.core)
+    testImplementation(Mockito.inline)
+
+    androidTestImplementation(AndroidXTest.testExtJUnit)
+    androidTestImplementation(AndroidXTest.testEspressoCore)
+    androidTestImplementation(Navigation.testing)
+    androidTestImplementation(Room.testing)
+}

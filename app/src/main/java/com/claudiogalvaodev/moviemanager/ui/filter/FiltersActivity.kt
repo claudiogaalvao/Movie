@@ -115,6 +115,7 @@ class FiltersActivity: AppCompatActivity() {
         newCurrentValue = newValue
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         showAlertDialogOrNavigate()
     }

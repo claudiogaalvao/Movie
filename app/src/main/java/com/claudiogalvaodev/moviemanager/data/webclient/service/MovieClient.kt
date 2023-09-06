@@ -1,7 +1,16 @@
 package com.claudiogalvaodev.moviemanager.data.webclient.service
 
 import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.CollectionDto
-import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.*
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.MoviesResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.MovieDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.VideosResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.CreditsDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.MovieProvidersResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.GenresResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.PersonResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.PersonDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.PeopleResponseDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.providers.ProvidersResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -33,7 +42,7 @@ interface MovieClient {
     suspend fun getCredits(@Path("id") id: Int): Response<CreditsDto>
 
     @GET("movie/{id}/watch/providers")
-    suspend fun getProviders(@Path("id") id: Int): Response<ProvidersResponseDto>
+    suspend fun getProviders(@Path("id") id: Int): Response<MovieProvidersResponseDto>
 
     @GET("collection/{id}")
     suspend fun getCollection(@Path("id") id: Int): Response<CollectionDto>
@@ -69,4 +78,7 @@ interface MovieClient {
         @Query("page") page: Int,
         @Query("query") query: String,
     ): Response<PeopleResponseDto>
+
+    @GET("watch/providers/movie")
+    suspend fun getMovieProviders(): Response<ProvidersResponseDto>
 }

@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class ProviderDto(
     @SerializedName("provider_id")
-    val id: Long,
+    val id: Int,
     @SerializedName("provider_name")
     val name: String,
     @SerializedName("display_priority")
-    val displayPriority: Long,
+    val displayPriority: Int,
     @SerializedName("logo_path")
     val logoPath: String
 )

@@ -38,6 +38,7 @@ class AboutDeveloperActivity: AppCompatActivity() {
         return true
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         finish()
     }

@@ -1,10 +1,8 @@
 package com.claudiogalvaodev.moviemanager.ui.model
 
-import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.utils.enums.BackdropSizes
 import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
-import com.claudiogalvaodev.moviemanager.utils.getBackdropSize
-import com.claudiogalvaodev.moviemanager.utils.getPosterSize
+import com.claudiogalvaodev.moviemanager.utils.image.getFullUrl
 
 data class MovieModel(
     val id: Int,
@@ -35,21 +33,11 @@ data class MovieModel(
         return "${voteAverage}/10"
     }
 
-    fun getPosterUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
-        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$posterPath"
-    }
+    fun getPosterUrl(imageSize: PosterSizes = PosterSizes.W_500) =
+        getFullUrl(posterPath, imageSize)
 
-    fun savePosterPathFromPosterUrl(posterUrl: String) {
-        val imageSize: PosterSizes = PosterSizes.W_500
-        posterPath = posterUrl.replace(
-            "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}",
-            ""
-        )
-    }
-
-    fun getBackdropUrl(imageSize: BackdropSizes = BackdropSizes.W_780) : String {
-        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getBackdropSize(imageSize)}$backdropPath"
-    }
+    fun getBackdropUrl(imageSize: BackdropSizes = BackdropSizes.W_780) =
+        getFullUrl(backdropPath, imageSize)
 
     override fun toString(): String {
         return title

@@ -10,8 +10,8 @@ import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDat
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.repository.*
-import com.claudiogalvaodev.moviemanager.data.webclient.datasource.IMovieRemoteDatasource
-import com.claudiogalvaodev.moviemanager.data.webclient.datasource.MovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.MovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
@@ -90,6 +90,7 @@ val retrofitModule = module {
             val url = newRequest.url.newBuilder()
                 .addQueryParameter("language", currentDeviceLanguage)
                 .addQueryParameter("region", currentDeviceRegion)
+                .addQueryParameter("watch_region", currentDeviceRegion)
                 .build()
 
             newRequest = newRequest.newBuilder()

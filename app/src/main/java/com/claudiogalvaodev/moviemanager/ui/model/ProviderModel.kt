@@ -1,19 +1,17 @@
 package com.claudiogalvaodev.moviemanager.ui.model
 
-import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
-import com.claudiogalvaodev.moviemanager.utils.getPosterSize
+import com.claudiogalvaodev.moviemanager.utils.enums.LogoSizes
+import com.claudiogalvaodev.moviemanager.utils.image.getFullUrl
 
 
 data class ProviderModel(
-    val id: Long,
+    val id: Int,
     val name: String,
-    val displayPriority: Long,
+    val displayPriority: Int,
     val logoPath: String
 ) {
 
-    fun getLogoImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
-        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$logoPath"
-    }
+    fun getLogoImageUrl(imageSize: LogoSizes = LogoSizes.ORIGINAL) =
+        getFullUrl(logoPath, imageSize)
 
 }

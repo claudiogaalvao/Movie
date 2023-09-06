@@ -1,10 +1,7 @@
 package com.claudiogalvaodev.moviemanager.ui.model
 
-import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.MovieDto
 import com.claudiogalvaodev.moviemanager.utils.enums.PosterSizes
-import com.claudiogalvaodev.moviemanager.utils.getPosterSize
-import com.google.gson.annotations.SerializedName
+import com.claudiogalvaodev.moviemanager.utils.image.getFullUrl
 
 data class PersonModel(
     val id: Int,
@@ -30,11 +27,8 @@ data class PersonModel(
     var position: Int = 0,
 ) {
 
-    fun hasProfileImage() = !profilePath.isNullOrEmpty()
-
-    fun getProfileImageUrl(imageSize: PosterSizes = PosterSizes.W_500) : String {
-        return "${BuildConfig.MOVIEDB_IMAGE_BASE_URL}${getPosterSize(imageSize)}$profilePath"
-    }
+    fun getProfileImageUrl(imageSize: PosterSizes = PosterSizes.W_500) =
+        getFullUrl(profilePath.toString(), imageSize)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

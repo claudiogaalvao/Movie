@@ -1,6 +1,6 @@
 package com.claudiogalvaodev.moviemanager.data.repository
 
-import com.claudiogalvaodev.moviemanager.data.webclient.datasource.IMovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.ui.model.*
 
 class MoviesRepository(

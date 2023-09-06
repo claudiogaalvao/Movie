@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.data.webclient.datasource
+package com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie
 
 import com.claudiogalvaodev.moviemanager.ui.model.*
 
