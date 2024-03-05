@@ -4,21 +4,21 @@ import app.cash.turbine.test
 import com.claudiogalvaodev.moviemanager.data.BaseTest
 import com.claudiogalvaodev.moviemanager.data.bd.dao.CustomListsDao
 import com.claudiogalvaodev.moviemanager.data.bd.dao.MoviesSavedDao
-import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
-import com.claudiogalvaodev.moviemanager.data.bd.entity.*
-import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
-import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.data.bd.entity.CustomListEntity
+import com.claudiogalvaodev.moviemanager.data.bd.entity.MovieSavedEntity
+import com.claudiogalvaodev.moviemanager.data.bd.entity.filterMoviesByListId
+import com.claudiogalvaodev.moviemanager.data.bd.entity.toListOfCustomListModel
+import com.claudiogalvaodev.moviemanager.data.bd.entity.toListOfMovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.koin.test.inject
 import org.koin.test.mock.declareMock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -43,8 +43,7 @@ class CustomListsLocalDatasourceTest : BaseTest() {
         Dispatchers.setMain(testDispatcher)
         customListsLocalDatasource = CustomListsLocalDatasource(
             customListsDao = customListDao,
-            moviesSavedDao = moviesSavedDao,
-            dispatcher = testDispatcher
+            moviesSavedDao = moviesSavedDao
         )
     }
 

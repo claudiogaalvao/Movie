@@ -177,14 +177,11 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get(), get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
-    viewModel { (movieId: Int, releaseDate: String, androidId: String) ->
+    viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
             movieId = movieId,
             releaseDate = releaseDate,
-            androidId = androidId,
-            allMovieDetailsUseCase = get(),
-            scheduleMovieReleaseNotificationUseCase = get(),
-            hasMovieReleaseScheduledNotification = get()
+            allMovieDetailsUseCase = get()
         )
     }
     viewModel { (personId: Int, leastOneMovieId: Int) ->

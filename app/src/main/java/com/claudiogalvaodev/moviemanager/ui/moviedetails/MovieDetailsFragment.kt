@@ -5,8 +5,11 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.Settings
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,17 +20,21 @@ import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.CustomBottomsheetBinding
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMovieDetailsBinding
-import com.claudiogalvaodev.moviemanager.ui.adapter.*
-import com.claudiogalvaodev.moviemanager.ui.model.*
-import com.claudiogalvaodev.moviemanager.ui.youtube.YouTubePlayerActivity
+import com.claudiogalvaodev.moviemanager.ui.adapter.BottomSheetOfListsAdapter
+import com.claudiogalvaodev.moviemanager.ui.adapter.CircleAdapter
+import com.claudiogalvaodev.moviemanager.ui.adapter.SimpleOptionsAdapter
+import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
+import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProductionCompanyModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
+import com.claudiogalvaodev.moviemanager.ui.model.SaveOn
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
-import com.claudiogalvaodev.moviemanager.utils.notification.CineSeteNotificationManager
-import com.claudiogalvaodev.moviemanager.utils.notification.channels.MovieReleaseNotificationChannel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.roundToInt
@@ -48,14 +55,6 @@ class MovieDetailsFragment : Fragment() {
         args.releaseDate
     }
 
-    private val videoPreviewAdapter by lazy {
-        VideoPreviewAdapter()
-    }
-
-    private val androidId by lazy {
-        Settings.Secure.getString(context?.contentResolver, Settings.Secure.ANDROID_ID)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,7 +65,7 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel { parametersOf(movieId, releaseDate, androidId) }
+        viewModel = getViewModel { parametersOf(movieId, releaseDate) }
 
         (activity as MovieDetailsActivity).setToolbarTitle("")
 
@@ -77,7 +76,7 @@ class MovieDetailsFragment : Fragment() {
     private fun setObservables() {
         lifecycleScope.launchWhenStarted {
             viewModel.movie.collectLatest { movie ->
-                movie?.let { it ->
+                movie?.let {
                     movie.collectionId?.let { collectionId ->
                         viewModel.getMovieCollection(collectionId)
                     }
@@ -104,12 +103,6 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     Picasso.with(binding.root.context).load(it.getPosterUrl()).into(binding.fragmentMovieDetailsHeader.fragmentMovieDetailsCover)
-
-                    if (viewModel.shouldShowActionRememberMe()) {
-                        binding.fragmentMovieDetailsHeader.actionButtonRememberMe.visibility = View.VISIBLE
-                    } else {
-                        binding.fragmentMovieDetailsHeader.actionButtonRememberMe.visibility = View.GONE
-                    }
 
                     if(it.overview.isNullOrBlank()) {
                         binding.fragmentMovieDetailsOverviewLabel.visibility = View.GONE
@@ -179,24 +172,6 @@ class MovieDetailsFragment : Fragment() {
                 binding.fragmentMovieDetailsHeader.addToListText.text = resources.getString(stringId)
             }
         }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.videos.collectLatest { videos ->
-                if(videos.isNotEmpty()) binding.fragmentMovieDetailsTrailers.visibility = View.VISIBLE
-                binding.fragmentMovieDetailsTrailersRecyclerview.adapter = videoPreviewAdapter
-                videoPreviewAdapter.submitList(videos)
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.isActiveRemindAt.collectLatest { isActive ->
-                if (isActive) {
-                    changeRemindMeButtonToActiveLayout()
-                } else {
-                    changeRemindMeButtonToInactiveLayout()
-                }
-            }
-        }
     }
 
     private fun setListeners() {
@@ -210,41 +185,6 @@ class MovieDetailsFragment : Fragment() {
                 )
             }
             showOptionsBottomSheet(options)
-        }
-
-        binding.fragmentMovieDetailsHeader.rememberMeParent.setOnClickListener {
-            // TODO Check actual state to decide what to do
-            // If inactive, schedule the notification
-            // If active, cancel scheduled notification
-            changeRemindMeButtonToActiveLayout()
-            viewModel.scheduleNotification(
-                notificationTitle = getString(R.string.notification_release_movie_title),
-                notificationDescription = getString(
-                    R.string.notification_release_movie_message,
-                    viewModel.movie.value?.title
-                )
-            )
-            Toast.makeText(context, "Alerta ativado", Toast.LENGTH_SHORT).show()
-        }
-
-        videoPreviewAdapter.onItemClick = { videoId ->
-            goToYouTubePlayer(videoId)
-        }
-    }
-    
-    private fun changeRemindMeButtonToActiveLayout() {
-        binding.fragmentMovieDetailsHeader.apply {
-            rememberMeIcon.imageTintList = context?.getColorStateList(R.color.secondary_purple)
-            rememberMeText.setTextColor(context?.getColorStateList(R.color.secondary_purple))
-            rememberMeText.text = context?.getText(R.string.remember_me_active)
-        }
-    }
-
-    private fun changeRemindMeButtonToInactiveLayout() {
-        binding.fragmentMovieDetailsHeader.apply {
-            rememberMeIcon.imageTintList = context?.getColorStateList(R.color.white)
-            rememberMeText.setTextColor(context?.getColorStateList(R.color.white))
-            rememberMeText.text = context?.getText(R.string.remember_me)
         }
     }
 
@@ -483,13 +423,6 @@ class MovieDetailsFragment : Fragment() {
             val directions = MovieDetailsFragmentDirections
                 .actionMovieDetailsFragmentToPeopleDetailsFragment(person.id.toLong(), movie.id.toLong())
             findNavController().navigate(directions)
-        }
-    }
-
-    private fun goToYouTubePlayer(videoId: String) {
-        context?.let {
-            val intent = YouTubePlayerActivity.newInstance(it, videoId)
-            startActivity(intent)
         }
     }
 }

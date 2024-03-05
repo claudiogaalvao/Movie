@@ -2,11 +2,14 @@ package com.claudiogalvaodev.moviemanager.ui.moviedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claudiogalvaodev.moviemanager.ui.model.*
+import com.claudiogalvaodev.moviemanager.ui.model.BottomSheetOfListsUI
+import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProductionCompanyModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
+import com.claudiogalvaodev.moviemanager.ui.model.VideoModel
 import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
-import com.claudiogalvaodev.moviemanager.usecases.notification.HasMovieReleaseScheduledNotification
-import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
-import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.isFutureDate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +20,7 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(
     val movieId: Int,
     val releaseDate: String,
-    val androidId: String,
     private val allMovieDetailsUseCase: AllMovieDetailsUseCase,
-    private val scheduleMovieReleaseNotificationUseCase: ScheduleMovieReleaseNotificationUseCase,
-    private val hasMovieReleaseScheduledNotification: HasMovieReleaseScheduledNotification,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
     private val _movie = MutableStateFlow<MovieModel?>(null)
@@ -47,19 +47,11 @@ class MovieDetailsViewModel(
     private val _isMovieSaved = MutableStateFlow(false)
     val isMovieSaved = _isMovieSaved.asStateFlow()
 
-    private val _videos = MutableStateFlow<List<VideoModel>>(emptyList())
-    val videos = _videos.asStateFlow()
-
-    private val _isActiveRemindAt = MutableStateFlow(false)
-    val isActiveRemindAt = _isActiveRemindAt.asStateFlow()
-
     init {
         getMovieDetails()
         getMovieCredits()
         getProviders()
         getAllCustomLists()
-        getVideos()
-        checkIfHasMovieReleaseScheduledNotification()
     }
 
     private fun getMovieDetails() = viewModelScope.launch(ioDispatcher) {
@@ -70,14 +62,6 @@ class MovieDetailsViewModel(
                 _movie.emit(it.copy(releaseDate = releaseDate))
                 _companies.emit(it.productionCompanies)
             }
-        }
-    }
-
-    private fun getVideos() = viewModelScope.launch(ioDispatcher) {
-        val videosResult = allMovieDetailsUseCase.getVideosFromMovieUseCase.invoke(movieId)
-        if (videosResult.isSuccess) {
-            val videos = videosResult.getOrNull()
-            videos?.let { _videos.emit(it) }
         }
     }
 
@@ -142,12 +126,6 @@ class MovieDetailsViewModel(
         return companiesConcat
     }
 
-    fun shouldShowActionRememberMe(): Boolean {
-        return _movie.value?.releaseDate?.let { releaseDate ->
-            isFutureDate(releaseDate)
-        } ?: false
-    }
-
     private fun getAllCustomLists() = viewModelScope.launch(ioDispatcher) {
         allMovieDetailsUseCase.getAllCustomListsUseCase.invoke().collectLatest { customListsResult ->
             val customLists = customListsResult.getOrNull()
@@ -193,22 +171,6 @@ class MovieDetailsViewModel(
             }
         }
         return false
-    }
-
-    fun scheduleNotification(
-        notificationTitle: String,
-        notificationDescription: String
-    ) = viewModelScope.launch(ioDispatcher) {
-        movie.value?.let {
-            scheduleMovieReleaseNotificationUseCase(it, notificationTitle, notificationDescription)
-        }
-    }
-
-    private fun checkIfHasMovieReleaseScheduledNotification() = viewModelScope.launch(ioDispatcher) {
-        movie.value?.let {
-            val result = hasMovieReleaseScheduledNotification(it.id)
-            _isActiveRemindAt.emit(result)
-        }
     }
 
 }
