@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.claudiogalvaodev.moviemanager.ui.model.EventModel
-import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.databinding.FragmentHomeBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.PrincipalMoviesAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterWithTitleAdapter
+import com.claudiogalvaodev.moviemanager.ui.model.EventModel
+import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.collectLatest
@@ -46,25 +46,25 @@ class HomeFragment: Fragment() {
     }
 
     private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.trendingMovies.collectLatest { movies ->
                 configTrendingMoviesList(movies)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.upComingMovies.collectLatest { movies ->
                 configUpComingMoviesList(movies)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.playingNowMovies.collectLatest { movies ->
                 configLatestMoviesList(movies)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.events.collectLatest { events ->
                 configBannerSpecialList(events)
             }
