@@ -19,6 +19,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterPeopleBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
 import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -117,7 +118,7 @@ class FilterPeopleFragment: Fragment() {
     }
 
     private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.peopleSelected.collectLatest { people ->
                 setSelectedPeople(people)
                 var jsonString = Gson().toJson(people).orEmpty()
@@ -133,13 +134,13 @@ class FilterPeopleFragment: Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.people.collectLatest { people ->
                 popularPeopleAdapter.submitList(people)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.peopleFound.collectLatest { people ->
                 if(isSearchInitialized) {
                     binding.fragmentSearchResultRecyclerview.visibility = View.VISIBLE

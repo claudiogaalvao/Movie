@@ -30,6 +30,7 @@ import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.model.ProductionCompanyModel
 import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.claudiogalvaodev.moviemanager.ui.model.SaveOn
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils
 import com.claudiogalvaodev.moviemanager.utils.format.FormatUtils.dateFromAmericanFormatToDateWithMonthName
 import com.squareup.picasso.Picasso
@@ -74,7 +75,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.movie.collectLatest { movie ->
                 movie?.let {
                     movie.collectionId?.let { collectionId ->
@@ -123,7 +124,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.streamProviders.collectLatest { stream ->
                 stream?.let {
                     configStreamProvidersList(it)
@@ -131,7 +132,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.directors.collectLatest { directors ->
                 directors?.let {
                     configDirectorsList(it)
@@ -139,7 +140,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.stars.collectLatest { stars ->
                 stars?.let { allEmployes ->
                     configStarsList(allEmployes, allEmployes.take(calcCountStarsImage()))
@@ -147,7 +148,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.companies.collectLatest { companies ->
                 companies?.let {
                     configCompaniesList(it)
@@ -155,7 +156,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.collection.collectLatest { collection ->
                 collection?.let {
                     configCollectionList(it)
@@ -163,7 +164,7 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.isMovieSaved.collectLatest { isSaved ->
                 val (imageResourceId, stringId) = if (isSaved) {
                     Pair(R.drawable.ic_done, R.string.saved_to_list)

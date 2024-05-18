@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +13,7 @@ import com.claudiogalvaodev.moviemanager.databinding.FragmentPeopleAndCompaniesB
 import com.claudiogalvaodev.moviemanager.ui.adapter.CircleWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -67,7 +67,7 @@ class PeopleAndCompaniesFragment: Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.actors.collectLatest { people ->
                 people?.let {
                     configPeopleList(it)

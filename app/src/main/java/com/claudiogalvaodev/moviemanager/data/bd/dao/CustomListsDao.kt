@@ -13,9 +13,6 @@ interface CustomListsDao {
     @Query("SELECT * FROM CustomListEntity")
     fun getAll(): Flow<List<CustomListEntity>>
 
-    @Query("SELECT * FROM CustomListEntity WHERE id = :listId")
-    suspend fun getCustomListById(listId: Int): CustomListEntity
-
     @Query("DELETE FROM CustomListEntity WHERE id = :listId")
     suspend fun delete(listId: Int)
 

@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.databinding.FragmentSpecialListGenericBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SecondaryPosterWithTitleAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -60,7 +60,7 @@ class SpecialListGenericFragment: Fragment() {
     }
 
     private fun setObservers() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.specialItem.collectLatest { specialItem ->
                 moviesAdapter.submitList(specialItem)
             }

@@ -24,6 +24,7 @@ import com.claudiogalvaodev.moviemanager.ui.MainActivity
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -98,7 +99,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setObservers() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movies.collectLatest { movies ->
                     if(movies.isEmpty() && isSearchInitialized) {

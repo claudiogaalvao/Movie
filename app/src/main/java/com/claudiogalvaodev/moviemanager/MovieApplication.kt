@@ -16,7 +16,8 @@ class MovieApplication: Application() {
         startKoin {
             androidContext(this@MovieApplication)
             modules(appModules)
-            createNotificationChannels()
+            // TODO Setup POST_NOTIFICATION permission
+            // createNotificationChannels()
         }
     }
 

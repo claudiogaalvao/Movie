@@ -15,6 +15,7 @@ import com.claudiogalvaodev.moviemanager.ui.adapter.FilterAdapter
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -109,7 +110,7 @@ class ExploreMoviesFragment: Fragment() {
     }
 
     private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.movies.collectLatest { movies ->
                 submitMoviesList(movies)
                 if(viewModel.getSecondPage) getMovies()

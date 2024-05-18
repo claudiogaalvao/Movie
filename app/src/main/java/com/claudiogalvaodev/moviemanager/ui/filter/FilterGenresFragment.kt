@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterGenreBinding
 import com.claudiogalvaodev.moviemanager.databinding.ItemRadioButtonBinding
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersActivity.Companion.KEY_BUNDLE_CURRENT_VALUE
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,7 +45,7 @@ class FilterGenresFragment: Fragment() {
     }
 
     private fun setObservables() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.genres.collectLatest { genres ->
                 for(genre in genres) {
                     val newRadioButton = createRadioButton(genre.id, genre.name)

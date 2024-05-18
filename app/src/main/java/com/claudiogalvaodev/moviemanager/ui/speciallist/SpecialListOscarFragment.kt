@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.claudiogalvaodev.moviemanager.databinding.FragmentSpecialListOscarBinding
@@ -14,6 +13,7 @@ import com.claudiogalvaodev.moviemanager.ui.model.SpecialItem
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
 import com.claudiogalvaodev.moviemanager.utils.enums.ItemType
 import com.claudiogalvaodev.moviemanager.utils.enums.OscarCategory
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -109,7 +109,7 @@ class SpecialListOscarFragment: Fragment() {
     }
 
     private fun setObservers() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.specialItem.collectLatest { specialItem ->
                 bestPictureAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_PICTURE))
                 bestForeignLanguageAdapter.submitList(returnItemsSorted(specialItem, OscarCategory.BEST_FOREIGN_LANGUAGE_FILM))

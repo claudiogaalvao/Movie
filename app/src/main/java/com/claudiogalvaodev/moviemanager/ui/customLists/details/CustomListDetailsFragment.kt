@@ -14,6 +14,7 @@ import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentCustomListDetailsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.SimplePosterAdapter
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsActivity
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -118,7 +119,7 @@ class CustomListDetailsFragment: Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.movies.collectLatest { movies ->
                 moviesAdapter.submitList(movies)
             }

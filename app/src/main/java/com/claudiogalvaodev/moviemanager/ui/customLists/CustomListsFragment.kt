@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.claudiogalvaodev.moviemanager.R
 import com.claudiogalvaodev.moviemanager.databinding.FragmentMyListsBinding
 import com.claudiogalvaodev.moviemanager.ui.adapter.ForwardWithImageAdapter
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsActivity
 import com.claudiogalvaodev.moviemanager.ui.model.CustomListModel
+import com.claudiogalvaodev.moviemanager.utils.extensions.launchWhenResumed
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -56,7 +56,7 @@ class CustomListsFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted {
+        launchWhenResumed {
             viewModel.customLists.collectLatest { allMyLists ->
                 setMyLists(allMyLists)
             }
