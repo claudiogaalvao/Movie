@@ -11,6 +11,21 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+data class SimpleFilterItem(
+    val name: String,
+    val isSelected: Boolean
+)
+
+val filterItems = listOf(
+    SimpleFilterItem("Netflix", true),
+    SimpleFilterItem("Amazon Prime", false),
+    SimpleFilterItem("HBO", true),
+    SimpleFilterItem("Disney+", false),
+    SimpleFilterItem("Apple TV", true),
+    SimpleFilterItem("Paramount+", false),
+    SimpleFilterItem("Globoplay", true)
+)
+
 class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
     private val getAllGenresUseCase: GetAllGenresUseCase,
@@ -29,6 +44,9 @@ class FiltersViewModel(
 
     private val _peopleFound = MutableStateFlow<List<PersonModel>>(mutableListOf())
     val peopleFound = _peopleFound.asStateFlow()
+
+    private val _providers = MutableStateFlow<List<SimpleFilterItem>>(filterItems)
+    val providers = _providers.asStateFlow()
 
     var isLoadingActors: Boolean = false
 

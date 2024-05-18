@@ -35,18 +35,31 @@ class ExploreMoviesViewModel(
     init {
         viewModelScope.launch(dispatcher) {
             val filters = listOf(
-                FilterModel(type = FilterType.SORT_BY,
+                FilterModel(
+                    type = FilterType.SORT_BY,
                     name = context.resources.getString(R.string.filter_type_orderby),
-                    currentValue = OrderByConstants.POPULARITY_DESC),
-                FilterModel(type = FilterType.GENRES,
+                    currentValue = OrderByConstants.POPULARITY_DESC
+                ),
+                FilterModel(
+                    type = FilterType.PROVIDERS,
+                    name = context.resources.getString(R.string.filter_providers_name),
+                    currentValue = ""
+                ),
+                FilterModel(
+                    type = FilterType.GENRES,
                     name = context.resources.getString(R.string.filter_type_genres),
-                    currentValue = ""),
-                FilterModel(type = FilterType.PEOPLE,
+                    currentValue = ""
+                ),
+                FilterModel(
+                    type = FilterType.PEOPLE,
                     name = context.resources.getString(R.string.filter_type_people),
-                    currentValue = ""),
-                FilterModel(type = FilterType.YEARS,
+                    currentValue = ""
+                ),
+                FilterModel(
+                    type = FilterType.YEARS,
                     name = context.resources.getString(R.string.filter_type_years),
-                    currentValue = "")
+                    currentValue = ""
+                )
             )
             _filters.emit(filters)
         }

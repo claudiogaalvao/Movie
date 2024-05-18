@@ -70,6 +70,9 @@
     <string name="filter_people_select_instructions">Selecione pessoas para filtrar os filmes que ele(a) participou. Se você selecionar mais de uma pessoa, nós vamos tentar encontrar filmes em que eles trabalharam juntos!</string>
     <string name="search_person_hint">Buscar por nome</string>
 
+    <!-- Providers filter -->
+    <string name="filter_providers_name">Streamings</string>
+
     <!-- Runtime labels -->
     <string name="filter_runtime_short">Curta metragem (até 40min)</string>
     <string name="filter_runtime_medium">Média metragem (entre 40min e 1h10min)</string>
