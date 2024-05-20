@@ -1,6 +1,5 @@
 package com.claudiogalvaodev.moviemanager.ui.explore
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.R
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ExploreMoviesViewModel(
-    private val context: Context,
     private val getMoviesByCriterionUseCase: GetMoviesByCriterionUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
@@ -29,7 +27,7 @@ class ExploreMoviesViewModel(
     val movies = _movies.asStateFlow()
 
     var isLoading: Boolean = false
-    var isFirstLoading: Boolean = false
+    private var isFirstLoading: Boolean = false
     var getSecondPage: Boolean = false
 
     init {
@@ -37,27 +35,27 @@ class ExploreMoviesViewModel(
             val filters = listOf(
                 FilterModel(
                     type = FilterType.SORT_BY,
-                    name = context.resources.getString(R.string.filter_type_orderby),
+                    nameRes = R.string.filter_type_orderby,
                     currentValue = OrderByConstants.POPULARITY_DESC
                 ),
                 FilterModel(
                     type = FilterType.PROVIDERS,
-                    name = context.resources.getString(R.string.filter_providers_name),
+                    nameRes = R.string.filter_providers_name,
                     currentValue = ""
                 ),
                 FilterModel(
                     type = FilterType.GENRES,
-                    name = context.resources.getString(R.string.filter_type_genres),
+                    nameRes = R.string.filter_type_genres,
                     currentValue = ""
                 ),
                 FilterModel(
                     type = FilterType.PEOPLE,
-                    name = context.resources.getString(R.string.filter_type_people),
+                    nameRes = R.string.filter_type_people,
                     currentValue = ""
                 ),
                 FilterModel(
                     type = FilterType.YEARS,
-                    name = context.resources.getString(R.string.filter_type_years),
+                    nameRes = R.string.filter_type_years,
                     currentValue = ""
                 )
             )

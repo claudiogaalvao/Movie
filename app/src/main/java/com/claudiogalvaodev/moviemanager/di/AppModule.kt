@@ -175,7 +175,7 @@ val viewModelModule = module {
     }
 
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { ExploreMoviesViewModel(get(), get()) }
+    viewModel { ExploreMoviesViewModel(get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
     viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
