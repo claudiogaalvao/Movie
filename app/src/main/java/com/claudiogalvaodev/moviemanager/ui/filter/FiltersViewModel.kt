@@ -4,32 +4,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.ui.model.GenreModel
 import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllGenresUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllPeopleUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetPopularProvidersAndUserSelectionUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.SearchPeopleUseCase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
-data class SimpleFilterItem(
-    val name: String,
-    val isSelected: Boolean
-)
-
-val filterItems = listOf(
-    SimpleFilterItem("Netflix", true),
-    SimpleFilterItem("Amazon Prime", false),
-    SimpleFilterItem("HBO", true),
-    SimpleFilterItem("Disney+", false),
-    SimpleFilterItem("Apple TV", true),
-    SimpleFilterItem("Paramount+", false),
-    SimpleFilterItem("Globoplay", true)
-)
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
     private val getAllGenresUseCase: GetAllGenresUseCase,
     private val searchPeopleUseCase: SearchPeopleUseCase,
+    private val getPopularProvidersAndUserSelectionUseCase: GetPopularProvidersAndUserSelectionUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -45,10 +36,26 @@ class FiltersViewModel(
     private val _peopleFound = MutableStateFlow<List<PersonModel>>(mutableListOf())
     val peopleFound = _peopleFound.asStateFlow()
 
-    private val _providers = MutableStateFlow<List<SimpleFilterItem>>(filterItems)
+    private val _providers = MutableStateFlow<List<ProviderModel>>(mutableListOf())
     val providers = _providers.asStateFlow()
 
     var isLoadingActors: Boolean = false
+
+    fun getProviders() = viewModelScope.launch {
+        val providersResult = getPopularProvidersAndUserSelectionUseCase()
+        if(providersResult.isSuccess) {
+            providersResult.getOrNull()?.let { providers ->
+                _providers.emit(providers)
+            }
+        }
+    }
+
+    fun selectProvider(providerId: Int) = viewModelScope.launch {
+        val providersList = _providers.value
+        val selectedProvider = providersList.find { it.id == providerId }
+        val updatedProvider = selectedProvider?.copy(isSelected = !selectedProvider.isSelected)
+        _providers.value = providersList.map { if(it.id == providerId) updatedProvider!! else it }
+    }
 
     fun getAllGenres() = viewModelScope.launch {
         withContext(dispatcher) {

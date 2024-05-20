@@ -12,6 +12,8 @@ import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificatio
 import com.claudiogalvaodev.moviemanager.data.repository.*
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.MovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.IProvidersRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.ProvidersRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
@@ -130,6 +132,9 @@ val dataModule = module {
 
     single<IScheduledNotificationsLocalDatasource> { ScheduledNotificationsLocalDatasource(get()) }
     single<IScheduledNotificationsRepository> { ScheduledNotificationsRepository(get()) }
+
+    single<IProvidersRemoteDatasource> { ProvidersRemoteDatasource(get()) }
+    single<IProvidersRepository> { ProvidersRepository(get()) }
 }
 
 val viewModelModule = module {
@@ -155,6 +160,7 @@ val viewModelModule = module {
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
     single { HasMovieReleaseScheduledNotification(get()) }
     single { GetAllScheduledNotification(get()) }
+    single { GetPopularProvidersAndUserSelectionUseCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -176,7 +182,7 @@ val viewModelModule = module {
 
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get()) }
-    viewModel { FiltersViewModel(get(), get(), get()) }
+    viewModel { FiltersViewModel(get(), get(), get(), get()) }
     viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
             movieId = movieId,

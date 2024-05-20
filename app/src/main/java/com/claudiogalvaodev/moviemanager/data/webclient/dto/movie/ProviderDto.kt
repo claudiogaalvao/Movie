@@ -17,7 +17,6 @@ data class ProviderDto(
 fun ProviderDto.toModel(): ProviderModel = ProviderModel(
     id = this.id,
     name = this.name,
-    displayPriority = this.displayPriority,
     logoPath = this.logoPath
 )
 

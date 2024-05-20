@@ -8,7 +8,7 @@ class ProvidersRemoteDatasource(
     private val movieClient: MovieClient
 ): IProvidersRemoteDatasource {
 
-    override suspend fun getMovieProviders(): Result<List<ProviderModel>> {
+    override suspend fun getPopularProviders(): Result<List<ProviderModel>> {
         return try {
             val response = movieClient.getMovieProviders()
             if (response.isSuccessful) {
