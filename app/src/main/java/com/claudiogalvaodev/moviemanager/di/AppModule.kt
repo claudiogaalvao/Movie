@@ -9,6 +9,8 @@ import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalData
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.datastore.UserPreferencesRepository
+import com.claudiogalvaodev.moviemanager.data.datastore.provideProtoDataStore
 import com.claudiogalvaodev.moviemanager.data.repository.*
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.MovieRemoteDatasource
@@ -38,6 +40,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -135,6 +138,9 @@ val dataModule = module {
 
     single<IProvidersRemoteDatasource> { ProvidersRemoteDatasource(get()) }
     single<IProvidersRepository> { ProvidersRepository(get()) }
+
+    single { provideProtoDataStore(androidApplication().applicationContext) }
+    single { UserPreferencesRepository(androidApplication().applicationContext, get()) }
 }
 
 val viewModelModule = module {
