@@ -17,17 +17,20 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun FilterProviderScreen(
-    viewModel: FiltersViewModel = koinViewModel()
+    viewModel: FilterProviderViewModel = koinViewModel(),
+    initialSelection: List<Int>,
+    onApplyFilter: (jsonString: String) -> Unit
 ) {
     val providers by viewModel.providers.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getProviders()
+        viewModel.getProviders(initialSelection)
     }
 
     FilterBaseScreen(
         onApplyFilter = {
-            // TODO: Implement apply filter
+            viewModel.saveSelectedProviders()
+            onApplyFilter(viewModel.getSelectedProvidersAsJson())
         }
     ) {
         FilterList(

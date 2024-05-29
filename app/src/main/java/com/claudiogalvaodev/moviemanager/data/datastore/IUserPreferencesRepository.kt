@@ -7,7 +7,7 @@ interface IUserPreferencesRepository {
 
     suspend fun getSelectedProviders(): LiveData<List<Provider>>
 
-    suspend fun addSelectedProviders(providers: List<Provider>)
+    suspend fun saveSelectedProviders(providers: List<Provider>)
 
     suspend fun clearAllSelectedProviders()
 

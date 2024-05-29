@@ -3,12 +3,15 @@ package com.claudiogalvaodev.moviemanager.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import androidx.datastore.core.DataStore
 import com.claudiogalvaodev.moviemanager.BuildConfig
+import com.claudiogalvaodev.moviemanager.UserPreferences
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.datastore.IUserPreferencesRepository
 import com.claudiogalvaodev.moviemanager.data.datastore.UserPreferencesRepository
 import com.claudiogalvaodev.moviemanager.data.datastore.provideProtoDataStore
 import com.claudiogalvaodev.moviemanager.data.repository.*
@@ -22,6 +25,7 @@ import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.filter.screens.FilterProviderViewModel
 import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ScheduledNotificationsViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
@@ -139,8 +143,12 @@ val dataModule = module {
     single<IProvidersRemoteDatasource> { ProvidersRemoteDatasource(get()) }
     single<IProvidersRepository> { ProvidersRepository(get()) }
 
-    single { provideProtoDataStore(androidApplication().applicationContext) }
-    single { UserPreferencesRepository(androidApplication().applicationContext, get()) }
+    single<DataStore<UserPreferences>> {
+        provideProtoDataStore(androidApplication().applicationContext)
+    }
+    single<IUserPreferencesRepository> {
+        UserPreferencesRepository(androidApplication().applicationContext, get())
+    }
 }
 
 val viewModelModule = module {
@@ -166,7 +174,8 @@ val viewModelModule = module {
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
     single { HasMovieReleaseScheduledNotification(get()) }
     single { GetAllScheduledNotification(get()) }
-    single { GetPopularProvidersAndUserSelectionUseCase(get()) }
+    single { GetPopularProvidersAndUserSelectionUseCase(get(), get()) }
+    single { SaveSelectedProvidersUserCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -188,7 +197,8 @@ val viewModelModule = module {
 
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get()) }
-    viewModel { FiltersViewModel(get(), get(), get(), get()) }
+    viewModel { FiltersViewModel(get(), get(), get()) }
+    viewModel { FilterProviderViewModel(get(), get()) }
     viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
             movieId = movieId,

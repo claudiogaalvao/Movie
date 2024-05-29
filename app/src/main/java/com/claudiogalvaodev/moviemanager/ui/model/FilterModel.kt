@@ -31,3 +31,6 @@ data class FilterModel(
         return result
     }
 }
+
+fun List<FilterModel>.getCurrentValue(type: FilterType) = this
+    .find { filter -> filter.type == type }?.currentValue

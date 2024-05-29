@@ -19,7 +19,7 @@ class UserPreferencesRepository(
             .switchMap { MutableLiveData(it.providersUserSelectedList) }
     }
 
-    override suspend fun addSelectedProviders(providers: List<Provider>) {
+    override suspend fun saveSelectedProviders(providers: List<Provider>) {
          dataStore.updateData { userPreferences ->
              userPreferences
                  .toBuilder()

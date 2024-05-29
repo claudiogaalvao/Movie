@@ -31,7 +31,8 @@ interface IMovieRemoteDatasource {
         withGenres: String,
         voteCount: Int,
         withPeople: String,
-        year: String
+        year: String,
+        providers: String
     ): Result<List<MovieModel>>
 
     suspend fun searchMovie(page: Int, query: String): Result<List<MovieModel>>

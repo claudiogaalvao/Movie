@@ -20,7 +20,6 @@ class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
     private val getAllGenresUseCase: GetAllGenresUseCase,
     private val searchPeopleUseCase: SearchPeopleUseCase,
-    private val getPopularProvidersAndUserSelectionUseCase: GetPopularProvidersAndUserSelectionUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
@@ -40,22 +39,6 @@ class FiltersViewModel(
     val providers = _providers.asStateFlow()
 
     var isLoadingActors: Boolean = false
-
-    fun getProviders() = viewModelScope.launch {
-        val providersResult = getPopularProvidersAndUserSelectionUseCase()
-        if(providersResult.isSuccess) {
-            providersResult.getOrNull()?.let { providers ->
-                _providers.emit(providers)
-            }
-        }
-    }
-
-    fun selectProvider(providerId: Int) = viewModelScope.launch {
-        val providersList = _providers.value
-        val selectedProvider = providersList.find { it.id == providerId }
-        val updatedProvider = selectedProvider?.copy(isSelected = !selectedProvider.isSelected)
-        _providers.value = providersList.map { if(it.id == providerId) updatedProvider!! else it }
-    }
 
     fun getAllGenres() = viewModelScope.launch {
         withContext(dispatcher) {

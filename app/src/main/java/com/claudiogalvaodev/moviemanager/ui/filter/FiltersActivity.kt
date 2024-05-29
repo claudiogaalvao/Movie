@@ -144,7 +144,7 @@ class FiltersActivity: AppCompatActivity() {
 
     private fun getFilterSelected() {
         val newFilter = filterSelected
-        newFilter?.currentValue = newCurrentValue
+        newFilter.currentValue = newCurrentValue
         setResult(RESULT_OK, Intent().putExtra(KEY_RESULT, newFilter))
     }
 

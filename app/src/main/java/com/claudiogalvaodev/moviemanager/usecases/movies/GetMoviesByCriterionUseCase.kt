@@ -4,6 +4,7 @@ import com.claudiogalvaodev.moviemanager.data.repository.IMoviesRepository
 import com.claudiogalvaodev.moviemanager.data.webclient.dto.movie.PersonDto
 import com.claudiogalvaodev.moviemanager.ui.model.FilterModel
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
+import com.claudiogalvaodev.moviemanager.ui.model.getCurrentValue
 import com.claudiogalvaodev.moviemanager.utils.OrderByConstants
 import com.claudiogalvaodev.moviemanager.utils.enums.FilterType
 import com.google.gson.Gson
@@ -21,10 +22,14 @@ class GetMoviesByCriterionUseCase(
     ): Result<List<MovieModel>?> {
         val currentDate = LocalDate.now()
         if(isUpdate) currentPage = 1
-        val sortBy = (criterion.find { filter -> filter.type == FilterType.SORT_BY })?.currentValue ?: OrderByConstants.POPULARITY_DESC
-        val withGenres = (criterion.find { filter -> filter.type == FilterType.GENRES })?.currentValue ?: ""
+        val sortBy = criterion.getCurrentValue(FilterType.SORT_BY) ?: OrderByConstants.POPULARITY_DESC
+        val withGenres = criterion.getCurrentValue(FilterType.GENRES) ?: ""
         val withPeople = convertPeopleFromJson(criterion)
-        val year = (criterion.find { filter -> filter.type == FilterType.YEARS })?.currentValue ?: ""
+        val year = criterion.getCurrentValue(FilterType.YEARS) ?: ""
+        val withProviders = convertFromListOfIdsToQuery(
+            json = criterion.getCurrentValue(FilterType.PROVIDERS) ?: "",
+            separation = SeparationQuery.PIPE
+        )
 
         val voteCount = if(sortBy == OrderByConstants.VOTE_AVERAGE_DESC) 1000 else 0
 
@@ -35,7 +40,9 @@ class GetMoviesByCriterionUseCase(
             withGenres = withGenres,
             voteCount = voteCount,
             withPeople = withPeople,
-            year = year)
+            year = year,
+            providers = withProviders
+        )
 
         if(moviesResult.isSuccess) {
             currentPage++
@@ -43,6 +50,22 @@ class GetMoviesByCriterionUseCase(
             return Result.success(validMovies)
         }
         return moviesResult
+    }
+
+    enum class SeparationQuery{
+        COMMA, PIPE
+    }
+
+    private fun convertFromListOfIdsToQuery(
+        json: String,
+        separation: SeparationQuery = SeparationQuery.COMMA
+    ): String {
+        val jsonWithoutBrackets = json
+            .replace("[", "")
+            .replace("]", "")
+        return if (separation == SeparationQuery.PIPE) {
+            jsonWithoutBrackets.replace(",", "|")
+        } else jsonWithoutBrackets
     }
 
     private fun convertPeopleFromJson(criterious: List<FilterModel>): String {
