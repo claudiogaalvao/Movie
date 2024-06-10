@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class PeopleDetailsViewModel(
@@ -40,8 +39,8 @@ class PeopleDetailsViewModel(
 
     private fun getFilter(): List<FilterModel> {
         val filters: MutableList<FilterModel> = mutableListOf()
-        filters.add(FilterModel(type = FilterType.SORT_BY, name = "", currentValue = OrderByConstants.POPULARITY_DESC))
-        filters.add(FilterModel(type = FilterType.PEOPLE, name = "", currentValue = personId.toString()))
+        filters.add(FilterModel(type = FilterType.SORT_BY, nameRes = null, currentValue = OrderByConstants.POPULARITY_DESC))
+        filters.add(FilterModel(type = FilterType.PEOPLE, nameRes = null, currentValue = personId.toString()))
         return filters
     }
 

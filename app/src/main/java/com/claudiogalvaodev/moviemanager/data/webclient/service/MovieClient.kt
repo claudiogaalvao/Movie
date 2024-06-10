@@ -61,7 +61,8 @@ interface MovieClient {
         @Query("with_genres") withGenres: String,
         @Query("vote_count.gte") voteCount: Int,
         @Query("with_people") withPeople: String,
-        @Query("year") year: String
+        @Query("year") year: String,
+        @Query("with_watch_providers") providers: String
     ): Response<MoviesResponseDto>
 
     @GET("person/{id}")

@@ -4,12 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.claudiogalvaodev.moviemanager.ui.model.GenreModel
 import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
+import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllGenresUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllPeopleUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetPopularProvidersAndUserSelectionUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.SearchPeopleUseCase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FiltersViewModel(
     private val getAllPeopleUseCase: GetAllPeopleUseCase,
@@ -29,6 +34,9 @@ class FiltersViewModel(
 
     private val _peopleFound = MutableStateFlow<List<PersonModel>>(mutableListOf())
     val peopleFound = _peopleFound.asStateFlow()
+
+    private val _providers = MutableStateFlow<List<ProviderModel>>(mutableListOf())
+    val providers = _providers.asStateFlow()
 
     var isLoadingActors: Boolean = false
 

@@ -7,6 +7,7 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.firebase.crashlytics'
     id 'com.google.devtools.ksp'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 android {
@@ -56,12 +57,31 @@ android {
         kotlinCompilerExtensionVersion = "1.5.10"
     }
     namespace 'com.claudiogalvaodev.moviemanager'
+
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:3.14.0"
+        }
+
+        // Generates the java Protobuf-lite code for the Protobufs in this project. See
+        // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+        // for more information.
+        generateProtoTasks {
+            all().each { task ->
+                task.builtins {
+                    java {
+                        option 'lite'
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     def room_version = "2.6.1"
     def nav_version = "2.7.7"
-    def koin_version = "3.2.0"
+    def koin_version = "3.5.6"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -86,6 +106,7 @@ dependencies {
     // Koin
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
     testImplementation "io.insert-koin:koin-test:$koin_version"
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 
@@ -96,6 +117,11 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
     androidTestImplementation "androidx.room:room-testing:$room_version"
+
+    // Datastore
+    implementation  "androidx.datastore:datastore-core:1.1.1"
+    implementation "androidx.datastore:datastore:1.1.1"
+    implementation "com.google.protobuf:protobuf-javalite:3.18.0"
 
     implementation "com.google.android.material:material:1.4.0"
 

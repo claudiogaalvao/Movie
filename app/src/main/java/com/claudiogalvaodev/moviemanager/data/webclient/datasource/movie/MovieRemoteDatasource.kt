@@ -195,10 +195,11 @@ class MovieRemoteDatasource(
     override suspend fun getMoviesByCriterion(
         page: Int, currentDate: String, sortBy: String,
         withGenres: String, voteCount: Int, withPeople: String, year: String,
+        providers: String
     ): Result<List<MovieModel>> {
         return try {
             val response = movieClient
-                .getMoviesByCriterious(page, currentDate, sortBy, withGenres, voteCount, withPeople, year)
+                .getMoviesByCriterious(page, currentDate, sortBy, withGenres, voteCount, withPeople, year, providers)
             if(response.isSuccessful) {
                 val moviesDto = response.body()?.results
                 Result.success(moviesDto.toListOfMoviesModel())

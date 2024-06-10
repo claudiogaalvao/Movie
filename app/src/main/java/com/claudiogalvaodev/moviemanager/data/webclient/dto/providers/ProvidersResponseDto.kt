@@ -12,7 +12,6 @@ fun ProvidersResponseDto.toModel() = this.providers.map { provider ->
     ProviderModel(
         id = provider.id,
         name = provider.name,
-        displayPriority = provider.displayPriorities.BR,
         logoPath = provider.logoPath
     )
 }

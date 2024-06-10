@@ -1,9 +1,8 @@
-package com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers
+package com.claudiogalvaodev.moviemanager.data.repository
 
 import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 
-
-interface IProvidersRemoteDatasource {
+interface IProvidersRepository {
 
     suspend fun getPopularProviders(): Result<List<ProviderModel>>
 

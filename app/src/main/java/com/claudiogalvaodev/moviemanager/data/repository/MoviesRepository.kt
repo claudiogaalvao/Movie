@@ -49,7 +49,8 @@ class MoviesRepository(
         withGenres: String,
         voteCount: Int,
         withPeople: String,
-        year: String
+        year: String,
+        providers: String
     ): Result<List<MovieModel>> = movieRemoteDatasource.getMoviesByCriterion(
         page = page,
         currentDate = currentDate,
@@ -57,7 +58,8 @@ class MoviesRepository(
         withGenres = withGenres,
         voteCount = voteCount,
         withPeople = withPeople,
-        year = year
+        year = year,
+        providers = providers
     )
 
     override suspend fun searchMovie(page: Int, query: String): Result<List<MovieModel>> =

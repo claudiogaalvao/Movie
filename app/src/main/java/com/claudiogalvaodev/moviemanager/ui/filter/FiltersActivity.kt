@@ -20,7 +20,9 @@ class FiltersActivity: AppCompatActivity() {
         ActivityFiltersBinding.inflate(layoutInflater)
     }
 
-    private var filterSelected: FilterModel? = null
+    private val filterSelected: FilterModel by lazy {
+        intent.getParcelableExtra(KEY_FILTER)!!
+    }
     private lateinit var currentValue: String
     private lateinit var newCurrentValue: String
 
@@ -39,7 +41,6 @@ class FiltersActivity: AppCompatActivity() {
         setTheme(R.style.Theme_Filmes)
         setContentView(binding.root)
 
-        filterSelected = intent.getParcelableExtra(KEY_FILTER)
         currentValue = filterSelected?.currentValue.orEmpty()
         newCurrentValue = filterSelected?.currentValue.orEmpty()
 
@@ -81,7 +82,7 @@ class FiltersActivity: AppCompatActivity() {
     }
 
     private fun getFragment(): Fragment {
-        val fragment = when(filterSelected?.type) {
+        val fragment = when(filterSelected.type) {
             FilterType.SORT_BY -> {
                 setToolbarTitle(resources.getString(R.string.fragment_orderby_title))
                 FilterOrderByFragment()
@@ -102,7 +103,10 @@ class FiltersActivity: AppCompatActivity() {
                 setToolbarTitle(resources.getString(R.string.fragment_filter_runtime_title))
                 FilterRuntimeFragment()
             }
-            else -> throw Exception("Unrecognize filter type to select a fragment")
+            FilterType.PROVIDERS -> {
+                setToolbarTitle(resources.getString(R.string.filter_providers_name))
+                FilterProviderFragment()
+            }
         }
 
         val args = Bundle()
@@ -140,7 +144,7 @@ class FiltersActivity: AppCompatActivity() {
 
     private fun getFilterSelected() {
         val newFilter = filterSelected
-        newFilter?.currentValue = newCurrentValue
+        newFilter.currentValue = newCurrentValue
         setResult(RESULT_OK, Intent().putExtra(KEY_RESULT, newFilter))
     }
 
@@ -150,7 +154,7 @@ class FiltersActivity: AppCompatActivity() {
 
     class Contract: ActivityResultContract<FilterModel, FilterModel?>() {
         override fun createIntent(context: Context, input: FilterModel): Intent {
-            return Intent(context, FiltersActivity::class.java).putExtra(KEY_FILTER, input)
+            return getIntent(context, input)
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): FilterModel? {
@@ -163,6 +167,10 @@ class FiltersActivity: AppCompatActivity() {
         const val KEY_BUNDLE_CURRENT_VALUE = "CURRENT_VALUE"
         private const val KEY_FILTER = "FILTER"
         private const val KEY_RESULT = "RESULT"
+
+        fun getIntent(context: Context, filter: FilterModel): Intent {
+            return Intent(context, FiltersActivity::class.java).putExtra(KEY_FILTER, filter)
+        }
     }
 
 }

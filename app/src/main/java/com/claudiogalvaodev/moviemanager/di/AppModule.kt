@@ -3,21 +3,29 @@ package com.claudiogalvaodev.moviemanager.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import androidx.datastore.core.DataStore
 import com.claudiogalvaodev.moviemanager.BuildConfig
+import com.claudiogalvaodev.moviemanager.UserPreferences
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
+import com.claudiogalvaodev.moviemanager.data.datastore.IUserPreferencesRepository
+import com.claudiogalvaodev.moviemanager.data.datastore.UserPreferencesRepository
+import com.claudiogalvaodev.moviemanager.data.datastore.provideProtoDataStore
 import com.claudiogalvaodev.moviemanager.data.repository.*
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.MovieRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.IProvidersRemoteDatasource
+import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.ProvidersRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
 import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.filter.screens.FilterProviderViewModel
 import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ScheduledNotificationsViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
@@ -36,6 +44,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -130,6 +139,16 @@ val dataModule = module {
 
     single<IScheduledNotificationsLocalDatasource> { ScheduledNotificationsLocalDatasource(get()) }
     single<IScheduledNotificationsRepository> { ScheduledNotificationsRepository(get()) }
+
+    single<IProvidersRemoteDatasource> { ProvidersRemoteDatasource(get()) }
+    single<IProvidersRepository> { ProvidersRepository(get()) }
+
+    single<DataStore<UserPreferences>> {
+        provideProtoDataStore(androidApplication().applicationContext)
+    }
+    single<IUserPreferencesRepository> {
+        UserPreferencesRepository(androidApplication().applicationContext, get())
+    }
 }
 
 val viewModelModule = module {
@@ -155,6 +174,8 @@ val viewModelModule = module {
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
     single { HasMovieReleaseScheduledNotification(get()) }
     single { GetAllScheduledNotification(get()) }
+    single { GetPopularProvidersAndUserSelectionUseCase(get(), get()) }
+    single { SaveSelectedProvidersUserCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -175,8 +196,9 @@ val viewModelModule = module {
     }
 
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { ExploreMoviesViewModel(get(), get()) }
+    viewModel { ExploreMoviesViewModel(get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
+    viewModel { FilterProviderViewModel(get(), get()) }
     viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
             movieId = movieId,

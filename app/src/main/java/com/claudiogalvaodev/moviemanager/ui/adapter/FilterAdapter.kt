@@ -28,7 +28,8 @@ class FilterAdapter: ListAdapter<FilterModel, FilterViewHolder>(DIFF_CALLBACK) {
         ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(filter: FilterModel) {
-            binding.itemFilterButton.text = filter.name
+            binding.itemFilterButton.text = filter.nameRes
+                ?.let { binding.root.context.getString(it) } ?: "Undefined"
             binding.itemFilterButton.isSelected = filter.currentValue.isNotBlank()
 
             binding.itemFilterButton.setOnClickListener {
