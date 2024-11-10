@@ -3,37 +3,56 @@ package com.claudiogalvaodev.moviemanager.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
-import androidx.datastore.core.DataStore
 import com.claudiogalvaodev.moviemanager.BuildConfig
-import com.claudiogalvaodev.moviemanager.UserPreferences
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ICustomListsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.IScheduledNotificationsLocalDatasource
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.ScheduledNotificationsLocalDatasource
-import com.claudiogalvaodev.moviemanager.data.datastore.IUserPreferencesRepository
-import com.claudiogalvaodev.moviemanager.data.datastore.UserPreferencesRepository
-import com.claudiogalvaodev.moviemanager.data.datastore.provideProtoDataStore
-import com.claudiogalvaodev.moviemanager.data.repository.*
+import com.claudiogalvaodev.moviemanager.data.repository.CustomListsRepository
+import com.claudiogalvaodev.moviemanager.data.repository.ICustomListsRepository
+import com.claudiogalvaodev.moviemanager.data.repository.IMoviesRepository
+import com.claudiogalvaodev.moviemanager.data.repository.IProvidersRepository
+import com.claudiogalvaodev.moviemanager.data.repository.IScheduledNotificationsRepository
+import com.claudiogalvaodev.moviemanager.data.repository.MoviesRepository
+import com.claudiogalvaodev.moviemanager.data.repository.ProvidersRepository
+import com.claudiogalvaodev.moviemanager.data.repository.ScheduledNotificationsRepository
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.IMovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.movie.MovieRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.IProvidersRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.datasource.providers.ProvidersRemoteDatasource
 import com.claudiogalvaodev.moviemanager.data.webclient.service.MovieClient
-import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
-import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
-import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.CustomListsViewModel
 import com.claudiogalvaodev.moviemanager.ui.customLists.details.CustomListsDetailsViewModel
+import com.claudiogalvaodev.moviemanager.ui.explore.ExploreMoviesViewModel
+import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.screens.FilterProviderViewModel
-import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ScheduledNotificationsViewModel
+import com.claudiogalvaodev.moviemanager.ui.home.HomeViewModel
 import com.claudiogalvaodev.moviemanager.ui.moviedetails.MovieDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopleandcompanies.PeopleAndCompaniesViewModel
 import com.claudiogalvaodev.moviemanager.ui.peopledetails.PeopleDetailsViewModel
 import com.claudiogalvaodev.moviemanager.ui.search.SearchViewModel
 import com.claudiogalvaodev.moviemanager.ui.speciallist.SpecialListViewModel
-import com.claudiogalvaodev.moviemanager.usecases.customlists.*
-import com.claudiogalvaodev.moviemanager.usecases.movies.*
+import com.claudiogalvaodev.moviemanager.usecases.customlists.CreateNewCustomListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.customlists.DeleteCustomListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.customlists.GetAllCustomListsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.customlists.GetMoviesByListIdUseCase
+import com.claudiogalvaodev.moviemanager.usecases.customlists.RemoveMovieFromCustomListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.customlists.SaveMovieOnCustomListUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.AllMovieDetailsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllGenresUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllPeopleUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMovieCollectionUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMovieCreditsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMovieDetailsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMovieProvidersUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetMoviesByCriterionUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetPersonDetailsUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetTrendingWeekMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetUpComingAndPlayingNowMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.GetVideosFromMovieUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.SearchMoviesUseCase
+import com.claudiogalvaodev.moviemanager.usecases.movies.SearchPeopleUseCase
 import com.claudiogalvaodev.moviemanager.usecases.notification.GetAllScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.HasMovieReleaseScheduledNotification
 import com.claudiogalvaodev.moviemanager.usecases.notification.ScheduleMovieReleaseNotificationUseCase
@@ -43,14 +62,17 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import okhttp3.*
-import org.koin.android.ext.koin.androidApplication
+import okhttp3.Cache
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
+import java.util.Locale
 
 private const val MOVIEDB_BASE_URL = BuildConfig.MOVIEDB_BASE_URL
 private const val TOKEN = BuildConfig.MOVIEDB_TOKEN
@@ -142,13 +164,6 @@ val dataModule = module {
 
     single<IProvidersRemoteDatasource> { ProvidersRemoteDatasource(get()) }
     single<IProvidersRepository> { ProvidersRepository(get()) }
-
-    single<DataStore<UserPreferences>> {
-        provideProtoDataStore(androidApplication().applicationContext)
-    }
-    single<IUserPreferencesRepository> {
-        UserPreferencesRepository(androidApplication().applicationContext, get())
-    }
 }
 
 val viewModelModule = module {
@@ -174,8 +189,6 @@ val viewModelModule = module {
     single { ScheduleMovieReleaseNotificationUseCase(get(), get()) }
     single { HasMovieReleaseScheduledNotification(get()) }
     single { GetAllScheduledNotification(get()) }
-    single { GetPopularProvidersAndUserSelectionUseCase(get(), get()) }
-    single { SaveSelectedProvidersUserCase(get()) }
 
     single {
         AllMovieDetailsUseCase(
@@ -198,7 +211,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ExploreMoviesViewModel(get()) }
     viewModel { FiltersViewModel(get(), get(), get()) }
-    viewModel { FilterProviderViewModel(get(), get()) }
+    viewModel { FilterProviderViewModel(get()) }
     viewModel { (movieId: Int, releaseDate: String) ->
         MovieDetailsViewModel(
             movieId = movieId,
@@ -239,9 +252,6 @@ val viewModelModule = module {
             firestoreDB = get()
         )
     }
-    viewModel { ScheduledNotificationsViewModel(
-        getAllScheduledNotification = get()
-    ) }
 }
 
 val notificationsModule = module {

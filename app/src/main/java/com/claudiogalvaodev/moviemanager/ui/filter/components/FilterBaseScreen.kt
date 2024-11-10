@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.claudiogalvaodev.moviemanager.R
-import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ui.theme.LightPurple
+import com.claudiogalvaodev.moviemanager.ui.theme.LightPurple
 
 @Composable
 fun FilterBaseScreen(

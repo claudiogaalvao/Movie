@@ -38,6 +38,7 @@ abstract class CineSeteDatabase: RoomDatabase() {
             instance = Room.databaseBuilder(context,
                 CineSeteDatabase::class.java,
                 "database")
+                .fallbackToDestructiveMigration()
                 .build()
 
             return instance

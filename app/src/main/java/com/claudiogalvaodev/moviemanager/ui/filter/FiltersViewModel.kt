@@ -7,7 +7,6 @@ import com.claudiogalvaodev.moviemanager.ui.model.PersonModel
 import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllGenresUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.GetAllPeopleUseCase
-import com.claudiogalvaodev.moviemanager.usecases.movies.GetPopularProvidersAndUserSelectionUseCase
 import com.claudiogalvaodev.moviemanager.usecases.movies.SearchPeopleUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

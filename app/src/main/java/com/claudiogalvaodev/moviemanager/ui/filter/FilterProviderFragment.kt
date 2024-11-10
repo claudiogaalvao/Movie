@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.claudiogalvaodev.moviemanager.databinding.FragmentFilterProviderBinding
 import com.claudiogalvaodev.moviemanager.ui.filter.screens.FilterProviderScreen
-import com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ui.theme.CineSeteTheme
+import com.claudiogalvaodev.moviemanager.ui.theme.CineSeteTheme
 import com.google.gson.Gson
 
 class FilterProviderFragment: Fragment() {

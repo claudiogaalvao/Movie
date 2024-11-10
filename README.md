@@ -1,14 +1,17 @@
-# Movie
-That is a project to training the knowleges about Android, applying the bests practices and the most recent features and arquitecture. The objective is release the app with features to find e manage movies and series.
+# Movie App
 
-# Version 1.0
+This project is designed to enhance Android development skills by applying best practices, the MVVM architecture, and the latest Android features. The goal is to release an app that allows users to find and manage information about movies and series.
 
-<img src="https://github.com/claudiogaalvao/Movie/raw/master/gifs/Versao2.gif" style="width: 30%; height: auto;" />
+## Project Setup
 
-# Future features plan
+To run this project, you need to set up some environment variables in the `local.properties` file. These variables are used to connect with The Movie Database (TMDb) and YouTube APIs.
 
-- Show feature realeses
-- Filter movies by genre
-- Separate movies and series
-- Add release movies to remember
-- Different movie lists, like nerd movies, recorded in specific city or country, director by a specif director, with some actor, etc...
+### Environment Variables
+
+Add the following lines to your `local.properties` file, located in the root directory of the project:
+
+```properties
+MOVIEDB_TOKEN={your_token}
+MOVIEDB_BASE_URL=https://api.themoviedb.org/3/
+MOVIEDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p/
+YOUTUBE_API_KEY={your_api_key}

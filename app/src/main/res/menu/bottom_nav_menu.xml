@@ -17,9 +17,5 @@
         android:id="@+id/customListsFragment"
         android:title="@string/my_lists"
         android:icon="@drawable/ic_bookmark"/>
-    <item
-        android:id="@+id/menuFragment"
-        android:title="@string/menu"
-        android:icon="@drawable/ic_menu" />
 
 </menu>

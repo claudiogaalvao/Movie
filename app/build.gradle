@@ -7,7 +7,6 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.firebase.crashlytics'
     id 'com.google.devtools.ksp'
-    id 'com.google.protobuf' version '0.9.4'
 }
 
 android {
@@ -57,28 +56,10 @@ android {
         kotlinCompilerExtensionVersion = "1.5.10"
     }
     namespace 'com.claudiogalvaodev.moviemanager'
-
-    protobuf {
-        protoc {
-            artifact = "com.google.protobuf:protoc:3.14.0"
-        }
-
-        // Generates the java Protobuf-lite code for the Protobufs in this project. See
-        // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-        // for more information.
-        generateProtoTasks {
-            all().each { task ->
-                task.builtins {
-                    java {
-                        option 'lite'
-                    }
-                }
-            }
-        }
-    }
 }
 
 dependencies {
+    implementation 'androidx.activity:activity:1.9.3'
     def room_version = "2.6.1"
     def nav_version = "2.7.7"
     def koin_version = "3.5.6"

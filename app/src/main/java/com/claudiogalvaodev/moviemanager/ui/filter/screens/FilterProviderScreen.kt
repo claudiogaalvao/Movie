@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.claudiogalvaodev.moviemanager.ui.filter.FiltersViewModel
 import com.claudiogalvaodev.moviemanager.ui.filter.components.CheckboxItem
 import com.claudiogalvaodev.moviemanager.ui.filter.components.FilterBaseScreen
 import com.claudiogalvaodev.moviemanager.ui.model.ProviderModel
@@ -29,7 +28,6 @@ internal fun FilterProviderScreen(
 
     FilterBaseScreen(
         onApplyFilter = {
-            viewModel.saveSelectedProviders()
             onApplyFilter(viewModel.getSelectedProvidersAsJson())
         }
     ) {

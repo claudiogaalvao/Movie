@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.ui.menu.schedulednotifications.ui.theme
+package com.claudiogalvaodev.moviemanager.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
