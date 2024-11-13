@@ -181,5 +181,8 @@
     <!-- Notification -->
     <string name="notification_release_movie_title">Premiere today</string>
     <string name="notification_release_movie_message">The movie %s releases today</string>
-    <string name="title_activity_scheduled_notifications">ScheduledNotificationsActivity</string>
+
+    <!-- Version dialog -->
+    <string name="version_dialog_title">Version</string>
+    <string name="version_dialog_message">Version: %s</string>
 </resources>

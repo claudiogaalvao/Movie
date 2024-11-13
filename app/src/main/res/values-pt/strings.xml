@@ -174,4 +174,8 @@
     <!-- Notification -->
     <string name="notification_release_movie_title">Estreia hoje</string>
     <string name="notification_release_movie_message">O filme %s estreia hoje!</string>
+
+    <!-- Version dialog -->
+    <string name="version_dialog_title">Versão</string>
+    <string name="version_dialog_message">Versão: %s</string>
 </resources>

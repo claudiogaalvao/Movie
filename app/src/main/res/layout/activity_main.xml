@@ -23,6 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/logo"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
