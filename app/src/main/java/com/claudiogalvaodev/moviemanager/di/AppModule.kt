@@ -3,6 +3,7 @@ package com.claudiogalvaodev.moviemanager.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.telephony.TelephonyManager
 import com.claudiogalvaodev.moviemanager.BuildConfig
 import com.claudiogalvaodev.moviemanager.data.bd.CineSeteDatabase
 import com.claudiogalvaodev.moviemanager.data.bd.datasource.CustomListsLocalDatasource
@@ -87,7 +88,8 @@ val retrofitModule = module {
     }
     single {
         val currentDeviceLanguage = Locale.getDefault().toLanguageTag()
-        val currentDeviceRegion = "BR"
+        val telephonyManager = androidContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val currentDeviceRegion = telephonyManager.networkCountryIso.uppercase()
 
         val onlineInterceptor = Interceptor { chain ->
             val response: Response = chain.proceed(chain.request())

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CineSete</string>
+    <string name="channel_name">Mi canal</string>
+    <string name="channel_description">Descripción de mi canal</string>
+
+    <!-- Fragments title -->
+    <string name="fragment_home_title">Inicio</string>
+    <string name="fragment_explore_title">Explorar</string>
+
+    <!-- Home sessions -->
+    <string name="trending_text">Tendencias</string>
+    <string name="coming_up_title">Próximamente</string>
+    <string name="playing_now_title">Nuevos lanzamientos</string>
+
+    <!-- Bottom menu items -->
+    <string name="home">Inicio</string>
+    <string name="explore">Explorar</string>
+
+    <!-- Images description -->
+    <string name="movie_cover_description">Portada de la película</string>
+    <string name="tranding_icon_description">Una flecha apuntando hacia arriba</string>
+    <string name="icon_back">Una flecha apuntando hacia la izquierda</string>
+    <string name="app_logo">Logotipo de la app y CineSete escrito</string>
+
+    <!-- Movie details Screen -->
+    <string name="imdb_logo">Logotipo de IMDB</string>
+    <string name="generic_description">Alguna descripción aquí</string>
+    <string name="separator_bullet">•</string>
+    <string name="overview_label">Resumen</string>
+    <string name="budget_label">Presupuesto:</string>
+    <string name="available_on_label">Disponible en</string>
+    <string name="directors_label">Director(es):</string>
+    <string name="stars_label">Estrellas:</string>
+    <string name="see_all">Ver todo</string>
+    <string name="companies_label">Compañías:</string>
+    <string name="movies_sequence_label">Secuencia de películas</string>
+
+    <string name="movie_details_availableon_message">Aún no tenemos información sobre plataformas de streaming</string>
+    <string name="movie_details_directors_message">Aún no tenemos información sobre los directores</string>
+    <string name="movie_details_stars_message">Aún no tenemos información sobre los actores</string>
+    <string name="movie_details_companies_message">Aún no tenemos información sobre las compañías</string>
+
+    <!-- People and Companies Screen -->
+    <string name="fragment_actors_title">Actores</string>
+
+    <!-- Filters -->
+    <string name="filter_type_orderby">Ordenar por</string>
+    <string name="filter_type_genres">Géneros</string>
+    <string name="filter_type_people">Personas</string>
+    <string name="filter_type_companies">Compañías</string>
+    <string name="filter_type_years">Años</string>
+    <string name="explore_movies_didnt_find">Lo siento. No pudimos encontrar resultados para tu combinación de filtros :(</string>
+
+    <!-- Order by options -->
+    <string name="fragment_orderby_title">Ordenar por</string>
+    <string name="orderby_most_popular">Más popular</string>
+    <string name="orderby_highest_rating">Mejor calificación</string>
+    <string name="orderby_latest_release">Último lanzamiento</string>
+    <string name="orderby_highest_revenue">Mayor recaudación</string>
+    <string name="filter_button_apply">Aplicar</string>
+
+    <!-- Genre filter -->
+    <string name="fragment_genres_title">Géneros</string>
+
+    <!-- People filter -->
+    <string name="fragment_people_title">Personas</string>
+    <string name="selected_actors_title">Personas seleccionadas</string>
+    <string name="popular_actors_title">Personas populares</string>
+    <string name="filter_people_select_instructions">Selecciona a alguien para filtrar las películas en las que participaron. ¡Si eliges más de uno, intentaremos encontrar películas en las que trabajaron juntos!</string>
+    <string name="search_person_hint">Buscar por nombre</string>
+
+    <!-- Providers filter -->
+    <string name="filter_providers_name">Proveedores</string>
+
+    <!-- Runtime labels -->
+    <string name="filter_runtime_short">Corto (menos de 40min)</string>
+    <string name="filter_runtime_medium">Mediano (entre 40min y 1h10min)</string>
+    <string name="filter_runtime_long_default">Largo estándar (entre 1h10min y 2h10min)</string>
+    <string name="filter_runtime_longest">Más largo (más de 2h10min)</string>
+    <string name="fragment_filter_runtime_title">Duración</string>
+    <string name="filter_reset">Restablecer</string>
+
+    <!-- Alert dialog for filters confirm -->
+    <string name="filter_alertdialog_title">¿Estás seguro?</string>
+    <string name="filter_alertdialog_message">¿Quieres continuar? Perderás tus cambios.</string>
+    <string name="filter_alertdialog_positive">Continuar</string>
+    <string name="filter_alertdialog_negative">Cancelar</string>
+
+    <!-- People details -->
+    <string name="age_label">• %s años</string>
+    <string name="biography_label">Biografía</string>
+    <string name="movies_with_label">Películas con esta persona</string>
+    <string name="search_label">Buscar</string>
+    <string name="edittext_search_hint">Buscar por título de película</string>
+
+    <!-- Menu -->
+    <string name="menu">Menú</string>
+    <string name="icon_arrow_forward_description">Flecha apuntando a la derecha</string>
+    <string name="data_provided_by_label">Datos proporcionados por</string>
+    <string name="the_movie_db_logo">Logotipo de The Movie DB</string>
+    <string name="version">Versión</string>
+
+    <!-- Opciones del menú -->
+    <string name="my_lists">Mis listas</string>
+    <string name="about_developer">Sobre el desarrollador</string>
+    <string name="scheduled_notifications">Notificaciones programadas</string>
+    <string name="settings">Configuración</string>
+    <string name="add_icon">Agregar ícono</string>
+    <string name="time_icon">Ícono de reloj</string>
+    <string name="add_to_list">Agregar a la lista</string>
+    <string name="remember_me">Recuérdame</string>
+    <string name="remember_me_active">Alerta activada</string>
+    <string name="saved_to_list">Guardado</string>
+
+    <string name="my_lists_form_new_instruction">Elige un nombre para tu nueva lista</string>
+    <string name="new_list_dialog_title">Crear nueva lista</string>
+    <string name="new_list_dialog_hint">Nombre de la lista</string>
+    <string name="new_list_dialog_button">Crear</string>
+    <string name="bottomsheet_title">Elige la lista</string>
+
+    <string name="movie_saved_successfully_message">Guardado en</string>
+    <string name="movie_failed_to_save_message">Ocurrió un error al intentar guardar la película</string>
+    <string name="movie_removed_successfully_message">Eliminado de</string>
+    <string name="movie_failed_to_delete_movie_message">Ocurrió un error al intentar eliminar la película</string>
+    <string name="list_deleted_successfully_message">Lista eliminada</string>
+
+    <string name="delete_my_list">Eliminar</string>
+    <string name="edit_my_list">Editar</string>
+
+    <string name="filter_alertdialog_delete_mylist_message">¿Quieres continuar? Eliminarás la lista y perderás todas las películas guardadas.</string>
+
+    <string name="developer_job_position">Desarrollador Mobile</string>
+    <string name="developer_my_website">Mi sitio web</string>
+    <string name="developer_description">Hola, mi nombre es Claudio, tengo 25 años y me gradué en TI en la PUC-Campinas. Mi primer trabajo en TI fue en 2016 (cuando tenía 19 años). Siempre me encantó la tecnología, pero, ¿a quién no?
+        Decidí desarrollar esta aplicación porque amo las películas y, como un verdadero amante del cine y la tecnología, comencé a desarrollar esta aplicación con la intención de brindar acceso a los datos de las producciones cinematográficas de manera fácil e intuitiva.
+        Espero que estés disfrutando de la aplicación y que te haya sido útil. Esta es la primera versión y mi intención es lanzar mejoras y nuevas funciones basadas en las opiniones de los usuarios. Hasta entonces, sígueme en las redes sociales.
+        \n\n¡Nos vemos!</string>
+
+    <string name="search_movies_didnt_find">Lo siento. No encontramos resultados para tu búsqueda :(</string>
+
+    <!-- Valor predeterminado para pre-poblar Mis listas -->
+    <string name="my_lists_favorites">Favoritos</string>
+    <string name="my_lists_watch_later">Ver después</string>
+
+    <!-- Categorías del Oscar -->
+    <string name="oscar_best_picture">Mejor película</string>
+    <string name="oscar_best_foreign_language_film">Mejor película en lengua extranjera</string>
+    <string name="oscar_best_directing">Mejor dirección</string>
+    <string name="oscar_best_actress">Mejor actriz</string>
+    <string name="oscar_best_actor">Mejor actor</string>
+    <string name="oscar_best_supporting_actress">Mejor actriz de reparto</string>
+    <string name="oscar_best_supporting_actor">Mejor actor de reparto</string>
+    <string name="oscar_best_adapted_screenplay">Mejor guion adaptado</string>
+    <string name="oscar_best_original_screenplay">Mejor guion original</string>
+    <string name="oscar_best_costume_design">Mejor diseño de vestuario</string>
+    <string name="oscar_best_original_score">Mejor banda sonora original</string>
+    <string name="oscar_best_animated_feature_film">Mejor película animada</string>
+    <string name="oscar_best_animated_short">Mejor cortometraje animado</string>
+    <string name="oscar_best_live_action_short">Mejor cortometraje de acción real</string>
+    <string name="oscar_best_documentary_feature">Mejor documental</string>
+    <string name="oscar_best_documentary_short">Mejor cortometraje documental</string>
+    <string name="oscar_best_sound_mixing">Mejor mezcla de sonido</string>
+    <string name="oscar_best_original_song">Mejor canción original</string>
+    <string name="oscar_best_makeup_and_hairstyling">Mejor maquillaje y peluquería</string>
+    <string name="oscar_best_visual_effects">Mejores efectos visuales</string>
+    <string name="oscar_best_cinematography">Mejor cinematografía</string>
+    <string name="oscar_best_editing">Mejor edición</string>
+    <string name="oscar_best_production_design">Mejor diseño de producción</string>
+
+    <string name="oscar_winner_label">Ganador</string>
+
+    <!-- Notificación -->
+    <string name="notification_release_movie_title">Estreno hoy</string>
+    <string name="notification_release_movie_message">La película %s se estrena hoy</string>
+
+    <!-- Diálogo de versión -->
+    <string name="version_dialog_title">Versión</string>
+    <string name="version_dialog_message">Versión: %s</string>
+
+</resources>
