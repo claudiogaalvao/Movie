@@ -20,5 +20,19 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.claudiogalvaodev.moviemanager.data.model.* { *; }
--keep class com.claudiogalvaodev.moviemanager.utils.enums.* { *; }
+-keepclassmembers class com.claudiogalvaodev.moviemanager.data.webclient.dto.** { *; }
+-keepclassmembers class com.claudiogalvaodev.moviemanager.data.bd.entity.** { *; }
+
+-dontwarn com.squareup.okhttp.Cache
+-dontwarn com.squareup.okhttp.CacheControl$Builder
+-dontwarn com.squareup.okhttp.CacheControl
+-dontwarn com.squareup.okhttp.Call
+-dontwarn com.squareup.okhttp.OkHttpClient
+-dontwarn com.squareup.okhttp.Request$Builder
+-dontwarn com.squareup.okhttp.Request
+-dontwarn com.squareup.okhttp.Response
+-dontwarn com.squareup.okhttp.ResponseBody
+
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation

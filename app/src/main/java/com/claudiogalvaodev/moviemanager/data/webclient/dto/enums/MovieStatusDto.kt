@@ -1,4 +1,4 @@
-package com.claudiogalvaodev.moviemanager.data.webclient.dto.enum
+package com.claudiogalvaodev.moviemanager.data.webclient.dto.enums
 
 import com.google.gson.annotations.SerializedName
 

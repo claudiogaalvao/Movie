@@ -1,6 +1,6 @@
 package com.claudiogalvaodev.moviemanager.data.webclient.dto.movie
 
-import com.claudiogalvaodev.moviemanager.data.webclient.dto.enum.MovieStatusDto
+import com.claudiogalvaodev.moviemanager.data.webclient.dto.enums.MovieStatusDto
 import com.claudiogalvaodev.moviemanager.ui.model.MovieModel
 import com.claudiogalvaodev.moviemanager.utils.extensions.toDate
 import com.google.gson.annotations.SerializedName
